@@ -1,4 +1,4 @@
-randy-yspro
-===========
+randy-client
+============
 
-Randy interface to Yspro
+Randy interface to yspro and other systems
