@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>dk.yousee.randy</groupId>
-    <artifactId>yspro</artifactId>
-    <version>1.01-SNAPSHOT</version>
+    <artifactId>clients</artifactId>
+    <version>3.01-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <properties>
@@ -14,7 +13,8 @@
     </properties>
 
     <modules>
-<!--        <module>yspro-client</module> -->
+        <module>base-client</module>
+        <module>yspro-client</module>
     </modules>
 <!--
     <repositories>
@@ -62,8 +62,8 @@
 
     <scm>
         <connection>scm:git:https://github.com/YouSee/randy-yspro.git</connection>
-        <developerConnection>scm:git:https://github.com/YouSee/randy-yspro.git</developerConnection>
-        <url>scm:git:https://github.com/YouSee/randy-yspro.git</url>
+        <developerConnection>scm:git:https://github.com/YouSee/randy-clients.git</developerConnection>
+        <url>scm:git:https://github.com/YouSee/randy-clients.git</url>
     </scm>
 
 
