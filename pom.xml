@@ -63,7 +63,7 @@
     </build>
 
     <scm>
-        <connection>scm:git:https://github.com/YouSee/randy-yspro.git</connection>
+        <connection>scm:git:https://github.com/YouSee/randy-clients.git</connection>
         <developerConnection>scm:git:https://github.com/YouSee/randy-clients.git</developerConnection>
         <url>scm:git:https://github.com/YouSee/randy-clients.git</url>
     </scm>
