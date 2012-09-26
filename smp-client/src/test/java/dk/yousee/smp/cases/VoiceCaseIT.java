@@ -5,19 +5,17 @@ import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
 import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
-import dk.yousee.smp.order.client.BssAdapterClient;
+import dk.yousee.smp.functions.OrderServiceImpl;
 import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.BusinessException;
-import dk.yousee.smp.order.model.OrderService;
 import dk.yousee.smp.order.model.Response;
+import dk.yousee.smp.smpclient.SmpConnectorImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.List;
 
 /**
@@ -34,12 +32,12 @@ public class VoiceCaseIT {
 
     private VoiceCase test;
     private Acct acct;
-    String orderUrl = null;
-    private OrderService service;
+//    String orderUrl = null;
+    private OrderServiceImpl service;
 
     @Before
     public void setup() {
-        orderUrl="http://194.239.10.197:41203/bss-adapter2/order.service";
+//        orderUrl="http://194.239.10.197:41203/bss-adapter2/order.service";
 //        orderUrl="http://194.239.10.213:26500/bss-adapter2/order.service";
 //        orderUrl = "http://localhost:8080/order.service";
         acct = new Acct("100000003");
@@ -48,11 +46,23 @@ public class VoiceCaseIT {
         response.setAcct(acct);
         SubscriberModel model;
 //        model = new SubscriberModel(response);
+        SmpConnectorImpl connector=new SmpConnectorImpl();
+        String hostName; int port;
+        hostName = "194.239.10.197"; port = 41203; //QA
+//        hostName="194.239.10.213"; port=26500; //UDV
+//        hostName = "localhost"; port = 8010; //simulator 1
+        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setUsername("samp.csra1");
+        connector.setPassword("pwcsra1");
+//        OrderServiceImpl service;
+        service = new OrderServiceImpl();
+        service.setConnector(connector);
 
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sltarray02.tdk.dk", 8080)));
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        service = bssAdapter.getOrderService();
+
+//        BssAdapterClient bssAdapter;
+//        bssAdapter = new BssAdapterClient(orderUrl, new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sltarray02.tdk.dk", 8080)));
+//        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
+//        service = bssAdapter.getOrderService();
         logger.debug("service allocated");
         test = new VoiceCase(acct, service);
         model = test.getModel();

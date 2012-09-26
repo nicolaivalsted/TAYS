@@ -29,11 +29,11 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-        <dependency> <!-- todo: remove -->
-            <groupId>com.caucho</groupId>
-            <artifactId>hessian</artifactId>
-            <version>3.1.6</version>
-        </dependency>
+        <!--<dependency> &lt;!&ndash; todo: remove &ndash;&gt;-->
+            <!--<groupId>com.caucho</groupId>-->
+            <!--<artifactId>hessian</artifactId>-->
+            <!--<version>3.1.6</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

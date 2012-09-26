@@ -3,16 +3,14 @@ package dk.yousee.smp.cases;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.cbp.AddnCpe;
 import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
-import dk.yousee.smp.order.client.BssAdapterClient;
+import dk.yousee.smp.functions.OrderServiceImpl;
 import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.BusinessException;
+import dk.yousee.smp.smpclient.SmpConnectorImpl;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,17 +25,23 @@ public class MacAddressCaseIT {
 
     private static final Logger logger = Logger.getLogger(MacAddressCaseIT.class);
 
-    String orderUrl = null;
     MacAddressCase macAddressCase = null;
 
     @Before
     public void setup() {
-        orderUrl = "http://194.239.10.197:41203/bss-adapter2/order.service";
-//        orderUrl="http://194.239.10.213:26500/bss-adapter2/order.service";
-//        orderUrl = "http://localhost:7777/order.service";
-        BssAdapterClient client = new BssAdapterClient(orderUrl, new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sltarray02.tdk.dk", 8080)));
-//        client = new BssAdapterClient(orderUrl, null);
-        macAddressCase = new MacAddressCase(new Acct("100000003"), client.getOrderService());
+
+        SmpConnectorImpl connector=new SmpConnectorImpl();
+        String hostName; int port;
+        hostName = "194.239.10.197"; port = 41203; //QA
+//        hostName="194.239.10.213"; port=26500; //UDV
+//        hostName = "localhost"; port = 8010; //simulator 1
+        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setUsername("samp.csra1");
+        connector.setPassword("pwcsra1");
+        OrderServiceImpl service;
+        service = new OrderServiceImpl();
+        service.setConnector(connector);
+        macAddressCase = new MacAddressCase(new Acct("100000003"), service);
     }
 
 

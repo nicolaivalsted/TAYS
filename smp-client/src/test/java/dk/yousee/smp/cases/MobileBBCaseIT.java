@@ -2,28 +2,20 @@ package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.ModemId;
-import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
-import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
-import dk.yousee.smp.order.client.BssAdapterClient;
+import dk.yousee.smp.functions.OrderServiceImpl;
 import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.BusinessException;
-import dk.yousee.smp.order.model.OrderService;
-import dk.yousee.smp.order.model.ProvisionStateEnum;
 import dk.yousee.smp.order.model.Response;
+import dk.yousee.smp.smpclient.SmpConnectorImpl;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
  * User: aka
  * Date: Oct 25, 2010
  * Time: 3:10:52 PM
@@ -36,13 +28,12 @@ public class MobileBBCaseIT {
     private MobileBBCase test;
     private SubscriberModel model;
     private Acct acct;
-    private Proxy proxy;
     String orderUrl = null;
+    OrderServiceImpl service;
 
     @Before
     public void setup() {
         orderUrl = "http://194.239.10.197:41203/bss-adapter2/order.service";
-        proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sltarray02.tdk.dk", 8080));
 //        proxy = null;
 //        orderUrl="http://194.239.10.213:26500/bss-adapter2/order.service";
         orderUrl="http://localhost:7777/order.service";
@@ -51,6 +42,19 @@ public class MobileBBCaseIT {
         response = new Response();
         response.setAcct(acct);
         model = new SubscriberModel(response);
+
+
+        SmpConnectorImpl connector=new SmpConnectorImpl();
+        String hostName; int port;
+        hostName = "194.239.10.197"; port = 41203; //QA
+//        hostName="194.239.10.213"; port=26500; //UDV
+//        hostName = "localhost"; port = 8010; //simulator 1
+        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setUsername("samp.csra1");
+        connector.setPassword("pwcsra1");
+        service = new OrderServiceImpl();
+        service.setConnector(connector);
+
     }
     //{aftalenr=954995, juridisk=' 601021575', adresseId='0002545590',
     // customerInfo={"efternavn":"CLAUSEN","fornavn":"FLEMMING","phones.business.number":"63225234","phones.home.number":"62208192"}, area='mobb',
@@ -75,10 +79,7 @@ public class MobileBBCaseIT {
 
     @Test
     public void debugCreateMoBB() {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
+
         logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         model = test.getModel();
@@ -101,11 +102,6 @@ public class MobileBBCaseIT {
     @Ignore
     @Test
     public void createMoBB() {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         model = test.getModel();
         Assert.assertTrue("customer must exist", model.customerExists());
@@ -129,11 +125,6 @@ public class MobileBBCaseIT {
     @Ignore
     @Test
     public void getMobileSubscriberDetails() throws Exception {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         List<MobileBBCase.MobileBroadband> broadbandList = test.getMobileSubscriberDetails();
         Assert.assertEquals(1, broadbandList.size());
@@ -149,11 +140,6 @@ public class MobileBBCaseIT {
     @Ignore
     @Test
     public void updateMoBB() throws Exception {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         model = test.getModel();
         ModemId modemId = test.firstModem();
@@ -171,18 +157,13 @@ public class MobileBBCaseIT {
     @Ignore
     @Test
     public void suspendMoBB() throws Exception {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         model = test.getModel();
         Assert.assertTrue("customer must exist", model.customerExists());
 
         ModemId modemId = test.firstModem();
-        MobileBBService mobileBBService = test.getModel().find().MobileBBService(modemId);
-        ProvisionStateEnum provisionStateEnumState = mobileBBService.getServicePlanState();
+//        MobileBBService mobileBBService = test.getModel().find().MobileBBService(modemId);
+//        ProvisionStateEnum provisionStateEnumState = mobileBBService.getServicePlanState();
         boolean anything = test.suspendMoBB(modemId);
         Assert.assertTrue("must make order data", anything);
         int orderId = test.send();
@@ -192,11 +173,6 @@ public class MobileBBCaseIT {
     @Ignore
     @Test
     public void resumeMoBB() throws Exception {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         model = test.getModel();
         Assert.assertTrue("customer must exist", model.customerExists());
@@ -211,11 +187,6 @@ public class MobileBBCaseIT {
     @Ignore
     @Test
     public void deleteMoBB() throws Exception {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         test = new MobileBBCase(acct, service);
         model = test.getModel();
         Assert.assertTrue("customer must exist", model.customerExists());
@@ -243,13 +214,7 @@ public class MobileBBCaseIT {
 
     @Test
     public void construct() throws Exception {
-        BssAdapterClient bssAdapter;
-        bssAdapter = new BssAdapterClient(orderUrl, proxy);
-        logger.debug("BssAdapterClient allocated, url=" + orderUrl);
-        OrderService service = bssAdapter.getOrderService();
-        logger.debug("service allocated");
         SubscriberCase customerCase = new SubscriberCase(service, acct);
-
         test = new MobileBBCase(customerCase);
         Assert.assertNotNull(test);
     }
