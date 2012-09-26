@@ -1,0 +1,67 @@
+<!--
+A02_CVB_Step5_Query_SMP_XML.xml
+
+TThis is named query using account number.
+-->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: A02_CVB_Step5_Query_SMP_XML.xml,v 1.1 2009/11/23 13:29:20 varshag Exp $ -->
+<getEntityByKeyRequest xmlns="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" cascadeLoading="true">
+    <entityKeyLst>
+           <entityKey xsi:type="SubKeyType">
+            <cmn:type xmlns:cmn="http://java.sun.com/products/oss/xml/Common">SubSpec:-</cmn:type>
+             <nameQuery xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">
+               <smpcmn:queryName>get_id_by_parm</smpcmn:queryName>
+               <smpcmn:inputParamList>
+                  <smpcmn:param name="acct">4444444444466</smpcmn:param>
+               </smpcmn:inputParamList>
+             </nameQuery>
+          </entityKey>
+    </entityKeyLst>
+</getEntityByKeyRequest>
+
+Subscriber Type residential
+
+Account 601138511
+
+Primary Contact
+Salutation
+First Name Brian
+Suffix
+Middle Name
+Last Name Bjørcklund
+Phone Number 196-94
+Business Phone Number
+Business Phone Number Extension
+Cell Phone Number
+Email Home Address
+Primary Contact Address
+Topology Entry Point 000
+
+Street Number Prefix
+Street Number
+Street Number Suffix
+Address Predirectional
+Street Name
+Street Suffix
+Address Postdirectional
+Room
+Floor
+Building
+Secondary Location Description
+Unit
+City Hillerød
+Province State
+Country DK
+Zip Code 3400
+Zip Code Plus4
+Rate Center
+End User Moving Indicator
+MSAG_Community
+address1 Hvedevangen 11
+
+address2
+
+district Hillerød
+
+        

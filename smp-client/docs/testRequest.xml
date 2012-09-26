@@ -1,0 +1,255 @@
+<smp:executeOrderRequest xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+    <smp:orderValue xsi:type="smp:ActionOrderValue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <com:lastUpdateVersionNumber xmlns:com="http://java.sun.com/products/oss/xml/Common">-1
+        </com:lastUpdateVersionNumber>
+        <ser:apiClientId xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">triple
+        </ser:apiClientId>
+        <ser:orderKey xsi:type="smp:OrderKeyType" xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">
+            <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">com.sigma.samp.cmn.order.SampOrderKey
+            </com:type>
+            <ser:primaryKey>-1
+            </ser:primaryKey>
+        </ser:orderKey>
+        <ser:priority xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">3
+        </ser:priority>
+        <ser:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType"
+                        xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">open.not_running.not_started
+        </ser:orderState>
+        <smp:subKey>
+            <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSpec:-
+            </com:type>
+            <smp1:externalKey xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                YouSee:user_606781377
+            </smp1:externalKey>
+        </smp:subKey>
+        <smp:orderParamList>
+            <smp1:param name="queue_request_flag" xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">
+                yes
+            </smp1:param>
+            <smp1:param name="has_groups" xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">yes
+            </smp1:param>
+        </smp:orderParamList>
+        <smp:orderItemList>
+            <smp:orderItem>
+                <smp:action>update
+                </smp:action>
+                <smp1:entityKey xsi:type="smp:SubSvcKeyType"
+                                xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema"
+                                xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+                    <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:cpe_composed
+                    </com:type>
+                    <smp:externalKey>YouSee:cpe_100341925</smp:externalKey>
+                </smp1:entityKey>
+                <smp1:entityValue xsi:type="smp:SubSvcType"
+                                  xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema"
+                                  xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+                    <ser:serviceState provisionState="active" xsi:type="smp:SubSvcStateType"
+                                      xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                                      xmlns:ser="http://java.sun.com/products/oss/xml/CBE/Service">active
+                    </ser:serviceState>
+                    <smp:serviceKey>
+                        <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:cpe_composed
+                        </com:type>
+                        <smp:externalKey>YouSee:cpe_100341925</smp:externalKey>
+                    </smp:serviceKey>
+                    <smp:childServiceList>
+                        <smp:serviceValue>
+                            <ser:serviceState provisionState="active" xsi:type="smp:SubSvcStateType"
+                                              xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                                              xmlns:ser="http://java.sun.com/products/oss/xml/CBE/Service">active
+                            </ser:serviceState>
+                            <smp:serviceKey>
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">
+                                    SubSvcSpec:smp_emta_cm_hsd_access
+                                </com:type>
+                                <smp:externalKey>3fb503d1-063e-4801-b8bc-80ab35af18b6
+                                </smp:externalKey>
+                            </smp:serviceKey>
+                            <smp:parentServiceKey>
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">Su
+                                    bSvcSpec:cpe_composed
+                                </com:type>
+                                <smp:externalKey>YouSee:cpe_100341925</smp:externalKey>
+                            </smp:parentServiceKey>
+                            <smp:paramList>
+                                <smp2:param name="class_of_service"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">gws
+                                </smp2:param>
+                                <smp2:param name="cm_mac"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    000f21cfc85f
+                                </smp2:param>
+                                <smp2:param name="cm_ownership"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    100341925
+                                </smp2:param>
+                                <smp2:param name="cm_service_id"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    3fb503d1-063e-4801-b8bc-80ab35af18b6
+                                </smp2:param>
+                                <smp2:param name="cm_technology" xsi:nil="true"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema"/>
+                                <smp2:param name="dflt_cm_dhcp_rules"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    captive
+                                </smp2:param>
+                                <smp2:param name="dflt_cpe_dhcp_rules"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    captive
+                                </smp2:param>
+                                <smp2:param name="dflt_quality_of_svc"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    Default
+                                </smp2:param>
+                                <smp2:param name="docsis_3_capable"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">N
+                                </smp2:param>
+                                <smp2:param name="equipment_type"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">emta
+                                </smp2:param>
+                                <smp2:param name="gi_address"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    10.22.0.1
+                                </smp2:param>
+                                <smp2:param name="max_num_cpe" xsi:nil="true"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema"/>
+                                <smp2:param name="svc_provider_nm" xsi:nil="true"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema"/>
+                                <smp2:param name="wifi_capable"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">N
+                                </smp2:param>
+                            </smp:paramList>
+                        </smp:serviceValue>
+                        <smp:serviceValue>
+                            <ser:serviceState provisionState="active" xsi:type="smp:SubSvcStateType"
+                                              xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                                              xmlns:ser="http://java.sun.com/products/oss/xml/CBE/Service">active
+                            </ser:serviceState>
+                            <smp:serviceKey>
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">
+                                    SubSvcSpec:smp_emta_pc_voip_access
+                                </com:type>
+                                <smp:externalKey>804976a6-edbb-4724-bf56-9dc214b985b4</smp:externalKey>
+                            </smp:serviceKey>
+                            <smp:parentServiceKey>
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">
+                                    SubSvcSpec:cpe_composed
+                                </com:type>
+                                <smp:externalKey>YouSee:cpe_100341925</smp:externalKey>
+                            </smp:parentServiceKey>
+                            <smp:paramList>
+                                <smp2:param name="cm_mac"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    0026f2a98f26
+                                </smp2:param>
+                                <smp2:param name="cmts"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">2140
+                                </smp2:param>
+                                <smp2:param name="dev_prov_req"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">Y
+                                </smp2:param>
+                                <smp2:param name="mta_dhcp_rules"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    captive
+                                </smp2:param>
+                                <smp2:param name="mta_fqdn"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    mta-1-6-00-1b-2f-8d-f8-99.voip.webspeed.dk
+                                </smp2:param>
+                                <smp2:param name="mta_id"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    100341925
+                                </smp2:param>
+                                <smp2:param name="mta_mac"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    000ffec16b9a
+                                </smp2:param>
+                                <smp2:param name="mta_manufacturer"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">Arris
+                                </smp2:param>
+                                <smp2:param name="mta_max_port_num"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">2
+                                </smp2:param>
+                                <smp2:param name="mta_quality_of_svc"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">Voip
+                                </smp2:param>
+                                <smp2:param name="mta_service_id"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    804976a6-edbb-4724-bf56-9dc214b985b4
+                                </smp2:param>
+                                <smp2:param name="mta_technology"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    packet cable
+                                </smp2:param>
+                                <smp2:param name="num_of_voice_lines"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">0
+                                </smp2:param>
+                                <smp2:param name="voip_protocol"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">NCS
+                                </smp2:param>
+                            </smp:paramList>
+                        </smp:serviceValue>
+                    </smp:childServiceList>
+                </smp1:entityValue>
+            </smp:orderItem>
+            <smp:orderItem>
+                <smp:action>update
+                </smp:action>
+                <smp1:entityKey xsi:type="smp:SubSvcKeyType"
+                                xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema"
+                                xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+                    <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:cable_broadband
+                    </com:type>
+                    <smp:externalKey>YouSee:cbb_100341925</smp:externalKey>
+                </smp1:entityKey>
+                <smp1:entityValue xsi:type="smp:SubSvcType"
+                                  xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema"
+                                  xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+                    <ser:serviceState provisionState="active" xsi:type="smp:SubSvcStateType"
+                                      xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                                      xmlns:ser="http://java.sun.com/products/oss/xml/CBE/Service">active
+                    </ser:serviceState>
+                    <smp:serviceKey>
+                        <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:cable_broadband
+                        </com:type>
+                        <smp:externalKey>YouSee:cbb_100341925</smp:externalKey>
+                    </smp:serviceKey>
+                    <smp:childServiceList>
+                        <smp:serviceValue>
+                            <ser:serviceState provisionState="active" xsi:type="smp:SubSvcStateType"
+                                              xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                                              xmlns:ser="http://java.sun.com/products/oss/xml/CBE/Service">active
+                            </ser:serviceState>
+                            <smp:serviceKey>
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:std_cpe
+                                </com:type>
+                                <smp:externalKey>e21f2cb4-9460-49d6-b8b0-7704da82905a
+                                </smp:externalKey>
+                            </smp:serviceKey>
+                            <smp:parentServiceKey>
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">
+                                    SubSvcSpec:cable_broadband
+                                </com:type>
+                                <smp:externalKey>YouSee:cbb_100341925</smp:externalKey>
+                            </smp:parentServiceKey>
+                            <smp:paramList>
+                                <smp2:param name="cm_mac"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    0026f2a98f26
+                                </smp2:param>
+                                <smp2:param name="cpe_mac"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    000ffec16b98
+                                </smp2:param>
+                                <smp2:param name="cpe_service_id"
+                                            xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                    e21f2cb4-9460-49d6-b8b0-7704da82905a
+                                </smp2:param>
+                            </smp:paramList>
+                        </smp:serviceValue>
+                    </smp:childServiceList>
+                </smp1:entityValue>
+            </smp:orderItem>
+        </smp:orderItemList>
+    </smp:orderValue>
+</smp:executeOrderRequest>

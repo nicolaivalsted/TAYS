@@ -1,0 +1,189 @@
+<!-- $Id: A01_CVB_Step5_Response_XML.xml,v 1.1 2009/11/23 13:29:20 varshag Exp $ -->
+<smpcbe:getEntityByKeyResponse xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service">
+  <smp:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" serviceProvider="YouSee" subscriberType="residential" locale="en_CA" xsi:type="smp:SubType">
+    <cmn:lastUpdateVersionNumber>2</cmn:lastUpdateVersionNumber>
+    <smp:key xsi:type="smp:SubKeyType">
+      <cmn:type>SubSpec:-</cmn:type>
+      <smp:primaryKey>285050</smp:primaryKey>
+      <smp:externalKey>6444444444485</smp:externalKey>
+    </smp:key>
+    <smp:state>active</smp:state>
+    <smp:entityList>
+      <smp:entityValue xsi:type="smp:SubContactType">
+        <cmn:lastUpdateVersionNumber>2</cmn:lastUpdateVersionNumber>
+        <smp:key xsi:type="smp:SubContactKeyType">
+          <cmn:type>SubContactSpec:-</cmn:type>
+          <smp:primaryKey>37550</smp:primaryKey>
+          <smp:externalKey>primary</smp:externalKey>
+        </smp:key>
+        <smp:state>active</smp:state>
+        <smp:associationList>
+          <smp:association>
+            <smp:associationType>contact_on_address</smp:associationType>
+            <smp:zEndKey xsi:type="smp:SubAddressKeyType">
+              <cmn:type>SubAddressSpec:-</cmn:type>
+              <smp:primaryKey>37550</smp:primaryKey>
+            </smp:zEndKey>
+          </smp:association>
+        </smp:associationList>
+      </smp:entityValue>
+      <smp:entityValue addressType="service" isDefault="true" xsi:type="smp:SubAddressType">
+        <cmn:lastUpdateVersionNumber>2</cmn:lastUpdateVersionNumber>
+        <smp:key xsi:type="smp:SubAddressKeyType">
+          <cmn:type>SubAddressSpec:-</cmn:type>
+          <smp:primaryKey>37550</smp:primaryKey>
+          <smp:externalKey>primary</smp:externalKey>
+        </smp:key>
+        <smp:state>active</smp:state>
+      </smp:entityValue>
+      <smpcbe:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+        <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+        <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+        <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+        <smp:serviceKey>
+          <cmn:type>SubSvcSpec:samp_sub</cmn:type>
+          <smp:primaryKey>2760050</smp:primaryKey>
+          <smp:externalKey>samp_sub_20000</smp:externalKey>
+        </smp:serviceKey>
+        <smp:associationList>
+          <smpcbe:association>
+            <smpcbe:associationType>service_on_address</smpcbe:associationType>
+            <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+              <cmn:type>SubAddressSpec:-</cmn:type>
+              <smp:primaryKey>37550</smp:primaryKey>
+            </smp:zEndKey>
+          </smpcbe:association>
+        </smp:associationList>
+      </smpcbe:entityValue>
+      <smpcbe:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+        <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+        <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+        <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+        <smp:serviceKey>
+          <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+          <smp:primaryKey>2760061</smp:primaryKey>
+          <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+        </smp:serviceKey>
+        <smp:childServiceList>
+          <smp:serviceValue>
+            <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+            <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+            <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+            <smp:serviceKey>
+              <cmn:type>SubSvcSpec:internet_access</cmn:type>
+              <smp:primaryKey>2760062</smp:primaryKey>
+              <smp:externalKey>internet_access_6444444444485</smp:externalKey>
+            </smp:serviceKey>
+            <smp:parentServiceKey>
+              <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+              <smp:primaryKey>2760061</smp:primaryKey>
+              <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+            </smp:parentServiceKey>
+            <smp:associationList>
+              <smpcbe:association>
+                <smpcbe:associationType>service_on_address</smpcbe:associationType>
+                <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                  <cmn:type>SubAddressSpec:-</cmn:type>
+                  <smp:primaryKey>37550</smp:primaryKey>
+                </smp:zEndKey>
+              </smpcbe:association>
+            </smp:associationList>
+          </smp:serviceValue>
+          <smp:serviceValue>
+            <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+            <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+            <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+            <smp:serviceKey>
+              <cmn:type>SubSvcSpec:std_cpe</cmn:type>
+              <smp:primaryKey>2760063</smp:primaryKey>
+              <smp:externalKey>std_cpe_6444444444485</smp:externalKey>
+            </smp:serviceKey>
+            <smp:parentServiceKey>
+              <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+              <smp:primaryKey>2760061</smp:primaryKey>
+              <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+            </smp:parentServiceKey>
+            <smp:associationList>
+              <smpcbe:association>
+                <smpcbe:associationType>service_on_address</smpcbe:associationType>
+                <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                  <cmn:type>SubAddressSpec:-</cmn:type>
+                  <smp:primaryKey>37550</smp:primaryKey>
+                </smp:zEndKey>
+              </smpcbe:association>
+            </smp:associationList>
+          </smp:serviceValue>
+          <smp:serviceValue>
+            <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+            <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+            <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+            <smp:serviceKey>
+              <cmn:type>SubSvcSpec:additional_cpe</cmn:type>
+              <smp:primaryKey>2760065</smp:primaryKey>
+              <smp:externalKey>additional_cpe_6444444444485</smp:externalKey>
+            </smp:serviceKey>
+            <smp:parentServiceKey>
+              <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+              <smp:primaryKey>2760061</smp:primaryKey>
+              <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+            </smp:parentServiceKey>
+          </smp:serviceValue>
+          <smp:serviceValue>
+            <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+            <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+            <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+            <smp:serviceKey>
+              <cmn:type>SubSvcSpec:static_ip_cpe</cmn:type>
+              <smp:primaryKey>2760066</smp:primaryKey>
+              <smp:externalKey>static_ip_cpe_6444444444485</smp:externalKey>
+            </smp:serviceKey>
+            <smp:parentServiceKey>
+              <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+              <smp:primaryKey>2760061</smp:primaryKey>
+              <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+            </smp:parentServiceKey>
+            <smp:associationList>
+              <smpcbe:association>
+                <smpcbe:associationType>static_ip_has_std_cpe</smpcbe:associationType>
+                <smpcbe:zEndKey xsi:type="smp:SubSvcKeyType">
+                  <cmn:type>SubSvcSpec:std_cpe</cmn:type>
+                  <smp:primaryKey>2760063</smp:primaryKey>
+                </smpcbe:zEndKey>
+              </smpcbe:association>
+            </smp:associationList>
+          </smp:serviceValue>
+          <smp:serviceValue>
+            <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+            <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+            <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+            <smp:serviceKey>
+              <cmn:type>SubSvcSpec:email_server_unblock</cmn:type>
+              <smp:primaryKey>2760067</smp:primaryKey>
+              <smp:externalKey>email_server_unblock_6444444444485</smp:externalKey>
+            </smp:serviceKey>
+            <smp:parentServiceKey>
+              <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+              <smp:primaryKey>2760061</smp:primaryKey>
+              <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+            </smp:parentServiceKey>
+          </smp:serviceValue>
+          <smp:serviceValue>
+            <cmn:lastUpdateVersionNumber>1</cmn:lastUpdateVersionNumber>
+            <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+            <cbesvc:subscriberId>285050</cbesvc:subscriberId>
+            <smp:serviceKey>
+              <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+              <smp:primaryKey>2760064</smp:primaryKey>
+              <smp:externalKey>wifi_service_6444444444485</smp:externalKey>
+            </smp:serviceKey>
+            <smp:parentServiceKey>
+              <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+              <smp:primaryKey>2760061</smp:primaryKey>
+              <smp:externalKey>cable_broadband_6444444444485</smp:externalKey>
+            </smp:parentServiceKey>
+          </smp:serviceValue>
+        </smp:childServiceList>
+      </smpcbe:entityValue>
+    </smp:entityList>
+  </smp:entityValue>
+</smpcbe:getEntityByKeyResponse>

@@ -1,0 +1,38 @@
+<executeOrderRequest xmlns="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com="http://java.sun.com/products/oss/xml/Common" xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:ser1="http://java.sun.com/products/oss/xml/CBE/Service">
+  <orderValue xsi:type="smp:ActionOrderValue" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+    <com:lastUpdateVersionNumber>-1</com:lastUpdateVersionNumber>
+    <ser:apiClientId>triple</ser:apiClientId>
+    <ser:orderKey xsi:type="smp:OrderKeyType">
+      <com:type>com.sigma.samp.cmn.order.SampOrderKey</com:type>
+      <ser:primaryKey>-1</ser:primaryKey>
+    </ser:orderKey>
+    <ser:priority>3</ser:priority>
+    <ser:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType">open.not_running.not_started</ser:orderState>
+    <subKey>
+      <com:type>SubSpec:-</com:type>
+      <smp2:externalKey xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">YouSee:user_607989038</smp2:externalKey>
+    </subKey>
+    <orderParamList>
+      <smp1:param name="queue_request_flag">yes</smp1:param>
+      <smp1:param name="has_groups">yes</smp1:param>
+    </orderParamList>
+    <orderItemList>
+      <orderItem>
+        <action>delete</action>
+        <entityKey xsi:type="smp:SubSvcKeyType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+          <com:type>SubSvcSpec:mobile_broadband</com:type>
+          <smp:externalKey>YouSee:mbb_101371329</smp:externalKey>
+        </entityKey>
+        <entityValue xsi:type="smp:SubSvcType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+          <ser1:serviceState provisionState="deleted" xsi:type="smp:SubSvcStateType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">inactive</ser1:serviceState>
+          <smp:serviceKey>
+            <com:type>SubSvcSpec:mobile_broadband</com:type>
+            <smp:externalKey>YouSee:mbb_101371329</smp:externalKey>
+          </smp:serviceKey>
+          <smp:childServiceList/>
+        </entityValue>
+      </orderItem>
+    </orderItemList>
+  </orderValue>
+</executeOrderRequest>
+

@@ -1,0 +1,69 @@
+<!--
+A07_CVB_Step1_XML.xml
+
+This request will come from TRIPLE
+
+Following services will be added on existing subscriber:
+1. 	 static_ip		
+	
+Following association will be added  :
+
+	static_ip_has_std_cpe (Association of static_ip with std_cpe)	
+-->
+<!-- $Id: A07_CVB_Step1_XML.xml,v 1.1 2009/11/23 13:29:22 varshag Exp $ -->
+
+
+<smpsa:executeOrderRequest xmlns:smpsa="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service">
+  <smp:orderValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xsi:type="smp:ActionOrderValue">
+    <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+    <sa:apiClientId>web</sa:apiClientId>
+    <sa:orderKey xsi:type="smp:OrderKeyType">
+      <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+      <sa:primaryKey>-1</sa:primaryKey>
+    </sa:orderKey>
+    <sa:priority>3</sa:priority>
+    <sa:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType">open.not_running.not_started</sa:orderState>
+    <smp:subKey>
+      <cmn:type>SubSpec:-</cmn:type>
+      <smpcbe:primaryKey>260000</smpcbe:primaryKey>
+    </smp:subKey>
+    <smp:orderParamList>
+      <smpcmn:param name="queue_request_flag">yes</smpcmn:param>
+      <smpcmn:param name="has_groups">yes</smpcmn:param>
+    </smp:orderParamList>
+    <smp:orderItemList>
+      <smp:orderItem>
+        <smp:action>add</smp:action>
+        <smp:itemParamList/>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:static_ip_cpe</cmn:type>
+          <smp:externalKey>static_ip_cpe_20005</smp:externalKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:static_ip_cpe</cmn:type>
+            <smp:externalKey>static_ip_cpe_20005</smp:externalKey>
+          </smp:serviceKey>
+          <smp:parentServiceKey>
+            <cmn:type>SubSvc</cmn:type>
+            <smp:externalKey>cable_broadband_20001</smp:externalKey>
+          </smp:parentServiceKey>
+          <smp:paramList>
+            <smpcbe:param name="staticip_service_id">20005</smpcbe:param>
+            <smpcbe:param name="staticip_product_code">silver</smpcbe:param>
+          </smp:paramList>
+          <smp:associationList>
+            <smpcbe:association>
+              <smpcbe:associationType>static_ip_has_std_cpe</smpcbe:associationType>
+              <smpcbe:zEndKey xsi:type="smp:SubSvcKeyType">
+                <cmn:type>SubSvc</cmn:type>
+                <smp:externalKey>std_cpe_30002</smp:externalKey>
+              </smpcbe:zEndKey>
+            </smpcbe:association>
+          </smp:associationList>
+        </smpsa:entityValue>
+      </smp:orderItem>
+    </smp:orderItemList>
+  </smp:orderValue>
+</smpsa:executeOrderRequest>

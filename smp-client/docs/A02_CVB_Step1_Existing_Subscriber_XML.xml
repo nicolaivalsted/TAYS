@@ -1,0 +1,237 @@
+<!-- $Id: A02_CVB_Step1_Existing_Subscriber_XML.xml,v 1.1 2009/11/23 13:29:20 varshag Exp $ -->
+<!--
+A02_CVB_Step1_Existing_Subscriber_XML.xml
+This is an alternate scenario where subscriber is already present in SMP.
+
+This request will come from TRIPLE
+
+Following services will be created:
+1. Cable Broadband service with following optional child services
+	- internet_access
+	- std_cpe
+	- wi_fi
+	- email_unblock
+	-additional_cpe
+	- static_ip		-If ip address is static
+	-Association of_static_ip with std_cpe	-If ip address is static
+
+2. Voice Service with the following child services
+	- smp_switch_dial_tone_access
+	- smp_switch_feature_pkg_std
+
+-->
+<smpsa:executeOrderRequest xmlns:smpsa="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service">
+  <smp:orderValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xsi:type="smp:ActionOrderValue">
+    <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+    <sa:apiClientId>TRIPLE</sa:apiClientId>
+    <sa:orderKey xsi:type="smp:OrderKeyType">
+      <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+      <sa:primaryKey>-1</sa:primaryKey>
+    </sa:orderKey>
+    <sa:priority>3</sa:priority>
+    <sa:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType">open.not_running.not_started</sa:orderState>
+    <smp:subKey>
+      <cmn:type>SubSpec:-</cmn:type>
+      <smpcbe:primaryKey>510000</smpcbe:primaryKey>
+    </smp:subKey>
+    <smp:orderParamList>
+      <smpcmn:param name="queue_request_flag">yes</smpcmn:param>
+      <smpcmn:param name="has_groups">yes</smpcmn:param>
+    </smp:orderParamList>
+    <smp:orderItemList>
+      <smp:orderItem>
+        <smp:action>add</smp:action>
+        <smp:itemParamList/>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:smp_voice_line</cmn:type>
+          <smp:externalKey>smp_voice_line_10004</smp:externalKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:smp_voice_line</cmn:type>
+            <smp:externalKey>smp_voice_line_10004</smp:externalKey>
+          </smp:serviceKey>
+          <smp:childServiceList>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:smp_switch_dial_tone_access</cmn:type>
+                <smp:externalKey>smp_switch_dial_tone_access_10001</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:smp_voice_line</cmn:type>
+                <smp:externalKey>smp_voice_line_10004</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="rate_codes">silver</smpcbe:param>
+                <smpcbe:param name="telephone_number">5254545333</smpcbe:param>
+                <smpcbe:param name="dial_tone_service_id">10001</smpcbe:param>
+                <smpcbe:param name="mta_voice_port">1</smpcbe:param>
+                <smpcbe:param name="privacy">FULL</smpcbe:param>
+                <smpcbe:param name="cos_restrict_id">4</smpcbe:param>
+              </smp:paramList>
+              <smp:associationList>
+                <smpcbe:association>
+                  <smpcbe:associationType>service_on_address</smpcbe:associationType>
+                  <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                    <cmn:type>SubAddress</cmn:type>
+                    <smp:externalKey>primary</smp:externalKey>
+                  </smp:zEndKey>
+                </smpcbe:association>
+              </smp:associationList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:smp_switch_feature_pkg_std</cmn:type>
+                <smp:externalKey>smp_switch_feature_pkg_std_10002</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:smp_voice_line</cmn:type>
+                <smp:externalKey>smp_voice_line_10004</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="switch_feature_service_id">10002</smpcbe:param>
+              </smp:paramList>
+              <smp:associationList>
+                <smpcbe:association>
+                  <smpcbe:associationType>service_on_address</smpcbe:associationType>
+                  <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                    <cmn:type>SubAddress</cmn:type>
+                    <smp:externalKey>primary</smp:externalKey>
+                  </smp:zEndKey>
+                </smpcbe:association>
+              </smp:associationList>
+            </smp:serviceValue>
+          </smp:childServiceList>
+        </smpsa:entityValue>
+      </smp:orderItem>
+      <smp:orderItem>
+        <smp:action>add</smp:action>
+        <smp:itemParamList/>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+          <smp:externalKey>cable_broadband_20001</smp:externalKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+            <smp:externalKey>cable_broadband_20001</smp:externalKey>
+          </smp:serviceKey>
+          <smp:childServiceList>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:internet_access</cmn:type>
+                <smp:externalKey>internet_access_20002</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+                <smp:externalKey>cable_broadband_20001</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="broadband_service_id">20001</smpcbe:param>
+                <smpcbe:param name="rate_codes">silver</smpcbe:param>
+              </smp:paramList>
+              <smp:associationList>
+                <smpcbe:association>
+                  <smpcbe:associationType>service_on_address</smpcbe:associationType>
+                  <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                    <cmn:type>SubAddress</cmn:type>
+                    <smp:externalKey>primary</smp:externalKey>
+                  </smp:zEndKey>
+                </smpcbe:association>
+              </smp:associationList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:std_cpe</cmn:type>
+                <smp:externalKey>std_cpe_20003</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+                <smp:externalKey>cable_broadband_20001</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="cpe_service_id">20003</smpcbe:param>
+              </smp:paramList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+                <smp:externalKey>wifi_service_20007</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+                <smp:externalKey>cable_broadband_20001</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="wifi_service_product_code">ABCD</smpcbe:param>
+                <smpcbe:param name="wifi_service_id">20007</smpcbe:param>
+              </smp:paramList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:additional_cpe</cmn:type>
+                <smp:externalKey>additional_cpe_20004</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+                <smp:externalKey>cable_broadband_20001</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="cpe_service_id">20004</smpcbe:param>
+                <smpcbe:param name="cpe_product_code">ABCD</smpcbe:param>
+              </smp:paramList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:static_ip_cpe</cmn:type>
+                <smp:externalKey>static_ip_cpe_20005</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+                <smp:externalKey>cable_broadband_20001</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="staticip_service_id">20005</smpcbe:param>
+                <smpcbe:param name="staticip_product_code">ABCD</smpcbe:param>
+              </smp:paramList>
+              <smp:associationList>
+                <smpcbe:association>
+                  <smpcbe:associationType>static_ip_has_std_cpe</smpcbe:associationType>
+                  <smpcbe:zEndKey xsi:type="smp:SubSvcKeyType">
+                    <cmn:type>SubSvcSpec:std_cpe</cmn:type>
+                    <smp:externalKey>std_cpe_20003</smp:externalKey>
+                  </smpcbe:zEndKey>
+                  <smpcbe:changeAction>add</smpcbe:changeAction>
+                </smpcbe:association>
+               </smp:associationList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="active" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+              <smp:serviceKey>
+                <cmn:type>SubSvcSpec:email_server_unblock</cmn:type>
+                <smp:externalKey>email_server_unblock_20006</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+                <smp:externalKey>cable_broadband_20001</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smpcbe:param name="email_server_unblock_service_id">20006</smpcbe:param>
+                <smpcbe:param name="email_server_unblock_product_code">20</smpcbe:param>
+              </smp:paramList>
+            </smp:serviceValue>
+          </smp:childServiceList>
+        </smpsa:entityValue>
+      </smp:orderItem>
+    </smp:orderItemList>
+  </smp:orderValue>
+</smpsa:executeOrderRequest>

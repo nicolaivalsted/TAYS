@@ -14,6 +14,8 @@
 
     <modules>
         <module>base-client</module>
+        <module>smp-xml</module>
+        <module>smp-client</module>
         <module>yspro-client</module>
     </modules>
 <!--
@@ -128,6 +130,11 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-tx</artifactId>
+                <version>${spring-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-jms</artifactId>
                 <version>${spring-version}</version>
             </dependency>
             <dependency>

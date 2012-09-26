@@ -1,0 +1,128 @@
+<sa:getOrderByKeyResponse xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:smpsa="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service">
+  <sa:orderValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xsi:type="smp:ActionOrderValue">
+    <cmn:lastUpdateVersionNumber>2</cmn:lastUpdateVersionNumber>
+    <sa:actualCompletionDate>2011-07-12T12:55:42.000+02:00</sa:actualCompletionDate>
+    <sa:apiClientId>triple</sa:apiClientId>
+    <sa:orderKey xsi:type="smp:OrderKeyType">
+      <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+      <sa:primaryKey>2259426</sa:primaryKey>
+    </sa:orderKey>
+    <sa:priority>10</sa:priority>
+    <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed</sa:orderState>
+    <smp:subKey>
+      <cmn:type>SubSpec:-</cmn:type>
+      <smpcbe:primaryKey>307774</smpcbe:primaryKey>
+    </smp:subKey>
+    <smp:orderParamList>
+      <smpcmn:param name="has_groups">yes</smpcmn:param>
+      <smpcmn:param name="has_impact">y</smpcmn:param>
+    </smp:orderParamList>
+    <smp:orderItemList>
+      <smp:orderItem>
+        <smp:orderItemKey>
+          <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+          <sa:primaryKey>4262962</sa:primaryKey>
+        </smp:orderItemKey>
+        <smp:action>delete</smp:action>
+        <smp:itemParamList>
+          <smpcmn:param name="ignored">n</smpcmn:param>
+          <smpcmn:param name="has_impact">n</smpcmn:param>
+        </smp:itemParamList>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+          <smp:primaryKey>112482446</smp:primaryKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="inactive" xsi:type="smp:SubSvcStateType">inactive</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+            <smp:primaryKey>112482446</smp:primaryKey>
+            <smp:externalKey/>
+          </smp:serviceKey>
+        </smpsa:entityValue>
+        <smp:itemState>closed.completed.all</smp:itemState>
+        <smp:auditInfo>
+          <smpcmn:createdDateTime>2011-07-12T12:55:39.000+02:00</smpcmn:createdDateTime>
+          <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+        </smp:auditInfo>
+      </smp:orderItem>
+      <smp:orderItem>
+        <smp:orderItemKey>
+          <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+          <sa:primaryKey>4262963</sa:primaryKey>
+        </smp:orderItemKey>
+        <smp:action>update</smp:action>
+        <smp:itemParamList>
+          <smpcmn:param name="ignored">n</smpcmn:param>
+          <smpcmn:param name="has_impact">n</smpcmn:param>
+        </smp:itemParamList>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+          <smp:primaryKey>97261841</smp:primaryKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="inactive" xsi:type="smp:SubSvcStateType">inactive</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:cable_broadband</cmn:type>
+            <smp:primaryKey>97261841</smp:primaryKey>
+            <smp:externalKey/>
+          </smp:serviceKey>
+          <smp:associationList>
+            <smpcbe:association>
+              <smpcbe:associationType>service_has_children</smpcbe:associationType>
+              <smpcbe:zEndKey xsi:type="smp:SubSvcKeyType">
+                <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+                <smp:primaryKey>112482446</smp:primaryKey>
+              </smpcbe:zEndKey>
+              <smpcbe:changeAction>delete</smpcbe:changeAction>
+            </smpcbe:association>
+          </smp:associationList>
+        </smpsa:entityValue>
+        <smp:itemState>closed.completed.all</smp:itemState>
+        <smp:auditInfo>
+          <smpcmn:createdDateTime>2011-07-12T12:55:39.000+02:00</smpcmn:createdDateTime>
+          <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+        </smp:auditInfo>
+      </smp:orderItem>
+      <smp:orderItem>
+        <smp:orderItemKey>
+          <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+          <sa:primaryKey>4262961</sa:primaryKey>
+        </smp:orderItemKey>
+        <smp:action>update</smp:action>
+        <smp:itemParamList>
+          <smpcmn:param name="ignored">n</smpcmn:param>
+          <smpcmn:param name="has_impact">y</smpcmn:param>
+        </smp:itemParamList>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:smp_emta_cm_hsd_access</cmn:type>
+          <smp:primaryKey>97280222</smp:primaryKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="inactive" xsi:type="smp:SubSvcStateType">inactive</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:smp_emta_cm_hsd_access</cmn:type>
+            <smp:primaryKey>97280222</smp:primaryKey>
+            <smp:externalKey/>
+          </smp:serviceKey>
+          <smp:paramList>
+            <smpcbe:param name="class_of_service">cms</smpcbe:param>
+            <smpcbe:oldParam name="class_of_service">gws</smpcbe:oldParam>
+          </smp:paramList>
+        </smpsa:entityValue>
+        <smp:itemState>closed.completed.all</smp:itemState>
+        <smp:auditInfo>
+          <smpcmn:createdDateTime>2011-07-12T12:55:42.000+02:00</smpcmn:createdDateTime>
+          <smpcmn:createdBy>guest</smpcmn:createdBy>
+        </smp:auditInfo>
+      </smp:orderItem>
+    </smp:orderItemList>
+    <smp:auditInfo>
+      <smpcmn:createdDateTime>2011-07-12T12:55:42.000+02:00</smpcmn:createdDateTime>
+      <smpcmn:createdBy>guest</smpcmn:createdBy>
+    </smp:auditInfo>
+  </sa:orderValue>
+</sa:getOrderByKeyResponse>

@@ -1,0 +1,110 @@
+<!-- $Id: A01_SA_Step3_Subscriber_SOAP.xml,v 1.6 2009/12/31 12:06:22 tejashre Exp $ -->
+<!--
+A01_SA_Step3_Subscriber_SOAP.xml
+
+This request will come from TRIPLE
+
+Following services will be created:
+1. Subscriber, Contact, address.
+
+Following associations will be created:
+1. contact_on_address
+2. service_on_address
+-->
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<SOAP-ENV:Body>
+<m:executeXml xmlns:m="http://www.sigma-systems.com/schemas/3.1/SmpXmlOrderAPI" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <xmlRequest xsi:type="xsd:string">&lt;smpsa:executeOrderRequest xmlns:smpsa=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:cmn=&quot;http://java.sun.com/products/oss/xml/Common&quot; xmlns:sa=&quot;http://java.sun.com/products/oss/xml/ServiceActivation&quot; xmlns:smpcmn=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCommonValues&quot; xmlns:smpcbe=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xmlns:cbesvc=&quot;http://java.sun.com/products/oss/xml/CBE/Service&quot;&gt;
+  &lt;smp:orderValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; xsi:type=&quot;smp:SnapshotOrderValue&quot;&gt;
+    &lt;cmn:lastUpdateVersionNumber&gt;-1&lt;/cmn:lastUpdateVersionNumber&gt;
+    &lt;sa:apiClientId&gt;TRIPLE&lt;/sa:apiClientId&gt;
+    &lt;sa:orderKey xsi:type=&quot;smp:OrderKeyType&quot;&gt;
+      &lt;cmn:type&gt;com.sigma.samp.cmn.order.SampOrderKey&lt;/cmn:type&gt;
+      &lt;sa:primaryKey&gt;-1&lt;/sa:primaryKey&gt;
+    &lt;/sa:orderKey&gt;
+    &lt;sa:priority&gt;3&lt;/sa:priority&gt;
+    &lt;sa:orderState smpState=&quot;open.not_running.not_started&quot; xsi:type=&quot;smp:SubOrderStateType&quot;&gt;open.not_running.not_started&lt;/sa:orderState&gt;
+    &lt;smp:orderParamList&gt;
+      &lt;smpcmn:param name=&quot;queue_request_flag&quot;&gt;yes&lt;/smpcmn:param&gt;
+      &lt;smpcmn:param name=&quot;has_groups&quot;&gt;yes&lt;/smpcmn:param&gt;
+    &lt;/smp:orderParamList&gt;
+    &lt;smp:subscriber serviceProvider=&quot;YouSee&quot; subscriberType=&quot;residential&quot; locale=&quot;en_CA&quot;&gt;
+      &lt;smp:key xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubKeyType&quot;&gt;
+        &lt;cmn:type&gt;SubSpec:-&lt;/cmn:type&gt;
+        &lt;smp:externalKey&gt;101010101&lt;/smp:externalKey&gt;
+      &lt;/smp:key&gt;
+      &lt;smpcbe:state&gt;active&lt;/smpcbe:state&gt;
+      &lt;smpcbe:paramList&gt;
+        &lt;smpcbe:param name=&quot;acct&quot;&gt;101010101&lt;/smpcbe:param&gt;
+      &lt;/smpcbe:paramList&gt;
+      &lt;smpcbe:entityList&gt;
+        &lt;smp:entityValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; addressType=&quot;service&quot; isDefault=&quot;true&quot; xsi:type=&quot;smp:SubAddressType&quot;&gt;
+          &lt;smp:key xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+            &lt;cmn:type&gt;SubAddressSpec:-&lt;/cmn:type&gt;
+            &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+          &lt;/smp:key&gt;
+          &lt;smp:state&gt;inactive&lt;/smp:state&gt;
+          &lt;smp:paramList&gt;
+            &lt;smp:param name=&quot;ntd_return_segment_nm&quot;&gt;165&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;zipcode&quot;&gt;7764&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;address1&quot;&gt;PUNE&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;address2&quot;&gt;PUNE&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;city&quot;&gt;PUNE&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;country&quot;&gt;PUNE&lt;/smp:param&gt;
+           &lt;smp:param name=&quot;district&quot;&gt;PUNE&lt;/smp:param&gt;
+         &lt;/smp:paramList&gt;
+        &lt;/smp:entityValue&gt;
+        &lt;smp:entityValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubContactType&quot;&gt;
+          &lt;smp:key xsi:type=&quot;smp:SubContactKeyType&quot;&gt;
+            &lt;cmn:type&gt;SubContactSpec:-&lt;/cmn:type&gt;
+            &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+          &lt;/smp:key&gt;
+          &lt;smp:state&gt;inactive&lt;/smp:state&gt;
+          &lt;smp:paramList&gt;
+	    &lt;smp:param name=&quot;phones.cell.number&quot;&gt;56067048457&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;middle_name&quot;&gt;INDIA&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;first_name&quot;&gt;SIGMA&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;emails.home.address&quot;&gt;sigmasystem.com&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;phones.business.number&quot;&gt;567958967&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;last_name&quot;&gt;PUNE&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;phones.business.extension&quot;&gt;6790586&lt;/smp:param&gt;
+            &lt;smp:param name=&quot;phones.home.number&quot;&gt;3735675567&lt;/smp:param&gt;
+	    &lt;/smp:paramList&gt;
+          &lt;smp:associationList&gt;
+            &lt;smp:association&gt;
+              &lt;smp:associationType&gt;contact_on_address&lt;/smp:associationType&gt;
+              &lt;smp:zEndKey xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                &lt;cmn:type&gt;SubAddressSpec:-&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+              &lt;/smp:zEndKey&gt;
+              &lt;smp:changeAction&gt;add&lt;/smp:changeAction&gt;
+            &lt;/smp:association&gt;
+          &lt;/smp:associationList&gt;
+        &lt;/smp:entityValue&gt;
+        &lt;smpcbe:entityValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcType&quot;&gt;
+          &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;inactive&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+          &lt;smp:serviceKey&gt;
+            &lt;cmn:type&gt;SubSvcSpec:samp_sub&lt;/cmn:type&gt;
+            &lt;smp:externalKey&gt;samp_sub_101010101&lt;/smp:externalKey&gt;
+          &lt;/smp:serviceKey&gt;
+          &lt;smp:paramList&gt;
+            &lt;smpcbe:param name=&quot;acct&quot; xsi:nil=&quot;true&quot;/&gt;
+          &lt;/smp:paramList&gt;
+          &lt;smp:associationList&gt;
+            &lt;smpcbe:association&gt;
+              &lt;smpcbe:associationType&gt;service_on_address&lt;/smpcbe:associationType&gt;
+              &lt;smp:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                &lt;cmn:type&gt;SubAddressSpec:-&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+              &lt;/smp:zEndKey&gt;
+              &lt;smpcbe:changeAction&gt;add&lt;/smpcbe:changeAction&gt;
+            &lt;/smpcbe:association&gt;
+          &lt;/smp:associationList&gt;
+        &lt;/smpcbe:entityValue&gt;
+      &lt;/smpcbe:entityList&gt;
+    &lt;/smp:subscriber&gt;
+  &lt;/smp:orderValue&gt;
+&lt;/smpsa:executeOrderRequest&gt;</xmlRequest> 
+  </m:executeXml>
+  </SOAP-ENV:Body>
+  </SOAP-ENV:Envelope>

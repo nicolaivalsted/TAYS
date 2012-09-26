@@ -1,0 +1,54 @@
+<!--
+D06_CVB_Step1_XML.xml
+This request will come from TRIPLE
+
+Following services will be deleted:
+1. wifi_service as a child service of cable_broadband service.
+	
+-->
+<!-- $Id: D06_CVB_Step1_XML.xml,v 1.1 2009/11/23 13:29:28 varshag Exp $ -->
+<smpsa:executeOrderRequest xmlns:smpsa="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service">
+  <smp:orderValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xsi:type="smp:ActionOrderValue">
+    <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+    <sa:apiClientId>TRIPLE</sa:apiClientId>
+    <sa:orderKey xsi:type="smp:OrderKeyType">
+      <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+      <sa:primaryKey>-1</sa:primaryKey>
+    </sa:orderKey>
+    <sa:priority>3</sa:priority>
+    <sa:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType">open.not_running.not_started</sa:orderState>
+    <smp:subKey>
+      <cmn:type>SubSpec:-</cmn:type>
+      <smpcbe:primaryKey>235003</smpcbe:primaryKey>
+    </smp:subKey>
+    <smp:orderParamList>
+      <smpcmn:param name="queue_request_flag">yes</smpcmn:param>
+      <smpcmn:param name="has_groups">yes</smpcmn:param>
+    </smp:orderParamList>
+    <smp:orderItemList>
+      <smp:orderItem>
+        <smp:action>delete</smp:action>
+        <smp:itemParamList/>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+          <smp:externalKey>wifi_service_20007</smp:externalKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="deleted" xsi:type="smp:SubSvcStateType">inactive</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:wifi_service</cmn:type>
+            <smp:externalKey>wifi_service_20007</smp:externalKey>
+          </smp:serviceKey>
+          <smp:parentServiceKey>
+            <cmn:type>SubSvc</cmn:type>
+            <smp:externalKey>cable_broadband_20001</smp:externalKey>
+          </smp:parentServiceKey>
+          <smp:paramList>
+            <smpcbe:param name="wifi_service_product_code">ABCD</smpcbe:param>
+            <smpcbe:param name="wifi_service_id">20007</smpcbe:param>
+          </smp:paramList>
+        </smpsa:entityValue>
+      </smp:orderItem>
+    </smp:orderItemList>
+  </smp:orderValue>
+</smpsa:executeOrderRequest>

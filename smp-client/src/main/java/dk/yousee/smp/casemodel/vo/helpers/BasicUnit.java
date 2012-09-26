@@ -1,0 +1,292 @@
+package dk.yousee.smp.casemodel.vo.helpers;
+
+import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.order.model.Action;
+import dk.yousee.smp.order.model.OrderData;
+import dk.yousee.smp.order.model.OrderDataAssociation;
+import dk.yousee.smp.order.model.OrderDataLevel;
+import dk.yousee.smp.order.model.OrderDataType;
+import dk.yousee.smp.order.model.ProvisionStateEnum;
+import dk.yousee.smp.order.model.ResponseAssociation;
+import dk.yousee.smp.order.model.ResponseEntity;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by IntelliJ IDEA.
+ * User: m14857
+ * Date: Oct 13, 2010
+ * Time: 3:11:30 PM
+ * The common object for the model value objects.
+ */
+public abstract class BasicUnit {
+
+    /**
+     * Entity that describes this service plan node in the subscriber response. Null means it does not exist
+     */
+
+    private ResponseEntity entity;
+
+    public ResponseEntity getEntity() {
+        return entity;
+    }
+
+    /**
+     * Unit that this service plan element belongs to, null means no parent
+     */
+
+    private BasicUnit parent = null;
+
+    private List<BasicUnit> childrenServices = new ArrayList<BasicUnit>();
+    /**
+     * The order data this unit is constructing
+     */
+    private List<OrderData> orderDatas = new ArrayList<OrderData>();
+
+    private OrderData cloneADDOrderData = null;
+
+    private OrderDataType type;
+
+    public OrderDataType getType() {
+        return type;
+    }
+
+    private OrderDataLevel level;
+
+    private SubscriberModel model;
+
+    private String externalKey;
+
+
+    /**
+     * constructs a basic unit with relevant settings.<br/>
+     * 1) Establish entity reference.<br/>
+     * 2) Establish reference to parent and parents reference to me<br/>
+     *
+     * @param model       that is under construction
+     * @param externalKey instance id
+     * @param type        "class id"
+     * @param level       "where in hierarchy"
+     * @param parent      the service plan this unit belongs to (null means no parent, it could be a service plan it self)
+     */
+    protected BasicUnit(SubscriberModel model, String externalKey, OrderDataType type, OrderDataLevel level, BasicUnit parent) {
+        this.model = model;
+        this.type = type;
+        this.level = level;
+        this.externalKey = externalKey;
+        this.parent = parent;
+        if (parent != null) {
+            parent.addChild(this);
+            if (parent.getEntity() != null) {
+                this.entity = findBelong2me(parent.getEntity());
+            }
+        } else {
+            if (model.getResponse() != null) {
+                this.entity = findBelong2me(model.getResponse().getSmp());
+            }
+        }
+    }
+
+    protected BasicUnit getParent() {
+        return parent;
+    }
+
+    public List<BasicUnit> getChildrenServices() {
+        return childrenServices;
+    }
+
+    /**
+     * Searches the subscribers existing entities to find the one this unit belongs to
+     *
+     * @param entity starting point (first called from top)
+     * @return the entity that matches, null if none matches
+     */
+    ResponseEntity findBelong2me(ResponseEntity entity) {
+        if (entity == null) return null;
+        if (this.externalKey.equals(entity.getExternalKey())
+                && (this.getType().equals(entity.getType()))) return entity;
+        for (ResponseEntity child : entity.getEntities()) {
+            ResponseEntity mine = findBelong2me(child);
+            if (mine != null) return mine;
+        }
+        return null;
+    }
+
+
+
+    protected void assignValueToKey(String key, String value) {
+        OrderData orderData = getDefaultOrderData();
+        if (getValueByKeyInResponse(key) != null && getValueByKeyInResponse(key).equals(value)) {
+            //ignore
+        } else {
+            orderData.getParams().put(key, value);
+        }
+    }
+
+    protected void assignAssociation(OrderDataAssociation orderDataAssociation) {
+        OrderData orderData = getDefaultOrderData();
+        orderData.getAssociations().add(orderDataAssociation);
+    }
+
+    protected ResponseAssociation getAssociationByTypeInResponse(String type) {
+        if (entity != null && entity.getAssociations() != null)
+            for (ResponseAssociation responseAssociation : entity.getAssociations()) {
+                if (responseAssociation.getAssociationType().equalsIgnoreCase(type)) {
+                    return responseAssociation;
+                }
+            }
+        return null;
+    }
+
+
+    protected String getValueByKeyInResponse(String key) {
+        if (entity != null && entity.getParams() != null) {
+            return entity.getParams().get(key);
+        } else {
+            return null;
+        }
+    }
+
+
+    protected String getValueByKeyInDefaultOrderData(String key) {
+        OrderData orderData = getDefaultOrderData();
+        return orderData.getParams().get(key);
+    }
+
+    /**
+     * @return true : if there is DefaultOrderData.
+     */
+    public boolean isDefaultOrderDataExist() {
+        return !orderDatas.isEmpty();
+    }
+
+    public OrderData getCloneADDOrderData() {
+        if (cloneADDOrderData == null) {
+            cloneADDOrderData = new OrderData();
+            cloneADDOrderData.setType(getType());
+            cloneADDOrderData.setExternalKey(getExternalKey());
+            cloneADDOrderData.setLevel(level);
+            cloneADDOrderData.setAction(Action.ACTIVATE);
+            cloneADDOrderData.getParams().putAll(entity.getParams());
+            model.getOrder().getOrderData().add(cloneADDOrderData);
+            return cloneADDOrderData;
+        } else {
+            return cloneADDOrderData;
+        }
+    }
+
+    /**
+     * @return order data. Postcondition: always an object, never null
+     */
+    public OrderData getDefaultOrderData() {
+        if (orderDatas.isEmpty()) {
+            OrderData od = new OrderData();
+            od.setType(getType());
+            od.setExternalKey(getExternalKey());
+            od.setLevel(level);
+
+            if (entity == null) {
+                od.setAction(Action.ACTIVATE);
+            } else {
+                od.setAction(Action.UPDATE);
+                //od.getParams().putAll(entity.getParams());
+            }
+            orderDatas.add(od);
+            if (parent == null) {
+                model.getOrder().getOrderData().add(od);
+            } else {
+                // use CloneADDOrderData and Level.SERVICE_HIDDEN for the case that parent exist and we could igonore it.
+                if (od.getAction() == Action.ACTIVATE && parent.getEntity() != null) {
+                    getDefaultOrderData().setParent(parent.getCloneADDOrderData());
+                    OrderData po = parent.getCloneADDOrderData();
+                    parent.getCloneADDOrderData().setLevel(OrderDataLevel.SERVICE_HIDDEN);
+                    po.getChildren().add(od);
+                } else {
+                    getDefaultOrderData().setParent(parent.getDefaultOrderData());
+                    OrderData po = parent.getDefaultOrderData();
+                    po.getChildren().add(od);
+                }
+
+            }
+        }
+        return orderDatas.get(0);
+    }
+
+    protected void addChild(BasicUnit unit) {
+        childrenServices.add(unit);
+    }
+
+
+    public String getExternalKey() {
+        return externalKey;
+    }
+
+//    public List<BasicUnit> getUnitByType(OrderDataType type) {
+//        List<BasicUnit> units = new ArrayList<BasicUnit>();
+//        for (BasicUnit unit : childrenServices) {
+//            if (unit.getType().equals(type)) {
+//                units.add(unit);
+//                if (unit.getChildrenServices() != null && unit.getChildrenServices().size() > 0) {
+//                    for (BasicUnit childunit : unit.getChildrenServices()) {
+//                        units.addAll(childunit.getUnitByType(type));
+//                    }
+//                }
+//            }
+//        }
+//        return units;
+//    }
+
+    /**
+     * Cause to send delete command to sigma
+     */
+    public void delete() {
+        // to delete , we should 
+        if (parent != null) {
+            parent.getDefaultOrderData().setLevel(OrderDataLevel.SERVICE_HIDDEN);
+        }
+        sendAction(Action.DELETE);
+    }
+
+    /**
+     * Cause to send the specified action to sigma
+     *
+     * @param action - to send to sigma
+     */
+    public void sendAction(Action action) {
+        OrderData od = getDefaultOrderData();
+        od.setAction(action);
+    }
+
+    /**
+     * Cause to send the specified action to sigma - cascading to siblings
+     *
+     * @param action - to send to sigma
+     */
+    public void cascadeSendAction(Action action) {
+        this.sendAction(action);
+        for (BasicUnit child : getChildrenServices()) {
+            child.cascadeSendAction(action);
+        }
+    }
+
+    public ProvisionStateEnum getServicePlanState() {
+        if (getEntity() != null) {
+            return getEntity().getState();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append(" type=").append(type);
+        sb.append(", level=").append(level);
+        sb.append(", model=").append(model);
+        sb.append(", externalKey='").append(externalKey).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
+}

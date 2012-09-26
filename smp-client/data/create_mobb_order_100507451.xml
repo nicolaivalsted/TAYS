@@ -1,0 +1,87 @@
+<executeOrderRequest xmlns="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com="http://java.sun.com/products/oss/xml/Common" xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:ser1="http://java.sun.com/products/oss/xml/CBE/Service">
+  <orderValue xsi:type="smp:ActionOrderValue" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+    <com:lastUpdateVersionNumber>-1</com:lastUpdateVersionNumber>
+    <ser:apiClientId>triple</ser:apiClientId>
+    <ser:orderKey xsi:type="smp:OrderKeyType">
+      <com:type>com.sigma.samp.cmn.order.SampOrderKey</com:type>
+      <ser:primaryKey>-1</ser:primaryKey>
+    </ser:orderKey>
+    <ser:priority>3</ser:priority>
+    <ser:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType">open.not_running.not_started</ser:orderState>
+    <subKey>
+      <com:type>SubSpec:-</com:type>
+      <smp2:externalKey xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">YouSee:user_600075862</smp2:externalKey>
+    </subKey>
+    <orderParamList>
+      <smp1:param name="queue_request_flag">yes</smp1:param>
+      <smp1:param name="has_groups">yes</smp1:param>
+    </orderParamList>
+    <orderItemList>
+      <orderItem>
+        <action>add</action>
+        <entityKey xsi:type="smp:SubSvcKeyType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+          <com:type>SubSvcSpec:sim_card</com:type>
+          <smp:externalKey>YouSee:sim_100507451</smp:externalKey>
+        </entityKey>
+        <entityValue xsi:type="smp:SubSvcType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+          <ser1:serviceState provisionState="active" xsi:type="smp:SubSvcStateType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">active</ser1:serviceState>
+          <smp:serviceKey>
+            <com:type>SubSvcSpec:sim_card</com:type>
+            <smp:externalKey>YouSee:sim_100507451</smp:externalKey>
+          </smp:serviceKey>
+          <smp:paramList>
+            <smp2:param name="sim_card_id" xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">89450100080724039617</smp2:param>
+            <smp2:param name="sim_card_service_id" xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">YouSee:sim_100507451</smp2:param>
+          </smp:paramList>
+          <smp:childServiceList/>
+        </entityValue>
+      </orderItem>
+      <orderItem>
+        <action>add</action>
+        <entityKey xsi:type="smp:SubSvcKeyType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+          <com:type>SubSvcSpec:mobile_broadband</com:type>
+          <smp:externalKey>YouSee:mbb_100507451</smp:externalKey>
+        </entityKey>
+        <entityValue xsi:type="smp:SubSvcType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+          <ser1:serviceState provisionState="active" xsi:type="smp:SubSvcStateType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">active</ser1:serviceState>
+          <smp:serviceKey>
+            <com:type>SubSvcSpec:mobile_broadband</com:type>
+            <smp:externalKey>YouSee:mbb_100507451</smp:externalKey>
+          </smp:serviceKey>
+          <smp:childServiceList>
+            <smp:serviceValue>
+              <ser1:serviceState provisionState="active" xsi:type="smp:SubSvcStateType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">active</ser1:serviceState>
+              <smp:serviceKey>
+                <com:type>SubSvcSpec:mobilebb_service_def</com:type>
+                <smp:externalKey>3707a60c-1da6-4695-b11b-7df37db31bd3</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <com:type>SubSvcSpec:mobile_broadband</com:type>
+                <smp:externalKey>YouSee:mbb_100507451</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smp2:param name="mobilebb_msisdn" xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">29836058</smp2:param>
+                <smp2:param name="mobilebb_product_code" xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">1601001</smp2:param>
+                <smp2:param name="mobilebb_service_id" xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">5e8d496d-f607-4337-ab6b-42ec874291a6</smp2:param>
+              </smp:paramList>
+            </smp:serviceValue>
+            <smp:serviceValue>
+              <ser1:serviceState provisionState="active" xsi:type="smp:SubSvcStateType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">active</ser1:serviceState>
+              <smp:serviceKey>
+                <com:type>SubSvcSpec:mobilebb_service_attribs</com:type>
+                <smp:externalKey>14b02712-76e2-467f-ae4f-9b4cbdb1bfc8</smp:externalKey>
+              </smp:serviceKey>
+              <smp:parentServiceKey>
+                <com:type>SubSvcSpec:mobile_broadband</com:type>
+                <smp:externalKey>YouSee:mbb_100507451</smp:externalKey>
+              </smp:parentServiceKey>
+              <smp:paramList>
+                <smp2:param name="mobilebb_service_attribs_id" xmlns:smp2="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">14b02712-76e2-467f-ae4f-9b4cbdb1bfc8</smp2:param>
+              </smp:paramList>
+            </smp:serviceValue>
+          </smp:childServiceList>
+        </entityValue>
+      </orderItem>
+    </orderItemList>
+  </orderValue>
+</executeOrderRequest>

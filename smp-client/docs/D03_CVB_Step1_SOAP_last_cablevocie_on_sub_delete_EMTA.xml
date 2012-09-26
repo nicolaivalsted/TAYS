@@ -1,0 +1,229 @@
+<!-- $Id: D03_CVB_Step1_SOAP_last_cablevocie_on_sub_delete_EMTA.xml,v 1.1 2009/11/23 13:29:27 varshag Exp $ -->
+<!--
+D03_CVB_Step1_SOAP_last_cablevocie_on_sub_delete_EMTA.xml
+
+This request will come from TRIPLE
+
+Following services will be deleted:
+TRIPLE will send delete on emta(cable mmodem and mta) only if subscriber has  cable voice plan as a last plan.
+1. cpe_composed
+       -smp_emta_cm_hsd_access
+       -smp_emta_pc_voip_access
+
+2. voice service with its child services
+	- smp_switch_dial_tone_access
+	- smp_switch_feature_pkg_std
+	- primary_voicemail_box	-optional
+-->
+
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<SOAP-ENV:Body>
+<m:executeXml xmlns:m="http://www.sigma-systems.com/schemas/3.1/SmpXmlOrderAPI" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <xmlRequest xsi:type="xsd:string">&lt;smpsa:executeOrderRequest xmlns:smpsa=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns:cmn=&quot;http://java.sun.com/products/oss/xml/Common&quot; xmlns:sa=&quot;http://java.sun.com/products/oss/xml/ServiceActivation&quot; xmlns:smpcbe=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xmlns:smpcmn=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCommonValues&quot; xmlns:cbesvc=&quot;http://java.sun.com/products/oss/xml/CBE/Service&quot;&gt;
+  &lt;smp:orderValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; xsi:type=&quot;smp:ActionOrderValue&quot;&gt;
+    &lt;cmn:lastUpdateVersionNumber&gt;-1&lt;/cmn:lastUpdateVersionNumber&gt;
+    &lt;sa:apiClientId&gt;TRIPLE&lt;/sa:apiClientId&gt;
+    &lt;sa:orderKey xsi:type=&quot;smp:OrderKeyType&quot;&gt;
+      &lt;cmn:type&gt;com.sigma.samp.cmn.order.SampOrderKey&lt;/cmn:type&gt;
+      &lt;sa:primaryKey&gt;-1&lt;/sa:primaryKey&gt;
+    &lt;/sa:orderKey&gt;
+    &lt;sa:priority&gt;3&lt;/sa:priority&gt;
+    &lt;sa:orderState smpState=&quot;open.not_running.not_started&quot; xsi:type=&quot;smp:SubOrderStateType&quot;&gt;open.not_running.not_started&lt;/sa:orderState&gt;
+    &lt;smp:subKey&gt;
+      &lt;cmn:type&gt;SubSpec:-&lt;/cmn:type&gt;
+      &lt;smpcbe:primaryKey&gt;235002&lt;/smpcbe:primaryKey&gt;
+    &lt;/smp:subKey&gt;
+    &lt;smp:orderParamList&gt;
+      &lt;smpcmn:param name=&quot;queue_request_flag&quot;&gt;yes&lt;/smpcmn:param&gt;
+      &lt;smpcmn:param name=&quot;has_groups&quot;&gt;yes&lt;/smpcmn:param&gt;
+    &lt;/smp:orderParamList&gt;
+    &lt;smp:orderItemList&gt;
+      &lt;smp:orderItem&gt;
+        &lt;smp:action&gt;delete&lt;/smp:action&gt;
+        &lt;smp:itemParamList/&gt;
+        &lt;smpsa:entityKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+          &lt;cmn:type&gt;SubSvcSpec:smp_voice_line&lt;/cmn:type&gt;
+          &lt;smp:externalKey&gt;smp_voice_line_10004&lt;/smp:externalKey&gt;
+        &lt;/smpsa:entityKey&gt;
+        &lt;smpsa:entityValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcType&quot;&gt;
+          &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+          &lt;smp:serviceKey&gt;
+            &lt;cmn:type&gt;SubSvcSpec:smp_voice_line&lt;/cmn:type&gt;
+            &lt;smp:externalKey&gt;smp_voice_line_10004&lt;/smp:externalKey&gt;
+          &lt;/smp:serviceKey&gt;
+          &lt;smp:childServiceList&gt;
+            &lt;smp:serviceValue&gt;
+              &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+              &lt;smp:serviceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_switch_dial_tone_access&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_switch_dial_tone_access_10001&lt;/smp:externalKey&gt;
+              &lt;/smp:serviceKey&gt;
+              &lt;smp:parentServiceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_voice_line&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_voice_line_10004&lt;/smp:externalKey&gt;
+              &lt;/smp:parentServiceKey&gt;
+              &lt;smp:paramList&gt;
+              &lt;/smp:paramList&gt;
+              &lt;smp:associationList&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_on_address&lt;/smpcbe:associationType&gt;
+                  &lt;smp:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubAddress&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+                  &lt;/smp:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;dt_has_access&lt;/smpcbe:associationType&gt;
+                  &lt;smpcbe:zEndKey xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubSvc&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;smp_emta_pc_voip_access_4444444444412&lt;/smp:externalKey&gt;
+                  &lt;/smpcbe:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+              &lt;/smp:associationList&gt;
+            &lt;/smp:serviceValue&gt;
+            &lt;smp:serviceValue&gt;
+              &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+              &lt;smp:serviceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_switch_feature_pkg_std&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_switch_feature_pkg_std_10002&lt;/smp:externalKey&gt;
+              &lt;/smp:serviceKey&gt;
+              &lt;smp:parentServiceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_voice_line&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_voice_line_10004&lt;/smp:externalKey&gt;
+              &lt;/smp:parentServiceKey&gt;
+              &lt;smp:paramList&gt;
+              &lt;/smp:paramList&gt;
+              &lt;smp:associationList&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_on_address&lt;/smpcbe:associationType&gt;
+                  &lt;smp:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubAddress&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+                  &lt;/smp:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+              &lt;/smp:associationList&gt;
+            &lt;/smp:serviceValue&gt;
+            &lt;smp:serviceValue&gt;
+              &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+              &lt;smp:serviceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:primary_voicemail_box&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;primary_voicemail_box_10003&lt;/smp:externalKey&gt;
+              &lt;/smp:serviceKey&gt;
+              &lt;smp:parentServiceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_voice_line&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_voice_line_10004&lt;/smp:externalKey&gt;
+              &lt;/smp:parentServiceKey&gt;
+              &lt;smp:paramList&gt;
+              &lt;/smp:paramList&gt;
+              &lt;smp:associationList&gt;
+                &lt;smp:association xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:ParmAssocType&quot;&gt;
+                  &lt;smp:associationType&gt;service_parm_has_prereq&lt;/smp:associationType&gt;
+                  &lt;smpcbe:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubSvcSpec:smp_switch_dial_tone_access&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;smp_switch_dial_tone_access_10001&lt;/smp:externalKey&gt;
+                  &lt;/smpcbe:zEndKey&gt;
+                  &lt;smp:aParamName&gt;telephone_number&lt;/smp:aParamName&gt;
+                  &lt;smp:zParamName&gt;telephone_number&lt;/smp:zParamName&gt;
+                &lt;/smp:association&gt;
+                &lt;smp:association xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:ParmAssocType&quot;&gt;
+                  &lt;smp:associationType&gt;service_parm_has_prereq&lt;/smp:associationType&gt;
+                  &lt;smpcbe:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubSvcSpec:smp_switch_dial_tone_access&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;smp_switch_dial_tone_access_10001&lt;/smp:externalKey&gt;
+                  &lt;/smpcbe:zEndKey&gt;
+                  &lt;smp:aParamName&gt;mta_fqdn&lt;/smp:aParamName&gt;
+                  &lt;smp:zParamName&gt;mta_fqdn&lt;/smp:zParamName&gt;
+                &lt;/smp:association&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_has_prereq&lt;/smpcbe:associationType&gt;
+                  &lt;smpcbe:zEndKey xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubSvcSpec:smp_switch_dial_tone_access&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;smp_switch_dial_tone_access_10001&lt;/smp:externalKey&gt;
+                  &lt;/smpcbe:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_has_prereq&lt;/smpcbe:associationType&gt;
+                  &lt;smpcbe:zEndKey xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubSvcSpec:smp_switch_feature_pkg_std&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;smp_switch_feature_pkg_std_10002&lt;/smp:externalKey&gt;
+                  &lt;/smpcbe:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_on_address&lt;/smpcbe:associationType&gt;
+                  &lt;smp:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubAddress&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+                  &lt;/smp:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+              &lt;/smp:associationList&gt;
+            &lt;/smp:serviceValue&gt;
+          &lt;/smp:childServiceList&gt;
+        &lt;/smpsa:entityValue&gt;
+      &lt;/smp:orderItem&gt;
+      &lt;smp:orderItem&gt;
+        &lt;smp:action&gt;delete&lt;/smp:action&gt;
+        &lt;smp:itemParamList/&gt;
+        &lt;smpsa:entityKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcKeyType&quot;&gt;
+          &lt;cmn:type&gt;SubSvcSpec:cpe_composed&lt;/cmn:type&gt;
+          &lt;smp:externalKey&gt;cpe_composed_30001&lt;/smp:externalKey&gt;
+        &lt;/smpsa:entityKey&gt;
+        &lt;smpsa:entityValue xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema&quot; xsi:type=&quot;smp:SubSvcType&quot;&gt;
+          &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+          &lt;smp:serviceKey&gt;
+            &lt;cmn:type&gt;SubSvcSpec:cpe_composed&lt;/cmn:type&gt;
+            &lt;smp:externalKey&gt;cpe_composed_30001&lt;/smp:externalKey&gt;
+          &lt;/smp:serviceKey&gt;
+          &lt;smp:childServiceList&gt;
+            &lt;smp:serviceValue&gt;
+              &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+              &lt;smp:serviceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_emta_cm_hsd_access&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_emta_cm_hsd_access_30002&lt;/smp:externalKey&gt;
+              &lt;/smp:serviceKey&gt;
+              &lt;smp:parentServiceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:cpe_composed&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;cpe_composed_30001&lt;/smp:externalKey&gt;
+              &lt;/smp:parentServiceKey&gt;
+              &lt;smp:paramList&gt;
+              &lt;/smp:paramList&gt;
+              &lt;smp:associationList&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_on_address&lt;/smpcbe:associationType&gt;
+                  &lt;smp:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubAddress&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+                  &lt;/smp:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+              &lt;/smp:associationList&gt;
+            &lt;/smp:serviceValue&gt;
+            &lt;smp:serviceValue&gt;
+              &lt;cbesvc:serviceState xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema&quot; provisionState=&quot;deleted&quot; xsi:type=&quot;smp:SubSvcStateType&quot;&gt;inactive&lt;/cbesvc:serviceState&gt;
+              &lt;smp:serviceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:smp_emta_pc_voip_access&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;smp_emta_pc_voip_access_30003&lt;/smp:externalKey&gt;
+              &lt;/smp:serviceKey&gt;
+              &lt;smp:parentServiceKey&gt;
+                &lt;cmn:type&gt;SubSvcSpec:cpe_composed&lt;/cmn:type&gt;
+                &lt;smp:externalKey&gt;cpe_composed_30001&lt;/smp:externalKey&gt;
+              &lt;/smp:parentServiceKey&gt;
+              &lt;smp:paramList&gt;
+              &lt;/smp:paramList&gt;
+              &lt;smp:associationList&gt;
+                &lt;smpcbe:association&gt;
+                  &lt;smpcbe:associationType&gt;service_on_address&lt;/smpcbe:associationType&gt;
+                  &lt;smp:zEndKey xmlns:smp=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot; xsi:type=&quot;smp:SubAddressKeyType&quot;&gt;
+                    &lt;cmn:type&gt;SubAddress&lt;/cmn:type&gt;
+                    &lt;smp:externalKey&gt;primary&lt;/smp:externalKey&gt;
+                  &lt;/smp:zEndKey&gt;
+                &lt;/smpcbe:association&gt;
+              &lt;/smp:associationList&gt;
+            &lt;/smp:serviceValue&gt;
+          &lt;/smp:childServiceList&gt;
+        &lt;/smpsa:entityValue&gt;
+      &lt;/smp:orderItem&gt;
+    &lt;/smp:orderItemList&gt;
+  &lt;/smp:orderValue&gt;
+&lt;/smpsa:executeOrderRequest&gt;</xmlRequest> 
+  </m:executeXml>
+  </SOAP-ENV:Body>
+  </SOAP-ENV:Envelope>

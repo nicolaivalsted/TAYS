@@ -1,0 +1,28 @@
+<!--
+A02_CVB_Step5_Query_SMP_SOAP.xml
+
+TThis is named query using account number.
+-->
+<!-- $Id: A02_CVB_Step5_Query_SMP_SOAP.xml,v 1.1 2009/11/23 13:29:20 varshag Exp $ -->
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<SOAP-ENV:Body>
+<m:executeXml xmlns:m="http://www.sigma-systems.com/schemas/3.1/SmpXmlOrderAPI" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <xmlRequest xsi:type="xsd:string">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;!-- $Id: A02_CVB_Step5_Query_SMP_SOAP.xml,v 1.1 2009/11/23 13:29:20 varshag Exp $ --&gt;
+&lt;getEntityByKeyRequest xmlns=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema&quot;  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; cascadeLoading=&quot;true&quot;&gt;
+    &lt;entityKeyLst&gt;
+           &lt;entityKey xsi:type=&quot;SubKeyType&quot;&gt;
+            &lt;cmn:type xmlns:cmn=&quot;http://java.sun.com/products/oss/xml/Common&quot;&gt;SubSpec:-&lt;/cmn:type&gt;
+             &lt;nameQuery xmlns:smpcmn=&quot;http://www.sigma-systems.com/schemas/3.1/SmpCommonValues&quot;&gt;
+               &lt;smpcmn:queryName&gt;get_id_by_parm&lt;/smpcmn:queryName&gt;
+               &lt;smpcmn:inputParamList&gt;
+                  &lt;smpcmn:param name=&quot;acct&quot;&gt;4444444444466&lt;/smpcmn:param&gt;
+               &lt;/smpcmn:inputParamList&gt;
+             &lt;/nameQuery&gt;
+          &lt;/entityKey&gt;
+    &lt;/entityKeyLst&gt;
+&lt;/getEntityByKeyRequest&gt;
+</xmlRequest> 
+  </m:executeXml>
+  </SOAP-ENV:Body>
+  </SOAP-ENV:Envelope>  

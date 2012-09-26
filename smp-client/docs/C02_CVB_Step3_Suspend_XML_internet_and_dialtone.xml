@@ -1,0 +1,110 @@
+<!--
+C02_CVB_Step3_Suspend_XML_internet_and_dialtone.xml
+This request will come from TRIPLE
+
+Following services will be suspended(update on internet and dial tone for parms product code and cos restrict id respectively):
+1. 	- smp_switch_dial_tone_access  -along with suspend cos restrict id
+	
+2. 	-internet_access  -along with supend product code
+	
+-->
+<!-- $Id: C02_CVB_Step3_Suspend_XML_internet_and_dialtone.xml,v 1.2 2010/02/18 13:41:39 pallavic Exp $ -->
+
+<smpsa:executeOrderRequest xmlns:smpsa="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service">
+  <smp:orderValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" xsi:type="smp:ActionOrderValue">
+    <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+    <sa:apiClientId>web</sa:apiClientId>
+    <sa:orderKey xsi:type="smp:OrderKeyType">
+      <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+      <sa:primaryKey>-1</sa:primaryKey>
+    </sa:orderKey>
+    <sa:priority>3</sa:priority>
+    <sa:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType">open.not_running.not_started</sa:orderState>
+    <smp:subKey>
+      <cmn:type>SubSpec:-</cmn:type>
+      <smpcbe:primaryKey>60103</smpcbe:primaryKey>
+    </smp:subKey>
+    <smp:orderParamList>
+      <smpcmn:param name="queue_request_flag">yes</smpcmn:param>
+      <smpcmn:param name="has_groups">yes</smpcmn:param>
+    </smp:orderParamList>
+    <smp:orderItemList>
+      <smp:orderItem>
+        <smp:action>update</smp:action>
+        <smp:itemParamList/>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:internet_access</cmn:type>
+          <smp:externalKey>internet_access_1100000000000</smp:externalKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="courtesy_block" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:internet_access</cmn:type>
+            <smp:externalKey>internet_access_1100000000000</smp:externalKey>
+          </smp:serviceKey>
+          <smp:parentServiceKey>
+            <cmn:type>SubSvc</cmn:type>
+            <smp:externalKey>cable_broadband_1100000000000</smp:externalKey>
+          </smp:parentServiceKey>
+          <smp:paramList>
+            <smpcbe:param name="rate_codes">5670088366</smpcbe:param>
+          </smp:paramList>
+          <smp:associationList>
+            <smpcbe:association>
+              <smpcbe:associationType>service_on_address</smpcbe:associationType>
+              <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                <cmn:type>SubAddress</cmn:type>
+                <smp:externalKey>primary</smp:externalKey>
+              </smp:zEndKey>
+            </smpcbe:association>
+            <smpcbe:association>
+              <smpcbe:associationType>internet_access_has_emta_cm</smpcbe:associationType>
+              <smpcbe:zEndKey xsi:type="smp:SubSvcKeyType">
+                <cmn:type>SubSvc</cmn:type>
+                <smp:externalKey>smp_emta_cm_hsd_access_1100000000000</smp:externalKey>
+              </smpcbe:zEndKey>
+            </smpcbe:association>
+          </smp:associationList>
+        </smpsa:entityValue>
+      </smp:orderItem>
+      <smp:orderItem>
+        <smp:action>update</smp:action>
+        <smp:itemParamList/>
+        <smpsa:entityKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcKeyType">
+          <cmn:type>SubSvcSpec:smp_switch_dial_tone_access</cmn:type>
+          <smp:externalKey>smp_switch_dial_tone_access_1100000000000</smp:externalKey>
+        </smpsa:entityKey>
+        <smpsa:entityValue xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xsi:type="smp:SubSvcType">
+          <cbesvc:serviceState xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" provisionState="courtesy_block" xsi:type="smp:SubSvcStateType">active</cbesvc:serviceState>
+          <smp:serviceKey>
+            <cmn:type>SubSvcSpec:smp_switch_dial_tone_access</cmn:type>
+            <smp:externalKey>smp_switch_dial_tone_access_1100000000000</smp:externalKey>
+          </smp:serviceKey>
+          <smp:parentServiceKey>
+            <cmn:type>SubSvc</cmn:type>
+            <smp:externalKey>smp_voice_line_10004</smp:externalKey>
+          </smp:parentServiceKey>
+          <smp:paramList>
+            <smpcbe:param name="cos_restrict_id">4566757</smpcbe:param>
+          </smp:paramList>
+          <smp:associationList>
+            <smpcbe:association>
+              <smpcbe:associationType>service_on_address</smpcbe:associationType>
+              <smp:zEndKey xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" xsi:type="smp:SubAddressKeyType">
+                <cmn:type>SubAddress</cmn:type>
+                <smp:externalKey>primary</smp:externalKey>
+              </smp:zEndKey>
+            </smpcbe:association>
+            <smpcbe:association>
+              <smpcbe:associationType>dt_has_access</smpcbe:associationType>
+              <smpcbe:zEndKey xsi:type="smp:SubSvcKeyType">
+                <cmn:type>SubSvc</cmn:type>
+                <smp:externalKey>smp_emta_pc_voip_access_1100000000000</smp:externalKey>
+              </smpcbe:zEndKey>
+            </smpcbe:association>
+          </smp:associationList>
+        </smpsa:entityValue>
+      </smp:orderItem>
+    </smp:orderItemList>
+  </smp:orderValue>
+</smpsa:executeOrderRequest>

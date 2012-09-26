@@ -1,0 +1,1295 @@
+<sa:queryOrdersResponse xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation"
+                        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                        xmlns:cmn="http://java.sun.com/products/oss/xml/Common"
+                        xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema"
+                        xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">
+    <sa:orderValue>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-12-02T15:34:32.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>429324</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-12-02T15:34:32.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-12-02T15:34:32.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>429323</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>648741</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-12-02T15:34:32.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>648742</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-12-02T15:34:32.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-12-02T15:34:32.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T12:16:24.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>297979</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T12:16:24.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T12:16:24.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>297978</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>451927</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T12:16:24.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>451928</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T12:16:24.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T12:16:24.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T12:05:40.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>296984</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T12:05:40.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T12:05:40.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>296983</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>450433</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T12:05:40.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>450434</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T12:05:40.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T12:05:40.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T12:02:09.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>296383</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T12:02:09.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T12:02:09.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>296382</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>449357</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T12:02:09.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>449356</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T12:02:09.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T12:02:09.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T11:49:55.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>295159</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T11:49:55.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T11:49:55.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>295158</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>448638</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T11:49:55.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>448639</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T11:49:55.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T11:49:55.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T11:33:15.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>294219</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T11:33:15.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T11:33:15.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>294218</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>447995</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T11:33:15.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>447994</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T11:33:15.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T11:33:15.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T10:05:18.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>292420</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T10:05:18.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T10:05:18.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>292419</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>445303</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T10:05:18.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>445302</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T10:05:18.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T10:05:18.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T09:54:30.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>291485</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T09:54:30.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T09:54:30.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>291484</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>444934</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T09:54:30.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>444935</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T09:54:30.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T09:54:30.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T09:16:58.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>290550</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T09:16:58.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T09:16:58.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>290549</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>444270</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T09:16:58.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>444271</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T09:16:58.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T09:16:58.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T09:06:12.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>289613</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T09:06:12.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-11-17T09:06:12.000+01:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>289612</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>442609</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T09:06:12.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>442610</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-11-17T09:06:12.000+01:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-11-17T09:06:12.000+01:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-09-08T11:20:40.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>187114</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-09-08T11:20:40.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-09-08T11:20:39.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>187113</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>286372</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-09-08T11:20:39.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>286371</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-09-08T11:20:39.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-09-08T11:20:39.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-06-10T10:22:21.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>47030</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-06-10T10:22:21.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-06-10T10:22:21.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>47029</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>65863</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-10T10:22:21.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>65862</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-10T10:22:21.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-06-10T10:22:21.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-06-10T09:59:35.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>45788</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-06-10T09:59:35.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-06-10T09:59:34.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>45787</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>66117</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-10T09:59:34.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>66116</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>update</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-10T09:59:34.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-06-10T09:59:34.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-06-01T14:26:45.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>11486</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList/>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-06-01T14:26:45.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+        <sa:item xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                 xsi:type="smp:ActionOrderValue">
+            <cmn:lastUpdateVersionNumber>-1</cmn:lastUpdateVersionNumber>
+            <sa:actualCompletionDate>2010-06-01T14:26:45.000+02:00</sa:actualCompletionDate>
+            <sa:orderKey xsi:type="smp:OrderKeyType">
+                <cmn:type>com.sigma.samp.cmn.order.SampOrderKey</cmn:type>
+                <sa:primaryKey>11485</sa:primaryKey>
+            </sa:orderKey>
+            <sa:priority>3</sa:priority>
+            <sa:orderState smpState="closed.completed.all" xsi:type="smp:SubOrderStateType">closed.completed
+            </sa:orderState>
+            <smp:subKey>
+                <cmn:type>Sub</cmn:type>
+                <smpcbe:primaryKey>129729</smpcbe:primaryKey>
+            </smp:subKey>
+            <smp:orderParamList>
+                <smpcmn:param name="has_groups">no</smpcmn:param>
+            </smp:orderParamList>
+            <smp:orderItemList>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>13798</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>add</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubSvcSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubSvcSpec:samp_sub</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">606061</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-01T14:26:45.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>13796</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>add</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubAddressSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubAddressSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-01T14:26:45.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>13797</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>add</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubContactSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubContactSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-01T14:26:45.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+                <smp:orderItem>
+                    <smp:orderItemKey>
+                        <cmn:type>com.sigma.samp.cmn.order.SampOrderLineItemValue</cmn:type>
+                        <sa:primaryKey>13795</sa:primaryKey>
+                    </smp:orderItemKey>
+                    <smp:action>add</smp:action>
+                    <smp:itemParamList>
+                        <smpcmn:param name="entity.spec_column_nm">SubSpec</smpcmn:param>
+                        <smpcmn:param name="entity.entity_type">SubSpec:</smpcmn:param>
+                        <smpcmn:param name="is_overdue">n</smpcmn:param>
+                        <smpcmn:param name="samp_sub_key">SubKey[129729]</smpcmn:param>
+                        <smpcmn:param name="has_impact">n</smpcmn:param>
+                        <smpcmn:param name="item_object_id">129729</smpcmn:param>
+                        <smpcmn:param name="display_id">613140059</smpcmn:param>
+                    </smp:itemParamList>
+                    <smp:itemState>closed.completed.enforced</smp:itemState>
+                    <smp:auditInfo>
+                        <smpcmn:createdDateTime>2010-06-01T14:26:45.000+02:00</smpcmn:createdDateTime>
+                        <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+                    </smp:auditInfo>
+                </smp:orderItem>
+            </smp:orderItemList>
+            <smp:auditInfo>
+                <smpcmn:createdDateTime>2010-06-01T14:26:45.000+02:00</smpcmn:createdDateTime>
+                <smpcmn:createdBy>samp.csra1</smpcmn:createdBy>
+            </smp:auditInfo>
+        </sa:item>
+    </sa:orderValue>
+</sa:queryOrdersResponse>

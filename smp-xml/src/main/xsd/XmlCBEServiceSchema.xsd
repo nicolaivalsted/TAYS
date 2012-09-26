@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+//=============================================================================
+//
+//  FILE INFO
+//    $Id: XmlCBEServiceSchema.xsd,v 1.2 2006/04/26 20:23:59 sorinelc Exp $
+//
+//  DESCRIPTION
+//
+//  REVISION HISTORY
+//  *  Based on CVS log
+//
+//  Copyright (c) 1993 - 2006 Sigma Systems Canada Inc. All rights reserved.
+//=============================================================================
+-->
+<schema targetNamespace="http://java.sun.com/products/oss/xml/CBE/Service" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:common="http://java.sun.com/products/oss/xml/Common" xmlns:cbeparty="http://java.sun.com/products/oss/xml/CBE/Party" xmlns:cbe-location="http://java.sun.com/products/oss/xml/CBE/Location" xmlns:cbe-service="http://java.sun.com/products/oss/xml/CBE/Service" xmlns:sa="http://java.sun.com/products/oss/xml/ServiceActivation" xmlns:cbe-datatypes="http://java.sun.com/products/oss/xml/CBE/DataTypes" xmlns:cbe-resource="http://java.sun.com/products/oss/xml/CBE/Resource" xmlns:cbe-core="http://java.sun.com/products/oss/xml/CBE/Core" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<import namespace="http://java.sun.com/products/oss/xml/Common" schemaLocation="XmlCommonSchema.xsd"/>
+	<import namespace="http://java.sun.com/products/oss/xml/ServiceActivation" schemaLocation="XmlServiceActivationSchema.xsd"/>
+	<import namespace="http://java.sun.com/products/oss/xml/CBE/Location" schemaLocation="XmlCBELocationSchema.xsd"/>
+	<import namespace="http://java.sun.com/products/oss/xml/CBE/DataTypes" schemaLocation="XmlCBEDataTypesSchema.xsd"/>
+	<import namespace="http://java.sun.com/products/oss/xml/CBE/Core" schemaLocation="XmlCBECoreSchema.xsd"/>
+	<complexType name="ServiceSpecificationKey">
+		<complexContent>
+			<extension base="cbe-core:EntitySpecificationKey">
+				<sequence/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ServiceKey">
+		<complexContent>
+			<extension base="common:ManagedEntityKey">
+				<sequence/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ServiceSpecificationValue">
+		<complexContent>
+			<extension base="cbe-core:EntitySpecificationValue">
+				<sequence>
+					<element name="name" type="string" nillable="true" minOccurs="0"/>
+					<element name="desciption" type="string" nillable="true" minOccurs="0"/>
+					<element name="validFor" type="cbe-datatypes:TimePeriod" nillable="true" minOccurs="0"/>
+					<element name="serviceBusinessName" type="string" nillable="true" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="serviceState" type="sa:ServiceStateType" nillable="true"/>
+	<simpleType name="ServiceStateType">
+		<restriction base="string">
+			<enumeration value="active"/>
+			<enumeration value="inactive"/>
+		</restriction>
+	</simpleType>
+	<complexType name="ServiceValue">
+		<complexContent>
+			<extension base="cbe-core:EntityValue">
+				<sequence>
+					<element name="mandatory" type="boolean" nillable="true" minOccurs="0"/>
+					<element ref="cbe-service:startMode" minOccurs="0"/>
+					<element ref="cbe-service:serviceState" minOccurs="0"/>
+					<element name="subscriberId" type="string" nillable="true" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<element name="baseStartMode" type="string"/>
+	<element name="startMode" type="cbe-service:StartMode" substitutionGroup="cbe-service:baseStartMode"/>
+	<simpleType name="StartMode">
+		<restriction base="string">
+			<enumeration value="UNKNOWN"/>
+			<enumeration value="AUTO_BY_ENV"/>
+			<enumeration value="AUTO_BY_DEVICE"/>
+			<enumeration value="MANUAL_BY_PROVIDER"/>
+			<enumeration value="MANUAL_BY_CUSTOMER"/>
+			<enumeration value="ANY"/>
+		</restriction>
+	</simpleType>
+	<complexType name="ServiceAggregatesServiceAssocValue">
+		<complexContent>
+			<extension base="cbe-service:ServiceAssociationValue">
+				<sequence>
+					<element name="aggregatingServiceKey" type="cbe-service:ServiceKey" nillable="true" minOccurs="0"/>
+					<element name="aggregatedServiceKey" type="cbe-service:ServiceKey" nillable="true" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ServiceSpecificationAggregatesServiceSpecificationAssocValue">
+		<complexContent>
+			<extension base="cbe-service:ServiceAssociationValue">
+				<sequence>
+					<element name="aggregatingServiceSpecificationKey" type="cbe-service:ServiceSpecificationKey" nillable="true" minOccurs="0"/>
+					<element name="aggregatedServiceSpecificationKey" type="cbe-service:ServiceSpecificationKey" nillable="true" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ServiceAssociationValue">
+		<complexContent>
+			<extension base="cbe-core:AssociationValue"/>
+		</complexContent>
+	</complexType>
+	<complexType name="ServiceAssociationKey">
+		<complexContent>
+			<extension base="cbe-core:AssociationKey">
+				<sequence/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ArrayOfServiceKey">
+		<sequence>
+			<element name="item" type="cbe-service:ServiceKey" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="ArrayOfServiceSpecificationKey">
+		<sequence>
+			<element name="item" type="cbe-service:ServiceSpecificationKey" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<complexType name="ArrayOfServiceValue">
+		<sequence>
+			<element name="item" type="cbe-service:ServiceValue" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+</schema>

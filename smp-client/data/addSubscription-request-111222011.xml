@@ -1,0 +1,117 @@
+<!--
+
+
+
+
+
+
+
+
+
+
+
+-->
+<smp:executeOrderRequest xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema">
+    <smp:orderValue xsi:type="smp:SnapshotOrderValue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <com:lastUpdateVersionNumber xmlns:com="http://java.sun.com/products/oss/xml/Common">-1</com:lastUpdateVersionNumber>
+        <ser:apiClientId xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">triple</ser:apiClientId>
+        <ser:orderKey xsi:type="smp:OrderKeyType" xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">
+            <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">com.sigma.samp.cmn.order.SampOrderKey</com:type>
+            <ser:primaryKey>-1</ser:primaryKey>
+        </ser:orderKey>
+        <ser:priority xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">3</ser:priority>
+        <ser:orderState smpState="open.not_running.not_started" xsi:type="smp:SubOrderStateType"
+                        xmlns:ser="http://java.sun.com/products/oss/xml/ServiceActivation">open.not_running.not_started
+        </ser:orderState>
+        <smp:orderParamList>
+            <smp1:param name="queue_request_flag" xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">yes</smp1:param>
+            <smp1:param name="has_groups" xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">yes</smp1:param>
+        </smp:orderParamList>
+
+<!-- ********** subscriber  *********** -->
+        <smp:subscriber serviceProvider="YouSee" subscriberType="residential" locale="en_US">
+            <smp:key xsi:type="smp:SubKeyType" xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSpec:-</com:type>
+                <smp:externalKey>YouSee:user_111222011</smp:externalKey>
+            </smp:key>
+            <smp1:state xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">active</smp1:state>
+            <smp1:paramList xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                <smp1:param name="acct">111222011</smp1:param>
+            </smp1:paramList>
+            <smp1:entityList xmlns:smp1="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+<!-- ***** list 0 ******* -->
+                <smp:entityValue addressType="service" isDefault="true" xsi:type="smp:SubAddressType"
+                                 xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                    <smp:key xsi:type="smp:SubAddressKeyType">
+                        <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubAddressSpec:-</com:type>
+                        <smp:externalKey>primary</smp:externalKey>
+                    </smp:key>
+                    <smp:state>active</smp:state>
+                    <smp:paramList>
+                        <smp:param name="address1">Bredgade 27 st.tv</smp:param>
+                        <smp:param name="address2">-</smp:param>
+                        <smp:param name="city">PUNE</smp:param>
+                        <smp:param name="country">Danmark</smp:param>
+                        <smp:param name="district">PUNE</smp:param>
+                        <smp:param name="ntd_return_segment_nm">165</smp:param>
+                        <smp:param name="zipcode">2100</smp:param>
+                    </smp:paramList>
+                </smp:entityValue>
+<!-- ***** list 1 ******* -->
+                <smp:entityValue xsi:type="smp:SubContactType"
+                                 xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                    <smp:key xsi:type="smp:SubContactKeyType">
+                        <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubContactSpec:-</com:type>
+                        <smp:externalKey>primary</smp:externalKey>
+                    </smp:key>
+                    <smp:state>active</smp:state>
+                    <smp:paramList>
+                        <smp:param name="first_name">Lars</smp:param>
+                        <smp:param name="last_name">Larsen</smp:param>
+                        <smp:param name="emails.home.address"/>
+                        <smp:param name="phones.business.number"/>
+                        <smp:param name="phones.cell.number"/>
+                        <smp:param name="phones.home.number"/>
+                    </smp:paramList>
+                    <smp:associationList>
+                        <smp:association>
+                            <smp:associationType>contact_on_address</smp:associationType>
+                            <smp:zEndKey xsi:type="smp:SubAddressKeyType">
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubAddress</com:type>
+                                <smp:externalKey>primary</smp:externalKey>
+                            </smp:zEndKey>
+                            <smp:changeAction>add</smp:changeAction>
+                        </smp:association>
+                    </smp:associationList>
+                </smp:entityValue>
+<!-- ***** list 2 ******* -->
+                <smp1:entityValue xsi:type="smp:SubSvcType"
+                                  xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema">
+                    <ser:serviceState provisionState="active" xsi:type="smp:SubSvcStateType"
+                                      xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema"
+                                      xmlns:ser="http://java.sun.com/products/oss/xml/CBE/Service">active
+                    </ser:serviceState>
+                    <smp:serviceKey>
+                        <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:samp_sub</com:type>
+                        <smp:externalKey>sigma_samp_sub_111222011</smp:externalKey>
+                    </smp:serviceKey>
+                    <smp:paramList>
+                        <smp1:param name="acct" xsi:nil="true"/>
+                    </smp:paramList>
+                    <smp:associationList>
+                        <smp1:association>
+                            <smp1:associationType>service_on_address</smp1:associationType>
+                            <smp:zEndKey xsi:type="smp:SubAddressKeyType"
+                                         xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema">
+                                <com:type xmlns:com="http://java.sun.com/products/oss/xml/Common">SubAddressSpec:-
+                                </com:type>
+                                <smp:externalKey>primary</smp:externalKey>
+                            </smp:zEndKey>
+                            <smp1:changeAction>add</smp1:changeAction>
+                        </smp1:association>
+                    </smp:associationList>
+                </smp1:entityValue>
+            </smp1:entityList>
+        </smp:subscriber>
+    </smp:orderValue>
+</smp:executeOrderRequest>

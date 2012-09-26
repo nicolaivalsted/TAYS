@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+C04_CVB_Step3_Swap_CM_SOAP.xml
+
+This is named query using cm mac.
+-->
+<!-- $Id: C04_CVB_Step2_Swap_CM_XML.xml,v 1.1 2009/12/14 12:30:29 varshag Exp $ -->
+<getEntityByKeyRequest xmlns="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" cascadeLoading="true">
+    <entityKeyLst>
+           <entityKey xsi:type="SubKeyType">
+            <cmn:type xmlns:cmn="http://java.sun.com/products/oss/xml/Common">SubSvcSpec:smp_emta_cm_hsd_access</cmn:type>
+             <nameQuery xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues">
+               <smpcmn:queryName>get_id_by_parm</smpcmn:queryName>
+               <smpcmn:inputParamList>
+                  <smpcmn:param name="cm_mac">568766792000</smpcmn:param>
+               </smpcmn:inputParamList>
+             </nameQuery>
+          </entityKey>
+    </entityKeyLst>
+</getEntityByKeyRequest>
+

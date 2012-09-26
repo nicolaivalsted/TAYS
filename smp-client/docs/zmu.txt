@@ -1,0 +1,31 @@
+Hej Mu Li,
+
+Du er oprettet med user: 718021
+Password er: juni2011 – bedes ændret første gang.
+
+https://spportal.tdc.dk
+
+Vh - Claus
+
+
+
+
+ * Mu Li's original comment:
+ * http://dunhill1:40001/provisioning/alivetester/
+ * http://kenfig:40001/provisioning/manager/
+ * http://kenton1:9215/provisioning/manager/
+ *
+ * https://yousee.jira.com/wiki/display/SMP/SMP-environments
+ *
+ * mvndebug jetty:run -Djetty.port=9999
+ * http://demo.vaadin.com/sampler/
+ * mvn jetty:run -Djetty.port=9999 -Dhttp.proxyHost=sltarray02.tdk.dk -Dhttp.proxyPort=8080
+ * http://localhost:9999/provisioning/manager/     admin password   user password
+ * http://localhost:8080/provisioning/manager/     admin password   user password
+ * The usecase used for change the existing customer's MacAddress.
+ * https://yousee.jira.com/wiki/display/SMP/Environment+%28systems+overview%29
+ * https://yousee.jira.com/wiki/display/KASIA/provisioning-development
+ * https://yousee.jira.com/wiki/pages/viewpageattachments.action?pageId=12779807
+ * mvn -f bss-adapter-war/pom.xml jetty:run -Djetty.port=7777 -Dhttp.proxyHost=sltarray02.tdk.dk -Dhttp.proxyPort=8080
+ * mvndebug -f bss-adapter-war/pom.xml jetty:run -Djetty.port=7777 -Dhttp.proxyHost=sltarray02.tdk.dk -Dhttp.proxyPort=8080    (To debug)
+ * http://194.239.10.197:41203/smpweb/      csra1/pwcsra1
