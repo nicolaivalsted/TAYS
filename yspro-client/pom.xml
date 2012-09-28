@@ -19,6 +19,15 @@
             <artifactId>base-client</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>7.0.3</version>
+        </dependency>
+        <dependency>
+          <groupId>com.google.code.gson</groupId>
+          <artifactId>gson</artifactId>
+        </dependency>
         <!-- testing -->
         <dependency>
             <groupId>junit</groupId>
