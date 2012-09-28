@@ -102,6 +102,13 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
             , getConnector().getYsProHost(), handleId, customer));
         return callInner(url);
     }
+    
+    public String findEngagementFromProductId(String customer, String productId) throws Exception{
+        ensureHandle();
+        URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
+            , getConnector().getYsProHost(), handleId, customer, productId));
+        return callInner(url);
+    }
 
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
     public String findUserInfo(String userID) throws Exception {
