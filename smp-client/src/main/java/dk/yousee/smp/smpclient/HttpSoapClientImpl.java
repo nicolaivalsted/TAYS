@@ -1,5 +1,6 @@
 package dk.yousee.smp.smpclient;
 
+import dk.yousee.randy.base.AbstractClient;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -30,19 +31,20 @@ import java.rmi.RemoteException;
  * Time: 14.31
  * Client that uses HTTP client to access webservice
  */
-class HttpSoapClientImpl implements SmpClient {
+class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements SmpClient {
 
     private static Logger logger = Logger.getLogger(HttpSoapClientImpl.class);
 
-    private SmpConnectorImpl connector;
+//    private SmpConnectorImpl connector;
 
     public HttpSoapClientImpl(SmpConnectorImpl connector) {
-        this.connector = connector;
+        setConnector(connector);
+//        this.connector = connector;
     }
 
-    private SmpConnectorImpl getConnector() {
-        return connector;
-    }
+//    private SmpConnectorImpl getConnector() {
+//        return connector;
+//    }
 
 
 // below is demo from Apache HTTP client
@@ -188,13 +190,13 @@ class HttpSoapClientImpl implements SmpClient {
         }
     }
 
-    private void close(InputStream is) {
-        if (is != null) try {
-            is.close();
-        } catch (IOException e) {
-            logger.warn("unexptected could not close input stream", e);
-        }
-    }
+//    private void close(InputStream is) {
+//        if (is != null) try {
+//            is.close();
+//        } catch (IOException e) {
+//            logger.warn("unexptected could not close input stream", e);
+//        }
+//    }
 
 // Response looks like this ....
 //<?xml version="1.0" encoding="utf-8" standalone="yes"?>
@@ -211,7 +213,7 @@ class HttpSoapClientImpl implements SmpClient {
 //</m:executeXmlResponse>
 //</env:Body>
 //</env:Envelope>
-    private String parseInputStream(InputStream is) {
+    protected String parseInputStream(InputStream is) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
         Document dom;
         try {

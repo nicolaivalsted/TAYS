@@ -168,7 +168,8 @@ public abstract class AbstractConnector {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
 
-        if (getProxyHost() != null && !"none".equals(getProxyHost()) && !"null".equals(getProxyHost())) {
+        if (urlContext.isUsingProxy()) {
+//            if (getProxyHost() != null && !"none".equals(getProxyHost()) && !"null".equals(getProxyHost())) {
             sb.append("\"proxyHost\":\"").append(getProxyHost()).append('"');
             sb.append(",\"proxyPort\":\"").append(getProxyPort()).append('"').append("\n");
         } else {

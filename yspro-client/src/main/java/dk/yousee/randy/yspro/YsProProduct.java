@@ -5,7 +5,7 @@ package dk.yousee.randy.yspro;
  * User: aka
  * Date: 07/09/12
  * Time: 11.27
- * A product that YS pro store service plans by
+ * A product that YS pro store service plans by. I.e: 7000
  */
 public class YsProProduct {
 

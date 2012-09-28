@@ -17,6 +17,13 @@ public class UrlContext {
     public UrlContext() {
     }
 
+    public UrlContext(String proxyHost, String proxyPort, Integer connectionTimeout, Integer operationTimeout) {
+        this.proxyHost = proxyHost;
+        this.proxyPort = proxyPort;
+        this.connectionTimeout = connectionTimeout;
+        this.operationTimeout = operationTimeout;
+    }
+
     public void setProxyHost(String proxyHost) {
         this.proxyHost = proxyHost;
     }
@@ -48,7 +55,6 @@ public class UrlContext {
     public Integer getOperationTimeout() {
         return operationTimeout;
     }
-
 
     public boolean isUsingProxy() {
         return proxyHost != null && !proxyHost.equals("null") && !proxyHost.equals("none");

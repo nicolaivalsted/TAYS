@@ -93,55 +93,8 @@ public class OrderServiceImpl implements OrderService {
         return con;
     }
 
-//    public void setProxyHost(String proxyHost) {
-//        this.proxyHost = proxyHost;
-//    }
-//
-//    public void setProxyPort(String proxyPort) {
-//        this.proxyPort = proxyPort;
-//    }
-//
-//    public void setTimeout(Integer timeout) {
-//        this.timeout = timeout;
-//    }
-//
-//    public void setUsername(String username) {
-//        this.username = username;
-//    }
-//
-//    public void setPassword(String password) {
-//        this.password = password;
-//    }
-
-//    public URL getUrl() {
-//        return url;
-//    }
-
-//    public String getProxyHost() {
-//        return proxyHost;
-//    }
-
-//    public String getProxyPort() {
-//        return proxyPort;
-//    }
-
-
     public String connectInfo() {
         return getConnector().connectInfo();
-//
-//        StringBuilder sb = new StringBuilder();
-//        if (getProxyHost() != null && !"none".equals(proxyHost) && !"null".equals(proxyHost)) {
-//            sb.append("proxyHost=").append(proxyHost);
-//            sb.append(",proxyPort=").append(getProxyPort()).append("\n");
-//        }
-//        sb.append(" username=").append(username);
-//        if (timeout != null) {
-//            sb.append(",connectTimeout=").append(getConnectionTimeout()).append("\n");
-//        }
-//        if (operationTimeout != null) {
-//            sb.append(",operationTimeout=").append(getOperationTimeout()).append("\n");
-//        }
-//        return sb.toString();
     }
 
     public Response readSubscription(Acct acct) {

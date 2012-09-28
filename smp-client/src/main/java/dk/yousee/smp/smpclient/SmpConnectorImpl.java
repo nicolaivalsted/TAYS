@@ -1,5 +1,6 @@
 package dk.yousee.smp.smpclient;
 
+import dk.yousee.randy.base.AbstractConnector;
 import org.apache.http.HttpHost;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -20,14 +21,19 @@ import java.util.Map;
  * Time: 14.46
  * Class that helps managing HttpClient
  */
-public class SmpConnectorImpl implements SmpConnector {
+public class SmpConnectorImpl extends AbstractConnector  {
 
-    private UrlContext urlContext;
+    private SmpUrlContext urlContext;
     private ThreadSafeClientConnManager cm;
     private Map<Integer,DefaultHttpClient> clients=new HashMap<Integer, DefaultHttpClient>();
 
+    /**
+     * Default 100 seconds to ask this question as max.
+     */
+    public static final int DEFAULT_OPERATION_TIMEOUT=100000;
+
     public SmpConnectorImpl() {
-        urlContext=new UrlContext();
+        urlContext=new SmpUrlContext();
         urlContext.setProxyHost(DEFAULT_PROXY_HOST);
         urlContext.setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
         urlContext.setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
@@ -98,7 +104,7 @@ public class SmpConnectorImpl implements SmpConnector {
         return cm.getDefaultMaxPerRoute();
     }
 
-    public UrlContext getUrlContext() {
+    public SmpUrlContext getUrlContext() {
         return urlContext;
     }
 
@@ -109,10 +115,12 @@ public class SmpConnectorImpl implements SmpConnector {
     }
 
     public HttpHost extractProxy() {
-        String ph = urlContext.getProxyHost();
-        if (ph != null && !"null".equals(ph) && !"none".equals(ph)) {
+        if(urlContext.isUsingProxy()) {
+
+//        String ph = urlContext.getProxyHost();
+//        if (ph != null && !"null".equals(ph) && !"none".equals(ph)) {
             HttpHost host;
-            host = new HttpHost(ph, Integer.parseInt(urlContext.getProxyPort()));
+            host = new HttpHost(urlContext.getProxyHost(), Integer.parseInt(urlContext.getProxyPort()));
             return host;
 
         } else {
