@@ -123,6 +123,21 @@ public class ProStoreResponse {
         }
         return res;
     }
+    
+    /**
+     * 
+     * @param customer 
+     * @return List with customer numbers not the same as param 
+     */
+    public List<StoreProduct> filterCustomerDifferntFrom(String customer){
+        List<StoreProduct> res = new ArrayList<StoreProduct>();
+        for(StoreProduct p : products){
+            if(p.getCustomer()!=null && !p.getCustomer().equals(customer)) {
+                res.add(p);
+            }
+        }
+        return res;
+    }
 
     private List<StoreProduct> parseData(JsonArray in) {
         List<StoreProduct> res = new ArrayList<StoreProduct>();
@@ -130,6 +145,20 @@ public class ProStoreResponse {
             JsonObject json = one.getAsJsonObject();
             res.add(new StoreProduct(res.size(), json));
         }
+        return res;
+    }
+    
+    public JsonElement printJson() {
+        JsonObject res = new JsonObject();
+        res.addProperty("Status", status);
+        res.addProperty("Message", message);
+        if (dateTime != null) res.addProperty("DateTime", dateTime.toString());
+        if (!exists) res.addProperty("exists", false);
+        JsonArray array = new JsonArray();
+        for (StoreProduct product : getProducts()) {
+            array.add(product.printJson());
+        }
+        res.add("items", array);
         return res;
     }
 
