@@ -25,7 +25,15 @@ public class TecEngagement  {
         JsonElement em= new JsonParser().parse(input);
         JsonObject jo=em.getAsJsonObject();
         te.parseTopLevel(jo);
-        JsonElement dataElement = jo.get("Products");
+        
+        JsonElement dataElement = null;
+        
+        if(jo.has("Products")){
+            dataElement = jo.get("Products");
+        } else {
+            dataElement = jo.get("Data");
+        }      
+        
         if (dataElement != null) {
             te.exists = true;
             te.products = te.parseData(dataElement.getAsJsonArray());
