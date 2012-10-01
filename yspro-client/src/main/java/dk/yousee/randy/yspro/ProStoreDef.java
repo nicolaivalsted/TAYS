@@ -34,4 +34,6 @@ public class ProStoreDef {
     public static final String OTT_PRODUCT_KEY_YSPRO = "OttProduct";
 
     public static final YsProProduct NET_GEM_STB_PRODUCT = YsProProduct.create("6900");
+    
+    public static final String OTT_DEVICE_MAC_YSPRO = "Device_Mac";
 }
