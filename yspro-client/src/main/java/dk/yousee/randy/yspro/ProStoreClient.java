@@ -121,7 +121,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
     public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws Exception {
         ensureHandle();
-        URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s"
+        URL url = new URL(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s"
             , getConnector().getYsProHost(), handleId, mac));
         return new ProStoreResponse(callInner(url));
     }

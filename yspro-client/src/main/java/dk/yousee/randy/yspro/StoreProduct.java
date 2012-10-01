@@ -21,7 +21,7 @@ public class StoreProduct {
     public static final String TO_DATE_KEY = "To";
     public static final String STATUS_KEY = "Status";
     public static final String ORDER_4_SAME = "OrderForSame";
-
+    public static final String CUSTOMER_NO = "CustomerNumber";
     public static final String PRODUCT_ID_YSPRO = "ProductID";
 
     private Integer pos;
@@ -31,6 +31,7 @@ public class StoreProduct {
     private String uuid;
     private String status;
     private String orderForSame;
+    private String customer;
     private Map<String,String> properties=new HashMap<String, String>();
     StringBuilder errorMessage=new StringBuilder();
 
@@ -66,6 +67,10 @@ public class StoreProduct {
         return orderForSame;
     }
 
+    public String getCustomer() {
+        return customer;
+    }
+
     public Map<String, String> getProperties() {
         return properties;
     }
@@ -98,7 +103,10 @@ public class StoreProduct {
                 status=one.getValue().getAsString();
             } else if(ORDER_4_SAME.equals(one.getKey())) {
                 orderForSame=one.getValue().getAsString();
-            } else {
+            } else if(CUSTOMER_NO.equals(one.getKey())){
+                customer = one.getValue().getAsString();
+            }
+            else {
                 properties.put(one.getKey(),one.getValue().getAsString());
             }
         }
