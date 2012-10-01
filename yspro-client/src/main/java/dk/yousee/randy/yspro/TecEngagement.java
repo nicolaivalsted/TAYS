@@ -16,6 +16,7 @@ import java.util.List;
  * Time: 14.48
  * Technical engagement
  */
+@Deprecated
 public class TecEngagement  {
 
 

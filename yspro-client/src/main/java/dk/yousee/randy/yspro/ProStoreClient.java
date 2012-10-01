@@ -89,41 +89,41 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
      * @return json dokument. Der er en liste af "Products" med de - for produktet (7000) definerede - properties
      * @throws Exception
      */
-    public String findOttEngagement(String customer) throws Exception {
+    public ProStoreResponse findOttEngagement(String customer) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1"
             , getConnector().getYsProHost(), handleId, customer));
-        return callInner(url);
+        return new ProStoreResponse(callInner(url));
     }
     //GetEngagement.php
-    public String findEngagement(String customer) throws Exception {
+    public ProStoreResponse findEngagement(String customer) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s"
             , getConnector().getYsProHost(), handleId, customer));
-        return callInner(url);
+        return new ProStoreResponse(callInner(url));
     }
     
-    public String findEngagementFromProductId(String customer, String productId) throws Exception{
+    public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws Exception{
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
             , getConnector().getYsProHost(), handleId, customer, productId));
-        return callInner(url);
+        return new ProStoreResponse(callInner(url));
     }
 
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
-    public String findUserInfo(String userID) throws Exception {
+    public ProStoreResponse findUserInfo(String userID) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1"
             , getConnector().getYsProHost(), handleId, userID));
-        return callInner(url);
+        return new ProStoreResponse(callInner(url));
     }
     
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
-    public String findCustomersFromOTTmacStb(String mac) throws Exception {
+    public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s"
             , getConnector().getYsProHost(), handleId, mac));
-        return callInner(url);
+        return new ProStoreResponse(callInner(url));
     }
 
 //    /**
@@ -214,7 +214,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
             , getConnector().getYsProHost(), handleId, customer, encoded));
     }
 
-    public String assignProduct(String customer, String json) throws Exception {
+    public ProStoreResponse assignProduct(String customer, String json) throws Exception {
         ensureHandle();
         HttpPost post;
         URL href=generateUpdateUrl(customer,json);
@@ -223,7 +223,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         try {
             entity = talk2service(post);
 // read response & parse body
-            return readResponse(entity);
+            return new ProStoreResponse(readResponse(entity));
         } finally {
             if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
         }
@@ -244,10 +244,10 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
      * OTT produktet har ProductID 7000.
      * .. Allan
      */
-    public String removeEngagement(String customer,YsProProduct product) throws Exception {
+    public ProStoreResponse removeEngagement(String customer,YsProProduct product) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
             , getConnector().getYsProHost(), handleId, customer,product));
-        return callInner(url);
+        return new ProStoreResponse(callInner(url));
     }
 }

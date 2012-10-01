@@ -16,6 +16,7 @@ import java.util.List;
  * Time: 10.38
  * Response from writing to ProStore
  */
+@Deprecated
 public class WriteResponse  {
 
     private Integer status;
