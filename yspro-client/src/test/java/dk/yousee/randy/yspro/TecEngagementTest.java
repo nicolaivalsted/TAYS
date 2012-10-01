@@ -155,7 +155,7 @@ public class TecEngagementTest {
 
     @Test
     public void createFromDetils() throws Exception {
-        TecEngagement test=TecEngagement.create(input);
+        ProStoreResponse test= new ProStoreResponse(input);
         Assert.assertNotNull(test);
         Assert.assertEquals("Expects to parse to x products",3,test.getProducts().size());
     }
