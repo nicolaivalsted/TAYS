@@ -124,6 +124,16 @@ public class ProStoreResponse {
         return res;
     }
     
+    public List<StoreProduct> filterCustomer(String customer) {
+        List<StoreProduct> res = new ArrayList<StoreProduct>();
+        for (StoreProduct p : products) {
+            if (p.getCustomer()!=null && p.getCustomer().equals(customer)) {
+                res.add(p);
+            }
+        }
+        return res;
+    }
+    
     /**
      * 
      * @param customer 
