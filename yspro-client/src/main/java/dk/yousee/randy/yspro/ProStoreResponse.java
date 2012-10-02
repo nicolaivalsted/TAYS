@@ -51,7 +51,7 @@ public class ProStoreResponse {
             dataElement = root.get("Data");
         }
 
-        if (dataElement != null) {
+        if (dataElement!=null && !dataElement.isJsonPrimitive()) {
             exists = true;
             products = parseData(dataElement.getAsJsonArray());
         } else {
