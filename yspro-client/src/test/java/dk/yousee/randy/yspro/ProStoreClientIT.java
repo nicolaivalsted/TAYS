@@ -254,9 +254,9 @@ public class ProStoreClientIT {
         List<StoreProduct> productsToDelete = rs1.filterCustomerDifferntFrom(customer2);
 
         for (StoreProduct p : productsToDelete) {
-            WriteList wl = new WriteList(customer, now);
+            WriteList wl = new WriteList(p.getCustomer(), now);
             wl.add(WriteList.Action.delete, p);
-            client.assignProduct(customer, new Gson().toJson(wl.printJson()));
+            client.assignProduct(p.getCustomer(), new Gson().toJson(wl.printJson()));
         }
 
         ProStoreResponse rs2 = client.findCustomersFromOTTmacStb(mac);
