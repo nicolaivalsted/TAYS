@@ -54,6 +54,14 @@ public class ProStoreClientIT {
         T3_updateCustomerProduct();
         T4_crudCycle();
     }
+    
+    @Test
+    public void sekvensStb() throws Exception{
+        t1_stb_clean();
+        t2_stb_create_on_customer();
+        t3_stb_case1();
+        t1_stb_clean();
+    }
 
 //    @Test
     public void T1_clean() throws Exception {
@@ -201,12 +209,16 @@ public class ProStoreClientIT {
         Assert.assertTrue("After deleting it must be gone", sp5.isEmpty());
     }
 
+    //@Test
     public void t1_stb_clean() throws Exception {
         ProStoreResponse response = client.removeEngagement(customer, ProStoreDef.NET_GEM_STB_PRODUCT);
         //client.removeEngagement(customer2, ProStoreDef.NET_GEM_STB_PRODUCT);
 
         Assert.assertNotNull("Response must be returned", response);
         Assert.assertEquals("Response must be returned with no error", 0, response.getStatus().intValue());
+        ProStoreResponse rs2 = client.removeEngagement(customer2, ProStoreDef.NET_GEM_STB_PRODUCT);
+        Assert.assertNotNull("Response must be returned", rs2);
+        Assert.assertEquals("Response must be returned with no error", 0, rs2.getStatus().intValue());
     }
 
     //@Test
@@ -228,6 +240,7 @@ public class ProStoreClientIT {
         Assert.assertEquals("Response must be returned with no error", 0, response.getStatus().intValue());
     }
 
+    //@Test
     public void t3_stb_case1() throws Exception {
         //goal to add 6900 product to customer2, and remove 6900 from customer1 and any other customer having the same device
         //Fetch all customers with mac 12:34:56:78:90:AB
@@ -236,14 +249,32 @@ public class ProStoreClientIT {
 
         ProStoreResponse rs1 = client.findCustomersFromOTTmacStb(mac);
         Assert.assertNotNull("Response must be returned", rs1);
-    
 
+        //find all customer having mac but are not customer2
+        List<StoreProduct> productsToDelete = rs1.filterCustomerDifferntFrom(customer2);
 
+        for (StoreProduct p : productsToDelete) {
+            WriteList wl = new WriteList(customer, now);
+            wl.add(WriteList.Action.delete, p);
+            client.assignProduct(customer, new Gson().toJson(wl.printJson()));
+        }
 
+        ProStoreResponse rs2 = client.findCustomersFromOTTmacStb(mac);
+        Assert.assertTrue("There should only be max one active product for mac device", rs2.getProducts().size() <= 1);
 
+        //if customer2 not in rs2 response then create product for customer2
+        if (rs2.getProducts().isEmpty() || !rs2.getProducts().get(0).getCustomer().equals(customer2)) {
+            WriteList wl = new WriteList(customer2, now);
+            JsonObject product = new JsonObject();
+            product.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.NET_GEM_STB_PRODUCT.toString());
+            product.addProperty(ProStoreDef.OTT_DEVICE_MAC_YSPRO, mac);
+            StoreProduct sp = new StoreProduct(product);
+            wl.add(WriteList.Action.add, sp);
 
-        JsonObject product = new JsonObject();
-        product.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.NET_GEM_STB_PRODUCT.toString());
-        product.addProperty(ProStoreDef.OTT_DEVICE_MAC_YSPRO, mac);
+            ProStoreResponse rs3 = client.assignProduct(customer2, wl.printJson().toString());
+
+            Assert.assertNotNull(rs3);
+            Assert.assertEquals("Response must be returned with no error", 0, rs3.getStatus().intValue());
+        }
     }
 }
