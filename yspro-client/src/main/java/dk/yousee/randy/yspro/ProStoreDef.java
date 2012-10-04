@@ -39,6 +39,6 @@ public class ProStoreDef {
     
     public static final String OTT_CMORE_PRODUCT = "xCmore";
     
-    public static final String OTT_HW_INFO = "Hw_Info";
+    public static final String OTT_HW_INFO = "HW_Version";
     
 }
