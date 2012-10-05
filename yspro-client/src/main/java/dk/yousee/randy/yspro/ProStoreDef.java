@@ -40,10 +40,4 @@ public class ProStoreDef {
     public static final String OTT_CMORE_PRODUCT = "xCmore";
 
     public static final String OTT_HW_INFO_KEY_YSPRO = "HW_Version";
-    /**
-     * @deprecated use OTT_HW_INFO_KEY_YSPRO (it is the name of a key in ys-pro)
-     */
-    public static final String OTT_HW_INFO = OTT_HW_INFO_KEY_YSPRO;
-
-
 }
