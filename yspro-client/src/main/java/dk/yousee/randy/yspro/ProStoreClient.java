@@ -111,11 +111,12 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     }
 
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
-    public String findUserInfo(String userID) throws Exception {
+    public UserInfo findUserInfo(String userID) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1"
             , getConnector().getYsProHost(), handleId, userID));
-        return callInner(url);
+        String st=callInner(url);
+        return new UserInfo(UserInfo.DataFormat.xml,st);
     }
     
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB

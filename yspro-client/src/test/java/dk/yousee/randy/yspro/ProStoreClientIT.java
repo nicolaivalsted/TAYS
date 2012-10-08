@@ -277,4 +277,28 @@ public class ProStoreClientIT {
             Assert.assertEquals("Response must be returned with no error", 0, rs3.getStatus().intValue());
         }
     }
+
+    @Test
+    public void userInfo() throws Exception{
+        String userId="3849";
+        UserInfo userInfo = client.findUserInfo(userId);
+        Assert.assertNotNull(userInfo);
+        Assert.assertEquals("customer must be","607777777",userInfo.getCustomer());
+        Assert.assertEquals("Expected user as the query user",userId,userInfo.getUserId());
+        Assert.assertTrue("This user has a credit card",userInfo.isDibs());
+
+        Assert.assertEquals("status is 0",0,userInfo.getStatus());
+        Assert.assertEquals("OK message expected","OK",userInfo.getMessage());
+        Assert.assertNotNull("json must exist",userInfo.printJson());
+        Assert.assertNotNull("Input is assumed to be assigned",userInfo.getInput());
+
+    }
+
+    @Test
+    public void userInfo_missing() throws Exception{
+        UserInfo userInfo = client.findUserInfo("hundeogkatteerdyr");
+        Assert.assertNotNull(userInfo);
+        Assert.assertNotSame("status is not 0",0,userInfo.getStatus());
+        Assert.assertNotNull("Expects a message",userInfo.getMessage());
+    }
 }
