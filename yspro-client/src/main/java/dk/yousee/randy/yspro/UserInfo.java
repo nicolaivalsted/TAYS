@@ -141,6 +141,10 @@ public class UserInfo {
     public JsonElement printJson() {
 //        JSONObject.fromObject(map);
         JsonObject jo=new JsonObject();
+        if(status!=0){
+            jo.addProperty("Status",getStatus());
+            jo.addProperty("Message",getMessage());
+        }
         for (String one:map.keySet()) {
             jo.addProperty(one, map.get(one));
         }
