@@ -17,6 +17,7 @@
         <module>smp-xml</module>
         <module>smp-client</module>
         <module>yspro-client</module>
+        <module>kasia-client</module>
     </modules>
 <!--
     <repositories>
