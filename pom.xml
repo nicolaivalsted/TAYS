@@ -13,6 +13,7 @@
     </properties>
 
     <modules>
+        <module>filters</module>
         <module>base-client</module>
         <module>smp-xml</module>
         <module>smp-client</module>
