@@ -15,6 +15,7 @@
     <modules>
         <module>filters</module>
         <module>base-client</module>
+        <module>base-rest</module>
         <module>smp-xml</module>
         <module>smp-client</module>
         <module>yspro-client</module>
