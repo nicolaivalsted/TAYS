@@ -22,7 +22,7 @@ public class EngagementClientIT {
 
     @Test
     public void parse() throws Exception {
-        URL url = new URL("http://darton:41001/abonnement-v1/provisionering/614010743");
+        URL url = new URL("http://preprod-kasia.yousee.dk/abonnement/provisionering/614010743");
         String json = client.findEngagement(url, "application/vnd.yousee.kasia2+json;version=1;charset=UTF-8");
         Assert.assertNotNull("expects a string", json);
         Assert.assertTrue("must have a substring called 'produkter'", json.contains("produkter"));

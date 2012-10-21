@@ -1,0 +1,15 @@
+# filename: notes.txt
+# function: contains usefull small script-lets to test etc.
+# -----------------------------------------------------------------------------
+
+
+
+# Here is a sample of howto read engagement in kasia 2
+#
+#
+curl -H "accept: application/vnd.yousee.kasia2+json;version=1;charset=UTF-8" http://preprod-kasia.yousee.dk/abonnement/provisionering/614010743
+
+curl -H "accept: application/vnd.yousee.kasia2+json;version=1;charset=UTF-8" http://kasia.yousee.dk/abonnement/provisionering/614010743
+
+# -----------------------------------------------------------------------------
+
