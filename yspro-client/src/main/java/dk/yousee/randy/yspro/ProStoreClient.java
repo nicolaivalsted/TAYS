@@ -3,12 +3,9 @@ package dk.yousee.randy.yspro;
 import dk.yousee.randy.base.AbstractClient;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
 import java.io.UnsupportedEncodingException;
@@ -93,21 +90,21 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         ensureHandle();
         URL url = new URL(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1"
             , getConnector().getYsProHost(), handleId, customer));
-        return new ProStoreResponse(callInner(url));
+        return new ProStoreResponse(performGet(url));
     }
     //GetEngagement.php
     public ProStoreResponse findEngagement(String customer) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s"
             , getConnector().getYsProHost(), handleId, customer));
-        return new ProStoreResponse(callInner(url));
+        return new ProStoreResponse(performGet(url));
     }
     
     public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws Exception{
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
             , getConnector().getYsProHost(), handleId, customer, productId));
-        return new ProStoreResponse(callInner(url));
+        return new ProStoreResponse(performGet(url));
     }
 
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
@@ -115,7 +112,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         ensureHandle();
         URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1"
             , getConnector().getYsProHost(), handleId, userID));
-        String st=callInner(url);
+        String st= performGet(url);
         return new UserInfo(UserInfo.DataFormat.xml,st);
     }
     
@@ -124,7 +121,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s"
             , getConnector().getYsProHost(), handleId, mac));
-        return new ProStoreResponse(callInner(url));
+        return new ProStoreResponse(performGet(url));
     }
 
 //    /**
@@ -140,53 +137,6 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
 //            , getConnector().getYsProHost(), handleId, customer));
 //        return callInner(url);
 //    }
-
-    private String callInner(URL url) throws Exception {
-        HttpUriRequest hur = new HttpGet(url.toString());
-        HttpEntity entity = null;
-        try {
-            entity = talk2service(hur);
-            return readResponse(entity);
-        } finally {
-            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
-        }
-    }
-
-    private HttpEntity talk2service(HttpUriRequest hur) throws Exception {
-        DefaultHttpClient client = getConnector().getClient(getOperationTimeout());
-        HttpEntity entity;
-        String errorMessage;
-        int httpStatus;
-        try {
-            HttpResponse rsp = client.execute(hur);
-            httpStatus = rsp.getStatusLine().getStatusCode();
-            entity = rsp.getEntity();
-            if (httpStatus == HttpStatus.SC_OK) {
-                errorMessage = null;
-            } else if (httpStatus == HttpStatus.SC_NOT_ACCEPTABLE) {
-                errorMessage = rsp.getStatusLine().getReasonPhrase();
-            } else if (httpStatus == HttpStatus.SC_BAD_REQUEST) {
-                errorMessage = rsp.getStatusLine().getReasonPhrase();
-            } else if (httpStatus == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
-                errorMessage = rsp.getStatusLine().getReasonPhrase();
-                String msg = EntityUtils.toString(entity, "UTF-8");
-                if (msg != null) {
-                    errorMessage = errorMessage + " msg:" + msg;
-                }
-            } else {
-                errorMessage = String.format("Status not handled, %s", rsp.getStatusLine().getReasonPhrase());
-            }
-        } catch (java.net.UnknownHostException e) {
-            throw e;
-        } catch (Throwable e) {
-            String message = String.format("could not execute get, got error: %s,", e);
-            throw new Exception(message);
-        }
-        if (errorMessage != null) {
-            throw new Exception(String.format("status:%s ,phrase:%s", httpStatus, errorMessage));
-        }
-        return entity;
-    }
 
 
 // http://ysprodev.yousee.dk/AssignProduct.php?HandleID=X71vQm8ZLZ80916omB0I54ZfV48quC&CustomerNumber=607777777
@@ -223,7 +173,6 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         HttpEntity entity = null;
         try {
             entity = talk2service(post);
-// read response & parse body
             return new ProStoreResponse(readResponse(entity));
         } finally {
             if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
@@ -249,6 +198,6 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         ensureHandle();
         URL url = new URL(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
             , getConnector().getYsProHost(), handleId, customer,product));
-        return new ProStoreResponse(callInner(url));
+        return new ProStoreResponse(performGet(url));
     }
 }
