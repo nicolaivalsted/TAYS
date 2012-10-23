@@ -11,8 +11,8 @@ import dk.yousee.randy.base.AbstractConnector;
 public class KasiaConnectorImpl extends AbstractConnector {
 
 
-    public static final String PREPROD_KASIA_HOST="preprod-kasia.yousee.dk";
-    public static final String KASIA_HOST="kasia.yousee.dk";
+    public static final String PREPROD_KASIA_HOST="http://preprod-kasia.yousee.dk";
+    public static final String KASIA_HOST="http://kasia.yousee.dk";
     private String kasiaHost;
 
     public String getKasiaHost() {

@@ -47,6 +47,7 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
      * Execute a get on the specified URL
      * <br/>
      * The objective is to do a simple call to the service without much features - just simple
+     *
      * @param url to get data from
      * @return a string with response data
      * @throws Exception when if fails
@@ -61,52 +62,79 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
             if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
         }
     }
+
+    protected HttpResponse execute(HttpUriRequest hur) throws Exception {
+        DefaultHttpClient client = getConnector().getClient(getOperationTimeout());
+        try {
+            HttpResponse rsp;
+            rsp = client.execute(hur);
+            return rsp;
+        } catch (java.net.UnknownHostException e) {
+            throw e;
+        } catch (Throwable e) {
+            String message = String.format("could not execute %s, got error: %s,", hur.getMethod(), e);
+            throw new Exception(message);
+        }
+    }
+
     /**
      * Build a request and get it fired to the service and return the response
-     *
+     * <p/>
      * Overload this method if the service makes another response pattern
      *
      * @param hur request instance
      * @return response as entity
      * @throws Exception when there is errors
-     *
      */
     protected HttpEntity talk2service(HttpUriRequest hur) throws Exception {
-        DefaultHttpClient client = getConnector().getClient(getOperationTimeout());
+
+        HttpResponse rsp = execute(hur);
+        String errorMessage=extractMessage(rsp);
+        if (errorMessage != null) {
+            throwExceptionWithMessage(rsp, errorMessage);
+        }
+        return rsp.getEntity();
+    }
+
+    /**
+     * Throw exception with message
+     * @param rsp response that made exception
+     * @param errorMessage message to put into exception
+     * @throws Exception
+     */
+    protected void throwExceptionWithMessage(HttpResponse rsp, String errorMessage) throws Exception {
+        int httpStatus=extractStatus(rsp);
+        throw new Exception(String.format("status:%s ,phrase:%s", httpStatus, errorMessage));
+    }
+
+    protected String extractMessage(HttpResponse rsp) throws Exception {
         HttpEntity entity;
         String errorMessage;
         int httpStatus;
-        try {
-            HttpResponse rsp = client.execute(hur);
-            httpStatus = rsp.getStatusLine().getStatusCode();
-            entity = rsp.getEntity();
-            if (httpStatus == HttpStatus.SC_OK) {
-                errorMessage = null;
-            } else if (httpStatus == HttpStatus.SC_NOT_ACCEPTABLE) {
-                errorMessage = rsp.getStatusLine().getReasonPhrase();
-            } else if (httpStatus == HttpStatus.SC_BAD_REQUEST) {
-                errorMessage = rsp.getStatusLine().getReasonPhrase();
-            } else if (httpStatus == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
-                errorMessage = rsp.getStatusLine().getReasonPhrase();
-                String msg = EntityUtils.toString(entity, "UTF-8");
-                if (msg != null) {
-                    errorMessage = errorMessage + " msg:" + msg;
-                }
-            } else {
-                errorMessage = String.format("Status not handled, %s", rsp.getStatusLine().getReasonPhrase());
+        entity = rsp.getEntity();
+        httpStatus = extractStatus(rsp);
+        if (httpStatus == HttpStatus.SC_OK) {
+            errorMessage = null;
+        } else if (httpStatus == HttpStatus.SC_CREATED) {
+            errorMessage = null;
+        } else if (httpStatus == HttpStatus.SC_NOT_ACCEPTABLE) {
+            errorMessage = rsp.getStatusLine().getReasonPhrase();
+        } else if (httpStatus == HttpStatus.SC_BAD_REQUEST) {
+            errorMessage = rsp.getStatusLine().getReasonPhrase();
+        } else if (httpStatus == HttpStatus.SC_INTERNAL_SERVER_ERROR) {
+            errorMessage = rsp.getStatusLine().getReasonPhrase();
+            String msg = EntityUtils.toString(entity, "UTF-8");
+            if (msg != null) {
+                errorMessage = errorMessage + " msg:" + msg;
             }
-        } catch (java.net.UnknownHostException e) {
-            throw e;
-        } catch (Throwable e) {
-            String message = String.format("could not execute %s, got error: %s,",hur.getMethod(), e);
-            throw new Exception(message);
+        } else {
+            errorMessage = String.format("Status not handled, %s", rsp.getStatusLine().getReasonPhrase());
         }
-        if (errorMessage != null) {
-            throw new Exception(String.format("status:%s ,phrase:%s", httpStatus, errorMessage));
-        }
-        return entity;
+        return errorMessage;
     }
-
+    protected int extractStatus(HttpResponse response) {
+        return response.getStatusLine().getStatusCode();
+    }
 
     protected String parseInputStream(InputStream is) throws Exception {
         StreamReader sr = new StreamReader();
@@ -134,7 +162,7 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
         if (is != null) try {
             is.close();
         } catch (IOException e) {
-            System.out.println("AbstractClient, unexpected could not close input stream, message: "+ e.getMessage());
+            System.out.println("AbstractClient, unexpected could not close input stream, message: " + e.getMessage());
         }
     }
 

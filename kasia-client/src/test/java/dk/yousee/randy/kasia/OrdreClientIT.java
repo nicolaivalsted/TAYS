@@ -1,5 +1,6 @@
 package dk.yousee.randy.kasia;
 
+import com.google.gson.JsonElement;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,5 +37,30 @@ public class OrdreClientIT {
         Assert.assertNotNull("Must return response",response);
         Assert.assertNull("Should have no errors",response.getMessage());
         Assert.assertNotNull("Must give an order",response.getOrderOutput().getUuid());
+    }
+
+    private static final String ordreId="3442db26-ddad-4c4c-addc-e49f0f32f62c";
+
+    @Test
+    public void queryOrdre_existing() throws Exception {
+        OrderStateResponse response = client.queryOrdre(ordreId);
+        Assert.assertNotNull("Must return response",response);
+        JsonElement jsonSource = response.getJsonSource();
+        Assert.assertNotNull("Must give a json",jsonSource);
+        String message=response.getMessage();
+        if(message!=null){
+            System.out.println("message="+message);
+            System.out.println("json="+jsonSource.toString());
+        }
+        Assert.assertNull("Should have no errors",message);
+        Assert.assertNotNull("Must give a status",response.getStatus());
+    }
+
+    @Test
+    public void queryOrdre_notExists() throws Exception {
+        OrderStateResponse response = client.queryOrdre("en-bade-bold");
+        Assert.assertNotNull("Must return response",response);
+        Assert.assertNotNull("Should have errors", response.getMessage());
+        Assert.assertNull("Cannot contain a status", response.getStatus());
     }
 }
