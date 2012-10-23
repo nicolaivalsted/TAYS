@@ -24,23 +24,24 @@ public class InvoiceRequest {
 
     public String printJson() {
         String res;
-        res = String.format("    {\n" +
-            "        \"kundenr\" : \"" + customer + "\",\n" +
-            "        \"handlinger\" : [{\n" +
-            "        \"handling\" : \"OPRET\",\n" +
-            "            \"varenr\" : \"" + salesItem + "\"\n" +
-            "    }],\n" +
-            "        \"info\" : {\n" +
-            "        \"klient\" : {\n" +
-            "            \"funktion\" : \"rent-movie\",\n" +
-            "                \"bruger\" : \"" + user + "\",\n" +
-            "                \"system\" : \"" + system + "\"\n" +
-            "        },\n" +
-            "        \"data\" : {\n" +
-            "            \"title\" : \"" + title + "\"\n" +
-            "        }\n" +
-            "    }\n" +
-            "    }\n");
+        res = String.format(
+            "{\n" +
+                "        \"kundeid\" : \"" + customer + "\",\n" +
+                "        \"handlinger\" : [{\n" +
+                "        \"handling\" : \"OPRET\",\n" +
+                "            \"varenr\" : \"" + salesItem + "\"\n" +
+                "    }],\n" +
+                "        \"info\" : {\n" +
+                "        \"klient\" : {\n" +
+                "            \"funktion\" : \"rent-movie\",\n" +
+                "                \"bruger\" : \"" + user + "\",\n" +
+                "                \"system\" : \"" + system + "\"\n" +
+                "        },\n" +
+                "        \"data\" : {\n" +
+                "            \"title\" : \"" + title + "\"\n" +
+                "        }\n" +
+                "    }\n" +
+                "}\n");
 
         return res;
     }
