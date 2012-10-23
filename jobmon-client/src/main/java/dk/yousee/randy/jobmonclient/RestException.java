@@ -7,6 +7,7 @@ package dk.yousee.randy.jobmonclient;
 public class RestException extends Exception {
 
     public RestException(String reasonPhrase) {
+        super(reasonPhrase);
     }
 
     public RestException(Throwable thrwbl) {

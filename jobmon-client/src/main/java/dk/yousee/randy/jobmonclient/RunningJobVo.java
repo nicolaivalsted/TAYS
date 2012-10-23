@@ -15,6 +15,7 @@ public class RunningJobVo {
     private String result;
     private String detaillink;
     private String estimateend;
+    private Date endtime;
 
     public String getDetaillink() {
         return detaillink;
@@ -78,5 +79,13 @@ public class RunningJobVo {
 
     public void setState(JobState state) {
         this.state = state;
+    }
+
+    public Date getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(Date endtime) {
+        this.endtime = endtime;
     }
 }

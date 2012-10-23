@@ -32,39 +32,31 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 /**
- *  <bean id="jobMonClient" class="dk.yousee.randy.jobmonclient.JobMonClient">
-        <property name="jobMonHost">
-            <bean class="org.springframework.jndi.JndiObjectFactoryBean">
-                <property name="jndiName" value="jobMonHost"/>
-                <property name="defaultObject" value="194.239.10.173/jobmon-rest"/>
-            </bean>
-        </property>
-        <property name="jobMonPort">
-           <bean class="org.springframework.jndi.JndiObjectFactoryBean">
-                <property name="jndiName" value="jobMonPort"/>
-                <property name="defaultObject" value="8080"/>
-            </bean>
-        </property>
-    </bean>
- * @author jablo
+ * <bean id="jobMonClient" class="dk.yousee.randy.jobmonclient.JobMonClient">
+ * <property name="jobMonHost"> <bean
+ * class="org.springframework.jndi.JndiObjectFactoryBean"> <property
+ * name="jndiName" value="jobMonHost"/> <property name="defaultObject"
+ * value="194.239.10.173/jobmon-rest"/> </bean> </property> <property
+ * name="jobMonPort"> <bean
+ * class="org.springframework.jndi.JndiObjectFactoryBean"> <property
+ * name="jndiName" value="jobMonPort"/> <property name="defaultObject"
+ * value="8080"/> </bean> </property> </bean> @author jablo
  */
 public class JobMonClient {
     private final static Logger log = Logger.getLogger(JobMonClient.class.getName());
     private final DateTimeFormatter dateparser = ISODateTimeFormat.dateTimeNoMillis();
     private final Gson gson;
-
     private String jobMonHost; //194.239.10.173:8080/jobmon-rest
 
     public void setJobMonHost(String jobMonHost) {
         this.jobMonHost = jobMonHost;
     }
-    
     private int jobMonPort;
 
     public void setJobMonPort(int jobMonPort) {
         this.jobMonPort = jobMonPort;
     }
-    
+
     public JobMonClient() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
@@ -78,6 +70,16 @@ public class JobMonClient {
                 } catch (IllegalArgumentException e) {
                     throw new JsonParseException("Date " + date + " not parseable as ISO date formatted string", e);
                 }
+            }
+        });
+        builder.registerTypeAdapter(Date.class, new JsonSerializer<Date>() {
+            @Override
+            public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
+                final DateTimeFormatter dateparser = ISODateTimeFormat.dateTimeNoMillis();
+                StringBuffer sb = new StringBuffer();
+                DateTime dt = new DateTime(src);
+                dateparser.printTo(sb, dt);
+                return new JsonPrimitive(sb.toString());
             }
         });
         gson = builder.create();
@@ -101,19 +103,22 @@ public class JobMonClient {
                 Date endTime = new Date(new Date().getTime() + estimatedRuntime);
                 postEntity.setEstimateend(dateparser.print(new DateTime(endTime)));
                 try {
-                    postDocument = new StringEntity(gson.toJson(postEntity));
+                    String str = gson.toJson(postEntity);
+                    log.log(Level.INFO, "Posting: {0}", str);
+                    postDocument = new StringEntity(str);
                 } catch (UnsupportedEncodingException ex) {
-                    throw new RestException("Error building json request " + ex.getMessage());
+                    throw new RestException("Error building json request " + ex.getMessage(), ex);
                 }
             } else {
                 postDocument = new StringEntity("{}");
+                log.log(Level.INFO, "Posting: empty");
             }
-            log.log(Level.INFO, "Posting: {0}", postDocument);
+
             post.setEntity(postDocument);
             //HttpHost target = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
             HttpResponse rsp = client.execute(post);
             if (rsp.getStatusLine().getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
-                throw new RestException(rsp.getStatusLine().getReasonPhrase());
+                throw new RestException("HttpStatus jobmon: " + rsp.getStatusLine().getStatusCode());
             }
             HttpEntity entity = rsp.getEntity();
             String res = EntityUtils.toString(entity, "UTF-8");
@@ -131,9 +136,9 @@ public class JobMonClient {
     public RunningJobVo updateRun(RunningJobVo run) throws RestException {
         // post to job start and return running job meta data incl. url
         try {
-            DefaultHttpClient client = new DefaultHttpClient();           
-            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run/"+run.getId(), null, null);
-            
+            DefaultHttpClient client = new DefaultHttpClient();
+            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run/" + run.getId(), null, null);
+
             HttpPut put = new HttpPut(uri);
             put.setHeader("accept", "application/json");
             put.setHeader("Content-Type", "application/json");
