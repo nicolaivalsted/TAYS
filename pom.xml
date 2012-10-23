@@ -20,6 +20,7 @@
         <module>smp-client</module>
         <module>yspro-client</module>
         <module>kasia-client</module>
+        <module>jobmon-client</module>
     </modules>
 <!--
     <repositories>
