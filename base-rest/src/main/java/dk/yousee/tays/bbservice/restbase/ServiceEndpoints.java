@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.yousee.tays.bbservice.restbase;
 
 /**
@@ -15,4 +11,5 @@ public class ServiceEndpoints {
     public final static String ACCESSNET_DEVICES_SERVICE = "/accessnet/devices";
     public final static String IPSCOPES_SERVICE = "/ipscopes";
     public final static String FORENINGSMAIL_SERVICE = "/foreningsmail";
+    public final static String VOICEMAIL_SERVICE = "/voicemail";
 }
