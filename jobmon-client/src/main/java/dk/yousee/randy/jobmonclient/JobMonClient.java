@@ -5,6 +5,7 @@
 package dk.yousee.randy.jobmonclient;
 
 import com.google.gson.*;
+import dk.yousee.randy.base.AbstractConnector;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -56,6 +57,12 @@ public class JobMonClient {
     public void setJobMonPort(int jobMonPort) {
         this.jobMonPort = jobMonPort;
     }
+    
+    private AbstractConnector ac;
+
+    public void setAc(AbstractConnector ac) {
+        this.ac = ac;
+    }
 
     public JobMonClient() {
         GsonBuilder builder = new GsonBuilder();
@@ -87,8 +94,9 @@ public class JobMonClient {
 
     public RunningJobVo startRun(String jobName, Long estimatedRuntime) throws RestException {
         // post to job start and return running job meta data incl. url
+        HttpEntity entity = null;
         try {
-            DefaultHttpClient client = new DefaultHttpClient();
+            DefaultHttpClient client = ac.getClient(null);
 
             final List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
             queryParams.add(new BasicNameValuePair("name", jobName));
@@ -117,10 +125,10 @@ public class JobMonClient {
             post.setEntity(postDocument);
             //HttpHost target = new HttpHost(url.getHost(), url.getPort(), url.getProtocol());
             HttpResponse rsp = client.execute(post);
+            entity = rsp.getEntity();
             if (rsp.getStatusLine().getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
                 throw new RestException("HttpStatus jobmon: " + rsp.getStatusLine().getStatusCode());
             }
-            HttpEntity entity = rsp.getEntity();
             String res = EntityUtils.toString(entity, "UTF-8");
             RunningJobVo fromJson = gson.fromJson(res, RunningJobVo.class);
             return fromJson;
@@ -130,13 +138,22 @@ public class JobMonClient {
             throw new RestException(ex);
         } catch (URISyntaxException ex) {
             throw new RestException(ex);
+        } finally{
+            if(entity!=null){
+                try {
+                    EntityUtils.consume(entity);
+                } catch (IOException ex) {
+                    log.log(Level.WARNING, "Could not clean http");
+                }
+            }
         }
     }
 
     public RunningJobVo updateRun(RunningJobVo run) throws RestException {
         // post to job start and return running job meta data incl. url
+        HttpEntity entity=null;
         try {
-            DefaultHttpClient client = new DefaultHttpClient();
+            DefaultHttpClient client = ac.getClient(null);
             URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run/" + run.getId(), null, null);
 
             HttpPut put = new HttpPut(uri);
@@ -155,7 +172,7 @@ public class JobMonClient {
             if (rsp.getStatusLine().getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
                 throw new RestException(rsp.getStatusLine().getReasonPhrase());
             }
-            HttpEntity entity = rsp.getEntity();
+            entity = rsp.getEntity();
             String res = EntityUtils.toString(entity, "UTF-8");
             RunningJobVo fromJson = gson.fromJson(res, RunningJobVo.class);
             return fromJson;
@@ -165,6 +182,14 @@ public class JobMonClient {
             throw new RestException(ex.getMessage());
         } catch (URISyntaxException ex) {
             throw new RestException(ex);
+        } finally{
+            if(entity!=null){
+                try {
+                    EntityUtils.consume(entity);
+                } catch (IOException ex) {
+                    log.log(Level.WARNING, "Could not clean http");
+                }
+            }
         }
     }
 }

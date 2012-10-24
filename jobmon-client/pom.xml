@@ -33,5 +33,10 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>dk.yousee.randy</groupId>
+            <artifactId>base-client</artifactId>
+            <version>3.01-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
