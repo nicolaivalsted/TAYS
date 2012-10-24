@@ -10,13 +10,12 @@ import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.BusinessException;
 import dk.yousee.smp.order.model.Response;
 import dk.yousee.smp.smpclient.SmpConnectorImpl;
+import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -70,7 +69,7 @@ public class VoiceCaseIT {
     }
 
     @Ignore
-    @Test
+//    @Test
     public void createVoice() throws BusinessException {
         ModemId modemID = ModemId.create("100000004");
         VoiceCase.VoiceData voiceData = new VoiceCase.VoiceData();
@@ -91,35 +90,35 @@ public class VoiceCaseIT {
     }
 
     @Ignore
-    @Test
+//    @Test
     public void createVoiceMail() throws BusinessException {
         test.createVoiceMail(ModemId.create("600195777"),PhoneNumber.create("74674391"));
         test.send();
     }
 
     @Ignore
-    @Test
+//    @Test
     public void deleteVoice() throws BusinessException {
         test.deleteVoice(new ModemId("605396311"));
         test.send();
     }
 
     @Ignore
-    @Test
+//    @Test
     public void suspendVoice() throws BusinessException {
         test.suspendVoice(new ModemId("605396311"));
         test.send();
     }
 
     @Ignore
-    @Test
+//    @Test
     public void resumeVoice() throws BusinessException {
         test.resumeVoice(new ModemId("605396311"));
         test.send();
     }
 
     @Ignore
-    @Test
+//    @Test
     public void updateDialToneAccess() throws BusinessException {
         VoiceCase.VoiceData voiceData = new VoiceCase.VoiceData();
         voiceData.setPhoneNumber(PhoneNumber.create("12345678"));
@@ -128,7 +127,7 @@ public class VoiceCaseIT {
     }
 
     @Ignore
-    @Test
+//    @Test
     public void addAssocInternet_access_has_emta_cmForInetAccess() throws BusinessException {
         VoipAccess voipAccess = test.getModel().find().VoipAccess(new ModemId("100000004"));
         test.addDt_has_accessForDialToneAccess(voipAccess, new ModemId("100000004"));
@@ -140,5 +139,13 @@ public class VoiceCaseIT {
         SubscriberCase customerCase=new SubscriberCase(service,acct);
         test=new VoiceCase(customerCase);
         Assert.assertNotNull(test);
+    }
+    
+    @Ignore
+//    @Test
+    public void updateVoiceMailRandyState() throws BusinessException{
+        test.updateVoiceMailRandyState(new PhoneNumber("48410002"), "Test");
+        Integer order = test.send();
+        Assert.assertNotNull(order);
     }
 }

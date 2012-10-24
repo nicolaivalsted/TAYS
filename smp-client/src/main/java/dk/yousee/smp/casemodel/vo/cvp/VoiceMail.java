@@ -27,7 +27,9 @@ public class VoiceMail extends BasicUnit {
 
     //Type.FEATURE
     public PropHolder voicemail_service_id = new PropHolder(this, "voicemail_service_id", true);
-
+    
+    public PropHolder randy_status = new PropHolder(this, "randy_status");
+    
     private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
 
     public PhoneNumber getPhoneNumber() {

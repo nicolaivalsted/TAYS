@@ -269,4 +269,11 @@ public class VoiceCase extends AbstractCase {
         }
         return dialToneAccess;
     }
+    
+    public void updateVoiceMailRandyState(PhoneNumber pn, String state) throws BusinessException{
+       ensureAcct();
+        
+       VoiceMail voiceMail = getModel().find().CableVoiceService(pn).getVoiceMail();
+       voiceMail.randy_status.setValue(state);
+    }
 }
