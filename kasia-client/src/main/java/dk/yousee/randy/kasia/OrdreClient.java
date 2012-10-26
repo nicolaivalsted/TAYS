@@ -67,7 +67,6 @@ public class OrdreClient extends AbstractKasiaClient {
             if(extractStatus(response)== HttpStatus.SC_NOT_FOUND){
                 return new OrderStateResponse(String.format("Order %s not found",ordreId),null);
             } else {
-                entity = talk2service(hur);
                 return new OrderStateResponse(null,readResponse(entity));
             }
         } finally {
@@ -76,4 +75,38 @@ public class OrdreClient extends AbstractKasiaClient {
     }
 
 
+
+    /**
+     * //http://preprod-kasia.yousee.dk/afsaetning/priser/intet/W
+     * GET /afsaetning/priser/<anlaegsid>/<salgskanal>
+     * Accept: application/vnd.yousee.kasia2.afsaetning+json;version=1
+     * @return list of items + prices
+     */
+    public PricesResponse prices()  {
+        try {
+            return pricesInner();
+        } catch (Exception e) {
+            String message=String.format("Tried to query prices, got exception: %s",e.getMessage());
+            return new PricesResponse(message,null);
+        }
+    }
+
+    private PricesResponse pricesInner() throws Exception {
+        HttpGet hur;
+        URL href=new URL(String.format("%s/afsaetning/priser/intet/W", getConnector().getKasiaHost()));
+        hur = new HttpGet(href.toString());
+        hur.setHeader(HttpHeaders.ACCEPT, getDefaultMediaType());
+        HttpEntity entity = null;
+        try {
+            HttpResponse response = execute(hur);
+            entity=response.getEntity();
+//            if(extractStatus(response)== HttpStatus.SC_NOT_FOUND){
+//                return new OrderStateResponse(String.format("Prices not found"),null);
+//            } else {
+                return new PricesResponse(null,readResponse(entity));
+//            }
+        } finally {
+            if (entity != null) EntityUtils.consume(entity);
+        }
+    }
 }
