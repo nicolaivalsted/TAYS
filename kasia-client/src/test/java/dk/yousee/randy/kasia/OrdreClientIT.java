@@ -5,6 +5,7 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -79,7 +80,9 @@ public class OrdreClientIT {
         }
         Assert.assertNull("Should have no errors",message);
         Map<String,PricesResponse.ItemPrice> items = response.getItems();
-        Assert.assertFalse("Must contain data",items.isEmpty());
+        Assert.assertFalse("Must contain data", items.isEmpty());
+        Collection list=response.asList();
+        Assert.assertNotNull(list);
     }
 
 }

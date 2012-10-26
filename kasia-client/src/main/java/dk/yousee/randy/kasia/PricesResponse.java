@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -40,6 +41,9 @@ public class PricesResponse {
         }
     }
 
+    public Collection<ItemPrice> asList() {
+        return items.values();
+    }
 
     private Map<String, ItemPrice> parse(JsonObject json) {
         Map<String,ItemPrice> list= initItems();
