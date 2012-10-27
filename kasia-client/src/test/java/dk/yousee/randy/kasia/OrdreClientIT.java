@@ -5,7 +5,10 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -67,9 +70,20 @@ public class OrdreClientIT {
         Assert.assertNull("Cannot contain a status", response.getStatus());
     }
 
+    private static final String[] filmRentalItemIds=new String[]{
+        "1701000", //YouBio Film 0
+        "1701001", //YouBio Film 1
+        "1701002", //YouBio Film 2
+        "1701003", //YouBio Film 3
+        "1701004", //YouBio Film 4
+        "1701005"  //YouBio Film 5
+    };
+
     @Test
     public void prices() throws Exception {
-        PricesResponse response = client.prices();
+        List<String> itemKeys=new ArrayList<String>();
+        Collections.addAll(itemKeys, filmRentalItemIds);
+        PricesResponse response = client.prices(itemKeys);
         Assert.assertNotNull("Must return response",response);
         JsonElement jsonSource = response.getJsonSource();
         Assert.assertNotNull("Must give a json",jsonSource);

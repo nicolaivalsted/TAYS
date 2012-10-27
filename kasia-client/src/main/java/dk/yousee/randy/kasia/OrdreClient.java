@@ -10,6 +10,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
 import java.net.URL;
+import java.util.List;
 
 /**
  * User: aka
@@ -82,16 +83,16 @@ public class OrdreClient extends AbstractKasiaClient {
      * Accept: application/vnd.yousee.kasia2.afsaetning+json;version=1
      * @return list of items + prices
      */
-    public PricesResponse prices()  {
+    public PricesResponse prices(List<String> itemKeys)  {
         try {
-            return pricesInner();
+            return pricesInner(itemKeys);
         } catch (Exception e) {
             String message=String.format("Tried to query prices, got exception: %s",e.getMessage());
-            return new PricesResponse(message,null);
+            return new PricesResponse(itemKeys,message,null);
         }
     }
 
-    private PricesResponse pricesInner() throws Exception {
+    private PricesResponse pricesInner(List<String> itemKeys) throws Exception {
         HttpGet hur;
         URL href=new URL(String.format("%s/afsaetning/priser/intet/W", getConnector().getKasiaHost()));
         hur = new HttpGet(href.toString());
@@ -103,7 +104,7 @@ public class OrdreClient extends AbstractKasiaClient {
 //            if(extractStatus(response)== HttpStatus.SC_NOT_FOUND){
 //                return new OrderStateResponse(String.format("Prices not found"),null);
 //            } else {
-                return new PricesResponse(null,readResponse(entity));
+                return new PricesResponse(itemKeys,null,readResponse(entity));
 //            }
         } finally {
             if (entity != null) EntityUtils.consume(entity);
