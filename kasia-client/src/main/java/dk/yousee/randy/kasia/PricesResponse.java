@@ -81,6 +81,14 @@ public class PricesResponse {
         return jsonSource;
     }
 
+    ItemPrice filterByPrice(String price){
+        for(ItemPrice item:getItems().values()){
+            if(item.matchPrice(price)){
+                return item;
+            }
+        }
+        return null;
+    }
     /**
      * @return not null string means problems !!!!
      */
@@ -92,36 +100,4 @@ public class PricesResponse {
         return items;
     }
 
-    public class ItemPrice {
-        private String id;
-        private JsonObject json;
-
-        public ItemPrice(String id, JsonObject json) {
-            this.id = id;
-            this.json = json;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public String getTotalpris() {
-            return json == null ? null : json.get("totalpris").getAsString();
-        }
-
-        public int getFejlkode() {
-            return json == null ? 0 : json.get("fejlkode").getAsInt();
-        }
-
-
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder();
-            sb.append("{\"id\":\"").append(id).append('"');
-            if (getTotalpris() != null) sb.append(", \"totalPris\":").append('"').append(getTotalpris()).append('"');
-            if (getFejlkode() != 0) sb.append(", \"error\":").append(getFejlkode());
-            sb.append('}');
-            return sb.toString();
-        }
-    }
 }

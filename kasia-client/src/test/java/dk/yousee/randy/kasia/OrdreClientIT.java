@@ -93,10 +93,11 @@ public class OrdreClientIT {
             System.out.println("json="+jsonSource.toString());
         }
         Assert.assertNull("Should have no errors",message);
-        Map<String,PricesResponse.ItemPrice> items = response.getItems();
+        Map<String,ItemPrice> items = response.getItems();
         Assert.assertFalse("Must contain data", items.isEmpty());
         Collection list=response.asList();
         Assert.assertNotNull(list);
+        Assert.assertNotNull(response.getReadTimeAsString());
     }
 
 }
