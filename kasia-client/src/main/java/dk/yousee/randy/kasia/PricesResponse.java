@@ -5,7 +5,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
+import java.text.SimpleDateFormat;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -21,8 +23,10 @@ public class PricesResponse {
     private JsonElement jsonSource;
     private String message;
     private Map<String, ItemPrice> items;
+    private Date readTime;
     public PricesResponse(List<String> itemKeys, String message, String kasiaResponse) {
         this.message = message == null ? null : (message.trim().length() == 0 ? null : message);
+        this.readTime=new Date();
         if (kasiaResponse != null && kasiaResponse.trim().length() > 0) {
             try {
                 jsonSource = new JsonParser().parse(kasiaResponse);
@@ -42,9 +46,18 @@ public class PricesResponse {
     }
 
     public Collection<ItemPrice> asList() {
+        if(items==null)throw new IllegalStateException("Invalid dataset");
         return items.values();
     }
 
+    public Date getReadTime() {
+        return readTime;
+    }
+    static final SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //"2012-09-03 18:00:00");
+
+    public String getReadTimeAsString() {
+        return format.format(getReadTime());
+    }
 
     private Map<String, ItemPrice> parse(List<String> itemKeys, JsonObject json) {
         Map<String, ItemPrice> list = initItems();
@@ -99,6 +112,7 @@ public class PricesResponse {
         public int getFejlkode() {
             return json == null ? 0 : json.get("fejlkode").getAsInt();
         }
+
 
         @Override
         public String toString() {
