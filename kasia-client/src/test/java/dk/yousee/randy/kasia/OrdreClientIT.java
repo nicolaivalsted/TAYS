@@ -71,12 +71,11 @@ public class OrdreClientIT {
     }
 
     private static final String[] filmRentalItemIds=new String[]{
-        "1701000", //YouBio Film 0
-        "1701001", //YouBio Film 1
-        "1701002", //YouBio Film 2
-        "1701003", //YouBio Film 3
-        "1701004", //YouBio Film 4
-        "1701005"  //YouBio Film 5
+        "1703001", //YouBio Film 1
+        "1703002", //YouBio Film 2
+        "1703003", //YouBio Film 3
+        "1703004", //YouBio Film 4
+        "1703005"  //YouBio Film 5
     };
 
     @Test
@@ -98,6 +97,7 @@ public class OrdreClientIT {
         Collection list=response.asList();
         Assert.assertNotNull(list);
         Assert.assertNotNull(response.getReadTimeAsString());
+        Assert.assertNotNull("Should return a price",response.filterByPrice("9,00"));
     }
 
 }
