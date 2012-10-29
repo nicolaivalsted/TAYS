@@ -81,7 +81,7 @@ public class PricesResponse {
         return jsonSource;
     }
 
-    ItemPrice filterByPrice(String price){
+    public ItemPrice filterByPrice(String price){
         for(ItemPrice item:getItems().values()){
             if(item.matchPrice(price)){
                 return item;
@@ -89,6 +89,18 @@ public class PricesResponse {
         }
         return null;
     }
+
+    public String availablePrices(){
+        StringBuilder sb=new StringBuilder();
+        for(ItemPrice item:getItems().values()){
+            if(sb.length()!=0){
+                sb.append(" ");
+            }
+            sb.append(item.getTotalpris());
+        }
+        return sb.toString();
+    }
+
     /**
      * @return not null string means problems !!!!
      */

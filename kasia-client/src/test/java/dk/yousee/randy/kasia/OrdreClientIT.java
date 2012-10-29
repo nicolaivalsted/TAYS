@@ -71,6 +71,7 @@ public class OrdreClientIT {
     }
 
     private static final String[] filmRentalItemIds=new String[]{
+        "1703000", //YouBio Film 0
         "1703001", //YouBio Film 1
         "1703002", //YouBio Film 2
         "1703003", //YouBio Film 3
@@ -98,6 +99,7 @@ public class OrdreClientIT {
         Assert.assertNotNull(list);
         Assert.assertNotNull(response.getReadTimeAsString());
         Assert.assertNotNull("Should return a price",response.filterByPrice("9,00"));
+        Assert.assertNotNull("Should return list of prices",response.availablePrices());
     }
 
 }
