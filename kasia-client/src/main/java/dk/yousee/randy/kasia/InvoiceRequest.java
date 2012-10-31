@@ -25,21 +25,16 @@ public class InvoiceRequest {
     public String printJson() {
         String res;
         res = String.format(
-            "{\n" +
-                "        \"kundeid\" : \"" + customer + "\",\n" +
+            "{  \"kundeid\" : \"" + customer + "\",\n" +
                 "        \"handlinger\" : [{\n" +
                 "        \"handling\" : \"OPRET\",\n" +
-                "            \"varenr\" : \"" + salesItem + "\"\n" +
+                "            \"varenr\" : \"" + salesItem + "\",\n" +
+                "            \"title\" : \"" + title + "\"\n" +
                 "    }],\n" +
                 "        \"info\" : {\n" +
-                "        \"klient\" : {\n" +
-                "            \"funktion\" : \"rent-movie\",\n" +
-                "                \"bruger\" : \"" + user + "\",\n" +
-                "                \"system\" : \"" + system + "\"\n" +
-                "        },\n" +
-                "        \"data\" : {\n" +
-                "            \"title\" : \"" + title + "\"\n" +
-                "        }\n" +
+                "            \"klient-funktion\" : \"rent-movie\",\n" +
+                "            \"klient-bruger\" : \"" + user + "\",\n" +
+                "            \"klient-system\" : \"" + system + "\"\n" +
                 "    }\n" +
                 "}\n");
 
