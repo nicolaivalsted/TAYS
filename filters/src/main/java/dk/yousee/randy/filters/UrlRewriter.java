@@ -63,17 +63,17 @@ public class UrlRewriter implements Filter {
     @Override
     public void doFilter(ServletRequest _request, ServletResponse _response, FilterChain chain)
             throws IOException, ServletException {
-        log.log(Level.INFO, "{0} filter executing", this.getClass().getName());
+        log.log(Level.FINE, "{0} filter executing", this.getClass().getName());
         HttpServletRequest req = (HttpServletRequest) _request;
         String originalUrl = req.getHeader(originalUrlPrefixHeaderName);
         String rewrittenUrl = req.getHeader(rewrittenUrlPrefixHeaderName);
         if (rewrittenUrl == null) {
-            log.log(Level.INFO, "No header {0} not rewriting urls", rewrittenUrlPrefixHeaderName);
+            log.log(Level.FINE, "No header {0} not rewriting urls", rewrittenUrlPrefixHeaderName);
             chain.doFilter(_request, _response);
             return;
         }
         if (originalUrl == null) {
-            log.log(Level.INFO, "No header {0} url rewriting will simply delete {1} url components", new Object[]{originalUrlPrefixHeaderName, rewrittenUrl});
+            log.log(Level.FINE, "No header {0} url rewriting will simply delete {1} url components", new Object[]{originalUrlPrefixHeaderName, rewrittenUrl});
             originalUrl = "";
         }
         ByteArrayOutputStream os = new ByteArrayOutputStream(64 * 1024);
@@ -91,7 +91,7 @@ public class UrlRewriter implements Filter {
     }
 
     private void replaceAll(StringBuilder sb, String search, String replace) {
-        log.log(Level.INFO, "Rewriting: {0} REPLACING {1} WITH {2}", new Object[]{sb.toString(), search, replace});
+        log.log(Level.FINER, "Rewriting: {0} REPLACING {1} WITH {2}", new Object[]{sb.toString(), search, replace});
         for (;;) {
             int i = sb.indexOf(search);
             if (i == -1)
