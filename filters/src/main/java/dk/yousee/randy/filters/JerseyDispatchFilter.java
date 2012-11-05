@@ -57,7 +57,7 @@ public class JerseyDispatchFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        log.info("Jersey filter initializing");
+        log.fine("Jersey filter initializing");
         Enumeration<String> initParameterNames = filterConfig.getInitParameterNames();
         while (initParameterNames.hasMoreElements()) {
             String paramName = initParameterNames.nextElement();
@@ -92,30 +92,30 @@ public class JerseyDispatchFilter implements Filter {
     @Override
     public void doFilter(ServletRequest _request, ServletResponse _response,
                          FilterChain chain) throws IOException, ServletException {
-        log.info("Jersey filter!");
+        log.fine("Jersey filter!");
         MyServletRequestWrapper req = new MyServletRequestWrapper((HttpServletRequest) _request);
         final String matchPath = req.getRequestURI().substring(req.getContextPath().length());
-        log.log(Level.INFO, "Matching: {0}", matchPath);
+        log.log(Level.FINE, "Matching: {0}", matchPath);
         HttpServletResponse resp = (HttpServletResponse) _response;
         if (matchOneOf(staticPrefixPatterns, matchPath)) {
-            log.info("Jersey filter mathched static content");
+            log.fine("Jersey filter mathched static content");
             chain.doFilter(req, resp); // Goes to default servlet.
         } else if (matchPath.startsWith(jerseyPrefix)) {
-            log.info("Jersey filter mathched erroneous jersey content");
+            log.fine("Jersey filter mathched erroneous jersey content");
             throw new ServletException("There's an internal link " + jerseyPrefix + " directly in an incoming link. Leak.");
         } else if (matchOneOf(jerseyPrefixPatterns, matchPath)) {
-            log.info("Jersey filter matched jersey content");
+            log.fine("Jersey filter matched jersey content");
             final String originalContextUrl = req.getScheme() + "://"
                 + req.getServerName() + ":" + req.getServerPort()
                 + req.getContextPath();
             final String jerseyTarget = jerseyPrefix + req.getServletPath();
             req.addHeader(originHeaderName, originalContextUrl);
             req.addHeader(rewrittenUrlPrefixHeaderName, originalContextUrl + jerseyPrefix);
-            log.log(Level.INFO, "JerseyFilter dispatching to {0}", jerseyTarget);
+            log.log(Level.FINE, "JerseyFilter dispatching to {0}", jerseyTarget);
             RequestDispatcher requestDispatcher = req.getRequestDispatcher(jerseyTarget);
             requestDispatcher.forward(req, resp);
         } else {
-            log.info("Jersey filter defaulted to default servlet");
+            log.fine("Jersey filter defaulted to default servlet");
             chain.doFilter(req, resp); // Goes to default servlet.
         }
     }
