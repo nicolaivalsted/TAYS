@@ -20,9 +20,10 @@ public class VoucherClientIT {
 
     @Before
     public void setUp() {
-        logger.fine("setup()");
+        logger.info("setup()");
         VoucherConnectorImpl connector = new VoucherConnectorImpl();
         connector.setVoucherHost(VoucherConnectorImpl.VOUCHER_HOST);
+//        connector.setVoucherHost(VoucherConnectorImpl.PREPROD_VOUCHER_HOST);
         client = new VoucherClient();
         client.setConnector(connector);
 
@@ -30,9 +31,10 @@ public class VoucherClientIT {
 
     @Test
     public void readWsdl() throws Exception {
-        logger.fine("URL: "+client.generateWsdlUrl());
+        logger.info("URL: "+client.generateWsdlUrl());
         String wsdl=client.readWsdl();
         Assert.assertNotNull(wsdl);
+        Assert.assertTrue(wsdl.contains("consumeTicket"));
 
     }
     @Test
