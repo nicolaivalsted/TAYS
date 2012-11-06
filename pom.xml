@@ -16,11 +16,12 @@
         <module>filters</module>
         <module>base-client</module>
         <module>base-rest</module>
+        <module>jobmon-client</module>
+        <module>kasia-client</module>
         <module>smp-xml</module>
         <module>smp-client</module>
+        <module>voucher-client</module>
         <module>yspro-client</module>
-        <module>kasia-client</module>
-        <module>jobmon-client</module>
     </modules>
 <!--
     <repositories>

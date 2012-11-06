@@ -72,7 +72,7 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
         } catch (java.net.UnknownHostException e) {
             throw e;
         } catch (Throwable e) {
-            String message = String.format("could not execute %s, got error: %s,", hur.getMethod(), e);
+            String message = String.format("could not execute %s %s got error: %s,", hur.getMethod(),hur.getURI(), e);
             throw new Exception(message);
         }
     }

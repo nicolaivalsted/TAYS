@@ -1,0 +1,53 @@
+
+JIRA
+https://yousee.jira.com/wiki/display/YTS/wsVoucher_spec
+
+** production:
+url: http://smt-h3106.yousee.dk:8080/voucherService/voucherInterface?wsdl
+
+nslookup smt-h3106.yousee.dk 194.239.10.119
+
+194.239.10.119  nuværensde smt-h3106.yousee.dk
+194.239.248.10  V4 drift
+
+** Test
+192.168.98.10 internt fra yousee teknik netværk
+194.239.141.37 public adresse
+
+** Test alive
+curl http://192.168.98.10/online-services/alive.jsp
+
+
+
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:vouc="http://voucher.smarttv.dk/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <vouc:consumeTicket>
+         <arg0>
+            <!--Optional:-->
+            <asset>asset</asset>
+
+            <correlator>$bio_row</correlator>
+
+            <customer>999888777</customer>
+
+            <drm_id>drm</drm_id>
+            <!--Optional:-->
+            <provider>produc</provider>
+            <!--Optional:-->
+            <system>sys</system>
+            <!--Optional:-->
+            <voucher>vou11111</voucher>
+         </arg0>
+      </vouc:consumeTicket>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+
+
+* hvor ser jeg vouchers ?
+
+* Der er en liste på Google docs
+
+* 

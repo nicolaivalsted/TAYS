@@ -1,12 +1,12 @@
-package dk.yousee.randy.kasia;
+package dk.yousee.randy.voucher;
 
 /**
  * User: aka
  * Date: 19/10/12
  * Time: 09.59
- * Request for invoice
+ * Request for using voucher
  */
-public class InvoiceRequest {
+public class VoucherRequest {
 
     private String customer;
     private String salesItem;
@@ -14,7 +14,7 @@ public class InvoiceRequest {
     private String user;
     private String system;
 
-    public InvoiceRequest(String customer, String salesItem, String title, String user, String system) {
+    public VoucherRequest(String customer, String salesItem, String title, String user, String system) {
         this.customer = customer;
         this.salesItem = salesItem;
         this.title = title;
