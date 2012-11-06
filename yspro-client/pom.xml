@@ -25,8 +25,8 @@
             <version>7.0.3</version>
         </dependency>
         <dependency>
-          <groupId>com.google.code.gson</groupId>
-          <artifactId>gson</artifactId>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
         </dependency>
         <!-- testing -->
         <dependency>
@@ -35,6 +35,36 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>  
+        <repository>
+            <id>nexus</id>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Codehaus Snapshots</id>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+    
     <build>
         <plugins>
             <plugin>
