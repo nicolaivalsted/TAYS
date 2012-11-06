@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.01</version>
+        <version>3.02-SNAPSHOT</version>
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>jobmon-client</artifactId>
@@ -36,7 +36,7 @@
         <dependency>
             <groupId>dk.yousee.randy</groupId>
             <artifactId>base-client</artifactId>
-            <version>3.01</version>
+            <version>3.02-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
