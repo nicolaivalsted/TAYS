@@ -36,8 +36,17 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
+ * This test tests outgoing url rewriting filter by mocking up the following
+ * classes (see below): 
+ * <ul>
+ * <li> ServletRequestProxy
+ * <li> ServletResponseProxy
+ * <li> FilterChainProxy
+ * <li> FilterConfigProxy
+ * <li> ServletOutputStreamProxy
+ * </ul>
  *
- * @author jablo
+ * @author Jacob Lorensen, YouSee, November 2012
  */
 public class UrlRewriterTest {
     public UrlRewriterTest() {
@@ -96,23 +105,45 @@ public class UrlRewriterTest {
         System.out.println("doFilter");
         // Headers
         Map<String, String> hs = new HashMap();
-        hs.put("Original-URL", "http://my.server.dk/myservice/api/myfunction");
-        hs.put("Rewritten-URL", "http://my.server.dk/myservice/myfunction");
+        hs.put("Original-URL", "http://my.server.dk/myservice/myfunction");
+        hs.put("Rewritten-URL", "http://my.server.dk/myservice/api/myfunction");
         ServletRequest _request = new ServletRequestProxy(hs);
         ServletOutputStreamProxy os = new ServletOutputStreamProxy();
         ServletResponse _response = new ServletResponseProxy(os);
-        FilterChain chain = new FilterChainProxy();
-
+        FilterChain chain = new FilterChainProxy("{ url: \"http://my.server.dk/myservice/api/myfunction/myresulturl\" }");
         //
         UrlRewriter instance = new UrlRewriter();
         instance.init(filterConfig);
         instance.doFilter(_request, _response, chain);
-        // TODO review the generated test code and remove the default call to fail.
-        System.out.println(os.getByteOS().toString());
-//        fail("The test case is a prototype.");
+        assertEquals("{ url: \"http://my.server.dk/myservice/myfunction/myresulturl\" }", os.getByteOS().toString());
+    }
+
+    /**
+     * Test of doFilter method, of class UrlRewriter.
+     */
+    @Test
+    public void testDoFilterPort80() throws Exception {
+        System.out.println("doFilter");
+        // Headers
+        Map<String, String> hs = new HashMap();
+        hs.put("Original-URL", "http://my.server.dk:80/myservice/myfunction");
+        hs.put("Rewritten-URL", "http://my.server.dk:80/myservice/api/myfunction");
+        ServletRequest _request = new ServletRequestProxy(hs);
+        ServletOutputStreamProxy os = new ServletOutputStreamProxy();
+        ServletResponse _response = new ServletResponseProxy(os);
+        FilterChain chain = new FilterChainProxy("{ url: \"http://my.server.dk/myservice/api/myfunction/myresulturl\" }");
+        //
+        UrlRewriter instance = new UrlRewriter();
+        instance.init(filterConfig);
+        instance.doFilter(_request, _response, chain);
+        assertEquals("{ url: \"http://my.server.dk/myservice/myfunction/myresulturl\" }", os.getByteOS().toString());
     }
 }
 
+/**
+ * Mockup of SerlvetRequestProxy - only holds header key/value pairs.
+ * @author jablo
+ */
 class ServletRequestProxy implements HttpServletRequest {
     private Map<String, String> headers;
 
@@ -371,6 +402,13 @@ class ServletRequestProxy implements HttpServletRequest {
     }
 }
 
+/**
+ * Mockup of ServletResponse giving just enough functionality to test the filter: ie, it will
+ * be constructed with a ServletOutputStream to use with "getOutputStream". ByteArray-backed
+ * ServletOutputStream while constructing the SerlvetResponse will make it possible to inspect
+ * the contents of the data written after the filter has executed the filterChain.
+ * @author jablo
+ */
 class ServletResponseProxy implements HttpServletResponse {
     private ServletOutputStreamProxy os;
 
@@ -528,12 +566,29 @@ class ServletResponseProxy implements HttpServletResponse {
     }
 }
 
+/**
+ * Mockup of filter chain that will emulate a servlet by just writing a fixed string onto the
+ * ServletResponse
+ * @author jablo
+ */
 class FilterChainProxy implements FilterChain {
+    private final String webResult;
+
+    public FilterChainProxy(String webResult) {
+        this.webResult = webResult;
+    }
+
     @Override
     public void doFilter(ServletRequest sr, ServletResponse sr1) throws IOException, ServletException {
+        sr1.getOutputStream().print(webResult);
     }
 }
 
+/**
+ * Mockup of a FilterConfig using a simple HashMap for key/value pairs
+ *
+ * @author jablo
+ */
 class FilterConfigProxy implements FilterConfig {
     private final Map<String, String> cfg;
 
@@ -547,13 +602,13 @@ class FilterConfigProxy implements FilterConfig {
     }
 
     @Override
-    public ServletContext getServletContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public String getInitParameter(String string) {
+        return cfg.get(string);
     }
 
     @Override
-    public String getInitParameter(String string) {
-        return cfg.get(string);
+    public ServletContext getServletContext() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -562,6 +617,34 @@ class FilterConfigProxy implements FilterConfig {
     }
 }
 
+/**
+ * Mockup a ServletOutputStream that just writes its contents to a byte array
+ *
+ * @author jablo
+ */
+class ServletOutputStreamProxy extends ServletOutputStream {
+    private ByteArrayOutputStream os = new ByteArrayOutputStream(64 * 1024);
+
+    public ServletOutputStreamProxy() {
+    }
+
+    public ByteArrayOutputStream getByteOS() {
+        return os;
+    }
+
+    @Override
+    public void write(int i) throws IOException {
+        os.write(i);
+    }
+}
+
+/**
+ * Enumeration interface implementation to wrap normal Iterable objects. Stupid
+ * Servlet spec uses Enumeration from way back in the dark ages.
+ *
+ * @author jablo
+ * @param <T>
+ */
 class EnumerationProxy<T extends Iterable> implements Enumeration {
     private Iterator<T> it;
 
@@ -577,21 +660,5 @@ class EnumerationProxy<T extends Iterable> implements Enumeration {
     @Override
     public Object nextElement() {
         return it.next();
-    }
-}
-
-class ServletOutputStreamProxy extends ServletOutputStream {
-    private ByteArrayOutputStream os = new ByteArrayOutputStream(64 * 1024);
-
-    public ServletOutputStreamProxy() {
-    }
-
-    public ByteArrayOutputStream getByteOS() {
-        return os;
-    }
-
-    @Override
-    public void write(int i) throws IOException {
-        os.write(i);
     }
 }
