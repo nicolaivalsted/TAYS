@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.01-SNAPSHOT</version>
+        <version>3.02-SNAPSHOT</version>
     </parent>
     <artifactId>filters</artifactId>
     <name>${project.artifactId}</name>
@@ -23,6 +23,36 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <repositories>  
+        <repository>
+            <id>nexus</id>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Codehaus Snapshots</id>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
+
     <build>
         <plugins>
             <plugin>

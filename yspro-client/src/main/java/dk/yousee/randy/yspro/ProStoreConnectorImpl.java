@@ -11,6 +11,10 @@ import dk.yousee.randy.base.AbstractConnector;
  */
 public class ProStoreConnectorImpl extends AbstractConnector {
 
+    public static final String DEV_YSPRO_HOST="http://ysprodev.yousee.dk";
+    public static final String TEST_YSPRO_HOST="http://ysprotest.yousee.dk";
+    public static final String YSPRO_HOST="http://yspro.yousee.dk";
+
     public ProStoreConnectorImpl() {
         super();
     }

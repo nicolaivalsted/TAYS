@@ -20,7 +20,7 @@ public class ProStoreClientIT {
     @Before
     public void setUp() throws Exception {
         ProStoreConnectorImpl connector = new ProStoreConnectorImpl();
-        connector.setYsProHost("http://ysprodev.yousee.dk");
+        connector.setYsProHost(ProStoreConnectorImpl.TEST_YSPRO_HOST);
         connector.setSystemLogin(connector.getSystemLogin());
         connector.setSystemPassword("We4rAndy");
         connector.setOperationTimeout(20000);
@@ -34,6 +34,9 @@ public class ProStoreClientIT {
 
     @Test
     public void fetchHandle() throws Exception {
+        Assert.assertNotNull(ProStoreConnectorImpl.DEV_YSPRO_HOST);
+        Assert.assertNotNull(ProStoreConnectorImpl.YSPRO_HOST);
+
         Assert.assertEquals("System login is randy", "RANDY", client.getConnector().getSystemLogin());
         String handleId = client.fetchHandle(0);
         client.setHandleId(handleId);
