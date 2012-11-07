@@ -204,9 +204,6 @@
     </dependencyManagement>
     <profiles>
         <profile>
-            <id>extern-test</id>
-        </profile>
-        <profile>
             <id>integration-test</id>
             <build>
                 <plugins>
