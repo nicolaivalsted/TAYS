@@ -55,7 +55,7 @@ public class ForeningsMailCaseIT {
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
 //        service.setProxyHost("localhost"); service.setProxyPort("4444");  // used by Anders
-        connector.setProxyHost("sltarray02.tdk.dk"); connector.setProxyPort("8080"); // used by build server
+//        connector.setProxyHost("sltarray02.tdk.dk"); connector.setProxyPort("8080"); // used by build server
         service = new OrderServiceImpl();
         service.setConnector(connector);
         logger.debug("service allocated");

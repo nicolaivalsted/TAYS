@@ -31,10 +31,10 @@ public class SmpConnectorImplTest {
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
 
-        proxyHost="sltarray02.tdk.dk"; proxyPort=8080; // used by buildServer
+//        proxyHost="sltarray02.tdk.dk"; proxyPort=8080; // used by buildServer
 //        proxyHost="localhost"; proxyPort=2222; // used by Anders
 //        proxyHost="none"; proxyPort=0; // used by prod
-        connector.setProxyHost(proxyHost); connector.setProxyPort(Integer.toString(proxyPort));
+//        connector.setProxyHost(proxyHost); connector.setProxyPort(Integer.toString(proxyPort));
         logger.debug("service allocated");
     }
     @Test
