@@ -24,10 +24,10 @@ public class Voucher {
     public String verify(){
         int len=voucher.length();
         if(len!=12){
-            return String.format("forkert laengde %s",len);
+            return String.format("voucher %s har forkert laengde %s",voucher,len);
         } else {
             boolean val=Verhoeff.validateVerhoeff(voucher);
-            return val?null:"syntax fejl";
+            return val?null:String.format("syntax fejl i %s",voucher);
         }
     }
 
