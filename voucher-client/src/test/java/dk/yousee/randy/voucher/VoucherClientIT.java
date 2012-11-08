@@ -38,8 +38,9 @@ public class VoucherClientIT {
 
     }
     @Test
-    public void testConsume() throws Exception {
+    public void testConsume() {
         Assert.assertNotNull(VoucherConnectorImpl.PREPROD_VOUCHER_HOST);
         Assert.assertNotNull(client);
     }
+
 }

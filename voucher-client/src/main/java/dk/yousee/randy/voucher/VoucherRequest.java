@@ -14,30 +14,30 @@ public class VoucherRequest {
     private String user;
     private String system;
 
-    public VoucherRequest(String customer, String salesItem, String title, String user, String system) {
-        this.customer = customer;
-        this.salesItem = salesItem;
-        this.title = title;
-        this.user = user;
-        this.system = system;
-    }
-
-    public String printJson() {
-        String res;
-        res = String.format(
-            "{  \"kundeid\" : \"" + customer + "\",\n" +
-                "        \"handlinger\" : [{\n" +
-                "        \"handling\" : \"OPRET\",\n" +
-                "            \"varenr\" : \"" + salesItem + "\",\n" +
-                "            \"title\" : \"" + title + "\"\n" +
-                "    }],\n" +
-                "        \"info\" : {\n" +
-                "            \"klient-funktion\" : \"rent-movie\",\n" +
-                "            \"klient-bruger\" : \"" + user + "\",\n" +
-                "            \"klient-system\" : \"" + system + "\"\n" +
-                "    }\n" +
-                "}\n");
-
-        return res;
-    }
+//    public VoucherRequest(String customer, String salesItem, String title, String user, String system) {
+//        this.customer = customer;
+//        this.salesItem = salesItem;
+//        this.title = title;
+//        this.user = user;
+//        this.system = system;
+//    }
+//
+//    public String printJson() {
+//        String res;
+//        res = String.format(
+//            "{  \"kundeid\" : \"" + customer + "\",\n" +
+//                "        \"handlinger\" : [{\n" +
+//                "        \"handling\" : \"OPRET\",\n" +
+//                "            \"varenr\" : \"" + salesItem + "\",\n" +
+//                "            \"title\" : \"" + title + "\"\n" +
+//                "    }],\n" +
+//                "        \"info\" : {\n" +
+//                "            \"klient-funktion\" : \"rent-movie\",\n" +
+//                "            \"klient-bruger\" : \"" + user + "\",\n" +
+//                "            \"klient-system\" : \"" + system + "\"\n" +
+//                "    }\n" +
+//                "}\n");
+//
+//        return res;
+//    }
 }

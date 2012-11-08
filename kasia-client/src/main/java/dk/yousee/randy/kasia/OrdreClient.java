@@ -94,7 +94,7 @@ public class OrdreClient extends AbstractKasiaClient {
 
     private PricesResponse pricesInner(List<String> itemKeys) throws Exception {
         HttpGet hur;
-        URL href=new URL(String.format("%s/afsaetning/priser/intet/W", getConnector().getKasiaHost()));
+        URL href=new URL(String.format("%s/afsaetning/priser/intet/K", getConnector().getKasiaHost()));
         hur = new HttpGet(href.toString());
         hur.setHeader(HttpHeaders.ACCEPT, getDefaultMediaType());
         HttpEntity entity = null;
