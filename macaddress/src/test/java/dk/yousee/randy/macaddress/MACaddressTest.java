@@ -4,7 +4,6 @@
  */
 package dk.yousee.randy.macaddress;
 
-import dk.yousee.randy.macaddress.MACaddress;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
