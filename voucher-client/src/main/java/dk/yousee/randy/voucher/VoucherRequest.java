@@ -9,35 +9,54 @@ package dk.yousee.randy.voucher;
 public class VoucherRequest {
 
     private String customer;
-    private String salesItem;
-    private String title;
-    private String user;
-    private String system;
+    private String asset;
+    private String system="YOUBIO";
+    private String clientReference;
+    private String drm_id;
+    private String provider;
+    private Voucher voucher;
 
-//    public VoucherRequest(String customer, String salesItem, String title, String user, String system) {
-//        this.customer = customer;
-//        this.salesItem = salesItem;
-//        this.title = title;
-//        this.user = user;
-//        this.system = system;
-//    }
-//
-//    public String printJson() {
-//        String res;
-//        res = String.format(
-//            "{  \"kundeid\" : \"" + customer + "\",\n" +
-//                "        \"handlinger\" : [{\n" +
-//                "        \"handling\" : \"OPRET\",\n" +
-//                "            \"varenr\" : \"" + salesItem + "\",\n" +
-//                "            \"title\" : \"" + title + "\"\n" +
-//                "    }],\n" +
-//                "        \"info\" : {\n" +
-//                "            \"klient-funktion\" : \"rent-movie\",\n" +
-//                "            \"klient-bruger\" : \"" + user + "\",\n" +
-//                "            \"klient-system\" : \"" + system + "\"\n" +
-//                "    }\n" +
-//                "}\n");
-//
-//        return res;
-//    }
+    public VoucherRequest(String customer, String asset, String clientReference, String drm_id, String provider, Voucher voucher) {
+        this.customer = customer;
+        this.asset = asset;
+        this.clientReference = clientReference;
+        this.drm_id = drm_id;
+        this.provider = provider;
+        this.voucher = voucher;
+    }
+
+    public String printXml() {
+        String res;
+        res=String.format("<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:vouc=\"http://voucher.smarttv.dk/\">\n" +
+            "   <soapenv:Header/>\n" +
+            "   <soapenv:Body>\n" +
+            "      <vouc:consumeTicket>\n" +
+            "         <arg0>\n" +
+            "            <asset>%s</asset>\n" +
+            "            <correlator>%s</correlator>\n" +
+            "            <customer>%s</customer>\n" +
+            "            <drm_id>%s</drm_id>\n" +
+            "            <provider>%s</provider>\n" +
+            "            <system>%s</system>\n" +
+            "            <voucher>%s</voucher>\n" +
+            "         </arg0>\n" +
+            "      </vouc:consumeTicket>\n" +
+            "   </soapenv:Body>\n" +
+            "</soapenv:Envelope>",asset, clientReference,customer,drm_id,provider,system,voucher.toString());
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{\"customer\":\"").append(customer).append('"');
+        if (asset != null) sb.append(", \"asset\":\"").append(asset).append('"');
+        if (system != null) sb.append(", \"system\":\"").append(system).append('"');
+        if (clientReference != null) sb.append(", \"clientReference\":\"").append(clientReference).append('"');
+        if (drm_id != null) sb.append(", \"drm_id\":\"").append(drm_id).append('"');
+        if (provider != null) sb.append(", \"provider\":\"").append(provider).append('"');
+        if (voucher != null) sb.append(", \"voucher\":").append(voucher);
+        sb.append('}');
+        return sb.toString();
+    }
 }
