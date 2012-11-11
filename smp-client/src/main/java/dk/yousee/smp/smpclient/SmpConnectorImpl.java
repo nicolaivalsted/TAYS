@@ -71,7 +71,7 @@ public class SmpConnectorImpl extends AbstractConnector  {
 
     public void setSmpHost(String smpHost) {
         this.smpHost=smpHost;
-        urlContext.setUrl(smpHost+"/SmpXmlOrderApi/xmlorder");
+        setUrl(smpHost+"/SmpXmlOrderApi/xmlorder");
     }
 
     public String getProxyHost() {
