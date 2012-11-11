@@ -43,11 +43,7 @@ public class CableBBCaseIT {
 //        <property name="password" value="${dk.yousee.provisioning.config.Password}"/>
 //    </bean>
         SmpConnectorImpl connector=new SmpConnectorImpl();
-        String hostName; int port;
-        hostName = "194.239.10.197"; port = 41203; //QA
-//        hostName="194.239.10.213"; port=26500; //UDV
-//        hostName = "localhost"; port = 8010; //simulator 1
-        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
 //        service.setProxyHost("localhost"); service.setProxyPort("4444");  // used by Anders

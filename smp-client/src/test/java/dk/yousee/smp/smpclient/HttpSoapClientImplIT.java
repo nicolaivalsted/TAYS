@@ -18,8 +18,8 @@ import org.junit.Test;
 public class HttpSoapClientImplIT {
 
     private static final Logger logger = Logger.getLogger(HttpSoapClientImplIT.class);
-    String hostName;
-    int port;
+//    String hostName;
+//    int port;
     String proxyHost;
     int proxyPort;
     OrderServiceImpl service;
@@ -29,10 +29,9 @@ public class HttpSoapClientImplIT {
     public void before() {
         SmpConnectorImpl connector=new SmpConnectorImpl();
 
-        hostName = "194.239.10.197"; port = 41203; //QA
-//        hostName="194.239.10.213"; port=26500; //UDV
-//        hostName = "localhost"; port = 8010; //simulator 1
-        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setSmpHost(SmpConnectorImpl.T_NET_UDV_SMP_HOST);
+        connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
+
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
 
@@ -52,6 +51,14 @@ public class HttpSoapClientImplIT {
         service.destroy();
     }
 
+    @Test
+    public void smpHost() throws Exception {
+        Assert.assertEquals(SmpConnectorImpl.T_NET_QA_SMP_HOST,service.getConnector().getSmpHost());
+        Assert.assertNotSame(SmpConnectorImpl.T_NET_UDV_SMP_HOST,service.getConnector().getSmpHost());
+        Assert.assertNotSame(SmpConnectorImpl.T_NET_SMP_HOST,service.getConnector().getSmpHost());
+        Assert.assertNotSame(SmpConnectorImpl.K_QA_SMP_HOST,service.getConnector().getSmpHost());
+        Assert.assertNotSame(SmpConnectorImpl.K_SMP_HOST,service.getConnector().getSmpHost());
+    }
 
     @Test
     public void query_with_bad_content() throws Exception {

@@ -23,23 +23,19 @@ public class NodeSplitCaseIT {
 
     private static final Logger logger = Logger.getLogger(NodeSplitCaseIT.class);
 
-    String orderUrl = null;
+//    String orderUrl = null;
     NodeSplitCase nodeSplitCase = null;
     OrderServiceImpl service;
 
     @Before
     public void setup() {
         SmpConnectorImpl connector=new SmpConnectorImpl();
-        String hostName; int port;
-        hostName = "194.239.10.197"; port = 41203; //QA
-//        hostName="194.239.10.213"; port=26500; //UDV
-//        hostName = "localhost"; port = 8010; //simulator 1
-        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
         service = new OrderServiceImpl();
         service.setConnector(connector);
-        orderUrl="http://194.239.10.197:41203/bss-adapter2/order.service";
+//        orderUrl="http://194.239.10.197:41203/bss-adapter2/order.service";
 //        orderUrl="http://194.239.10.213:26500/bss-adapter2/order.service";
 //        orderUrl = "http://localhost:8080/order.service";
 //        BssAdapterClient client = new BssAdapterClient(orderUrl, new Proxy(Proxy.Type.HTTP, new InetSocketAddress("sltarray02.tdk.dk", 8080)));
