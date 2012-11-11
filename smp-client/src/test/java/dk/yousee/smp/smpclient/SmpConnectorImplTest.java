@@ -26,9 +26,7 @@ public class SmpConnectorImplTest {
     @Before
     public void before() {
         hostName="t-smpweb.yousee.idk"; port=41203; //QA
-//        hostName="194.239.10.213"; port=26500; //UDV
         connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
-//        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder",hostName,port));
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
 
