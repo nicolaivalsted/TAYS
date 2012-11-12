@@ -21,6 +21,11 @@
             <artifactId>httpclient</artifactId>
         </dependency>
         <dependency>
+            <groupId>dk.yousee.randy</groupId>
+            <artifactId>base-client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>        
@@ -33,40 +38,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>dk.yousee.randy</groupId>
-            <artifactId>base-client</artifactId>
-            <version>3.03-SNAPSHOT</version>
-        </dependency>
     </dependencies>
-
-    <repositories>  
-        <repository>
-            <id>nexus</id>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>Codehaus Snapshots</id>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
 
 </project>
