@@ -23,6 +23,7 @@
         <module>voucher-client</module>
         <module>yspro-client</module>
         <module>macaddress</module>
+        <module>virtualmac-client</module>
     </modules>
 
     <scm>
@@ -56,7 +57,7 @@
             </snapshots>
             <releases>
                 <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
+                <updatePolicy>always</updatePolicy>
             </releases>
         </repository>
     </repositories>
