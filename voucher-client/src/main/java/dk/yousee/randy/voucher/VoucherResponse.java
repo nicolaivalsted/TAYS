@@ -23,6 +23,12 @@ public class VoucherResponse {
         this.error = error;
     }
 
+    public VoucherResponse(int code, String clientReference,String description) {
+        this.code = code;
+        this.clientReference = clientReference;
+        this.description = description;
+    }
+
     public VoucherResponse(String xml, int code, String clientReference, String description, String session_id) {
         this.xml = xml;
         this.code = code;
