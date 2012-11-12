@@ -43,4 +43,12 @@ public class VoucherTest {
         Assert.assertNotNull(voucher);
     }
 
+    @Test
+    public void equals() {
+        Voucher voucher1=Voucher.create("505468075191");
+        Voucher voucher2=Voucher.create("505468075191");
+        Voucher voucher3=Voucher.create("505468075193");
+        Assert.assertTrue(voucher1.equals(voucher2));
+        Assert.assertFalse(voucher1.equals(voucher3));
+    }
 }
