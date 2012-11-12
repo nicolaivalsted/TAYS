@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>clients</artifactId>
-    <version>3.02-SNAPSHOT</version>
+    <version>3.03-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <properties>
@@ -66,12 +66,12 @@
             <id>Codehaus Snapshots</id>
             <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
             <snapshots>
-                <enabled>true</enabled>
+                <enabled>false</enabled>
                 <updatePolicy>never</updatePolicy>
             </snapshots>
             <releases>
                 <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
+                <updatePolicy>always</updatePolicy>
             </releases>
         </pluginRepository>
     </pluginRepositories>
@@ -93,13 +93,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
-
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 

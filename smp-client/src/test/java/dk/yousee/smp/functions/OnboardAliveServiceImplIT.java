@@ -8,7 +8,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Created by IntelliJ IDEA.
  * User: aka
  * Date: 14/02/12
  * Time: 08.12
@@ -17,8 +16,6 @@ import org.junit.Test;
 public class OnboardAliveServiceImplIT {
 
     private static final Logger logger = Logger.getLogger(OnboardAliveServiceImplIT.class);
-    String hostName;
-    int port;
     String proxyHost;
     int proxyPort;
     private OnboardAliveServiceImpl test;
@@ -27,18 +24,10 @@ public class OnboardAliveServiceImplIT {
     public void before() {
 
         SmpConnectorImpl connector=new SmpConnectorImpl();
-
-        hostName="194.239.10.197"; port=41203; //QA
-//        hostName="194.239.10.213"; port=26500; //UDV
-        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
-
         proxyHost="sltarray02.tdk.dk"; proxyPort=8080; // used by buildServer
-//        proxyHost="localhost"; proxyPort=2222; // used by Anders
-//        proxyHost="none"; proxyPort=0; // used by prod
-//        connector.setProxyHost(proxyHost);
-//        connector.setProxyPort(Integer.toString(proxyPort));
         logger.debug("service allocated");
         test = new OnboardAliveServiceImpl();
         test.setConnector(connector);

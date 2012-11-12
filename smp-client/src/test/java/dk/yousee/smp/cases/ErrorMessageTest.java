@@ -1,6 +1,5 @@
 package dk.yousee.smp.cases;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -13,11 +12,10 @@ import java.io.StringReader;
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
  * User: m14857
  * Date: Feb 22, 2011
  * Time: 2:42:33 PM
- * To change this template use File | Settings | File Templates.
+ * Testing error messages
  */
 //@Ignore
 public class ErrorMessageTest {

@@ -45,37 +45,13 @@ public class MobileBBCaseIT {
 
 
         SmpConnectorImpl connector=new SmpConnectorImpl();
-        String hostName; int port;
-        hostName = "194.239.10.197"; port = 41203; //QA
-//        hostName="194.239.10.213"; port=26500; //UDV
-//        hostName = "localhost"; port = 8010; //simulator 1
-        connector.setUrl(String.format("http://%s:%s/SmpXmlOrderApi/xmlorder", hostName, port));
+        connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
         service = new OrderServiceImpl();
         service.setConnector(connector);
 
     }
-    //{aftalenr=954995, juridisk=' 601021575', adresseId='0002545590',
-    // customerInfo={"efternavn":"CLAUSEN","fornavn":"FLEMMING","phones.business.number":"63225234","phones.home.number":"62208192"}, area='mobb',
-    // plans=[{"downstream":"1024","isdn_phone":"29830112","modemId":"601021575","signal":"true","type":"MOBB","upstream":"384","vare":"1601001"},
-    // {"modemId":"601021575","signal":"true","sim_card_id":"89450100080724000528","type":"MOBB_SIM"}], modemId=601021575}
-
-//    could not create subscription,  for customer 615650946,  got message: Can't find key from namedQuery,  queryName=get_id_by_parm,
-//    specClassNm=SubSpec, subKey=null, queryParms={acct=615650946}
-
-//[{"downstream":"5837",
-//"isdn_phone":"29837973",
-//"modemId":"105087403",
-//"signal":"true",
-//"type":"MOBB",
-//"upstream":"384",
-//"vare":"1601003"},
-//{"modemId":"105087403",
-//"signal":"true",
-//"sim_card_id":"89450100090514005173",
-//"type":"MOBB_SIM"}
-//    @Ignore
 
     @Test
     public void debugCreateMoBB() {
