@@ -91,6 +91,8 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
         HttpResponse rsp = execute(hur);
         String errorMessage=extractMessage(rsp);
         if (errorMessage != null) {
+            HttpEntity entity = rsp.getEntity();
+            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
             throwExceptionWithMessage(rsp, errorMessage);
         }
         return rsp.getEntity();

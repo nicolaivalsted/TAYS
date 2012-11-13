@@ -26,6 +26,7 @@ public class OrdreClientIT {
         KasiaConnectorImpl connector = new KasiaConnectorImpl();
         connector.setOperationTimeout(20000);
         connector.setKasiaHost(KasiaConnectorImpl.PREPROD_KASIA_HOST);
+//        connector.setKasiaHost(KasiaConnectorImpl.KASIA_HOST);
         client = new OrdreClient();
         client.setConnector(connector);
     }

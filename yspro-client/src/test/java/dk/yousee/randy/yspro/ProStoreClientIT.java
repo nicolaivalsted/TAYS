@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Date;
@@ -304,4 +305,29 @@ public class ProStoreClientIT {
         Assert.assertNotSame("status is not 0",0,userInfo.getStatus());
         Assert.assertNotNull("Expects a message",userInfo.getMessage());
     }
+
+    @Ignore
+    @Test
+    public void big(){
+        WriteList input = new WriteList(customer,new Date());
+        for(int i=100; i< 200; i++) {
+            JsonObject job = new JsonObject();
+            job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());
+            job.addProperty(ProStoreDef.OTT_PRODUCT_KEY_YSPRO, ottProduct);
+            job.addProperty(ProStoreDef.BUSINESS_POSITION_KEY_YSPRO, "crm_key_create");
+            job.addProperty(ProStoreDef.SERVICE_ITEM_KEY_YSPRO, "stalone_create");
+            job.addProperty(ProStoreDef.DESCRIPTION_KEY_YSPRO, "one");
+            StoreProduct p=new StoreProduct(job);
+            input.add(WriteList.Action.add,p);
+        }
+            String jsonWrite2 = input.printJson().toString();
+        ProStoreResponse response = null;
+        try {
+            response = client.assignProduct(customer, jsonWrite2);
+        } catch (Exception e) {
+            Assert.assertNotNull("Response must be returned", response);
+        }
+        Assert.assertNotNull("Response must be returned", response);
+    }
+
 }

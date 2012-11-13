@@ -23,6 +23,19 @@ import java.util.Map;
  */
 public class SmpConnectorImpl extends AbstractConnector  {
 
+    /**
+     * Note that K_* is from Koncern net. These are configured from servers like Kenfig
+     * <br/>
+     * T_* is from Technical net. Development, CI and TEST and PROD has moved here (except for Classic PM)
+     */
+
+    public static final String T_NET_UDV_SMP_HOST="http://194.239.10.213:26500";
+    public static final String T_NET_QA_SMP_HOST="http://t-smpweb.yousee.idk:41203";
+    public static final String T_NET_SMP_HOST="http://p-smpweb.yousee.idk:44001";
+
+    public static final String K_QA_SMP_HOST="http://194.239.10.197:41203";
+    public static final String K_SMP_HOST="http://10.114.24.120:44001";
+
     private SmpUrlContext urlContext;
     private ThreadSafeClientConnManager cm;
     private Map<Integer,DefaultHttpClient> clients=new HashMap<Integer, DefaultHttpClient>();
@@ -50,6 +63,16 @@ public class SmpConnectorImpl extends AbstractConnector  {
         urlContext.setUrl(url);
     }
 
+    private String smpHost;
+
+    public String getSmpHost() {
+        return smpHost;
+    }
+
+    public void setSmpHost(String smpHost) {
+        this.smpHost=smpHost;
+        setUrl(smpHost+"/SmpXmlOrderApi/xmlorder");
+    }
 
     public String getProxyHost() {
         return urlContext.getProxyHost();

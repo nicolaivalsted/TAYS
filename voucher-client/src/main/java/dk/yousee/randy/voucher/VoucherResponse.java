@@ -2,8 +2,6 @@ package dk.yousee.randy.voucher;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 
 /**
  * User: aka
@@ -13,62 +11,76 @@ import com.google.gson.JsonSyntaxException;
  */
 public class VoucherResponse {
 
-    private JsonElement jsonSource;
-    private String message;
-    private OrderOutput orderOutput;
+    String xml;
+    int code;
+    String clientReference;
+    String description;
+    String session_id;
+    String error=null;
 
-    public VoucherResponse(String message, String kasiaResponse) {
-        this.message = message == null ? null : (message.trim().length() == 0 ? null : message);
-        if (kasiaResponse != null && kasiaResponse.trim().length() > 0) {
-            try {
-                jsonSource = new JsonParser().parse(kasiaResponse);
-                JsonObject root = jsonSource.getAsJsonObject();
-
-                String name = "order-output";
-                JsonElement element = root.get(name);
-                if (element != null) {
-                    orderOutput = new OrderOutput(element.getAsJsonObject());
-                } else {
-                    this.message=String.format("Kasia response does not contain json element %s ",name);
-                }
-            } catch (JsonSyntaxException e) {
-                this.message = String.format("Tried to parse kasia response, got syntax error, message: %s", e.getMessage());
-            }
-        }
+    public VoucherResponse(String error, String description) {
+        this.description = description;
+        this.error = error;
     }
 
-    public JsonElement getJsonSource() {
-        return jsonSource;
+    public VoucherResponse(int code, String clientReference,String description) {
+        this.code = code;
+        this.clientReference = clientReference;
+        this.description = description;
     }
 
-    /**
-     * @return not null string means problems !!!!
-     */
-    public String getMessage() {
-        return message;
+    public VoucherResponse(String xml, int code, String clientReference, String description, String session_id) {
+        this.xml = xml;
+        this.code = code;
+        this.clientReference = clientReference;
+        this.description = description;
+        this.session_id = session_id;
     }
 
-    /**
-     * Qualified parsed response from Kasia
-     * @return instance that contains order id
-     */
-    public OrderOutput getOrderOutput() {
-        return orderOutput;
+    public String getXml() {
+        return xml;
     }
 
-    public class OrderOutput {
-        private String uuid;
+    public String getError() {
+        return error;
+    }
 
-        public OrderOutput(JsonObject jsonObject) {
-            uuid = jsonObject.get("uuid").getAsString();
-        }
+    public int getCode() {
+        return code;
+    }
 
-        /**
-         * UUID that describes the order number
-         * @return uuid
-         */
-        public String getUuid() {
-            return uuid;
-        }
+    public String getClientReference() {
+        return clientReference;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getSession_id() {
+        return session_id;
+    }
+
+    public JsonElement printJson() {
+        JsonObject res = new JsonObject();
+        res.addProperty("code", getCode());
+        if(getClientReference()!=null)res.addProperty("clientReference", getClientReference());
+        if(getDescription()!=null)res.addProperty("description", getDescription());
+        if(getError()!=null)res.addProperty("error", getError());
+        if(getSession_id()!=null)res.addProperty("session_id", getSession_id());
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append(" \"clientReference\":\"").append(getClientReference()).append('"');
+        if (code != 0) sb.append(", \"code\":\"").append(getCode()).append('"');
+        if (description != null) sb.append(", \"description\":\"").append(getDescription()).append('"');
+        if (error != null) sb.append(", \"error\":\"").append(getError()).append('"');
+        if (session_id != null) sb.append(", \"session_id\":\"").append(getSession_id()).append('"');
+        sb.append('}');
+        return sb.toString();
     }
 }

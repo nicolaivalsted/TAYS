@@ -12,7 +12,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 /**
- * Created by IntelliJ IDEA.
  * User: aka
  * Date: Oct 14, 2010
  * Time: 10:29:38 PM

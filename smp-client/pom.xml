@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.02-SNAPSHOT</version>
+        <version>3.04-SNAPSHOT</version>
     </parent>
     <artifactId>smp-client</artifactId>
     <name>${project.artifactId}</name>
@@ -29,11 +29,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.1</version>
         </dependency>
-        <!--<dependency> &lt;!&ndash; todo: remove &ndash;&gt;-->
-        <!--<groupId>com.caucho</groupId>-->
-        <!--<artifactId>hessian</artifactId>-->
-        <!--<version>3.1.6</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -46,35 +41,6 @@
         </dependency>
     </dependencies>
     
-    <repositories>  
-        <repository>
-            <id>nexus</id>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </repository>
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>Codehaus Snapshots</id>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
     <profiles>
         <profile>
             <id>integration-test</id>
