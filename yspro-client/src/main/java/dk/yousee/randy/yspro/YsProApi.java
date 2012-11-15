@@ -21,11 +21,11 @@ import org.apache.http.util.EntityUtils;
  */
 public class YsProApi {
     private static final Logger LOG = Logger.getLogger(YsProApi.class.getName());
-    private static String handleId;
-    private static int timeout = 2500;
+    private String handleId;
+    private int timeout = 2500;
 
-    public static void setTimeout(int timeout) {
-        YsProApi.timeout = timeout;
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
     }
     private ProStoreConnectorImpl client;
 
@@ -185,7 +185,7 @@ public class YsProApi {
         return new URI(String.format("%s/AssignProduct.php?HandleID=%s&CustomerNumber=%s&Products=%s", client.getYsProHost(), handleId, customer, encoded));
     }
 
-    public ProStoreResponse assignProduct(String customer, String json) throws Exception {
+    public ProStoreResponse assignProduct(String customer, String json) throws YsProException, URISyntaxException, UnsupportedEncodingException {
         ensureHandle();
         URI href = generateUpdateUrl(customer, json);
         return new ProStoreResponse(excutePost(href));
