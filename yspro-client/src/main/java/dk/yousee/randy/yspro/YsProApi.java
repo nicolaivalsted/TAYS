@@ -41,7 +41,7 @@ public class YsProApi {
             freeHandle();
         } catch (YsProException ex) {
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        } 
+        }
     }
 
     private String getHandle() throws YsProException {
@@ -58,9 +58,8 @@ public class YsProApi {
     public String freeHandle() throws YsProException {
         try {
             URI uri = new URI(String.format("%s/FreeHandle.php?HandleID=%s", client.getYsProHost(), handleId));
-
-            String res = excuteGet(uri);
             handleId = null;
+            String res = excuteGet(uri);
             return res;
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
