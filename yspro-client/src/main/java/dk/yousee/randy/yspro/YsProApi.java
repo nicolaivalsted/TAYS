@@ -1,7 +1,6 @@
 package dk.yousee.randy.yspro;
 
 import com.google.gson.JsonSyntaxException;
-import dk.yousee.randy.base.AbstractConnector;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -22,25 +21,22 @@ import org.apache.http.util.EntityUtils;
  */
 public class YsProApi {
     private static final Logger LOG = Logger.getLogger(YsProApi.class.getName());
-
     private static String handleId;
-
     private static int timeout = 2500;
 
     public static void setTimeout(int timeout) {
         YsProApi.timeout = timeout;
     }
-
     private ProStoreConnectorImpl client;
 
     public void setClient(ProStoreConnectorImpl client) {
         this.client = client;
     }
-    
+
     public YsProApi() {
     }
-    
-    public void shutDown(){
+
+    public void shutDown() {
         try {
             freeHandle();
         } catch (YsProException ex) {
