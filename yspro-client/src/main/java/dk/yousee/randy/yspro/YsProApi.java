@@ -41,9 +41,7 @@ public class YsProApi {
             freeHandle();
         } catch (YsProException ex) {
             LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        } catch (URISyntaxException ex) {
-            LOG.log(Level.SEVERE, ex.getMessage(), ex);
-        }
+        } 
     }
 
     private String getHandle() throws YsProException {
@@ -57,12 +55,16 @@ public class YsProApi {
         return excuteGet(uri);
     }
 
-    public String freeHandle() throws YsProException, URISyntaxException {
-        URI uri = new URI(String.format("%s/FreeHandle.php?HandleID=%s", client.getYsProHost(), handleId));
+    public String freeHandle() throws YsProException {
+        try {
+            URI uri = new URI(String.format("%s/FreeHandle.php?HandleID=%s", client.getYsProHost(), handleId));
 
-        String res = excuteGet(uri);
-        handleId = null;
-        return res;
+            String res = excuteGet(uri);
+            handleId = null;
+            return res;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 
     private String excuteGet(URI uri) throws YsProException {
@@ -144,48 +146,74 @@ public class YsProApi {
      * produktet (7000) definerede - properties
      * @throws YsProException
      */
-    public ProStoreResponse findOttEngagement(String customer) throws YsProException, JsonSyntaxException, URISyntaxException {
-        ensureHandle();
-        URI url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), handleId, customer));
-        ProStoreResponse psr = new ProStoreResponse(excuteGet(url));
+    public ProStoreResponse findOttEngagement(String customer) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), handleId, customer));
+            ProStoreResponse psr = new ProStoreResponse(excuteGet(url));
 
-        return psr;
+            return psr;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
     //GetEngagement.php
 
-    public ProStoreResponse findEngagement(String customer) throws YsProException, JsonSyntaxException, URISyntaxException {
-        ensureHandle();
-        URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), handleId, customer));
-        return new ProStoreResponse(excuteGet(url));
+    public ProStoreResponse findEngagement(String customer) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), handleId, customer));
+            return new ProStoreResponse(excuteGet(url));
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 
-    public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws YsProException, JsonSyntaxException, URISyntaxException {
-        ensureHandle();
-        URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), handleId, customer, productId));
-        return new ProStoreResponse(excuteGet(url));
+    public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), handleId, customer, productId));
+            return new ProStoreResponse(excuteGet(url));
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
-    public UserInfo findUserInfo(String userID) throws YsProException, JsonSyntaxException, URISyntaxException {
-        ensureHandle();
-        URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), handleId, userID));
-        String st = excuteGet(uri);
-        return new UserInfo(UserInfo.DataFormat.xml, st);
+    public UserInfo findUserInfo(String userID) throws YsProException {
+        try {
+            ensureHandle();
+            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), handleId, userID));
+            String st = excuteGet(uri);
+            return new UserInfo(UserInfo.DataFormat.xml, st);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
-    public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws YsProException, JsonSyntaxException, URISyntaxException {
-        ensureHandle();
-        URI url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), handleId, mac));
-        return new ProStoreResponse(excuteGet(url));
+    public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), handleId, mac));
+            return new ProStoreResponse(excuteGet(url));
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 
-    public URI generateUpdateUrl(String customer, String json) throws UnsupportedEncodingException, YsProException, JsonSyntaxException, URISyntaxException {
-        String encoded = URLEncoder.encode(json, "UTF-8");
-        return new URI(String.format("%s/AssignProduct.php?HandleID=%s&CustomerNumber=%s&Products=%s", client.getYsProHost(), handleId, customer, encoded));
+    public URI generateUpdateUrl(String customer, String json) throws YsProException {
+        try {
+            String encoded = URLEncoder.encode(json, "UTF-8");
+            return new URI(String.format("%s/AssignProduct.php?HandleID=%s&CustomerNumber=%s&Products=%s", client.getYsProHost(), handleId, customer, encoded));
+        } catch (UnsupportedEncodingException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 
-    public ProStoreResponse assignProduct(String customer, String json) throws YsProException, URISyntaxException, UnsupportedEncodingException {
+    public ProStoreResponse assignProduct(String customer, String json) throws YsProException {
         ensureHandle();
         URI href = generateUpdateUrl(customer, json);
         return new ProStoreResponse(excutePost(href));
@@ -205,9 +233,13 @@ public class YsProApi {
      * CustomerNumber og ProductID, ovenstående er blot et eksempel! OTT
      * produktet har ProductID 7000. .. Allan
      */
-    private ProStoreResponse removeEngagement(String customer, YsProProduct product) throws YsProException, JsonSyntaxException, URISyntaxException {
-        ensureHandle();
-        URI url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), handleId, customer, product));
-        return new ProStoreResponse(excuteGet(url));
+    private ProStoreResponse removeEngagement(String customer, YsProProduct product) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), handleId, customer, product));
+            return new ProStoreResponse(excuteGet(url));
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
     }
 }
