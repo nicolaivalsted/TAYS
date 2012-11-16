@@ -1,6 +1,7 @@
 package dk.yousee.randy.yspro;
 
 import dk.yousee.randy.base.AbstractConnector;
+import org.apache.http.pool.PoolStats;
 
 /**
  * Created with IntelliJ IDEA.
@@ -14,7 +15,8 @@ public class ProStoreConnectorImpl extends AbstractConnector {
     public static final String DEV_YSPRO_HOST="http://ysprodev.yousee.dk";
     public static final String TEST_YSPRO_HOST="http://ysprotest.yousee.dk";
     public static final String YSPRO_HOST="http://yspro.yousee.dk";
-
+    private volatile String handleId;
+       
     public ProStoreConnectorImpl() {
         super();
     }
@@ -87,6 +89,18 @@ public class ProStoreConnectorImpl extends AbstractConnector {
         return !DEFAULT_PROXY_HOST.equals(alternativeProxyHost) && alternativeProxyHost!=null;
     }
 
+    public synchronized String getHandleId() {
+        return handleId;
+    }
+
+    public synchronized void setHandleId(String handleId) {
+        this.handleId = handleId;
+    }
+    
+    public synchronized void clearHandle(){
+        this.handleId = null;
+    }
+
     public String connectInfo() {
         StringBuilder sb = new StringBuilder();
         sb.append(super.connectInfo());
@@ -96,6 +110,11 @@ public class ProStoreConnectorImpl extends AbstractConnector {
         sb.append(",\"systemPasswordHash\":").append('"').append(getSystemPassword().hashCode()).append('"');
         sb.append("}");
         return sb.toString();
+    }
+    
+    public String poolState(){
+       PoolStats ps = getCm().getTotalStats();
+       return "Total: "+ ps.getMax() + " | leased: "+ps.getLeased() + " | pending: "+ps.getPending() + " | available: "+ps.getAvailable();
     }
 }
 
