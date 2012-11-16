@@ -22,6 +22,7 @@ import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
@@ -98,10 +99,11 @@ public class JobMonClient {
         try {
             DefaultHttpClient client = ac.getClient(null);
 
-            final List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
+            /*final List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
             queryParams.add(new BasicNameValuePair("name", jobName));
-            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run", URLEncodedUtils.format(queryParams, null), null);
-
+            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run", URLEncodedUtils.format(queryParams, null), null);*/
+            
+            URI uri = new URIBuilder("http://"+jobMonHost+":"+jobMonPort).setPath("jobmon-rest/run").addParameter("name", jobName).build();
             HttpPost post = new HttpPost(uri);
             post.setHeader("accept", "application/json");
             post.setHeader("Content-Type", "application/json");
