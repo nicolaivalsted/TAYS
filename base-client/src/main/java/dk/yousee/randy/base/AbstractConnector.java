@@ -1,16 +1,15 @@
 package dk.yousee.randy.base;
 
-import org.apache.http.HttpHost;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
-
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import org.apache.http.HttpHost;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.PoolingClientConnectionManager;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.CoreConnectionPNames;
+import org.apache.http.params.HttpParams;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,9 +40,9 @@ public abstract class AbstractConnector {
      */
     public static final int DEFAULT_MAX_TOTAL_CONNECTIONS=10;
 
-    private ThreadSafeClientConnManager cm;
+    private PoolingClientConnectionManager cm;
 
-    protected ThreadSafeClientConnManager getCm() {
+    protected PoolingClientConnectionManager getCm() {
         return cm;
     }
     private Map<Integer,DefaultHttpClient> clients=new HashMap<Integer, DefaultHttpClient>();
@@ -60,7 +59,7 @@ public abstract class AbstractConnector {
     private UrlContext urlContext;
 
     protected AbstractConnector() {
-        cm = new ThreadSafeClientConnManager();
+        cm = new PoolingClientConnectionManager();
         cm.setDefaultMaxPerRoute(DEFAULT_MAX_TOTAL_CONNECTIONS);
         cm.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
         urlContext=new UrlContext();
@@ -108,6 +107,11 @@ public abstract class AbstractConnector {
         cm.setDefaultMaxPerRoute(maxTotalConnections);
         cm.setMaxTotal(maxTotalConnections);
     }
+    
+    public void setMaxPerRoute(int max){
+        cm.setDefaultMaxPerRoute(max);
+    }
+    
     public int getMaxTotalConnections(){
         return cm.getDefaultMaxPerRoute();
     }
