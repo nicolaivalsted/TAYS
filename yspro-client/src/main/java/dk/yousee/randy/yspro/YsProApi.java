@@ -26,7 +26,7 @@ public class YsProApi {
     public void setTimeout(int timeout) {
         this.timeout = timeout;
     }
-    private ProStoreConnectorImpl client;
+    private volatile ProStoreConnectorImpl client;
 
     public void setClient(ProStoreConnectorImpl client) {
         this.client = client;
@@ -145,6 +145,7 @@ public class YsProApi {
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.setHandleId(null);
                 ensureHandle();
+                url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), client.getHandleId(), customer));
                 psr = new ProStoreResponse(excuteGet(url));
             }
             return psr;
@@ -162,6 +163,7 @@ public class YsProApi {
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
+                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
                 psr = new ProStoreResponse(excuteGet(url));
             }
             return psr;
@@ -178,6 +180,7 @@ public class YsProApi {
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
+                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, productId));
                 psr = new ProStoreResponse(excuteGet(url));
             }
             return psr;
@@ -197,6 +200,7 @@ public class YsProApi {
             if(ui.getStatus() == 50){
                 client.clearHandle();
                 ensureHandle();
+                 uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), client.getHandleId(), userID));
                 st = excuteGet(uri);
                 ui = new UserInfo(UserInfo.DataFormat.xml, st);
             }
@@ -215,6 +219,7 @@ public class YsProApi {
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
+                url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), client.getHandleId(), mac));
                 psr = new ProStoreResponse(excuteGet(url));
             }
             return psr;
@@ -241,6 +246,7 @@ public class YsProApi {
         if (psr.getStatus() == 50) { //handleTimeout clear handle
             client.clearHandle();
             ensureHandle();
+            href = generateUpdateUrl(customer, json);
             psr = new ProStoreResponse(excuteGet(href));
         }
         return psr;
@@ -268,6 +274,7 @@ public class YsProApi {
             if(psr.getStatus()==50){ //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
+                url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, product));
                 psr = new ProStoreResponse(excuteGet(url));
             }           
             return psr;
