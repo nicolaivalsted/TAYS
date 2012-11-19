@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -73,9 +74,14 @@ public class Vendors {
         return message;
     }
 
-    public Vendor filterByIsp(String isp) {
+    /**
+     * Filter the isp to get.
+     * @param isp null matches a row with null in value, other value matches a row with that value
+     * @return vendor that matches isp
+     */
+    public Vendor filterByIsp(@Nullable String isp) {
         for(Vendor vendor:vendors){
-            if(vendor.equalsIsp(isp)){
+            if(vendor.matchIsp(isp)){
                 return vendor;
             }
         }

@@ -40,6 +40,9 @@ public class SmClientIT {
         Assert.assertNotNull(vendor.getId());
         Assert.assertNotNull(vendor.getVendor());
         Assert.assertNotNull(vendor.getActivationReference());
-    }
 
+// find yousee
+        Vendor yousee = vendors.filterByIsp(null);
+        Assert.assertNotNull("yousee should exist",yousee);
+    }
 }

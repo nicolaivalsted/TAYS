@@ -93,7 +93,11 @@ public class Vendor {
         return sb.toString();
     }
 
-    public boolean equalsIsp(String isp) {
-        return this.isp != null && this.isp.equals(isp);
+    public boolean matchIsp(String isp) {
+        if(this.isp==null){
+            return isp==null;
+        } else {
+            return this.isp.equals(isp);
+        }
     }
 }
