@@ -17,10 +17,6 @@
     <dependencies>
         <!-- HTTP client-->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
-        <dependency>
             <groupId>dk.yousee.randy</groupId>
             <artifactId>base-client</artifactId>
             <version>${project.version}</version>
