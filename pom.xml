@@ -20,6 +20,7 @@
         <module>kasia-client</module>
         <module>smp-xml</module>
         <module>smp-client</module>
+        <module>servicemap-client</module>
         <module>voucher-client</module>
         <module>yspro-client</module>
         <module>macaddress</module>
