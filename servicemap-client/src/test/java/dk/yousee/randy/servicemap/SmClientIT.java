@@ -20,7 +20,6 @@ public class SmClientIT {
 
     @Before
     public void setUp() {
-        logger.info("setup()");
         SmConnectorImpl connector = new SmConnectorImpl();
         connector.setServiceMapHost(SmConnectorImpl.DEV_HOST);
         connector.setServiceMapHost(SmConnectorImpl.T_HOST);
@@ -65,5 +64,8 @@ public class SmClientIT {
         Assert.assertEquals("one row",1,response.getRows().size());
         MailRow row=response.getRows().get(0);
         Assert.assertEquals(anlaeg,row.getAnlaeg());
+        Assert.assertEquals("ystest",row.getProductName());
+        Assert.assertEquals("foreningsmail.dk",row.getProductCode());
+        Assert.assertEquals("1001",row.getSubPos());
     }
 }

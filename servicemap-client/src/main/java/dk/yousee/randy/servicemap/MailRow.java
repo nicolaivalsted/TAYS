@@ -14,21 +14,10 @@ public class MailRow {
 
     public MailRow(JsonObject node) {
         anlaeg=node.get("anlaeg").getAsString();
-        product=node.get("product").getAsString();
-        name=node.get("name").getAsString();
+        productName =node.get("product_name").getAsString();
+        productCode =node.get("product_code").getAsString();
         subPos=node.get("sub_pos").getAsString();
     }
-
-//    private String parse(JsonObject node, String key) {
-//        JsonElement element=node.get(key);
-//        String res;
-//        if(element==null){
-//            res=null;
-//        } else {
-//            res=element.getAsString();
-//        }
-//        return res;
-//    }
 
     private String anlaeg;
 
@@ -36,17 +25,17 @@ public class MailRow {
         return anlaeg;
     }
 
-    private String product;
+    private String productName;
 
-    public String getProduct() {
-        return product;
+    public String getProductName() {
+        return productName;
     }
 
 
-    private String name;
+    private String productCode;
 
-    public String getName() {
-        return name;
+    public String getProductCode() {
+        return productCode;
     }
 
     private String subPos;
@@ -59,9 +48,9 @@ public class MailRow {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{\"anlaeg\":\"").append(getAnlaeg()).append('"');
-        sb.append(", \"product\":\"").append(getProduct()).append('"');
-        sb.append(", \"name\":\"").append(getName()).append('"');
-        sb.append(", \"subPos\":\"").append(getSubPos()).append('"');
+        sb.append(", \"product_name\":\"").append(getProductName()).append('"');
+        sb.append(", \"product_code\":\"").append(getProductCode()).append('"');
+        sb.append(", \"sub_pos\":\"").append(getSubPos()).append('"');
         sb.append('}');
         return sb.toString();
     }
