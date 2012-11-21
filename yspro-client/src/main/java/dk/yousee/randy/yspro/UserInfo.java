@@ -62,6 +62,13 @@ public class UserInfo {
         return map;
     }
 
+    public UserInfo(int status, String message) {
+        this.status = status;
+        this.message = message;
+        map=new TreeMap<String, String>();
+        input="no input read";
+    }
+
     public UserInfo(DataFormat format, String input) {
         this.input = input;
         if(format==DataFormat.xml){

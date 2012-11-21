@@ -40,7 +40,7 @@ public class ProStoreClientIT {
 
         Assert.assertEquals("System login is randy", "RANDY", client.getConnector().getSystemLogin());
         String handleId = client.fetchHandle(0);
-        client.setHandleId(handleId);
+        client.getConnector().setHandleId(handleId);
         Assert.assertNotNull("Handle must be returned", handleId);
     }
 //    @Test

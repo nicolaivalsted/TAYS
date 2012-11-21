@@ -23,24 +23,24 @@ import java.net.URLEncoder;
 public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
 
 
-    private String handleId;
+//    private String handleId;
+//
+//
+//    public String getHandleId() {
+//        return handleId;
+//    }
+//
+//    public void setHandleId(String handleId) {
+//        this.handleId = handleId;
+//    }
+//    public void clearHandleId() {
+//        this.handleId = null;
+//    }
 
-
-    public String getHandleId() {
-        return handleId;
-    }
-
-    public void setHandleId(String handleId) {
-        this.handleId = handleId;
-    }
-    public void clearHandleId() {
-        this.handleId = null;
-    }
-
-    public void disconnect(){
-        clearHandleId();
-        getConnector().clearClients();
-    }
+//    public void disconnect(){
+//        clearHandleId();
+//        getConnector().clearClients();
+//    }
     // http://ysprodev.yousee.dk/GetHandle.php?SystemLogin=RANDY&SystemPassword=We4rAndy
 
     private URL generateHandleUrl() throws MalformedURLException {
@@ -75,8 +75,8 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     }
 
     private void ensureHandle() throws Exception {
-        if (handleId == null) {
-            handleId = fetchHandle(0);
+        if (getConnector().getHandleId() == null) {
+            getConnector().setHandleId(fetchHandle(0));
         }
     }
 
@@ -89,38 +89,51 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     public ProStoreResponse findOttEngagement(String customer) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1"
-            , getConnector().getYsProHost(), handleId, customer));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), customer));
         return new ProStoreResponse(performGet(url));
     }
     //GetEngagement.php
     public ProStoreResponse findEngagement(String customer) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s"
-            , getConnector().getYsProHost(), handleId, customer));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), customer));
         return new ProStoreResponse(performGet(url));
     }
     
     public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws Exception{
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
-            , getConnector().getYsProHost(), handleId, customer, productId));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), customer, productId));
         return new ProStoreResponse(performGet(url));
     }
 
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
     public UserInfo findUserInfo(String userID) throws Exception {
-        ensureHandle();
-        URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1"
-            , getConnector().getYsProHost(), handleId, userID));
-        String st= performGet(url);
-        return new UserInfo(UserInfo.DataFormat.xml,st);
+
+        for(int count=0;count<2;count++){
+            ensureHandle();
+            URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1"
+                , getConnector().getYsProHost(), getConnector().getHandleId(), userID));
+
+            String st= performGet(url);
+            UserInfo res;
+            res=new UserInfo(UserInfo.DataFormat.xml,st);
+
+            if(res.getStatus() == 50){
+                getConnector().clearHandle();
+                ensureHandle();
+            } else {
+                return res;
+            }
+        }
+        return new UserInfo(100,String.format("Could not access userInfo for %s",userID));
     }
     
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
     public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s"
-            , getConnector().getYsProHost(), handleId, mac));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), mac));
         return new ProStoreResponse(performGet(url));
     }
 
@@ -162,7 +175,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     public URL generateUpdateUrl(String customer, String json) throws MalformedURLException, UnsupportedEncodingException {
         String encoded = URLEncoder.encode(json, "UTF-8");
         return new URL(String.format("%s/AssignProduct.php?HandleID=%s&CustomerNumber=%s&Products=%s"
-            , getConnector().getYsProHost(), handleId, customer, encoded));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), customer, encoded));
     }
 
     public ProStoreResponse assignProduct(String customer, String json) throws Exception {
@@ -197,7 +210,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     public ProStoreResponse removeEngagement(String customer,YsProProduct product) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
-            , getConnector().getYsProHost(), handleId, customer,product));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), customer,product));
         return new ProStoreResponse(performGet(url));
     }
 }
