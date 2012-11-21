@@ -32,7 +32,7 @@ public class SmClientIT {
     @Test
     public void fetchVendors() throws Exception {
         Assert.assertNotSame(SmConnectorImpl.P_HOST, client.getConnector().getServiceMapHost());
-        logger.info("URL: " + client.generateVendorlUrl());
+        logger.info("URL: " + client.generateVendorUrl());
         Vendors vendors = client.fetchVendors();
         Assert.assertNotNull(vendors);
         Vendor vendor=vendors.filterByIsp("perspektivbredband");
@@ -44,5 +44,26 @@ public class SmClientIT {
 // find yousee
         Vendor yousee = vendors.filterByIsp(null);
         Assert.assertNotNull("yousee should exist",yousee);
+    }
+
+    @Test
+    public void fetchMails() throws Exception {
+        logger.info("URL: " + client.generateForeningsMailUrl());
+        MailResponse response = client.fetchForeningsMails();
+        Assert.assertNotNull(response);
+    }
+
+    @Test
+    public void fetchMailsByAnlaeg() throws Exception {
+        String anlaeg="4002525";
+        logger.info("URL: " + client.generateForeningsMailUrlByAnlaeg(anlaeg));
+        MailResponse response = client.fetchForeningsMailsByAnlaeg(anlaeg);
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getReadTime());
+        Assert.assertNotNull(response.getInput());
+        Assert.assertNull(response.getMessage());
+        Assert.assertEquals("one row",1,response.getRows().size());
+        MailRow row=response.getRows().get(0);
+        Assert.assertEquals(anlaeg,row.getAnlaeg());
     }
 }

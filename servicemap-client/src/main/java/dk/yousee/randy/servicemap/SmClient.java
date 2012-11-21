@@ -14,10 +14,9 @@ import java.net.URL;
 public class SmClient extends AbstractClient<SmConnectorImpl> {
 
 
-    URL generateVendorlUrl() throws MalformedURLException {
+    URL generateVendorUrl() throws MalformedURLException {
         return new URL(String.format("%s/servicemap/api/vendor", getConnector().getServiceMapHost()));
     }
-
 
     public Vendors fetchVendors() {
         try {
@@ -26,10 +25,41 @@ public class SmClient extends AbstractClient<SmConnectorImpl> {
             return new Vendors("Failed2access",e.getMessage());
         }
     }
-
     public Vendors innerFetchVendors() throws Exception{
-        String response = performGet(generateVendorlUrl());
+        String response = performGet(generateVendorUrl());
         return new Vendors(response);
+    }
+
+    URL generateForeningsMailUrl() throws MalformedURLException {
+        return new URL(String.format("%s/servicemap/api/foreningsmail", getConnector().getServiceMapHost()));
+    }
+
+    public MailResponse fetchForeningsMails() {
+        try {
+            return innerFetchForeningsMails();
+        } catch (Exception e){
+            return new MailResponse("Failed2access",e.getMessage());
+        }
+    }
+    public MailResponse innerFetchForeningsMails() throws Exception{
+        String response = performGet(generateForeningsMailUrl());
+        return new MailResponse(response);
+    }
+
+    URL generateForeningsMailUrlByAnlaeg(String anlaeg) throws MalformedURLException {
+        return new URL(String.format("%s/servicemap/api/foreningsmail/%s", getConnector().getServiceMapHost(),anlaeg));
+    }
+
+    public MailResponse fetchForeningsMailsByAnlaeg(String anlaeg) {
+        try {
+            return innerFetchForeningsMailsByAnlaeg(anlaeg);
+        } catch (Exception e){
+            return new MailResponse("Failed2access",e.getMessage());
+        }
+    }
+    public MailResponse innerFetchForeningsMailsByAnlaeg(String anlaeg) throws Exception{
+        String response = performGet(generateForeningsMailUrlByAnlaeg(anlaeg));
+        return new MailResponse(response);
     }
 
 }
