@@ -148,6 +148,25 @@ public class ProStoreResponse {
         }
         return res;
     }
+    
+    /**
+     * Filter device for netgem stb, only active products
+     * @param mac with colon ect "00:04:30:5f:a0:1f"
+     * @return found storeProduct or null
+     */
+    public StoreProduct filterNetgemStbMac(String mac) {
+        StoreProduct res = null;
+        List<StoreProduct> source = filterOpen();
+        
+        for(StoreProduct sp : source) {
+            if(sp.getProperties().containsValue(mac)) {
+                res = sp;
+                break;
+            }
+        }
+        
+        return res;
+    }
 
     private List<StoreProduct> parseData(JsonArray in) {
         List<StoreProduct> res = new ArrayList<StoreProduct>();
