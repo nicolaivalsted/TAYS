@@ -100,6 +100,13 @@ public class ProStoreConnectorImpl extends AbstractConnector {
     public synchronized void clearHandle(){
         this.handleId = null;
     }
+    public void clearHandleId() {
+        this.handleId = null;
+    }
+    public void disconnect(){
+        clearHandleId();
+        clearClients();
+    }
 
     public String connectInfo() {
         StringBuilder sb = new StringBuilder();
@@ -108,6 +115,7 @@ public class ProStoreConnectorImpl extends AbstractConnector {
         sb.append(",\"ysProHost\":").append('"').append(getYsProHost()).append('"');
         sb.append(",\"systemLogin\":").append('"').append(getSystemLogin()).append('"');
         sb.append(",\"systemPasswordHash\":").append('"').append(getSystemPassword().hashCode()).append('"');
+        if(handleId!=null)sb.append(",\"handle\":").append('"').append(handleId).append('"');
         sb.append("}");
         return sb.toString();
     }
