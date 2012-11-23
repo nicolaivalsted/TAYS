@@ -21,6 +21,12 @@ public class ProStoreResponse {
     private YsProTime dateTime;
     private List<StoreProduct> products;
 
+    public ProStoreResponse() {
+        status=0;
+        message="No update";
+        products=new ArrayList<StoreProduct>();
+    }
+
     public ProStoreResponse(String jsonYsProResponse) throws JsonSyntaxException {
         jsonSource = new JsonParser().parse(jsonYsProResponse);
         JsonObject root = jsonSource.getAsJsonObject();
@@ -30,13 +36,14 @@ public class ProStoreResponse {
     public ProStoreResponse(JsonObject json){
         build(json);
     }
-    
-    public ProStoreResponse() {
-        status=0;
-        message="No update";
+
+    public ProStoreResponse(Integer status, String message) {
+        this.status = status;
+        this.message = message;
         products=new ArrayList<StoreProduct>();
     }
-    
+
+
     private void build(JsonObject root) {
         status = root.get("Status").getAsInt();
         message = root.get("Message").getAsString();

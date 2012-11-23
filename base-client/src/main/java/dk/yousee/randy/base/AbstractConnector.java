@@ -49,9 +49,9 @@ public abstract class AbstractConnector {
 
     public void clearClients(){
         
-        for(DefaultHttpClient dhc : clients.values()) {
-            dhc.getConnectionManager().shutdown();
-        }     
+//        for(DefaultHttpClient dhc : clients.values()) {
+//            dhc.getConnectionManager().shutdown();
+//        }
         
         clients=new HashMap<Integer, DefaultHttpClient>();
     }

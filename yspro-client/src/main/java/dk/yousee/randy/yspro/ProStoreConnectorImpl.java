@@ -89,15 +89,15 @@ public class ProStoreConnectorImpl extends AbstractConnector {
         return !DEFAULT_PROXY_HOST.equals(alternativeProxyHost) && alternativeProxyHost!=null;
     }
 
-    public synchronized String getHandleId() {
+    public String getHandleId() {
         return handleId;
     }
 
-    public synchronized void setHandleId(String handleId) {
+    public void setHandleId(String handleId) {
         this.handleId = handleId;
     }
     
-    public synchronized void clearHandle(){
+    public void clearHandle(){
         this.handleId = null;
     }
     public void clearHandleId() {

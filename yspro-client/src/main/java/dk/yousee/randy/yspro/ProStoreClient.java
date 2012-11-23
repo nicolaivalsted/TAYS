@@ -81,7 +81,6 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     }
 
     /**
-     *
      * @param customer de 9 cifre
      * @return json dokument. Der er en liste af "Products" med de - for produktet (7000) definerede - properties
      * @throws Exception
@@ -92,15 +91,25 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
             , getConnector().getYsProHost(), getConnector().getHandleId(), customer));
         return new ProStoreResponse(performGet(url));
     }
+
     //GetEngagement.php
     public ProStoreResponse findEngagement(String customer) throws Exception {
-        ensureHandle();
-        URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s"
-            , getConnector().getYsProHost(), getConnector().getHandleId(), customer));
-        return new ProStoreResponse(performGet(url));
+        for (int count = 0; count < 2; count++) {
+            ensureHandle();
+            URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s"
+                , getConnector().getYsProHost(), getConnector().getHandleId(), customer));
+            ProStoreResponse res=new ProStoreResponse(performGet(url));
+            if (res.getStatus() == 50) {
+                getConnector().clearHandle();
+                ensureHandle();
+            } else {
+                return res;
+            }
+        }
+        return new ProStoreResponse(100,"FindEngagement read nothing from ysPro");
     }
-    
-    public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws Exception{
+
+    public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
             , getConnector().getYsProHost(), getConnector().getHandleId(), customer, productId));
@@ -110,25 +119,25 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
     public UserInfo findUserInfo(String userID) throws Exception {
 
-        for(int count=0;count<2;count++){
+        for (int count = 0; count < 2; count++) {
             ensureHandle();
             URL url = new URL(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1"
                 , getConnector().getYsProHost(), getConnector().getHandleId(), userID));
 
-            String st= performGet(url);
+            String st = performGet(url);
             UserInfo res;
-            res=new UserInfo(UserInfo.DataFormat.xml,st);
+            res = new UserInfo(UserInfo.DataFormat.xml, st);
 
-            if(res.getStatus() == 50){
+            if (res.getStatus() == 50) {
                 getConnector().clearHandle();
                 ensureHandle();
             } else {
                 return res;
             }
         }
-        return new UserInfo(100,String.format("Could not access userInfo for %s",userID));
+        return new UserInfo(100, String.format("Could not access userInfo for %s", userID));
     }
-    
+
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
     public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws Exception {
         ensureHandle();
@@ -152,7 +161,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
 //    }
 
 
-// http://ysprodev.yousee.dk/AssignProduct.php?HandleID=X71vQm8ZLZ80916omB0I54ZfV48quC&CustomerNumber=607777777
+    // http://ysprodev.yousee.dk/AssignProduct.php?HandleID=X71vQm8ZLZ80916omB0I54ZfV48quC&CustomerNumber=607777777
 // &Products=[
 // {"ProductID":7000
 // ,"Description":"My Test..."
@@ -181,7 +190,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     public ProStoreResponse assignProduct(String customer, String json) throws Exception {
         ensureHandle();
         HttpPost post;
-        URL href=generateUpdateUrl(customer,json);
+        URL href = generateUpdateUrl(customer, json);
         post = new HttpPost(href.toString());
         HttpEntity entity = null;
         try {
@@ -195,9 +204,9 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
     /**
      * http://ysprodev.yousee.dk/RemoveEngagement.php
      * ?HandleID=MM91dRInu12r9c8D3oMb9RJ8oiH900&CustomerNumber=607777777&ProductID=6900
-     *
+     * <p/>
      * Vær’sgo J
-     *
+     * <p/>
      * Den vil forblive udokumenteret og det er frivilligt om du angiver UserID eller CustomerNumber,
      * men en af dem skal være der. Det er også frivilligt at angive ProductID
      * , men jeg ville nu gøre det.
@@ -207,10 +216,10 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
      * OTT produktet har ProductID 7000.
      * .. Allan
      */
-    public ProStoreResponse removeEngagement(String customer,YsProProduct product) throws Exception {
+    public ProStoreResponse removeEngagement(String customer, YsProProduct product) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
-            , getConnector().getYsProHost(), getConnector().getHandleId(), customer,product));
+            , getConnector().getYsProHost(), getConnector().getHandleId(), customer, product));
         return new ProStoreResponse(performGet(url));
     }
 }
