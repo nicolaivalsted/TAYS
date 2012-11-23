@@ -6,6 +6,11 @@
     <version>3.06-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
+    <description>
+        Various client libraries and APIs shared among RANDY projects.
+    </description>
+    <url>http://194.239.123.218/randydoc/clients/${project.version}/</url>
+
     <properties>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -30,11 +35,16 @@
     <scm>
         <connection>scm:git:https://github.com/YouSee/randy-clients.git</connection>
         <developerConnection>scm:git:https://github.com/YouSee/randy-clients.git</developerConnection>
-        <url>scm:git:https://github.com/YouSee/randy-clients.git</url>
+        <url>https://github.com/YouSee/randy-clients</url>
         <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
+        <site>
+            <id>Docs_Release</id>
+            <url>scp://194.239.123.218/www/bbvas/randydoc/clients/${project.version}</url>
+            <name>The Documentation Name</name>
+        </site>
         <repository>
             <id>Tays_Release</id>
             <name>Randy releases repository</name>
@@ -47,6 +57,19 @@
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>
+
+    <!-- Describe CI in maven site report -->
+    <ciManagement>
+        <system>Hudson</system>
+        <url>http://hudson01.yousee.idk:8080/view/Randy%20CI/</url>
+    </ciManagement>
+
+    <!-- Describe Jira in maven site report -->
+    <issueManagement>
+        <system>Jira</system>
+        <url>https://yousee.jira.com/wiki/display/TAYS/Home</url>
+    </issueManagement>
+
 
     <repositories>  
         <repository>
@@ -97,6 +120,59 @@
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                </configuration>
+            </plugin>
+            <!-- Build a web site of pom and project information -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+                <!-- add support for ssh/scp -->
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.maven.wagon</groupId>
+                        <artifactId>wagon-ssh</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                </dependencies>                
+                <configuration>
+                    <reportPlugins>           
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-project-info-reports-plugin</artifactId>
+                            <version>2.6</version>
+                            <reports>
+                                <report>index</report>
+                                <report>dependencies</report>
+                                <report>dependency-convergence</report>
+                                <report>plugin-management</report>
+                                <report>cim</report>
+                                <report>distribution-management</report>
+                                <report>issue-tracking</report>
+                                <report>scm</report>
+                                <report>summary</report>
+                            </reports>                                
+                            <configuration>
+                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
+                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
+                            </configuration>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-surefire-report-plugin</artifactId>
+                            <version>2.12.4</version>
+                        </plugin>
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-javadoc-plugin</artifactId>
+                            <version>2.9</version>
+                        </plugin>                             
+                        <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-changelog-plugin</artifactId>
+                            <version>2.2</version>
+                        </plugin>                             
+                    </reportPlugins>
                 </configuration>
             </plugin>
         </plugins>
