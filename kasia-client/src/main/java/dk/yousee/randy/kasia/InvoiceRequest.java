@@ -32,6 +32,7 @@ public class InvoiceRequest {
                 "            \"title\" : \"" + title + "\"\n" +
                 "    }],\n" +
                 "        \"info\" : {\n" +
+                "            \"salgskanal\" : \"K\",\n" +
                 "            \"klient-funktion\" : \"rent-movie\",\n" +
                 "            \"klient-bruger\" : \"" + user + "\",\n" +
                 "            \"klient-system\" : \"" + system + "\"\n" +

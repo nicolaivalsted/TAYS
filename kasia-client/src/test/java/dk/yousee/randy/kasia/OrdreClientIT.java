@@ -46,7 +46,8 @@ public class OrdreClientIT {
         Assert.assertNotNull("Must give an order", response.getOrderOutput().getUuid());
     }
 
-    private static final String ordreId = "b650255e-45b1-4d2d-8f6f-1bb57e96ed8f";
+//    private static final String ordreId = "b650255e-45b1-4d2d-8f6f-1bb57e96ed8f";
+    private static final String ordreId = "62e1e236-a448-4595-9cb1-7e6167227e53";
 //    private static final String ordreId = "bf306e71-f571-4544-bc19-062f2a1f9975";//"3442db26-ddad-4c4c-addc-e49f0f32f62c";
 
     @Test
