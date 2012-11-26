@@ -38,6 +38,19 @@ public class MailResponse {
             this.message = String.format("Tried to parse service-map response, got syntax error, message: %s", e.getMessage());
         }
     }
+    public MailResponse(MailResponse all,String filerAnlaeg) {
+
+        this.readTime = all.getReadTime();
+        this.input = all.getInput();
+        this.error=all.error;
+        this.message=all.message;
+        rows=new ArrayList<MailRow>();
+        for(MailRow row:all.getRows()){
+            if(row.getAnlaeg().equals(filerAnlaeg)){
+                rows.add(row);
+            }
+        }
+    }
 
     public MailResponse(String error, String message) {
         this.error = error;
