@@ -162,6 +162,7 @@ public class InetAccess extends BasicUnit {
     public PropHolder downstream_speed = new PropHolder(this, "downstream_speed");
     public PropHolder email_cos = new PropHolder(this, "email_cos");
     public PropHolder cm_mac = new PropHolder(this, "cm_mac");
+    public PropHolder product_name = new PropHolder(this, "product_name");
 
     /**
      * Method to return activation code, will return modemId if property is missing
