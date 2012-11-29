@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>randy</artifactId>
+        <groupId>dk.yousee</groupId>
+        <version>1.2</version>
+    </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>clients</artifactId>
     <version>3.06-SNAPSHOT</version>
@@ -9,7 +14,7 @@
     <description>
         Various client libraries and APIs shared among RANDY projects.
     </description>
-    <url>http://194.239.123.218/randydoc/clients/${project.version}/</url>
+    <url>http://sdoc.yousee.idk/randy/clients/${project.version}/</url>
 
     <properties>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
@@ -35,147 +40,29 @@
     <scm>
         <connection>scm:git:https://github.com/YouSee/randy-clients.git</connection>
         <developerConnection>scm:git:https://github.com/YouSee/randy-clients.git</developerConnection>
-        <url>https://github.com/YouSee/randy-clients</url>
-        <tag>HEAD</tag>
+        <url>https://github.com/YouSee/randy-clients/blob/master</url>
     </scm>
 
     <distributionManagement>
         <site>
             <id>Docs_Release</id>
-            <url>scp://194.239.123.218/www/bbvas/randydoc/clients/${project.version}</url>
-            <name>The Documentation Name</name>
+            <url>scp://sdoc.yousee.idk/var/www/sdoc/randy/clients/${project.version}</url>
+            <name>RANDY source documentation site</name>
         </site>
-        <repository>
-            <id>Tays_Release</id>
-            <name>Randy releases repository</name>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/repositories/Tays_Release/</url>
-        </repository>
-        <snapshotRepository>
-            <id>Tays_Snapshots</id>
-            <name>Randy snapshots repository</name>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/repositories/Tays_Snapshots/</url>
-            <uniqueVersion>false</uniqueVersion>
-        </snapshotRepository>
     </distributionManagement>
-
-    <!-- Describe CI in maven site report -->
-    <ciManagement>
-        <system>Hudson</system>
-        <url>http://hudson01.yousee.idk:8080/view/Randy%20CI/</url>
-    </ciManagement>
-
-    <!-- Describe Jira in maven site report -->
-    <issueManagement>
-        <system>Jira</system>
-        <url>https://yousee.jira.com/wiki/display/TAYS/Home</url>
-    </issueManagement>
-
 
     <repositories>  
         <repository>
             <id>nexus</id>
             <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
             </releases>
         </repository>
     </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>Codehaus Snapshots</id>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
-            <snapshots>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-                <updatePolicy>always</updatePolicy>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
-
 
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <preparationGoals>clean install</preparationGoals>
-                    <arguments>-Dmaven.test.skip=true -Denvironment.name=release</arguments>
-                    <branchName>${project.version}</branchName>
-                </configuration>
-            </plugin>            
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-            <!-- Build a web site of pom and project information -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <version>3.2</version>
-                <!-- add support for ssh/scp -->
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.maven.wagon</groupId>
-                        <artifactId>wagon-ssh</artifactId>
-                        <version>1.0</version>
-                    </dependency>
-                </dependencies>                
-                <configuration>
-                    <reportPlugins>           
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-project-info-reports-plugin</artifactId>
-                            <version>2.6</version>
-                            <reports>
-                                <report>index</report>
-                                <report>dependencies</report>
-                                <report>dependency-convergence</report>
-                                <report>plugin-management</report>
-                                <report>cim</report>
-                                <report>distribution-management</report>
-                                <report>issue-tracking</report>
-                                <report>scm</report>
-                                <report>summary</report>
-                            </reports>                                
-                            <configuration>
-                                <dependencyDetailsEnabled>false</dependencyDetailsEnabled>
-                                <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
-                            </configuration>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-surefire-report-plugin</artifactId>
-                            <version>2.12.4</version>
-                        </plugin>
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-javadoc-plugin</artifactId>
-                            <version>2.9</version>
-                        </plugin>                             
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-changelog-plugin</artifactId>
-                            <version>2.2</version>
-                        </plugin>                             
-                    </reportPlugins>
-                </configuration>
-            </plugin>
-        </plugins>
     </build>
 
     <dependencyManagement>
@@ -279,23 +166,5 @@
 
         </dependencies>
     </dependencyManagement>
-    <profiles>
-        <profile>
-            <id>integration-test</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <includes>
-                                <include>**/*Test.java</include>
-                                <include>**/*IT.java</include>
-                            </includes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+
 </project>
