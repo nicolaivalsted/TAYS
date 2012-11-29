@@ -112,7 +112,7 @@ class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements Smp
 
 // build request
         HttpPost post;
-        post = new HttpPost(getConnector().getUrlContext().getUrl());
+        post = new HttpPost(getConnector().getUrl());
         post.setHeader("accept", "application/soap+xml, application/dime, multipart/related, text/*");
 //        post.setHeader("Content-Type","text/xml; charset=utf-8"); //??? remove ..
         post.setHeader("Cache-Control", "no-cache");

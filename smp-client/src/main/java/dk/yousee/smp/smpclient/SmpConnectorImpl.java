@@ -2,17 +2,10 @@ package dk.yousee.smp.smpclient;
 
 import dk.yousee.randy.base.AbstractConnector;
 import org.apache.http.HttpHost;
-import org.apache.http.conn.params.ConnRoutePNames;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
 import sun.misc.BASE64Encoder;
 
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -36,9 +29,7 @@ public class SmpConnectorImpl extends AbstractConnector  {
     public static final String K_QA_SMP_HOST="http://194.239.10.197:41203";
     public static final String K_SMP_HOST="http://10.114.24.120:44001";
 
-    private SmpUrlContext urlContext;
-    private ThreadSafeClientConnManager cm;
-    private Map<Integer,DefaultHttpClient> clients=new HashMap<Integer, DefaultHttpClient>();
+//    private SmpUrlContext urlContext;
 
     /**
      * Default 100 seconds to ask this question as max.
@@ -46,21 +37,28 @@ public class SmpConnectorImpl extends AbstractConnector  {
     public static final int DEFAULT_OPERATION_TIMEOUT=100000;
 
     public SmpConnectorImpl() {
-        urlContext=new SmpUrlContext();
-        urlContext.setProxyHost(DEFAULT_PROXY_HOST);
-        urlContext.setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
-        urlContext.setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
-        cm = new ThreadSafeClientConnManager();
-        cm.setDefaultMaxPerRoute(DEFAULT_MAX_TOTAL_CONNECTIONS);
-        cm.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
+        super();
+        setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
+//        urlContext=new SmpUrlContext();
+//        urlContext.setProxyHost(DEFAULT_PROXY_HOST);
+//        urlContext.setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
+//        urlContext.setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
     }
+    private String url;
+    private URL url2;
 
     public String getUrl() {
-        return urlContext.getUrl();
+        return url;
     }
 
     public void setUrl(String url) {
-        urlContext.setUrl(url);
+        this.url=url;
+        try {
+            url2=new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(String.format("Could not parse URL %s, got exception %s",url,e.getMessage()));
+        }
     }
 
     private String smpHost;
@@ -74,85 +72,36 @@ public class SmpConnectorImpl extends AbstractConnector  {
         setUrl(smpHost+"/SmpXmlOrderApi/xmlorder");
     }
 
-    public String getProxyHost() {
-        return urlContext.getProxyHost();
-    }
 
-    public void setProxyHost(String proxyHost) {
-        urlContext.setProxyHost(proxyHost);
-    }
+    private String username;
 
-    public String getProxyPort() {
-        return urlContext.getProxyPort();
-    }
-
-    public void setProxyPort(String proxyPort) {
-        urlContext.setProxyPort(proxyPort);
+    public String getUsername() {
+        return username;
     }
 
     public void setUsername(String username) {
-        urlContext.setUsername(username);
+        this.username = username;
     }
-    public String getUsername() {
-        return urlContext.getUsername();
+
+    private String password;
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
-        urlContext.setPassword(password);
-    }
-    public String getPassword() {
-        return urlContext.getPassword();
-    }
-
-    public void setConnectionTimeout(Integer connectionTimeout) {
-        urlContext.setConnectionTimeout(connectionTimeout);
-    }
-
-    public void setOperationTimeout(Integer operationTimeout) {
-        urlContext.setOperationTimeout(operationTimeout);
-    }
-
-    public Integer getConnectionTimeout() {
-        return urlContext.getConnectionTimeout();
-    }
-    public Integer getOperationTimeout() {
-        return urlContext.getOperationTimeout();
-    }
-
-    public void setMaxTotalConnections(int maxTotalConnections){
-        cm.setDefaultMaxPerRoute(maxTotalConnections);
-        cm.setMaxTotal(maxTotalConnections);
-    }
-    public int getMaxTotalConnections(){
-        return cm.getDefaultMaxPerRoute();
-    }
-
-    public SmpUrlContext getUrlContext() {
-        return urlContext;
+        this.password = password;
     }
 
     public HttpHost extractHttpHost() {
         HttpHost host;
-        host = new HttpHost(urlContext.getUrl2().getHost(), urlContext.getUrl2().getPort(), urlContext.getUrl2().getProtocol());
+        host = new HttpHost(url2.getHost(), url2.getPort(), url2.getProtocol());
         return host;
     }
 
-    public HttpHost extractProxy() {
-        if(urlContext.isUsingProxy()) {
-
-//        String ph = urlContext.getProxyHost();
-//        if (ph != null && !"null".equals(ph) && !"none".equals(ph)) {
-            HttpHost host;
-            host = new HttpHost(urlContext.getProxyHost(), Integer.parseInt(urlContext.getProxyPort()));
-            return host;
-
-        } else {
-            return null;
-        }
-    }
 
     public String extractUri() {
-        return urlContext.getUrl2().getPath();
+        return url2.getPath();
     }
 
 
@@ -173,11 +122,11 @@ public class SmpConnectorImpl extends AbstractConnector  {
     }
 
     public URL getURL() {
-        return urlContext.getUrl2();
+        return url2;
     }
 
     public String encodeBasic() {
-        return encodeBasic(urlContext.getUsername(), urlContext.getPassword());
+        return encodeBasic(getUsername(), getPassword());
     }
 
     public String encodeBasic(String userName, String password) {
@@ -195,54 +144,4 @@ public class SmpConnectorImpl extends AbstractConnector  {
         return val;
     }
 
-//    public DefaultHttpClient getClient() {
-//        return getClient(null);
-//    }
-
-    /**
-     * Get a client that matches requirements.
-     * <p>
-     * We understand DefaultHttpClient as a "Facade" that can handle multiple concurrent request.
-     * The facade is configured specific for each purpose.
-     * Therefore it takes two facades to call the same service with different operation timeout.
-     * And this is the reason that this class uses a map of DefaultHttpClient that is different by operation timeout.
-     * </p>
-     * @param operationTimeout requered timeout to be this value. Null means default operation timeout
-     * @return a DefaultHttpClient that matches requirements.
-     */
-    public DefaultHttpClient getClient(Integer operationTimeout) {
-        Integer ot=operationTimeout==null?getOperationTimeout():operationTimeout;
-        DefaultHttpClient client= clients.get(ot);
-        if(client==null){
-            client=addClient(ot);
-        }
-        return client;
-    }
-
-    private synchronized DefaultHttpClient addClient(Integer operationTimeout) {
-        DefaultHttpClient client= clients.get(operationTimeout); //maybe last thread just made me..
-        if(client==null){
-            client=createClient(operationTimeout);
-            clients.put(operationTimeout,client);
-        }
-        return client;
-    }
-
-    private DefaultHttpClient createClient(Integer operationTimeout){
-        HttpParams params = new BasicHttpParams();
-        HttpHost proxy = extractProxy();
-        if (proxy != null) {
-            params.setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
-        }
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, getConnectionTimeout());
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, operationTimeout);
-        return new DefaultHttpClient(cm,params);
-    }
-
-    /**
-     * Take down services, called by Spring at deactivation
-     */
-    public void destroy() {
-        cm.shutdown();
-    }
 }
