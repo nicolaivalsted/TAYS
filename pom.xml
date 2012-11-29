@@ -11,6 +11,7 @@
     <version>3.06-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
+    <url>http://194.239.123.218/randydoc/clients/${project.version}/</url>
     <description>
         Various client libraries and APIs shared among RANDY projects.
     </description>
@@ -36,6 +37,35 @@
         <module>macaddress</module>
         <module>virtualmac-client</module>
     </modules>
+
+    <repositories>  
+        <repository>
+            <id>nexus</id>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>Codehaus Snapshots</id>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+                <updatePolicy>never</updatePolicy>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </releases>
+        </pluginRepository>
+    </pluginRepositories>
 
     <scm>
         <connection>scm:git:https://github.com/YouSee/randy-clients.git</connection>
