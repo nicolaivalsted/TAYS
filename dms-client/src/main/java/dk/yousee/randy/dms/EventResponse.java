@@ -1,6 +1,7 @@
 package dk.yousee.randy.dms;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 
@@ -59,4 +60,13 @@ public class EventResponse {
     public boolean isSuccess() {
         return success;
     }
+
+    public JsonElement printJson() {
+        JsonObject res = new JsonObject();
+        res.addProperty("customer", customer);
+        res.addProperty("message", message);
+        res.addProperty("success", success);
+        return res;
+    }
+
 }

@@ -46,6 +46,7 @@ public class DmsClientIT {
         Assert.assertEquals(customer, response.getCustomer());
         Assert.assertNotNull(response.getReadTime());
         Assert.assertNotNull(response.getMessage());
+        Assert.assertNotNull(response.printJson());
     }
 
     @Test

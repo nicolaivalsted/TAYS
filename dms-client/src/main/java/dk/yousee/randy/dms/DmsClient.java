@@ -25,14 +25,14 @@ public class DmsClient extends AbstractClient<DmsConnectorImpl> {
 
     public EventResponse postEvent(String customer){
         try {
-            return makeInvoiceInner(customer);
+            return postEventInner(customer);
         } catch (Exception e){
             return new EventResponse(customer,e.getMessage());
         }
     }
 
 
-    private EventResponse makeInvoiceInner(String customer) throws Exception {
+    private EventResponse postEventInner(String customer) throws Exception {
         HttpPost hur;
         URL href=generateEventUrl(customer);
         hur = new HttpPost(href.toString());
