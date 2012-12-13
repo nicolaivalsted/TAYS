@@ -1,6 +1,5 @@
 package dk.yousee.randy.yspro;
 
-import com.google.gson.JsonSyntaxException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -44,7 +43,7 @@ public class YsProApi {
             throw new YsProException("URI syntax in getHandle");
         }
 
-        return excute(new HttpGet(uri));
+        return execute(new HttpGet(uri));
     }
 
     @Deprecated
@@ -57,13 +56,13 @@ public class YsProApi {
 
     }
 
-    private String excute(HttpUriRequest request) throws YsProException {
+    private String execute(HttpUriRequest request) throws YsProException {
         HttpEntity entity = null;
         try {
-            LOG.log(Level.INFO, "Trying execute url: {0}", request.getURI());
+            LOG.log(Level.FINE, "Trying execute url: {0}", request.getURI());
             HttpResponse response = client.getClient(timeout).execute(request);
             int statusSode = response.getStatusLine().getStatusCode();
-            LOG.log(Level.INFO, "Executed url with status: {0}", statusSode);
+            LOG.log(Level.FINE, "Executed url with status: {0}", statusSode);
 
             entity = response.getEntity();
 
@@ -105,12 +104,12 @@ public class YsProApi {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), client.getHandleId(), customer));
-            ProStoreResponse psr = new ProStoreResponse(excute(new HttpGet(url)));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.setHandleId(null);
                 ensureHandle();
                 url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), client.getHandleId(), customer));
-                psr = new ProStoreResponse(excute(new HttpGet(url)));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
             }
             return psr;
         } catch (URISyntaxException ex) {
@@ -123,12 +122,12 @@ public class YsProApi {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
-            ProStoreResponse psr = new ProStoreResponse(excute(new HttpGet(url)));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
                 url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
-                psr = new ProStoreResponse(excute(new HttpGet(url)));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
             }
             return psr;
         } catch (URISyntaxException ex) {
@@ -140,12 +139,12 @@ public class YsProApi {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, productId));
-            ProStoreResponse psr = new ProStoreResponse(excute(new HttpGet(url)));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
                 url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, productId));
-                psr = new ProStoreResponse(excute(new HttpGet(url)));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
             }
             return psr;
         } catch (URISyntaxException ex) {
@@ -158,14 +157,14 @@ public class YsProApi {
         try {
             ensureHandle();
             URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), client.getHandleId(), userID));
-            String st = excute(new HttpGet(uri));
+            String st = execute(new HttpGet(uri));
             
             UserInfo ui = new UserInfo(UserInfo.DataFormat.xml, st);
             if(ui.getStatus() == 50){
                 client.clearHandle();
                 ensureHandle();
                  uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), client.getHandleId(), userID));
-                st = excute(new HttpGet(uri));
+                st = execute(new HttpGet(uri));
                 ui = new UserInfo(UserInfo.DataFormat.xml, st);
             }
             return ui;
@@ -179,12 +178,12 @@ public class YsProApi {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), client.getHandleId(), mac));
-            ProStoreResponse psr = new ProStoreResponse(excute(new HttpGet(url)));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
             if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
                 url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), client.getHandleId(), mac));
-                psr = new ProStoreResponse(excute(new HttpGet(url)));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
             }
             return psr;
         } catch (URISyntaxException ex) {
@@ -206,12 +205,12 @@ public class YsProApi {
     public ProStoreResponse assignProduct(String customer, String json) throws YsProException {
         ensureHandle();
         URI href = generateUpdateUrl(customer, json);
-        ProStoreResponse psr = new ProStoreResponse(excute(new HttpPost(href)));
+        ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(href)));
         if (psr.getStatus() == 50) { //handleTimeout clear handle
             client.clearHandle();
             ensureHandle();
             href = generateUpdateUrl(customer, json);
-            psr = new ProStoreResponse(excute(new HttpPost(href)));
+            psr = new ProStoreResponse(execute(new HttpPost(href)));
         }
         return psr;
     }
@@ -234,12 +233,12 @@ public class YsProApi {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, product));
-            ProStoreResponse psr = new ProStoreResponse(excute(new HttpGet(url)));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
             if(psr.getStatus()==50){ //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
                 url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, product));
-                psr = new ProStoreResponse(excute(new HttpGet(url)));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
             }           
             return psr;
         } catch (URISyntaxException ex) {
