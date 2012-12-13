@@ -20,6 +20,13 @@ public class VoucherTest {
         Assert.assertNull(verify);
     }
     @Test
+    public void verify_ok() throws Exception {
+        Voucher voucher=new Voucher("123412341234");
+        Assert.assertNotNull(voucher);
+        String verify=voucher.verify();
+        Assert.assertNull(verify);
+    }
+    @Test
     public void verify_bad() throws Exception {
         Voucher voucher=new Voucher("111222333444");
         Assert.assertNotNull(voucher);

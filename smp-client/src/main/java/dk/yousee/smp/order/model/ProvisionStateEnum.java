@@ -37,6 +37,7 @@ public enum ProvisionStateEnum {
     CLOSED_COMPLETED_ALL("closed.completed.all"),
     STATUS_CODE_FUTURE_ACTION("open.not_running.pre_queued.scheduled"),
     STATUS_CODE_OPEN_NOT_RUNNING("open.not_running.not_started"),
+    OPEN_NOT_RUNNING_QUEUED("open.not_running.queued",true),
     OPEN_RUNNING("open.running",true),
     /**
      * This state is used when state could not be passed, there is also a warn logging on the server with content
