@@ -134,6 +134,23 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
+    
+    public ProStoreResponse findEngagementOnlyActive(String customer) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ShowOnlyActive=true", client.getYsProHost(), client.getHandleId(), customer));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
+            if (psr.getStatus() == 50) { //handleTimeout clear handle
+                client.clearHandle();
+                ensureHandle();
+                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
+            }
+            return psr;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
 
     public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws YsProException {
         try {
