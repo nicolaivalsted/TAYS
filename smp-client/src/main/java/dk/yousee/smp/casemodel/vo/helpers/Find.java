@@ -27,6 +27,8 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
+import dk.yousee.smp.casemodel.vo.play.Play;
+import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.order.model.OrderDataType;
 import org.apache.log4j.Logger;
 
@@ -550,4 +552,40 @@ public class Find {
         return parent==null?null:parent.getMail();
     }
 
+    // ======= play =======
+
+    /**
+     * @return the MobileBBService the subscriber has
+     */
+    public List<PlayService> PlayService() {
+        List<PlayService> res = new ArrayList<PlayService>();
+        for (BasicUnit plan : serviceLevelUnit) {
+            if (plan.getType().equals(PlayService.TYPE)) {
+                res.add((PlayService) plan);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param position identifier for specific instance of the service plan
+     * @return instance if it exists
+     */
+    public PlayService PlayService(BusinessPosition position) {
+        List<PlayService> plans = PlayService();
+        for (PlayService plan : plans) {
+            if(position.equals(plan.getPosition())) {
+                return plan;
+            }
+        }
+        return null;
+    }
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public Play Play(BusinessPosition position) {
+        PlayService parent=PlayService(position);
+        return parent==null?null:parent.getPlay();
+    }
 }

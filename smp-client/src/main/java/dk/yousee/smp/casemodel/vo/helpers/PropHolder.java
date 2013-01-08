@@ -15,6 +15,11 @@ public class PropHolder {
     private BasicUnit unit;
     private boolean mandatory = false;
 
+    /**
+     * Establish a property holder that is NOT mandatory
+     * @param unit to be living on
+     * @param key name of property
+     */
     public PropHolder(BasicUnit unit, String key) {
         this.unit = unit;
         this.key = key;
