@@ -4,6 +4,8 @@ import dk.yousee.randy.base.AbstractClient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * User: aka
@@ -62,4 +64,35 @@ public class SmClient extends AbstractClient<SmConnectorImpl> {
         return new MailResponse(response);
     }
 
+    URL generateItemUrl(Set items) throws MalformedURLException {
+        String itemParams=generateItemParams(items);
+        return new URL(String.format("%s/servicemap/api/item/query%s", getConnector().getServiceMapHost(),itemParams));
+    }
+
+    private String generateItemParams(Set<String> items) {
+        StringBuilder sb=new StringBuilder();
+        for(String item:items){
+            if(sb.length()==0){
+                sb.append("?");
+            } else {
+                sb.append("&");
+            }
+            sb.append("stalone");
+            sb.append("=");
+            sb.append(item);
+        }
+        return sb.toString();
+    }
+
+    public ItemResponse fetchItem(Set items) {
+        try {
+            return innerFetchItem(items);
+        } catch (Exception e){
+            return new ItemResponse("Failed2access",e.getMessage());
+        }
+    }
+    public ItemResponse innerFetchItem(Set items) throws Exception{
+        String response = performGet(generateItemUrl(items));
+        return new ItemResponse(response);
+    }
 }
