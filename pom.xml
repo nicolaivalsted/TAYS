@@ -31,6 +31,7 @@
         <module>kasia-client</module>
         <module>smp-xml</module>
         <module>smp-client</module>
+        <module>sync-client</module>
         <module>servicemap-client</module>
         <module>voucher-client</module>
         <module>yspro-client</module>
