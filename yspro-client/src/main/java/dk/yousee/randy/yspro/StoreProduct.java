@@ -2,6 +2,7 @@ package dk.yousee.randy.yspro;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import java.util.Date;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -132,6 +133,10 @@ public class StoreProduct {
 
     public boolean hasSignal(YsProTime now){
         return now.between(getFrom(),getTo());
+    }
+    
+    public boolean hasSignal(){
+        return new YsProTime(new Date()).between(getFrom(),getTo());
     }
 
     public JsonElement printJson() {
