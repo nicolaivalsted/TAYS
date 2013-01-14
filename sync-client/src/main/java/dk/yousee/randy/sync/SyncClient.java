@@ -1,8 +1,16 @@
 package dk.yousee.randy.sync;
 
 import dk.yousee.randy.base.AbstractClient;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.util.EntityUtils;
 
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -13,83 +21,98 @@ import java.net.URL;
 public class SyncClient extends AbstractClient<SyncConnectorImpl> {
 
 
-//    URL generateVendorUrl() throws MalformedURLException {
-//        return new URL(String.format("%s/servicemap/api/vendor", getConnector().getServiceMapHost()));
-//    }
-//
-//    public Vendors fetchVendors() {
-//        try {
-//            return innerFetchVendors();
-//        } catch (Exception e){
-//            return new Vendors("Failed2access",e.getMessage());
-//        }
-//    }
-//    public Vendors innerFetchVendors() throws Exception{
-//        String response = performGet(generateVendorUrl());
-//        return new Vendors(response);
-//    }
-//
     URL generateCreateUrl() throws MalformedURLException {
         return new URL(String.format("%s/sync/api/sync", getConnector().getSyncHost()));
     }
+
+    /**
+     * Creates a play event
+     *
+     * @return result of event creation
+     */
+    public SyncResponse createPlayEvent(CreatePlayRequest request) {
+        try {
+            return innerCreatePlay(request);
+        } catch (Exception e) {
+            return new SyncResponse(request.getSubscriber(), "Failed2create", e.getMessage());
+        }
+    }
+    URL generateHref(CreatePlayRequest request) throws MalformedURLException {
+        return new URL(String.format("%s/sync/api/play/engagement/%s/%s/%s"
+            , getConnector().getSyncHost()
+            ,request.getSubscriber()
+            ,request.getServiceItem()
+            ,request.isSignal()
+            ));
+    }
+
+    private SyncResponse innerCreatePlay(CreatePlayRequest request) throws Exception {
+
+        HttpPost post;
+        URL href = generateCreateUrl();
+        post = new HttpPost(href.toString());
+        String body=String.format("{\n" +
+            "      \"forbruger\": \"%s\",\n" +
+            "      \"links\": [{\n" +
+            "                \"href\": \"%s\",\n" +
+            "                \"mediatype\": \"application/vnd.yousee.kasia2+json;version=1;charset=UTF-8\",\n" +
+            "                \"rel\": \"engagement\"\n" +
+            "            }\n" +
+            "        ],\n" +
+            "      \"system\":\"%s\",\n" +
+            "      \"reference\":\"%s\",\n" +
+            "      \"user\":\"%s\"\n" +
+            "    }"
+            ,request.getSubscriber()
+            ,generateHref(request)
+            ,request.getSystem()
+            ,request.getReference()
+            ,request.getUser()
+        );
+        post.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        HttpEntity entity = null;
+        try {
+            entity = talk2service(post);
+            SyncResponse res;
+            res = new SyncResponse(request.getSubscriber(), readResponse(entity));
+            return res;
+        } finally {
+            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
+        }
+    }
+
+    /**
+     * process a play event
+     *
+     * @return result of event creation
+     */
+    public SyncResponse processPlayEvent(SubscriberId subscriber,Link processLink) {
+        try {
+            return innerProcessPlayEvent(subscriber, processLink);
+        } catch (Exception e) {
+            return new SyncResponse(subscriber, "Failed2process", e.getMessage());
+        }
+    }
+
+    private SyncResponse innerProcessPlayEvent(SubscriberId subscriber,Link processLink) throws Exception {
+
+        URI href = new URI(processLink.getHref());
+        HttpPut put = new HttpPut(href);
+
+        HttpEntity entity = null;
+        try {
+            HttpResponse response = execute(put);
+//            int httpStatus = extractStatus(response);
+//            if(httpStatus !=HttpStatus.SC_NOT_FOUND) {
 //
-//    public MailResponse fetchForeningsMails() {
-//        try {
-//            return innerFetchForeningsMails();
-//        } catch (Exception e){
-//            return new MailResponse("Failed2access",e.getMessage());
-//        }
-//    }
-//    public MailResponse innerFetchForeningsMails() throws Exception{
-//        String response = performGet(generateForeningsMailUrl());
-//        return new MailResponse(response);
-//    }
-//
-//    URL generateForeningsMailUrlByAnlaeg(String anlaeg) throws MalformedURLException {
-//        return new URL(String.format("%s/servicemap/api/foreningsmail/%s", getConnector().getServiceMapHost(),anlaeg));
-//    }
-//
-//    public MailResponse fetchForeningsMailsByAnlaeg(String anlaeg) {
-//        try {
-//            return innerFetchForeningsMailsByAnlaeg(anlaeg);
-//        } catch (Exception e){
-//            return new MailResponse("Failed2access",e.getMessage());
-//        }
-//    }
-//    public MailResponse innerFetchForeningsMailsByAnlaeg(String anlaeg) throws Exception{
-//        String response = performGet(generateForeningsMailUrlByAnlaeg(anlaeg));
-//        return new MailResponse(response);
-//    }
-//
-//    URL generateItemUrl(Set items) throws MalformedURLException {
-//        String itemParams=generateItemParams(items);
-//        return new URL(String.format("%s/servicemap/api/item/query%s", getConnector().getServiceMapHost(),itemParams));
-//    }
-//
-//    private String generateItemParams(Set<String> items) {
-//        StringBuilder sb=new StringBuilder();
-//        for(String item:items){
-//            if(sb.length()==0){
-//                sb.append("?");
-//            } else {
-//                sb.append("&");
 //            }
-//            sb.append("stalone");
-//            sb.append("=");
-//            sb.append(item);
-//        }
-//        return sb.toString();
-//    }
-//
-//    public ItemResponse fetchItem(Set items) {
-//        try {
-//            return innerFetchItem(items);
-//        } catch (Exception e){
-//            return new ItemResponse("Failed2access",e.getMessage());
-//        }
-//    }
-//    public ItemResponse innerFetchItem(Set items) throws Exception{
-//        String response = performGet(generateItemUrl(items));
-//        return new ItemResponse(response);
-//    }
+            entity=response.getEntity();
+            SyncResponse res;
+            res = new SyncResponse(subscriber, readResponse(entity));
+            return res;
+        } finally {
+            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
+        }
+    }
+
 }

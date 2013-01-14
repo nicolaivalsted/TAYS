@@ -23,9 +23,14 @@ public class SyncClientIT {
         SyncConnectorImpl connector = new SyncConnectorImpl();
         connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
         connector.setSyncHost(SyncConnectorImpl.T_HOST);
-        connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
+//        connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
         client = new SyncClient();
         client.setConnector(connector);
+    }
+
+    @Test
+    public void notProd() throws Exception {
+        Assert.assertNotSame(SyncConnectorImpl.P_HOST, client.getConnector().getSyncHost());
     }
 
     @Test
@@ -36,67 +41,32 @@ public class SyncClientIT {
         logger.info("URL: "+url);
     }
 
-//    @Test
-//    public void fetchVendors() throws Exception {
-//        Assert.assertNotSame(SmConnectorImpl.P_HOST, client.getConnector().getServiceMapHost());
-//        logger.info("URL: " + client.generateVendorUrl());
-//        Vendors vendors = client.fetchVendors();
-//        Assert.assertNotNull(vendors);
-//        Vendor vendor=vendors.filterByIsp("perspektivbredband");
-//        Assert.assertNotNull("vendor should exist",vendor);
-//        Assert.assertNotNull(vendor.getId());
-//        Assert.assertNotNull(vendor.getVendor());
-//        Assert.assertNotNull(vendor.getActivationReference());
-//
-//// find yousee
-//        Vendor yousee = vendors.filterByIsp(null);
-//        Assert.assertNotNull("yousee should exist",yousee);
-//    }
+    @Test
+    public void createPlayEvent() throws Exception {
+        String subscriber="608301280";
+        String serviceItem="1301018";
+        boolean signal=true;
+        CreatePlayRequest request=new CreatePlayRequest(subscriber,serviceItem,signal
+            ,"sync-client-it","aftalenr","k32444");
+        SyncResponse response=client.createPlayEvent(request);
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getSubscriber());
+    }
+    @Test
+    public void processPlayEvent() throws Exception {
+        SubscriberId subscriber=new SubscriberId("608301280");
+        String serviceItem="1301018";
+        boolean signal=true;
+        CreatePlayRequest request=new CreatePlayRequest(subscriber,serviceItem,signal
+            ,"sync-client-it","aftalenr","k32444");
+        SyncResponse response=client.createPlayEvent(request);
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getSubscriber());
 
-//    @Test
-//    public void fetchMails() throws Exception {
-//        logger.info("URL: " + client.generateForeningsMailUrl());
-//        MailResponse response = client.fetchForeningsMails();
-//        Assert.assertNotNull(response);
-//    }
+        SyncResponse response2 = client.processPlayEvent(subscriber, response.getProcessLink());
+        Assert.assertNotNull(response2);
+        Assert.assertNotNull(response2.getError());
+        Assert.assertNotNull(response2.getMessage());
 
-//    @Test
-//    public void fetchMailsByAnlaeg() throws Exception {
-//        String anlaeg="4002525";
-//        logger.info("URL: " + client.generateForeningsMailUrlByAnlaeg(anlaeg));
-//        MailResponse response = client.fetchForeningsMailsByAnlaeg(anlaeg);
-//        Assert.assertNotNull(response);
-//        Assert.assertNotNull(response.getReadTime());
-//        Assert.assertNotNull(response.getInput());
-//        Assert.assertNull(response.getMessage());
-//        Assert.assertEquals("one row",1,response.getRows().size());
-//        MailRow row=response.getRows().get(0);
-//        Assert.assertEquals(anlaeg,row.getAnlaeg());
-//        Assert.assertEquals("ystest",row.getProductName());
-//        Assert.assertEquals("foreningsmail.dk",row.getProductCode());
-//        Assert.assertEquals("1001",row.getSubPos());
-//    }
-
-//    @Test
-//    public void fetchItem() throws Exception {
-//        Set<String> items=new HashSet<String>();
-//        items.add("1991000");
-//        items.add("1340391");
-//
-//        logger.info("URL: " + client.generateItemUrl(items));
-//        ItemResponse response = client.fetchItem(items);
-//        Assert.assertNotNull(response);
-//        Assert.assertNotNull(response.getReadTime());
-//        Assert.assertNotNull(response.getInput());
-//        Assert.assertNull(response.getMessage());
-//
-//        Assert.assertEquals("one row",2,response.getRows().size());
-//        for(ItemRow row: response.getRows()){
-//            logger.info(row.printJson().toString());
-//        }
-//        Assert.assertEquals(row,row.getAnlaeg());
-//        Assert.assertEquals("ystest",row.getProductName());
-//        Assert.assertEquals("foreningsmail.dk",row.getProductCode());
-//        Assert.assertEquals("1001",row.getSubPos());
-//    }
+    }
 }
