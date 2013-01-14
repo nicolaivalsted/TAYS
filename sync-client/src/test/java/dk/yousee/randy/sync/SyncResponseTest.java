@@ -25,11 +25,12 @@ public class SyncResponseTest {
         Assert.assertNotNull(response);
         Assert.assertEquals("PUT",response.getProcessLink().getType());
         Assert.assertFalse(response.isComplete());
+        Assert.assertEquals("1",response.getId());
     }
 
     @Test
     public void construct2() throws Exception {
-        String input="{\"id\":1,\"subscriber\":\"608301280\"\n" +
+        String input="{\"id\":133,\"subscriber\":\"608301280\"\n" +
             ",\"complete\":true" +
             ",\"links\":[" +
             "{\"href\":\"http://localhost:9997/sync/api/sync/1\",\"rel\":\"query\",\"type\":\"GET\"}]" +
@@ -49,5 +50,6 @@ public class SyncResponseTest {
         Assert.assertTrue(response.isComplete());
         Assert.assertEquals("FETCH_ENGAGEMENT",response.getError());
         Assert.assertTrue(response.getMessage().contains("Not Found"));
+        Assert.assertEquals("133",response.getId());
     }
 }

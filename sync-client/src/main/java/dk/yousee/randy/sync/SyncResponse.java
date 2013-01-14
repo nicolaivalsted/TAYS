@@ -23,7 +23,7 @@ public class SyncResponse {
     String error;
     String message;
 
-
+    String id;
     List<Link> links=new ArrayList<Link>();
 
 
@@ -42,7 +42,7 @@ public class SyncResponse {
         JsonElement jsonSource;
         try {
             jsonSource = new JsonParser().parse(input);
-            jsonSource.toString();
+            id=jsonSource.getAsJsonObject().get("id").getAsString();
             JsonElement jsonLinks = jsonSource.getAsJsonObject().get("links");
             JsonArray jsonArray = jsonLinks.getAsJsonArray();
             links=parseLinks(jsonArray);
@@ -91,6 +91,10 @@ public class SyncResponse {
 
     public SubscriberId getSubscriber() {
         return subscriber;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getError() {
