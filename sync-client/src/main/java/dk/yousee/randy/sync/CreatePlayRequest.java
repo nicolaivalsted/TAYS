@@ -10,8 +10,9 @@ package dk.yousee.randy.sync;
 public class CreatePlayRequest {
 
 
-    public CreatePlayRequest(String subscriber, String serviceItem, boolean signal, String system, String reference, String user) {
+    public CreatePlayRequest(String subscriber, String position, String serviceItem, boolean signal, String system, String reference, String user) {
         this.subscriber = new SubscriberId(subscriber);
+        this.position=position;
         this.serviceItem = serviceItem;
         this.signal = signal;
         this.system = system;
@@ -19,8 +20,9 @@ public class CreatePlayRequest {
         this.user = user;
     }
 
-    public CreatePlayRequest(SubscriberId subscriber, String serviceItem, boolean signal, String system, String reference, String user) {
+    public CreatePlayRequest(SubscriberId subscriber, String position,String serviceItem, boolean signal, String system, String reference, String user) {
         this.subscriber = subscriber;
+        this.position=position;
         this.serviceItem = serviceItem;
         this.signal = signal;
         this.system = system;
@@ -29,11 +31,16 @@ public class CreatePlayRequest {
     }
 
     SubscriberId subscriber;
+    String position;
     String serviceItem;
     boolean signal;
 
     public SubscriberId getSubscriber() {
         return subscriber;
+    }
+
+    public String getPosition() {
+        return position;
     }
 
     /**

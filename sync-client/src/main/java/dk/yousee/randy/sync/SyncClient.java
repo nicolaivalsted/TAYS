@@ -38,9 +38,10 @@ public class SyncClient extends AbstractClient<SyncConnectorImpl> {
         }
     }
     URL generateHref(CreatePlayRequest request) throws MalformedURLException {
-        return new URL(String.format("%s/sync/api/play/engagement/%s/%s/%s"
+        return new URL(String.format("%s/sync/api/play/engagement/%s/position/%s/item/%s/signal/%s"
             , getConnector().getSyncHost()
             ,request.getSubscriber()
+            ,request.getPosition()
             ,request.getServiceItem()
             ,request.isSignal()
             ));

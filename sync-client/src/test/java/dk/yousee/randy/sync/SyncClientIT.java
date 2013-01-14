@@ -44,9 +44,10 @@ public class SyncClientIT {
     @Test
     public void createPlayEvent() throws Exception {
         String subscriber="608301280";
+        String position="1234";
         String serviceItem="1301018";
         boolean signal=true;
-        CreatePlayRequest request=new CreatePlayRequest(subscriber,serviceItem,signal
+        CreatePlayRequest request=new CreatePlayRequest(subscriber,position ,serviceItem,signal
             ,"sync-client-it","aftalenr","k32444");
         SyncResponse response=client.createPlayEvent(request);
         Assert.assertNotNull(response);
@@ -55,9 +56,10 @@ public class SyncClientIT {
     @Test
     public void processPlayEvent() throws Exception {
         SubscriberId subscriber=new SubscriberId("608301280");
+        String position="1234";
         String serviceItem="1301018";
         boolean signal=true;
-        CreatePlayRequest request=new CreatePlayRequest(subscriber,serviceItem,signal
+        CreatePlayRequest request=new CreatePlayRequest(subscriber,position,serviceItem,signal
             ,"sync-client-it","aftalenr","k32444");
         SyncResponse response=client.createPlayEvent(request);
         Assert.assertNotNull(response);
