@@ -56,7 +56,7 @@ public class SyncClient extends AbstractClient<SyncConnectorImpl> {
             "      \"forbruger\": \"%s\",\n" +
             "      \"links\": [{\n" +
             "                \"href\": \"%s\",\n" +
-            "                \"mediatype\": \"application/vnd.yousee.kasia2+json;version=1;charset=UTF-8\",\n" +
+            "                \"mediatype\": \"application/json;charset=UTF-8\",\n" +
             "                \"rel\": \"engagement\"\n" +
             "            }\n" +
             "        ],\n" +
