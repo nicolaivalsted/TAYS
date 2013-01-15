@@ -96,6 +96,21 @@ public class SmClientIT {
         }
         List<ItemRow> filtered=response.filter(ottProduct);
         Assert.assertEquals(1,filtered.size());
-
     }
+
+    @Test
+    public void fetchItems() throws Exception {
+        ItemResponse response = client.fetchItems();
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getReadTime());
+        Assert.assertNotNull(response.getInput());
+        Assert.assertNull(response.getMessage());
+
+        Assert.assertTrue("more than x rows",response.getRows().size()>30);
+
+        String ottProduct = "1991000";
+        List<ItemRow> filtered=response.filter(ottProduct);
+        Assert.assertEquals(1,filtered.size());
+    }
+
 }

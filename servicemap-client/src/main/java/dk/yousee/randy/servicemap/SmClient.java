@@ -94,4 +94,16 @@ public class SmClient extends AbstractClient<SmConnectorImpl> {
         String response = performGet(generateItemUrl(items));
         return new ItemResponse(response);
     }
+
+    public ItemResponse fetchItems() {
+        try {
+            return innerFetchItems();
+        } catch (Exception e){
+            return new ItemResponse("Failed2fetchAll",e.getMessage());
+        }
+    }
+    public ItemResponse innerFetchItems() throws Exception{
+        String response = performGet(new URL(String.format("%s/servicemap/api/item", getConnector().getServiceMapHost())));
+        return new ItemResponse(response);
+    }
 }

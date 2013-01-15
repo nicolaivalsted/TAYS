@@ -27,7 +27,11 @@ public class ItemRow {
     }
 
     public String getStalone() {
-        return map.get("stalone");
+        String st=map.get("stalone");
+        if(st==null){
+            st=map.get("item");
+        }
+        return st;
     }
     public String getDescription() {
         String res;
