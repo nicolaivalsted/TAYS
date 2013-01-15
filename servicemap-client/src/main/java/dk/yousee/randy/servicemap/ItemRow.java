@@ -26,6 +26,19 @@ public class ItemRow {
         }
     }
 
+    public String getStalone() {
+        return map.get("stalone");
+    }
+    public String getDescription() {
+        String res;
+        res=map.get("description");
+        return res;
+    }
+    public String getOttProduct() {
+        String res;
+        res=map.get("ottProduct");
+        return res;
+    }
 
     public JsonElement printJson() {
         JsonObject one=new JsonObject();

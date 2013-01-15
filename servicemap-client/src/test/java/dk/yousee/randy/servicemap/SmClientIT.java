@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -74,7 +75,8 @@ public class SmClientIT {
     @Test
     public void fetchItem() throws Exception {
         Set<String> items=new HashSet<String>();
-        items.add("1991000");
+        String ottProduct = "1991000";
+        items.add(ottProduct);
         items.add("1340391");
 
         logger.info("URL: " + client.generateItemUrl(items));
@@ -87,10 +89,13 @@ public class SmClientIT {
         Assert.assertEquals("one row",2,response.getRows().size());
         for(ItemRow row: response.getRows()){
             logger.info(row.printJson().toString());
+            if(ottProduct.equals(row.getStalone())){
+                Assert.assertNotNull(row.getDescription());
+                Assert.assertNotNull(row.getOttProduct());
+            }
         }
-//        Assert.assertEquals(row,row.getAnlaeg());
-//        Assert.assertEquals("ystest",row.getProductName());
-//        Assert.assertEquals("foreningsmail.dk",row.getProductCode());
-//        Assert.assertEquals("1001",row.getSubPos());
+        List<ItemRow> filtered=response.filter(ottProduct);
+        Assert.assertEquals(1,filtered.size());
+
     }
 }
