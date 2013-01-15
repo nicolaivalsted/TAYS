@@ -16,7 +16,8 @@ public enum Type {
     StdCpe("SubSvcSpec:std_cpe"),
     AddCpe("SubSvcSpec:additional_cpe"),
     CableModem("SubSvcSpec:smp_emta_cm_hsd_access"),
-    VoiceMail("SubSvcSpec:primary_voicemail_box");
+    VoiceMail("SubSvcSpec:primary_voicemail_box"),
+    Play("SubSvcSpec:play_composed");
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();
 
