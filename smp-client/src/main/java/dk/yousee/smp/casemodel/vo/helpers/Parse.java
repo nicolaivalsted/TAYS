@@ -24,8 +24,11 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
+import dk.yousee.smp.casemodel.vo.play.Play;
+import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.order.model.ResponseEntity;
 import org.apache.log4j.Logger;
+import sun.awt.PlatformFont;
 
 /**
  * Created by IntelliJ IDEA.
@@ -132,6 +135,13 @@ public class Parse {
                         new Mail(model, child.getExternalKey(), service);
                     } else {
                         logger.warn("unknown forenings mail child_service " + child.getExternalKey());
+                    }
+                }
+            } else if (plan.getType().equals(PlayService.TYPE)) {
+                PlayService service = new PlayService(model, plan.getExternalKey());
+                for(ResponseEntity child : plan.getEntities()){
+                    if (child.getType().equals(Play.TYPE)) {
+                        new Play(model, child.getExternalKey(), service);
                     }
                 }
             } else {
