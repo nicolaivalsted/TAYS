@@ -92,6 +92,7 @@ public class SmClientIT {
             if(ottProduct.equals(row.getStalone())){
                 Assert.assertNotNull(row.getDescription());
                 Assert.assertNotNull(row.getOttProduct());
+                Assert.assertNotNull(row.getPlan());
             }
         }
         List<ItemRow> filtered=response.filter(ottProduct);

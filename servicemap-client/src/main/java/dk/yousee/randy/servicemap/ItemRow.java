@@ -25,6 +25,9 @@ public class ItemRow {
             map.put(one.getKey(),one.getValue().getAsString());
         }
     }
+    public Map<String, String> getMap() {
+        return map;
+    }
 
     public String getStalone() {
         String st=map.get("stalone");
@@ -33,6 +36,12 @@ public class ItemRow {
         }
         return st;
     }
+    public String getPlan() {
+        String res;
+        res=map.get("plan");
+        return res;
+    }
+
     public String getDescription() {
         String res;
         res=map.get("description");
