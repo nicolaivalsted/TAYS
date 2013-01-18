@@ -130,7 +130,23 @@ public class ProStoreResponse {
         }
         return res;
     }
-    
+
+    /**
+     * Filter for active products of a specific YsProProduct type
+     * @param key YsProProduct that row must match
+     * @see dk.yousee.randy.yspro.YsProProduct
+     * @return A list containing only matching and OPEN products
+     */
+    public List<StoreProduct> filterProduct(YsProProduct key) {
+        List<StoreProduct> res = new ArrayList<StoreProduct>();
+        for(StoreProduct product:filterOpen()){
+            if(key.equals(product.getProduct())){
+                res.add(product);
+            }
+        }
+        return res;
+    }
+
     public List<StoreProduct> filterCustomer(String customer) {
         List<StoreProduct> res = new ArrayList<StoreProduct>();
         for (StoreProduct p : products) {
