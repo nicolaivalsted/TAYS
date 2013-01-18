@@ -1,6 +1,7 @@
 package dk.yousee.smp.casemodel.vo.cbp;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.order.model.OrderDataLevel;
@@ -109,6 +110,20 @@ public class CableBBService extends BasicUnit {
         this.smpEmail = smpEmail;
     }
 
+    /**
+     * This is the business position of this cable service will always work
+     * @return the true thing
+     */
+    public BusinessPosition getPosition() {
+        BusinessPosition bp=getInetAccess()==null?null:getInetAccess().getPosition();
+        if(bp==null){
+            ModemId md=getModemId();
+            if(md!=null){
+                bp=BusinessPosition.create(md.getId());
+            }
+        }
+        return bp;
+    }
     /**
      * @deprecated This way is deprecated, use the getModemId2()
      * @return modemId extracted from external key

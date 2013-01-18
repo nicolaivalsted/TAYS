@@ -1,6 +1,7 @@
 package dk.yousee.smp.casemodel.vo.cbp;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
 import dk.yousee.smp.casemodel.vo.helpers.AssociationHolder;
@@ -44,6 +45,9 @@ public class InetAccess extends BasicUnit {
      */
     public PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
 
+    public BusinessPosition getPosition() {
+        return BusinessPosition.create(business_position.getValue());
+    }
     /**
      * Name of field
      */

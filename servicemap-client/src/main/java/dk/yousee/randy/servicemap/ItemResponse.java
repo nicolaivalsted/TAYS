@@ -80,6 +80,10 @@ public class ItemResponse {
         return selected;
     }
 
+    public String getError() {
+        return error;
+    }
+
     public String getMessage() {
         return message;
     }
