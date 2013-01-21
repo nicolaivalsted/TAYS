@@ -37,6 +37,7 @@
         <module>yspro-client</module>
         <module>macaddress</module>
         <module>virtualmac-client</module>
+        <module>messagingYii-client</module>
     </modules>
 
     <scm>
