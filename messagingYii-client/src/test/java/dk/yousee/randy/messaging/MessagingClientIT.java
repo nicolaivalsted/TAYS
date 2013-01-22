@@ -1,5 +1,6 @@
 package dk.yousee.randy.messaging;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dk.yousee.randy.base.AbstractConnector;
 import java.util.logging.Level;
@@ -20,22 +21,44 @@ public class MessagingClientIT {
     private static String ACCEPT_HEADER = "application/vnd.yousee.messaging;version=0.3;charset-UFT-8";    
     
     @BeforeClass
-    public void before(){
+    public static void before(){
         AbstractConnector ac = new AbstractConnector() {};
         client = new MessagingClient(PRE_PROD_HOST, ACCEPT_HEADER, ac);       
     }
     
     @AfterClass
-    public void after(){
+    public static void after(){
         client.getConnector().destroy();
     }
     
+    /**
+     * "data": {
+    "fornavn": "Simon",
+    "efternavn": "Kjær",
+    "lukkeDate": "30/2/2013",
+    "mailAlias": [{"navn":"cool@MF.dk"},{"navn":"bamf@sexyYouSee.dk"}],
+    "lastDate":"20/2/2013"
+     */
     @Test
     public void createMail(){
         try {
             JsonObject data = new JsonObject();
+            data.addProperty("fornavn", "Simon Oliver Folke");
+            data.addProperty("efternavn", "Kjær");
+            data.addProperty("lukkeDate", "30/02/2013");
+            data.addProperty("lastDate", "20/02/2013");
+            JsonArray array = new JsonArray();
+            JsonObject jo = new JsonObject();
+            jo.addProperty("navn", "sexy@yousee.dk");         
+            array.add(jo);
+            JsonObject jo2 = new JsonObject();
+            jo2.addProperty("navn", "toSexy@webspeed.dk");         
+            array.add(jo2);
+            data.add("mailAlias", array);
             
-            client.createMessagingOrder("608252633", MessagingKontaktForm.RandyLukWebmail, "sikj@yousee.dk", data);
+            
+            String orderId = client.createMessagingOrder("608252633", MessagingKontaktForm.RandyLukWebmail, "sikj@yousee.dk", data);
+            Assert.assertNotNull(orderId);
         } catch (MessagingException ex) {
             Assert.fail(ex.getMessage());
         }

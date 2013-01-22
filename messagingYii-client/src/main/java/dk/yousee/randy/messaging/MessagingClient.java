@@ -41,7 +41,7 @@ public class MessagingClient {
 
         HttpEntity entity = null;
         try {
-            HttpPost post = new HttpPost(new URIBuilder(host).setPath("messaging").build());
+            HttpPost post = new HttpPost(host);
             post.setHeader("accept", acceptHeader);
             
             final JsonObject root = new JsonObject();
