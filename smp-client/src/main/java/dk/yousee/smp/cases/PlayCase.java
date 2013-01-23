@@ -1,7 +1,6 @@
 package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
-import dk.yousee.smp.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.order.model.Acct;
@@ -55,6 +54,9 @@ public class PlayCase extends AbstractCase {
 
         private String uuid;
 
+        public String getUuid() {
+            return uuid;
+        }
     }
 
     /**
@@ -115,7 +117,7 @@ public class PlayCase extends AbstractCase {
     private boolean buildOrderFromAction(BusinessPosition position, Action action) {
         boolean doAnything = false;
         {
-            ForeningsMailService service = getModel().find().ForeningsMailService(position);
+            PlayService service= getModel().find().PlayService(position);
             if (service != null) {
                 doAnything = true;
 

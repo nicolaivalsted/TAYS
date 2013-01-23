@@ -33,9 +33,9 @@ public class PlayCaseIT {
 
     @Before
     public void setup() {
-        acct=new Acct("609562368"); //QA
+//        acct=new Acct("609562368"); //QA
 //        acct=new Acct("200000135"); //UDV
-//        acct=new Acct("608252633"); //PROD
+        acct=new Acct("608252633"); //PROD Chr fuglsang
 
 //    <bean id="orderService" class="dk.yousee.smp.functions.OrderServiceImpl">
 //        <property name="sigmaServiceUrlProperty" value="${dk.yousee.provisioning.config.SigmaServiceUrlProperty}"/>
@@ -47,6 +47,7 @@ public class PlayCaseIT {
 
         SmpConnectorImpl connector=new SmpConnectorImpl();
         connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
+        connector.setSmpHost(SmpConnectorImpl.T_NET_SMP_HOST);
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
 //        connector.setOperationTimeout(5000);
@@ -113,6 +114,8 @@ public class PlayCaseIT {
             Assert.assertNotNull("ForeningsMailActivationData can never be null",one);
             BusinessPosition pos=one.getPosition();
             Assert.assertNotNull("position can never be null",pos);
+            String uuid=one.getUuid();
+            Assert.assertNotNull("UUID can never be null",uuid);
         }
     }
     @Test
