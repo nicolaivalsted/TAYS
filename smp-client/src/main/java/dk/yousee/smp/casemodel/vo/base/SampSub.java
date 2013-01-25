@@ -5,6 +5,7 @@ import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.order.model.Constants;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
+import dk.yousee.smp.order.model.ServicePrefix;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +17,7 @@ import dk.yousee.smp.order.model.OrderDataType;
  */
 public final class SampSub extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
-    public static OrderDataType TYPE = Constants.SERVICE_TYPE_SAMP_SUB;
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"samp_sub");;
 
     public SampSub(SubscriberModel model,String externalKey) {
         super(model, externalKey,  TYPE, LEVEL,null);

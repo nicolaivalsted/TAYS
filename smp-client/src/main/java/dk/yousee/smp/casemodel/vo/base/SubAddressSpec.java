@@ -6,6 +6,7 @@ import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
 import dk.yousee.smp.order.model.Constants;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
+import dk.yousee.smp.order.model.ServicePrefix;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,7 +18,7 @@ import dk.yousee.smp.order.model.OrderDataType;
  */
 public final class SubAddressSpec extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.ADDRESS;
-    public static OrderDataType TYPE = Constants.SERVICE_TYPE_ADDRESS_SPEC;
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubAddressSpec,"-");
     public static final String EXTERNAL_KEY = "primary";
 
     public SubAddressSpec(SubscriberModel model) {

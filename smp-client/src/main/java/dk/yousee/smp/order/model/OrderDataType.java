@@ -13,6 +13,8 @@ public final class OrderDataType implements Serializable {
 
     static final private long serialVersionUID = -756990801379990454L;
 
+    public static final OrderDataType SERVICE_TYPE_PARENT_SERVICE_KEY = new OrderDataType(ServicePrefix.SubSvc);
+
     private String type;
 
     /**

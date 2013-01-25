@@ -22,7 +22,6 @@ import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.OrderItemType;
 import com.sun.java.products.oss.xml.cbe.core.EntityValue;
 import com.sun.java.products.oss.xml.serviceActivation.OrderValue;
 import dk.yousee.smp.order.model.Action;
-import dk.yousee.smp.order.model.Constants;
 import dk.yousee.smp.order.model.ExecuteOrderReply;
 import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderData;
@@ -195,7 +194,7 @@ public class ProvisioningCom extends SmpCom<Order, ExecuteOrderReply> {
 
             OrderData parentServiceKey = servicePlan.getParent();
             if (parentServiceKey != null) {
-                serviceEntity.setParentServiceKey(myMaker.initiateSubSvcKeyType(Constants.SERVICE_TYPE_PARENT_SERVICE_KEY, parentServiceKey.getExternalKey()));
+                serviceEntity.setParentServiceKey(myMaker.initiateSubSvcKeyType(OrderDataType.SERVICE_TYPE_PARENT_SERVICE_KEY, parentServiceKey.getExternalKey()));
             }
             addServices(serviceEntity, servicePlan);
 

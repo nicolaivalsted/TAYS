@@ -3,9 +3,9 @@ package dk.yousee.smp.casemodel.vo.mbs;
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
-import dk.yousee.smp.order.model.Constants;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
+import dk.yousee.smp.order.model.ServicePrefix;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +16,7 @@ import dk.yousee.smp.order.model.OrderDataType;
  */
 public class SMPMobileBroadbandAttributes extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-    public static OrderDataType TYPE = Constants.SERVICE_TYPE_MOBB_SERVICE_ATTRIBS;
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"mobilebb_service_attribs");
 
     
     public SMPMobileBroadbandAttributes(SubscriberModel model, String externalKey, MobileBBService parent) {

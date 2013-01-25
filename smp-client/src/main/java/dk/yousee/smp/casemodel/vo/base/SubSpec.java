@@ -18,7 +18,7 @@ public class SubSpec  extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.SUBSPEC;
 
     //todo this value of TYPE is identical to SubContactSpec ??????????????????? it must be some kind of bug !!!!!
-    public static OrderDataType TYPE = Constants.SERVICE_TYPE_CONTACT_SPEC;
+    public static OrderDataType TYPE = SubContactSpec.TYPE;
 
     public SubSpec(SubscriberModel model, String externalKey) {
         super(model, externalKey, TYPE, LEVEL, null);
