@@ -22,7 +22,7 @@ public class DialToneAccess extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"smp_switch_dial_tone_access");
 
     public DialToneAccess(SubscriberModel model, String externalKey, CableVoiceService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setDialToneAccess(this);
         dial_tone_service_id.updateValue(externalKey);
     }

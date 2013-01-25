@@ -19,7 +19,7 @@ public class SMPEmail extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"email_server_unblock");
 
     public SMPEmail(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setSmpEmail(this);
         email_server_unblock_service_id.updateValue(externalKey);
     }

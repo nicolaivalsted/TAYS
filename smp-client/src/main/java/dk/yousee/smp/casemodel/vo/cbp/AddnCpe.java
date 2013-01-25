@@ -20,7 +20,7 @@ public class AddnCpe  extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"additional_cpe");
 
     public AddnCpe(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.getAddnCpe().add(this);
         cpe_service_id.updateValue(externalKey);
     }

@@ -39,7 +39,7 @@ public class PropHolderTest {
     @Test
     public void updateValue_without_existing_service_plan() {
         model = new SubscriberModel(response);
-        basicUnit = new BasicUnit(model, externalKey, type, OrderDataLevel.SERVICE, null) {
+        basicUnit = new BasicUnit(model, externalKey, type, OrderDataLevel.SERVICE,null, null) {
         };
         PropHolder test = new PropHolder(basicUnit, "key");
         boolean upd = test.updateValue(externalKey);
@@ -62,7 +62,7 @@ public class PropHolderTest {
         re.getLevel();
         response.getSmp().getEntities().add(re);
         model = new SubscriberModel(response);
-        basicUnit = new BasicUnit(model, externalKey, type, OrderDataLevel.SERVICE, null) {
+        basicUnit = new BasicUnit(model, externalKey, type, OrderDataLevel.SERVICE,null, null) {
         };
         PropHolder test = new PropHolder(basicUnit, "key");
         boolean upd = test.updateValue(externalKey);
@@ -84,7 +84,7 @@ public class PropHolderTest {
         re.setExternalKey(externalKey);
         response.getSmp().getEntities().add(re);
         model = new SubscriberModel(response);
-        basicUnit = new BasicUnit(model, externalKey, type, OrderDataLevel.SERVICE, null) {
+        basicUnit = new BasicUnit(model, externalKey, type, OrderDataLevel.SERVICE,null, null) {
         };
         PropHolder test = new PropHolder(basicUnit, "key");
         boolean upd = test.updateValue("other-value");

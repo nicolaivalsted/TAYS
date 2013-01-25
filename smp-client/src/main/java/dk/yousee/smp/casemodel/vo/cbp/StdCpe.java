@@ -21,7 +21,7 @@ public class StdCpe extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"std_cpe");
 
     public StdCpe(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setStdCpe(this);
         cpe_service_id.updateValue(externalKey);
     }

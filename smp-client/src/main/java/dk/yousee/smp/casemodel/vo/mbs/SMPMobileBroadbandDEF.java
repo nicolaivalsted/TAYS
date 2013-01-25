@@ -21,7 +21,7 @@ public class SMPMobileBroadbandDEF extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"mobilebb_service_def");
 
     public SMPMobileBroadbandDEF(SubscriberModel model, String externalKey, MobileBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setSmpMobileBroadbandDEF(this);
         mobilebb_service_id.updateValue(externalKey);
     }

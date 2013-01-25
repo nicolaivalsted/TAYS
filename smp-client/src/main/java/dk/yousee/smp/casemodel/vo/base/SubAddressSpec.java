@@ -4,6 +4,7 @@ import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
 import dk.yousee.smp.order.model.Constants;
+import dk.yousee.smp.order.model.NickName;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
@@ -19,10 +20,11 @@ import dk.yousee.smp.order.model.ServicePrefix;
 public final class SubAddressSpec extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.ADDRESS;
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubAddressSpec,"-");
+    public static NickName NAME = new NickName("address");
     public static final String EXTERNAL_KEY = "primary";
 
     public SubAddressSpec(SubscriberModel model) {
-        super(model, EXTERNAL_KEY,  TYPE, LEVEL,null);
+        super(model, EXTERNAL_KEY,  TYPE, LEVEL,NAME,null);
         model.getServiceLevelUnit().add(this);
     }
 

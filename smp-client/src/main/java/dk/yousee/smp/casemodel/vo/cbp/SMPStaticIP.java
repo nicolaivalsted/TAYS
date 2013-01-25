@@ -20,7 +20,7 @@ public class SMPStaticIP extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"static_ip_cpe");
 
     public SMPStaticIP(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setSmpStaticIP(this);
         staticip_service_id.updateValue(externalKey);
     }

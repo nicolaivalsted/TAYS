@@ -20,7 +20,7 @@ public class SwitchFeature extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"smp_switch_feature_pkg_std");
 
     public SwitchFeature(SubscriberModel model, String externalKey, CableVoiceService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.getSwitchFeatureList().add(this);
         switch_feature_service_id.updateValue(externalKey);
     }

@@ -24,7 +24,7 @@ public class HsdAccess extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"smp_emta_cm_hsd_access");
 
     public HsdAccess(SubscriberModel model, String externalKey, CpeComposedService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setHsdAccess(this);
         cm_service_id.updateValue(externalKey);
     }

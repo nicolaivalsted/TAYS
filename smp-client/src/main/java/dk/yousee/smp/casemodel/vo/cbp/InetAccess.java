@@ -26,7 +26,7 @@ public class InetAccess extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"internet_access");
 
     public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setInetAccess(this);
         broadband_service_id.updateValue(externalKey);
     }

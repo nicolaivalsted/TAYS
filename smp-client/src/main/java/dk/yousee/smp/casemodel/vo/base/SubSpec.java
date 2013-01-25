@@ -21,7 +21,7 @@ public class SubSpec  extends BasicUnit {
     public static OrderDataType TYPE = SubContactSpec.TYPE;
 
     public SubSpec(SubscriberModel model, String externalKey) {
-        super(model, externalKey, TYPE, LEVEL, null);
+        super(model, externalKey, TYPE, LEVEL,null ,null);
         model.getServiceLevelUnit().add(this);
     }
 

@@ -20,7 +20,7 @@ public class VoiceMail extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"primary_voicemail_box");
 
     public VoiceMail(SubscriberModel model, String externalKey, CableVoiceService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setVoiceMail(this);
         voicemail_service_id.updateValue(externalKey);
     }

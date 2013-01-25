@@ -4,6 +4,7 @@ import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.order.model.Constants;
+import dk.yousee.smp.order.model.NickName;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
@@ -21,10 +22,11 @@ import java.util.List;
 public class MobileBBService extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"mobile_broadband");
+    public static NickName NAME = new NickName("mobb");
 
 
     public MobileBBService(SubscriberModel model, String externalKey) {
-        super(model, externalKey, TYPE, LEVEL, null);
+        super(model, externalKey, TYPE, LEVEL, NAME,null);
         model.getServiceLevelUnit().add(this);
     }
 

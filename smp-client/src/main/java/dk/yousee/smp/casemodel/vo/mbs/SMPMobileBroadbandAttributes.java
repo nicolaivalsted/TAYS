@@ -20,7 +20,7 @@ public class SMPMobileBroadbandAttributes extends BasicUnit {
 
     
     public SMPMobileBroadbandAttributes(SubscriberModel model, String externalKey, MobileBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.getSmpMobileBroadbandAttributes().add(this);
         mobilebb_service_attribs_id.updateValue(externalKey);
     }

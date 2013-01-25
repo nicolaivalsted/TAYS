@@ -4,6 +4,7 @@ import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
+import dk.yousee.smp.order.model.NickName;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
@@ -22,9 +23,10 @@ public class CableVoiceService extends BasicUnit {
 
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"smp_voice_line");
+    public static NickName NAME = new NickName("voip");
 
     public CableVoiceService(SubscriberModel model, String externalKey) {
-        super(model, externalKey, TYPE,LEVEL,null);
+        super(model, externalKey, TYPE,LEVEL,NAME,null);
         model.getServiceLevelUnit().add(this);
     }
 
