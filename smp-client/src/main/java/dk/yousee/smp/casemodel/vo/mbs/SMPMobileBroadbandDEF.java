@@ -7,6 +7,7 @@ import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
 import dk.yousee.smp.order.model.Constants;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
+import dk.yousee.smp.order.model.ServicePrefix;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,10 +18,10 @@ import dk.yousee.smp.order.model.OrderDataType;
  */
 public class SMPMobileBroadbandDEF extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-    public static OrderDataType TYPE = Constants.SERVICE_TYPE_MOBB_SERVICE_DEF;
+    public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"mobilebb_service_def");
 
     public SMPMobileBroadbandDEF(SubscriberModel model, String externalKey, MobileBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setSmpMobileBroadbandDEF(this);
         mobilebb_service_id.updateValue(externalKey);
     }

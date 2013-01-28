@@ -21,7 +21,7 @@ public class SMPWiFi extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"wifi_service");
 
     public SMPWiFi(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setSmpWiFi(this);
         wifi_service_id.updateValue(externalKey);
     }

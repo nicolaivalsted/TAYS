@@ -22,13 +22,13 @@ public class Mail extends BasicUnit {
 
 
     public Mail(SubscriberModel model, String externalKey, ForeningsMailService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setMail(this);
 //        broadband_service_id.updateValue(externalKey);
     }
 
     public Mail(SubscriberModel model, BusinessPosition position) {
-        super(model, model.key().generateUUID(), TYPE, LEVEL, new ForeningsMailService(model,model.key().generateUUID()));
+        super(model, model.key().generateUUID(), TYPE, LEVEL, null,new ForeningsMailService(model,model.key().generateUUID()));
         business_position.setValue(position.getId());
         getParent().setMail(this);
     }

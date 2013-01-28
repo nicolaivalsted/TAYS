@@ -3,7 +3,7 @@ package dk.yousee.smp.casemodel.vo.mbs;
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
-import dk.yousee.smp.order.model.Constants;
+import dk.yousee.smp.order.model.NickName;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
@@ -18,6 +18,7 @@ import dk.yousee.smp.order.model.ServicePrefix;
 public class SMPSIMCard extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
     public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"sim_card");
+    public static NickName NAME = new NickName("simcard");
 
     /**
      * Constructs a simcard service "plan"
@@ -28,7 +29,7 @@ public class SMPSIMCard extends BasicUnit {
      * I have seen test-cases where a random number is used. But these test-cases should probably be deleted.
      */
     public SMPSIMCard(SubscriberModel model, String externalKey) {
-        super(model, externalKey, TYPE,LEVEL,null);
+        super(model, externalKey, TYPE,LEVEL,NAME,null);
         model.getServiceLevelUnit().add(this);
         sim_card_service_id.updateValue(externalKey);
     }

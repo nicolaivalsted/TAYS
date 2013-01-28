@@ -4,7 +4,6 @@ import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
-import dk.yousee.smp.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
@@ -19,12 +18,12 @@ public class Play extends BasicUnit {
 
 
     public Play(SubscriberModel model, String externalKey, PlayService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null,parent);
         parent.setPlay(this);
     }
 
     public Play(SubscriberModel model, BusinessPosition position) {
-        super(model, model.key().generateUUID(), TYPE, LEVEL, new PlayService(model,model.key().generateUUID()));
+        super(model, model.key().generateUUID(), TYPE, LEVEL,null, new PlayService(model,model.key().generateUUID()));
         business_position.setValue(position.getId());
         getParent().setPlay(this);
     }

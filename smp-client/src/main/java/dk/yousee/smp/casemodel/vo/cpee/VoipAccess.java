@@ -22,7 +22,7 @@ public class VoipAccess extends BasicUnit {
 
 
     public VoipAccess(SubscriberModel model, String externalKey, CpeComposedService parent) {
-        super(model, externalKey, TYPE, LEVEL, parent);
+        super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setVoipAccess(this);
         mta_service_id.updateValue(externalKey);
     }

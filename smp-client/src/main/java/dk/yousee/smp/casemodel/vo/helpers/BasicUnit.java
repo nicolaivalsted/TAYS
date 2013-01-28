@@ -2,6 +2,7 @@ package dk.yousee.smp.casemodel.vo.helpers;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.order.model.Action;
+import dk.yousee.smp.order.model.NickName;
 import dk.yousee.smp.order.model.OrderData;
 import dk.yousee.smp.order.model.OrderDataAssociation;
 import dk.yousee.smp.order.model.OrderDataLevel;
@@ -58,6 +59,11 @@ public abstract class BasicUnit {
 
     private String externalKey;
 
+    private NickName name;
+
+    public NickName getName() {
+        return name;
+    }
 
     /**
      * constructs a basic unit with relevant settings.<br/>
@@ -70,12 +76,14 @@ public abstract class BasicUnit {
      * @param level       "where in hierarchy"
      * @param parent      the service plan this unit belongs to (null means no parent, it could be a service plan it self)
      */
-    protected BasicUnit(SubscriberModel model, String externalKey, OrderDataType type, OrderDataLevel level, BasicUnit parent) {
+    protected BasicUnit(SubscriberModel model, String externalKey, OrderDataType type, OrderDataLevel level
+        ,NickName name, BasicUnit parent) {
         this.model = model;
         this.type = type;
         this.level = level;
         this.externalKey = externalKey;
         this.parent = parent;
+        this.name=name;
         if (parent != null) {
             parent.addChild(this);
             if (parent.getEntity() != null) {

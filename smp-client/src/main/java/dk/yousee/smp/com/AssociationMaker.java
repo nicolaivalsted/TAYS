@@ -4,7 +4,7 @@ import com.sigmaSystems.schemas.x31.smpCBECoreSchema.AssocListType;
 import com.sigmaSystems.schemas.x31.smpCBECoreSchema.AssocType;
 import com.sigmaSystems.schemas.x31.smpCBECoreSchema.SubAddressKeyType;
 import com.sigmaSystems.schemas.x31.smpCBEServiceSchema.SubSvcKeyType;
-import dk.yousee.smp.order.model.Constants;
+import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.order.model.OrderDataAssociation;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.SmpManipulationAction;
@@ -31,7 +31,7 @@ public class AssociationMaker extends XmlMaker {
             logger.debug("orderData: " + one.getExternalKey() + " value: " + one.getType());
             AssocType assocType = assocList.addNewAssociation();
             assocType.setAssociationType(one.getAssociationType());
-            if (Constants.SERVICE_TYPE_ADDRESS_SPEC.equals(one.getType())) {
+            if (SubAddressSpec.TYPE.equals(one.getType())) {
                 SubAddressKeyType zEndKey = initiateSubAddressKeyType(one.getType(), one.getExternalKey());
                 assocType.setZEndKey(zEndKey);
             } else {
