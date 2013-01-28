@@ -189,6 +189,27 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
+    
+    //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
+    public UserInfo findCustomerInfo(String customer) throws YsProException {
+        try {
+            ensureHandle();
+            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&xml=1", client.getYsProHost(), client.getHandleId(), customer));
+            String st = execute(new HttpGet(uri));
+            
+            UserInfo ui = new UserInfo(UserInfo.DataFormat.xml, st);
+            if(ui.getStatus() == 50){
+                client.clearHandle();
+                ensureHandle();
+                 uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&xml=1", client.getYsProHost(), client.getHandleId(), customer));
+                st = execute(new HttpGet(uri));
+                ui = new UserInfo(UserInfo.DataFormat.xml, st);
+            }
+            return ui;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
 
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
     public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws YsProException {
