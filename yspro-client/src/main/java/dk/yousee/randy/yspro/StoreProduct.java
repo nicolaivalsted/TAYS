@@ -16,7 +16,7 @@ import java.util.Map;
 */
 public class StoreProduct {
 
-    public static final String POS_KEY = "pos";
+    public static final String POS_KEY = "t.pos";
     public static final String UUID_KEY = "UUID";
     public static final String FROM_DATE_KEY = "From";
     public static final String TO_DATE_KEY = "To";
@@ -94,6 +94,8 @@ public class StoreProduct {
                 product=YsProProduct.create(one.getValue().getAsString());
             } else if(POS_KEY.equals(one.getKey())) {
                 this.pos=one.getValue().getAsInt();
+            } else if("pos".equals(one.getKey())) {
+                this.pos=one.getValue().getAsInt();
             } else if(UUID_KEY.equals(one.getKey())) {
                 uuid=one.getValue().getAsString();
             } else if(FROM_DATE_KEY.equals(one.getKey())) {
@@ -115,21 +117,6 @@ public class StoreProduct {
     public StoreProduct(JsonObject json) {
         this(null,json);
     }
-
-//    public StoreProduct(List<JsonObject> elements) {
-//        for (JsonObject element:elements){
-//            String key=element.get("DataName").getAsString();
-//            String value=element.get("Value").getAsString();
-//            properties.put(key,value);
-//            if(uuid==null){
-//                uuid=element.get(UUID_KEY).getAsString();
-//                JsonElement p=element.get(PRODUCT_ID_YSPRO);
-//                if(p!=null)product=YsProProduct.create(p.getAsString());
-//                from=YsProTime.create(element.get(FROM_DATE_KEY).getAsString());
-//                to=YsProTime.create(element.get(TO_DATE_KEY).getAsString());
-//            }
-//        }
-//    }
 
     public boolean hasSignal(YsProTime now){
         return now.between(getFrom(),getTo());
