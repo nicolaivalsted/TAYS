@@ -24,6 +24,7 @@ public class StoreProduct {
     public static final String ORDER_4_SAME = "OrderForSame";
     public static final String CUSTOMER_NO = "CustomerNumber";
     public static final String PRODUCT_ID_YSPRO = "ProductID";
+    public static final String BUSINESS_POSITION_KEY = "BusinessPosition";
 
     private Integer pos;
     private YsProProduct product;

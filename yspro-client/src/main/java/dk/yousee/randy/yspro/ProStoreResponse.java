@@ -1,11 +1,11 @@
 package dk.yousee.randy.yspro;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -214,8 +214,16 @@ public class ProStoreResponse {
         return res;
     }
 
-    @Override
     public String toString() {
-        return new Gson().toJson(jsonSource);
+        final StringBuilder sb = new StringBuilder();
+        if (jsonSource != null)sb.append("{\"jsonSource\":").append(jsonSource);
+        if(sb.length()!=0)sb.append(',');
+        if (status != null) sb.append("\"status\":").append(status);
+        if(sb.length()!=0)sb.append(',');
+        if (message != null) sb.append("\"message\":\"").append(message).append('"');
+        if(sb.length()!=0)sb.append(',');
+        if (dateTime != null) sb.append("\"dateTime\":").append(dateTime);
+        sb.append('}');
+        return sb.toString();
     }
 }

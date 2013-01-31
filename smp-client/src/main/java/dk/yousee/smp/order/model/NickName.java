@@ -9,8 +9,6 @@ package dk.yousee.smp.order.model;
  */
 public class NickName {
 
-    static final private long serialVersionUID = -756990801379990454L;
-
     private String name;
 
     public NickName(String name) {
@@ -38,5 +36,18 @@ public class NickName {
     public String toString() {
         return name;
     }
+
+    public static NickName create(String name){
+        if(blank(name)){
+            return null;
+        } else {
+            return new NickName(name);
+        }
+    }
+
+    private static boolean blank(String name) {
+        return name==null || name.trim().length()==0;
+    }
+
 }
 
