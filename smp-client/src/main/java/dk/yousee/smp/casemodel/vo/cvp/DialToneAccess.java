@@ -1,6 +1,7 @@
 package dk.yousee.smp.casemodel.vo.cvp;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
 import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
 import dk.yousee.smp.casemodel.vo.helpers.AssociationHolder;
@@ -26,8 +27,32 @@ public class DialToneAccess extends BasicUnit {
         parent.setDialToneAccess(this);
         dial_tone_service_id.updateValue(externalKey);
     }
-                        
-    //Type.FEATURE
+
+    /**
+     * Name of field
+     */
+    public static final String BUSINESS_POSITION = "business_position";
+    /**
+     * identifier that identify the subscribers modem among all the modems the subscriber has.
+     * Field value can be "1", "2" etc. It is only required to be unique for the subscriber.
+     * So two different subscribers can both have position called "1"
+     * The objective is to manage relation to CRM subscription.
+     * This is an instance key to service plan. It is normally never modified.
+     * YouSee will fill in modem_id / aftale Nr / ... tbd.
+     */
+    protected PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
+
+    public BusinessPosition getPosition() {
+        return BusinessPosition.create(business_position.getValue());
+    }
+    public void setPosition(BusinessPosition businessPosition) {
+        if(businessPosition==null){
+            business_position.clearValue();
+        } else {
+            business_position.setValue(businessPosition.toString());
+        }
+    }
+
     public PropHolder dial_tone_service_id = new PropHolder(this, "dial_tone_service_id", true);
 
     private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);

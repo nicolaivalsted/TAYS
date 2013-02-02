@@ -18,7 +18,7 @@ import dk.yousee.smp.order.model.OrderService;
  * User: m14857
  * Date: Nov 2, 2010
  * Time: 12:26:52 PM
- * Use case for mobile broadband Voice.
+ * Use case for VOIP
  */
 public class VoiceCase extends AbstractCase {
 

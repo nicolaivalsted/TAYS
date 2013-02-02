@@ -1,6 +1,7 @@
 package dk.yousee.smp.casemodel.vo.cvp;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
@@ -66,4 +67,9 @@ public class CableVoiceService extends BasicUnit {
     public ModemId getModemId() {
         return ModemId.extract(getExternalKey());
     }
+
+    public BusinessPosition getPosition() {
+        return getDialToneAccess()==null?null:getDialToneAccess().getPosition();
+    }
+
 }

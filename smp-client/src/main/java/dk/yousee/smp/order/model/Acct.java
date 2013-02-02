@@ -46,4 +46,17 @@ public final class Acct implements Serializable {
     public String toString() {
         return accountId;
     }
+
+    public static Acct create(String name){
+        if(blank(name)){
+            return null;
+        } else {
+            return new Acct(name);
+        }
+    }
+
+    private static boolean blank(String name) {
+        return name==null || name.trim().length()==0;
+    }
+
 }
