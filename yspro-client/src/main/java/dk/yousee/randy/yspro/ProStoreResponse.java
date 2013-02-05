@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +21,9 @@ public class ProStoreResponse {
     private List<StoreProduct> products;
 
     public ProStoreResponse() {
-        status=0;
-        message="No update";
-        products=new ArrayList<StoreProduct>();
+        status = 0;
+        message = "No update";
+        products = new ArrayList<StoreProduct>();
     }
 
     public ProStoreResponse(String jsonYsProResponse) throws JsonSyntaxException {
@@ -32,17 +31,16 @@ public class ProStoreResponse {
         JsonObject root = jsonSource.getAsJsonObject();
         build(root);
     }
-    
-    public ProStoreResponse(JsonObject json){
+
+    public ProStoreResponse(JsonObject json) {
         build(json);
     }
 
     public ProStoreResponse(Integer status, String message) {
         this.status = status;
         this.message = message;
-        products=new ArrayList<StoreProduct>();
+        products = new ArrayList<StoreProduct>();
     }
-
 
     private void build(JsonObject root) {
         status = root.get("Status").getAsInt();
@@ -51,14 +49,14 @@ public class ProStoreResponse {
         if (element != null) {
             dateTime = YsProTime.create(root.get("DateTime").getAsString());
         }
-        JsonElement dataElement;        
+        JsonElement dataElement;
         if (root.has("Products")) {
             dataElement = root.get("Products");
         } else {
             dataElement = root.get("Data");
         }
 
-        if (dataElement!=null && !dataElement.isJsonPrimitive()) {
+        if (dataElement != null && !dataElement.isJsonPrimitive()) {
             exists = true;
             products = parseData(dataElement.getAsJsonArray());
         } else {
@@ -133,14 +131,15 @@ public class ProStoreResponse {
 
     /**
      * Filter for active products of a specific YsProProduct type
+     *
      * @param key YsProProduct that row must match
      * @see dk.yousee.randy.yspro.YsProProduct
      * @return A list containing only matching and OPEN products
      */
     public List<StoreProduct> filterProduct(YsProProduct key) {
         List<StoreProduct> res = new ArrayList<StoreProduct>();
-        for(StoreProduct product:filterOpen()){
-            if(key.equals(product.getProduct())){
+        for (StoreProduct product : filterOpen()) {
+            if (key.equals(product.getProduct())) {
                 res.add(product);
             }
         }
@@ -150,44 +149,45 @@ public class ProStoreResponse {
     public List<StoreProduct> filterCustomer(String customer) {
         List<StoreProduct> res = new ArrayList<StoreProduct>();
         for (StoreProduct p : products) {
-            if (p.getCustomer()!=null && p.getCustomer().equals(customer)) {
+            if (p.getCustomer() != null && p.getCustomer().equals(customer)) {
                 res.add(p);
             }
         }
         return res;
     }
-    
+
     /**
-     * 
-     * @param customer 
-     * @return List with customer numbers not the same as param 
+     *
+     * @param customer
+     * @return List with customer numbers not the same as param
      */
-    public List<StoreProduct> filterCustomerDifferntFrom(String customer){
+    public List<StoreProduct> filterCustomerDifferntFrom(String customer) {
         List<StoreProduct> res = new ArrayList<StoreProduct>();
-        for(StoreProduct p : products){
-            if(p.getCustomer()!=null && !p.getCustomer().equals(customer)) {
+        for (StoreProduct p : products) {
+            if (p.getCustomer() != null && !p.getCustomer().equals(customer)) {
                 res.add(p);
             }
         }
         return res;
     }
-    
+
     /**
      * Filter device for netgem stb, only active products
+     *
      * @param mac with colon ect "00:04:30:5f:a0:1f"
      * @return found storeProduct or null
      */
     public StoreProduct filterNetgemStbMac(String mac) {
         StoreProduct res = null;
         List<StoreProduct> source = filterOpen();
-        
-        for(StoreProduct sp : source) {
-            if(sp.getProperties().containsValue(mac)) {
+
+        for (StoreProduct sp : source) {
+            if (sp.getProperties().containsValue(mac)) {
                 res = sp;
                 break;
             }
         }
-        
+
         return res;
     }
 
@@ -199,13 +199,15 @@ public class ProStoreResponse {
         }
         return res;
     }
-    
+
     public JsonElement printJson() {
         JsonObject res = new JsonObject();
         res.addProperty("Status", status);
         res.addProperty("Message", message);
-        if (dateTime != null) res.addProperty("DateTime", dateTime.toString());
-        if (!exists) res.addProperty("exists", false);
+        if (dateTime != null)
+            res.addProperty("DateTime", dateTime.toString());
+        if (!exists)
+            res.addProperty("exists", false);
         JsonArray array = new JsonArray();
         for (StoreProduct product : getProducts()) {
             array.add(product.printJson());
@@ -216,13 +218,20 @@ public class ProStoreResponse {
 
     public String toString() {
         final StringBuilder sb = new StringBuilder();
-        if (jsonSource != null)sb.append("{\"jsonSource\":").append(jsonSource);
-        if(sb.length()!=0)sb.append(',');
-        if (status != null) sb.append("\"status\":").append(status);
-        if(sb.length()!=0)sb.append(',');
-        if (message != null) sb.append("\"message\":\"").append(message).append('"');
-        if(sb.length()!=0)sb.append(',');
-        if (dateTime != null) sb.append("\"dateTime\":").append(dateTime);
+        if (jsonSource != null)
+            sb.append("{\"jsonSource\":").append(jsonSource);
+        if (sb.length() != 0)
+            sb.append(',');
+        if (status != null)
+            sb.append("\"status\":").append(status);
+        if (sb.length() != 0)
+            sb.append(',');
+        if (message != null)
+            sb.append("\"message\":\"").append(message).append('"');
+        if (sb.length() != 0)
+            sb.append(',');
+        if (dateTime != null)
+            sb.append("\"dateTime\":").append(dateTime);
         sb.append('}');
         return sb.toString();
     }

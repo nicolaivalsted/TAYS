@@ -1,5 +1,7 @@
 package dk.yousee.randy.yspro;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
@@ -134,7 +136,7 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
+
     public ProStoreResponse findEngagementOnlyActive(String customer) throws YsProException {
         try {
             ensureHandle();
@@ -175,12 +177,12 @@ public class YsProApi {
             ensureHandle();
             URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), client.getHandleId(), userID));
             String st = execute(new HttpGet(uri));
-            
+
             UserInfo ui = new UserInfo(UserInfo.DataFormat.xml, st);
-            if(ui.getStatus() == 50){
+            if (ui.getStatus() == 50) {
                 client.clearHandle();
                 ensureHandle();
-                 uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), client.getHandleId(), userID));
+                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s&xml=1", client.getYsProHost(), client.getHandleId(), userID));
                 st = execute(new HttpGet(uri));
                 ui = new UserInfo(UserInfo.DataFormat.xml, st);
             }
@@ -189,19 +191,19 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
+
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
     public UserInfo findCustomerInfo(String customer) throws YsProException {
         try {
             ensureHandle();
             URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&xml=1", client.getYsProHost(), client.getHandleId(), customer));
             String st = execute(new HttpGet(uri));
-            
+
             UserInfo ui = new UserInfo(UserInfo.DataFormat.xml, st);
-            if(ui.getStatus() == 50){
+            if (ui.getStatus() == 50) {
                 client.clearHandle();
                 ensureHandle();
-                 uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&xml=1", client.getYsProHost(), client.getHandleId(), customer));
+                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&xml=1", client.getYsProHost(), client.getHandleId(), customer));
                 st = execute(new HttpGet(uri));
                 ui = new UserInfo(UserInfo.DataFormat.xml, st);
             }
@@ -272,18 +274,18 @@ public class YsProApi {
             ensureHandle();
             URI url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, product));
             ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
-            if(psr.getStatus()==50){ //handleTimeout clear handle
+            if (psr.getStatus() == 50) { //handleTimeout clear handle
                 client.clearHandle();
                 ensureHandle();
                 url = new URI(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, product));
                 psr = new ProStoreResponse(execute(new HttpGet(url)));
-            }           
+            }
             return psr;
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
+
     public ProStoreResponse findEngagementFromUuid(String uuid) throws YsProException {
         try {
             ensureHandle();
@@ -294,6 +296,30 @@ public class YsProApi {
                 ensureHandle();
                 url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&UUID=%s", client.getYsProHost(), client.getHandleId(), uuid));
                 psr = new ProStoreResponse(execute(new HttpGet(url)));
+            }
+            return psr;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+
+    public ProStoreResponse findMailGetInfo(String kpmNumber) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/MailGetInfo.php?HandleID=%s&id=%s", client.getYsProHost(), client.getHandleId(), kpmNumber));
+            JsonObject json = new JsonParser().parse(execute(new HttpGet(url))).getAsJsonObject();
+            ProStoreResponse psr = new ProStoreResponse(json.get("StatusCode").getAsInt(), json.get("StatusMessage").getAsString());
+
+            if (psr.getStatus() == 50) { //handleTimeout clear handle
+                client.clearHandle();
+                ensureHandle();
+                url = new URI(String.format("%s/MailGetInfo.php?HandleID=%s&id=%s", client.getYsProHost(), client.getHandleId(), kpmNumber));
+                json = new JsonParser().parse(execute(new HttpGet(url))).getAsJsonObject();
+                psr = new ProStoreResponse(json.get("StatusCode").getAsInt(), json.get("StatusMessage").getAsString());
+            }
+            if (json.has("Data")) {
+                StoreProduct sp = new StoreProduct(json.get("Data").getAsJsonObject());
+                psr.getProducts().add(sp);
             }
             return psr;
         } catch (URISyntaxException ex) {
