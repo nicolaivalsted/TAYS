@@ -68,8 +68,30 @@ public class CableVoiceService extends BasicUnit {
         return ModemId.extract(getExternalKey());
     }
 
+    /**
+     * Business Position used to be modemId, therefore this code to be compatible
+     * @return the best fitting business position
+     */
     public BusinessPosition getPosition() {
-        return getDialToneAccess()==null?null:getDialToneAccess().getPosition();
+        BusinessPosition bp;
+        ModemId m=getModemId();
+        if(getDialToneAccess()==null) {
+            if(m==null){
+                bp=null;
+            } else {
+                bp=BusinessPosition.create(m.getId());
+            }
+        } else {
+            bp=getDialToneAccess().getPosition();
+            if(bp==null){
+                if(m==null){
+                    bp=null;
+                } else {
+                    bp=BusinessPosition.create(m.getId());
+                }
+            }
+        }
+        return bp;
     }
 
 }
