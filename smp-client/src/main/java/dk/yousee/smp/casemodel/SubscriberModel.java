@@ -138,6 +138,17 @@ public class SubscriberModel implements Serializable {
     public List<BasicUnit> getServiceLevelUnit() {
         return serviceLevelUnit;
     }
+    public List<BasicUnit> filterProgress() {
+        List<BasicUnit> res=null;
+        for(BasicUnit unit:getServiceLevelUnit()){
+            List<BasicUnit> progress=unit.filterProgress();
+            if(progress!=null){
+                if(res==null)res=new ArrayList<BasicUnit>();
+                res.addAll(progress);
+            }
+        }
+        return res;
+    }
 
     private Key key = null;
 

@@ -286,6 +286,36 @@ public abstract class BasicUnit {
         }
     }
 
+
+    /**
+     * Is there progress under this ?
+     * @return null or a collection of units with progress
+     */
+    public List<BasicUnit> filterProgress(){
+        List<BasicUnit> res=null;
+        if(isInProgress()){
+            res=new ArrayList<BasicUnit>();
+            res.add(this);
+        }
+        for(BasicUnit unit:getChildrenServices()){
+            List<BasicUnit> units=unit.filterProgress();
+            if(units!=null){
+                if(res==null)res=new ArrayList<BasicUnit>();
+                res.addAll(units);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * Is this unit in progress of being updated by SMP
+     * @return yes (note that it is only Child service levels that ever gets in this state)
+     */
+    public boolean isInProgress(){
+        ProvisionStateEnum state=getEntity()==null?null:getEntity().getState();
+        return state != null && state.isProgress();
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

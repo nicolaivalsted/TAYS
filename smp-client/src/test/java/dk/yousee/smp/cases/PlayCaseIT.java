@@ -2,6 +2,7 @@ package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
+import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.functions.OrderServiceImpl;
 import dk.yousee.smp.order.model.Acct;
@@ -107,6 +108,13 @@ public class PlayCaseIT {
         test=new PlayCase(service, acct);
         model=test.getModel();
         Assert.assertTrue("customer must exist",model.customerExists());
+        List<BasicUnit> units=model.filterProgress();
+        if(units!=null){
+            for(BasicUnit unit:units){
+                Assert.assertTrue(unit.isInProgress());
+                Assert.assertNull(unit.getName()); // unit must be a sub service it got no name..
+            }
+        }
 
         List<PlayCase.PlayActivationData> list = test.readAll();
 
