@@ -1,6 +1,7 @@
 package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
 import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
@@ -52,12 +53,21 @@ public class VoiceCase extends AbstractCase {
 
     public static class VoiceData {
 
+        private BusinessPosition businessPosition;
         private PhoneNumber phoneNumber;
         private String mta_voice_port;
         private String rate_codes;
         private String Privacy;
         private String Cos_restrict_id;
         private String cnam;
+
+        public BusinessPosition getBusinessPosition() {
+            return businessPosition;
+        }
+
+        public void setBusinessPosition(BusinessPosition businessPosition) {
+            this.businessPosition = businessPosition;
+        }
 
         public String getCnam() {
             return cnam;
@@ -124,6 +134,9 @@ public class VoiceCase extends AbstractCase {
         ensureAcct();
 
         DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(modemId);
+        if(voiceData.getBusinessPosition()!=null){
+            dialToneAccess.setPosition(voiceData.getBusinessPosition());
+        }
         dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
         dialToneAccess.mta_voice_port.setValue(voiceData.getMta_voice_port());
         dialToneAccess.rate_codes.setValue(voiceData.getRate_codes());
@@ -150,6 +163,9 @@ public class VoiceCase extends AbstractCase {
         if (dialToneAccess == null) {
             throw new BusinessException(
                     "Update failed,  Voice service Plan was not found: for modemId: %s", modemId);
+        }
+        if(voiceData.getBusinessPosition()!=null){
+            dialToneAccess.setPosition(voiceData.getBusinessPosition());
         }
         if (voiceData.getPhoneNumber() != null) {
             dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
