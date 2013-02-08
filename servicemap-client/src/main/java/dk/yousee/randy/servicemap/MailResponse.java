@@ -83,22 +83,12 @@ public class MailResponse {
         return rows;
     }
 
+    public String getError() {
+        return error;
+    }
+
     public String getMessage() {
         return message;
     }
-
-//    /**
-//     * Filter the isp to get.
-//     * @param isp null matches a row with null in value, other value matches a row with that value
-//     * @return vendor that matches isp
-//     */
-//    public ForeningsMailRow filterByIsp(@Nullable String isp) {
-//        for(ForeningsMailRow vendor: rows){
-//            if(vendor.matchIsp(isp)){
-//                return vendor;
-//            }
-//        }
-//        return null;
-//    }
 
 }
