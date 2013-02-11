@@ -40,6 +40,9 @@ public class ForeningsMailCase extends AbstractCase {
      */
     public static class ForeningsData {
 
+        /**
+         * Key to forenings mail - mandatory field
+         */
         private String product;
 
         public String getProduct() {
@@ -50,6 +53,9 @@ public class ForeningsMailCase extends AbstractCase {
             this.product = product;
         }
 
+        /**
+         * Description of forenings mail
+         */
         private String name;
 
         public String getName() {

@@ -1,6 +1,7 @@
 package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
 import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
@@ -59,6 +60,7 @@ public class VoiceCaseIT {
     public void createVoice() throws BusinessException {
         ModemId modemID = ModemId.create("100000004");
         VoiceCase.VoiceData voiceData = new VoiceCase.VoiceData();
+        voiceData.setBusinessPosition(BusinessPosition.create("12345"));
         voiceData.setCos_restrict_id("4");
         voiceData.setMta_voice_port("1");
         voiceData.setPrivacy("FULL");
