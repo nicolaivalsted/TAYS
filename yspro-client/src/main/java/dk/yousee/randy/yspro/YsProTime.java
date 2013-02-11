@@ -1,5 +1,6 @@
 package dk.yousee.randy.yspro;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -68,6 +69,10 @@ public class YsProTime {
     public static YsProTime midNight(Date writeTime) {
         return create(formatMidnight.format(writeTime));
 
+    }
+    
+    public Date getDate() throws ParseException {
+        return format.parse(dateTime);
     }
 }
 
