@@ -21,6 +21,7 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 
 /**
  * Created by IntelliJ IDEA.
@@ -324,5 +325,10 @@ public class Alloc {
     public Play Play(BusinessPosition position) {
         Play sub=find.Play(position);
         return sub==null?add.Play(position):sub;
+    }
+    
+    public TdcMail tdcMail(BusinessPosition businessPosition) {
+        TdcMail sub = find.tdcMail(businessPosition);
+        return sub==null?add.tdcMail(businessPosition):sub;
     }
 }

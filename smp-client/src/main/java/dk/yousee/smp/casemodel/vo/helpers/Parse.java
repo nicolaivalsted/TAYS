@@ -26,6 +26,9 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.ResponseEntity;
 import org.apache.log4j.Logger;
 import sun.awt.PlatformFont;
@@ -144,7 +147,16 @@ public class Parse {
                         new Play(model, child.getExternalKey(), service);
                     }
                 }
-            } else {
+            } else if (plan.getType().equals(TdcMailService.TYPE)) {
+                TdcMailService service = new TdcMailService(model, plan.getExternalKey());
+                for(ResponseEntity child : plan.getEntities()) {
+                    if(child.getType().equals(TdcMail.TYPE)) {
+                        new TdcMail(model, child.getExternalKey(), service);
+                    } else if (child.getType().equals(TdcMailResource.TYPE)) {
+                        new TdcMailResource(model, child.getExternalKey(), service);
+                    }
+                }                           
+            } else{
                 logger.warn("unknown service, type=" + plan.getType() + ", externalKey=" + plan.getExternalKey());
             }
         }

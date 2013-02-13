@@ -29,6 +29,8 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
 import org.apache.log4j.Logger;
 
@@ -587,5 +589,31 @@ public class Find {
     public Play Play(BusinessPosition position) {
         PlayService parent=PlayService(position);
         return parent==null?null:parent.getPlay();
+    }
+    
+    public List<TdcMailService> tdcMailServices() {
+        List<TdcMailService> res = new ArrayList<TdcMailService>();
+        for(BasicUnit plan : serviceLevelUnit) {
+            if(plan.getType().equals(TdcMailService.TYPE)) {
+                res.add((TdcMailService) plan);
+            }
+        }
+        
+        return res;
+    }
+    
+    public TdcMailService tdcMailService(BusinessPosition businessPosition) {
+        List<TdcMailService> plans = tdcMailServices();
+        for(TdcMailService plan : plans) {
+            if(businessPosition.equals(plan.getPosition())) {
+                return plan;
+            }
+        }        
+        return null;
+    }
+    
+    public TdcMail tdcMail(BusinessPosition businessPosition) {
+        TdcMailService parent = tdcMailService(businessPosition);
+        return parent!=null?parent.getTdcMail():null;
     }
 }
