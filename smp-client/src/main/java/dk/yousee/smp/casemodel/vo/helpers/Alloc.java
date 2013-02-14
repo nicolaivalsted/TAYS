@@ -22,6 +22,8 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
+import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -330,5 +332,9 @@ public class Alloc {
     public TdcMail tdcMail(BusinessPosition businessPosition) {
         TdcMail sub = find.tdcMail(businessPosition);
         return sub==null?add.tdcMail(businessPosition):sub;
+    }
+    
+    public TdcMailResource tdcMailResource(TdcMailService service) {
+       return service.getTdcMailResource()==null ? add.tdcMailResource(service) : service.getTdcMailResource();
     }
 }

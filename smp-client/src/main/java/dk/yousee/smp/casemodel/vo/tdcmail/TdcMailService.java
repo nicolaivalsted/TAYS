@@ -24,6 +24,7 @@ public class TdcMailService extends BasicUnit{
     
     public TdcMailService(SubscriberModel model, String externalKey) {
         super(model, externalKey, TYPE, LEVEL, NAME, null); 
+        model.getServiceLevelUnit().add(this);
     }
 
     public TdcMail getTdcMail() {
