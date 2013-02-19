@@ -13,12 +13,14 @@ import java.util.List;
 import junit.framework.Assert;
 import org.apache.log4j.Logger;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  *
  * @author m27236
  */
+@Ignore
 public class TdcMailCaseIT {
     private Logger logger = Logger.getLogger(TdcMailCaseIT.class);
     private SubscriberModel model;
@@ -66,7 +68,7 @@ public class TdcMailCaseIT {
         }
     }
 
-    @Test
+    //@Test
     public void readProv() {
         TdcMailCase case1 = new TdcMailCase(service, acct);
         try {
@@ -95,7 +97,7 @@ public class TdcMailCaseIT {
         }
     }
 
-    @Test
+    //@Test
     public void readResource() {
         TdcMailCase case1 = new TdcMailCase(service, acct);
 
