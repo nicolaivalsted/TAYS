@@ -23,7 +23,7 @@ public class SyncClientIT {
         SyncConnectorImpl connector = new SyncConnectorImpl();
         connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
         connector.setSyncHost(SyncConnectorImpl.T_HOST);
-//        connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
+        connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
         client = new SyncClient();
         client.setConnector(connector);
     }
@@ -69,6 +69,68 @@ public class SyncClientIT {
         Assert.assertNotNull(response2);
         Assert.assertNotNull(response2.getError());
         Assert.assertNotNull(response2.getMessage());
+    }
 
+    private static final String content
+        ="[\n" +
+        "  {\n" +
+        "    \"modemId\": \"106282918\",\n" +
+        "    \"rateCodes\": \"1301130\",\n" +
+        "    \"signal\": \"true\",\n" +
+        "    \"type\": \"CABLEBB\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"modemId\": \"na\",\n" +
+        "    \"name\": \"foreningsmail.dk\",\n" +
+        "    \"position\": \"106282918.1001\",\n" +
+        "    \"product\": \"ystest\",\n" +
+        "    \"signal\": \"true\",\n" +
+        "    \"type\": \"ForeningsMail\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"bb_serviceItem\": \"1301130\",\n" +
+        "    \"modemId\": \"na\",\n" +
+        "    \"position\": \"106282918\",\n" +
+        "    \"signal\": \"true\",\n" +
+        "    \"type\": \"Play\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"aftale\": \"1174496\",\n" +
+        "    \"customer\": \"617601483\",\n" +
+        "    \"position\": \"-1039618750\",\n" +
+        "    \"product-code\": \"1302003\",\n" +
+        "    \"signal\": \"true\",\n" +
+        "    \"type\": \"Sikkerhedspakken\",\n" +
+        "    \"value-date\": \"2013-02-14\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"aftale\": \"1174496\",\n" +
+        "    \"customer\": \"617601483\",\n" +
+        "    \"position\": \"-1055587549\",\n" +
+        "    \"product-code\": \"1302006\",\n" +
+        "    \"signal\": \"true\",\n" +
+        "    \"type\": \"Backup\",\n" +
+        "    \"value-date\": \"2013-02-16\"\n" +
+        "  },\n" +
+        "  {\n" +
+        "    \"aftale\": \"1174496\",\n" +
+        "    \"customer\": \"617601483\",\n" +
+        "    \"position\": \"-1060349927\",\n" +
+        "    \"product-code\": \"1302006\",\n" +
+        "    \"signal\": \"true\",\n" +
+        "    \"type\": \"Backup\",\n" +
+        "    \"value-date\": \"2013-01-09\"\n" +
+        "  }\n" +
+        "]";
+
+
+    @Test
+    public void createPmEngagement() throws Exception {
+        String subscriber="617601483";
+        CreatePmRequest request=new CreatePmRequest(subscriber,"sync-client-it","aftalenr","k32444",content);
+        CreatePmResponse response=client.createPmEngagement(request);
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getSubscriber());
+        Assert.assertNotNull(response.getPmId());
     }
 }

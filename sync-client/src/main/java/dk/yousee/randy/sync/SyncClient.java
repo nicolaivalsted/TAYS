@@ -22,7 +22,7 @@ public class SyncClient extends AbstractClient<SyncConnectorImpl> {
 
 
     URL generateCreateUrl() throws MalformedURLException {
-        return new URL(String.format("%s/sync/api/sync", getConnector().getSyncHost()));
+        return new URL(String.format("%s/sync/api/event", getConnector().getSyncHost()));
     }
 
     /**
@@ -110,6 +110,53 @@ public class SyncClient extends AbstractClient<SyncConnectorImpl> {
             entity=response.getEntity();
             SyncResponse res;
             res = new SyncResponse(subscriber, readResponse(entity));
+            return res;
+        } finally {
+            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
+        }
+    }
+
+    /**
+     * Create a PmEngagement record in randy-sync
+     *
+     * @return result of event creation
+     */
+    public CreatePmResponse createPmEngagement(CreatePmRequest request) {
+        try {
+            return innerCreatePmEngagement(request);
+        } catch (Exception e) {
+            return new CreatePmResponse(request.getSubscriber(), "Failed2createPmEngagement", e.getMessage());
+        }
+    }
+
+    URL generateCreateEngagementUrl(SubscriberId subscriber) throws MalformedURLException {
+        return new URL(String.format("%s/sync/api/pm/engagement/subscriber/%s", getConnector().getSyncHost(),subscriber));
+    }
+
+    private CreatePmResponse innerCreatePmEngagement(CreatePmRequest request) throws Exception {
+
+        HttpPost post;
+        URL href = generateCreateEngagementUrl(request.getSubscriber());
+        post = new HttpPost(href.toString());
+        String body=String.format("{\n" +
+            "      \"forbruger\": \"%s\",\n" +
+            "      \"system\":\"%s\",\n" +
+            "      \"reference\":\"%s\",\n" +
+            "      \"user\":\"%s\",\n" +
+            "      \"content\": %s \n" +
+            "    }"
+            ,request.getSubscriber()
+            ,request.getSystem()
+            ,request.getReference()
+            ,request.getUser()
+            ,request.getContent()
+        );
+        post.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        HttpEntity entity = null;
+        try {
+            entity = talk2service(post);
+            CreatePmResponse res;
+            res = new CreatePmResponse(request.getSubscriber(), readResponse(entity));
             return res;
         } finally {
             if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
