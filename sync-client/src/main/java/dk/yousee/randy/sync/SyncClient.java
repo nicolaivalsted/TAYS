@@ -163,4 +163,59 @@ public class SyncClient extends AbstractClient<SyncConnectorImpl> {
         }
     }
 
+
+    /**
+     * Creates a PM event
+     *
+     * @return result of event creation
+     */
+    public SyncResponse createPmEvent(CreatePmRequest request,Long pmId) {
+        try {
+            return innerCreatePmEvent(request,pmId);
+        } catch (Exception e) {
+            return new SyncResponse(request.getSubscriber(), "createPmEventFailed", e.getMessage());
+        }
+    }
+    URL generateHref(Long pmId) throws MalformedURLException {
+        return new URL(String.format("%s/sync/api/pm/engagement/%s"
+            , getConnector().getSyncHost()
+            ,pmId
+        ));
+    }
+
+    private SyncResponse innerCreatePmEvent(CreatePmRequest request,Long pmId) throws Exception {
+
+        HttpPost post;
+        URL href = generateCreateUrl();
+        post = new HttpPost(href.toString());
+        String body=String.format("{\n" +
+            "      \"forbruger\": \"%s\",\n" +
+            "      \"links\": [{\n" +
+            "                \"href\": \"%s\",\n" +
+            "                \"mediatype\": \"application/json;charset=UTF-8\",\n" +
+            "                \"rel\": \"engagement\"\n" +
+            "            }\n" +
+            "        ],\n" +
+            "      \"system\":\"%s\",\n" +
+            "      \"reference\":\"%s\",\n" +
+            "      \"user\":\"%s\"\n" +
+            "    }"
+            ,request.getSubscriber()
+            ,generateHref(pmId)
+            ,request.getSystem()
+            ,request.getReference()
+            ,request.getUser()
+        );
+        post.setEntity(new StringEntity(body, ContentType.APPLICATION_JSON));
+        HttpEntity entity = null;
+        try {
+            entity = talk2service(post);
+            SyncResponse res;
+            res = new SyncResponse(request.getSubscriber(), readResponse(entity));
+            return res;
+        } finally {
+            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
+        }
+    }
+
 }

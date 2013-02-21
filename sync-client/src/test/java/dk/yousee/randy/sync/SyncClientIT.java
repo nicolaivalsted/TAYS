@@ -52,6 +52,7 @@ public class SyncClientIT {
         Assert.assertNotNull(response);
         Assert.assertNotNull(response.getSubscriber());
     }
+
     @Test
     public void processPlayEvent() throws Exception {
         SubscriberId subscriber=new SubscriberId("608301280");
@@ -124,5 +125,19 @@ public class SyncClientIT {
         Assert.assertNotNull(response);
         Assert.assertNotNull(response.getSubscriber());
         Assert.assertNotNull(response.getPmId());
+    }
+
+    /**
+     * Test that PM event can be created based on a record
+     * @throws Exception on problems
+     */
+    @Test
+    public void createPmEvent() throws Exception {
+        String subscriber="608301280";
+        CreatePmRequest request=new CreatePmRequest(subscriber,"sync-client-it","aftalenr","k32444",content);
+        Long pmId=1L; // increment this value when needed
+        SyncResponse response=client.createPmEvent(request,pmId);
+        Assert.assertNotNull(response);
+        Assert.assertNotNull(response.getSubscriber());
     }
 }
