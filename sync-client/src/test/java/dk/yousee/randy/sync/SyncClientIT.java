@@ -119,7 +119,7 @@ public class SyncClientIT {
 
     @Test
     public void createPmEngagement() throws Exception {
-        String subscriber="617601483";
+        SubscriberId subscriber=new SubscriberId("617601483");
         CreatePmRequest request=new CreatePmRequest(subscriber,"sync-client-it","aftalenr","k32444",content);
         CreatePmResponse response=client.createPmEngagement(request);
         Assert.assertNotNull(response);
@@ -133,7 +133,7 @@ public class SyncClientIT {
      */
     @Test
     public void createPmEvent() throws Exception {
-        String subscriber="608301280";
+        SubscriberId subscriber=new SubscriberId("617601483");
         CreatePmRequest request=new CreatePmRequest(subscriber,"sync-client-it","aftalenr","k32444",content);
         Long pmId=1L; // increment this value when needed
         SyncResponse response=client.createPmEvent(request,pmId);
