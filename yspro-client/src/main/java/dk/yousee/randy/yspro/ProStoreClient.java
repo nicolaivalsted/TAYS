@@ -20,6 +20,7 @@ import java.net.URLEncoder;
  * Time: 23.45
  * Client to access prostore
  */
+@Deprecated
 public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
 
 
@@ -47,7 +48,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         return new URL(String.format("%s/GetHandle.php?SystemLogin=%s&SystemPassword=%s"
             , getConnector().getYsProHost(), getConnector().getSystemLogin(), getConnector().getSystemPassword()));
     }
-
+    @Deprecated
     // Timeout for HandleID er 300 minutter for RANDY
     public String fetchHandle(int level) throws Exception {
         HttpUriRequest hur;
@@ -79,7 +80,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
             getConnector().setHandleId(fetchHandle(0));
         }
     }
-
+    @Deprecated
     /**
      * @param customer de 9 cifre
      * @return json dokument. Der er en liste af "Products" med de - for produktet (7000) definerede - properties
@@ -91,7 +92,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
             , getConnector().getYsProHost(), getConnector().getHandleId(), customer));
         return new ProStoreResponse(performGet(url));
     }
-
+    @Deprecated
     //GetEngagement.php
     public ProStoreResponse findEngagement(String customer) throws Exception {
         for (int count = 0; count < 2; count++) {
@@ -108,14 +109,14 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         }
         return new ProStoreResponse(100,"FindEngagement read nothing from ysPro");
     }
-
+    @Deprecated
     public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
             , getConnector().getYsProHost(), getConnector().getHandleId(), customer, productId));
         return new ProStoreResponse(performGet(url));
     }
-
+    @Deprecated
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
     public UserInfo findUserInfo(String userID) throws Exception {
 
@@ -137,7 +138,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
         }
         return new UserInfo(100, String.format("Could not access userInfo for %s", userID));
     }
-
+    @Deprecated
     //http://ysprodev.yousee.dk/GetEngagementByValue.php?HandleID=6sz06U5lxwoA85yZJ3239V1CzM5k3G&ProductID=6900&DataName=Device_Mac&Value=12:34:56:78:90:AB
     public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws Exception {
         ensureHandle();
@@ -181,12 +182,13 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
 // ,"UUID": "d179b909-cd29-4195-8756-ab75bbc8cd89"
 // }
 // ]
+    @Deprecated
     public URL generateUpdateUrl(String customer, String json) throws MalformedURLException, UnsupportedEncodingException {
         String encoded = URLEncoder.encode(json, "UTF-8");
         return new URL(String.format("%s/AssignProduct.php?HandleID=%s&CustomerNumber=%s&Products=%s"
             , getConnector().getYsProHost(), getConnector().getHandleId(), customer, encoded));
     }
-
+    @Deprecated
     public ProStoreResponse assignProduct(String customer, String json) throws Exception {
         ensureHandle();
         HttpPost post;
@@ -216,6 +218,7 @@ public class ProStoreClient extends AbstractClient<ProStoreConnectorImpl> {
      * OTT produktet har ProductID 7000.
      * .. Allan
      */
+    @Deprecated
     public ProStoreResponse removeEngagement(String customer, YsProProduct product) throws Exception {
         ensureHandle();
         URL url = new URL(String.format("%s/RemoveEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s"
