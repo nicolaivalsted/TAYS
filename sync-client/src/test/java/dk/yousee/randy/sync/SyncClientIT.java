@@ -23,7 +23,6 @@ public class SyncClientIT {
         SyncConnectorImpl connector = new SyncConnectorImpl();
         connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
         connector.setSyncHost(SyncConnectorImpl.T_HOST);
-        connector.setSyncHost(SyncConnectorImpl.DEV_HOST);
         client = new SyncClient();
         client.setConnector(connector);
     }
@@ -86,13 +85,6 @@ public class SyncClientIT {
         "    \"product\": \"ystest\",\n" +
         "    \"signal\": \"true\",\n" +
         "    \"type\": \"ForeningsMail\"\n" +
-        "  },\n" +
-        "  {\n" +
-        "    \"bb_serviceItem\": \"1301130\",\n" +
-        "    \"modemId\": \"na\",\n" +
-        "    \"position\": \"106282918\",\n" +
-        "    \"signal\": \"true\",\n" +
-        "    \"type\": \"Play\"\n" +
         "  },\n" +
         "  {\n" +
         "    \"aftale\": \"1174496\",\n" +
