@@ -10,8 +10,8 @@ package dk.yousee.randy.sync;
 public class CreatePmRequest {
 
 
-    public CreatePmRequest(String subscriber, String system, String reference, String user, String content) {
-        this.subscriber = new SubscriberId(subscriber);
+    public CreatePmRequest(SubscriberId subscriber, String system, String reference, String user, String content) {
+        this.subscriber = subscriber;
         this.system = system;
         this.reference = reference;
         this.user = user;

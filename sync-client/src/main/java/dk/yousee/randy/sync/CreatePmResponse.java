@@ -18,7 +18,7 @@ public class CreatePmResponse {
     String error;
     String message;
 
-    String pmId;
+    Long pmId;
 
 
 
@@ -34,7 +34,13 @@ public class CreatePmResponse {
         JsonElement jsonSource;
         try {
             jsonSource = new JsonParser().parse(input);
-            pmId =jsonSource.getAsJsonObject().get("pm_id").getAsString();
+
+            JsonElement jsonPmId = jsonSource.getAsJsonObject().get("pm_id");
+            if(jsonPmId!=null){
+                pmId = jsonPmId.getAsLong();
+            } else {
+                pmId=null;
+            }
             JsonElement er = jsonSource.getAsJsonObject().get("error");
             if(er!=null){
                 error=er.getAsString();
@@ -54,7 +60,7 @@ public class CreatePmResponse {
         return subscriber;
     }
 
-    public String getPmId() {
+    public Long getPmId() {
         return pmId;
     }
 
