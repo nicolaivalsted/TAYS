@@ -10,6 +10,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.List;
 
 /**
@@ -36,8 +37,8 @@ public class OrdreClient extends AbstractKasiaClient {
         post = new HttpPost(href.toString());
         post.setHeader(HttpHeaders.ACCEPT, getDefaultMediaType());
 
-        String value=request.printJson();
-        post.setEntity(new StringEntity(value, "text/plain", "UTF-8"));
+        String value=request.printJson().toString();
+        post.setEntity(new StringEntity(value, Charset.forName("UTF-8")));
         HttpEntity entity = null;
         try {
             entity = talk2service(post);

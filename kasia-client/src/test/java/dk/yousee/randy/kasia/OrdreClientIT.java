@@ -31,15 +31,16 @@ public class OrdreClientIT {
         client.setConnector(connector);
     }
 
-    @Test
+    //@Test
     public void makeInvoice() throws Exception {
         Assert.assertNotSame("Run on preprod..", KasiaConnectorImpl.KASIA_HOST, client.getConnector().getKasiaHost());
         String system = "randy-bio";
-        String customer = "602238134";
+        String customer = "608252633";
         String salesItem = "1703001";
         String title = "Film title";
         String user = "computer";
-        InvoiceRequest request = new InvoiceRequest(customer, salesItem, title, user, system);
+        String vodId = "VODIDTEST";
+        InvoiceRequest request = new InvoiceRequest(customer, salesItem, title, user, system, vodId);
         InvoiceResponse response = client.makeInvoice(request);
         Assert.assertNotNull("Must return response", response);
         Assert.assertNull("Should have no errors", response.getMessage());
@@ -47,7 +48,7 @@ public class OrdreClientIT {
     }
 
 //    private static final String ordreId = "b650255e-45b1-4d2d-8f6f-1bb57e96ed8f";
-    private static final String ordreId = "62e1e236-a448-4595-9cb1-7e6167227e53";
+    private static final String ordreId = "cad09183-9ec1-44b3-bdb0-5fae85e583ba";
 //    private static final String ordreId = "bf306e71-f571-4544-bc19-062f2a1f9975";//"3442db26-ddad-4c4c-addc-e49f0f32f62c";
 
     @Test
