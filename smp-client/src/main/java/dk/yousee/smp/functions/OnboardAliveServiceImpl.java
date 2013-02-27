@@ -81,6 +81,7 @@ public class OnboardAliveServiceImpl implements AliveService {
                 entity = rsp.getEntity();
                 return String.format("Status %s read %s bytes", statusLine.getReasonPhrase(), entity.getContentLength());
             } else {
+                EntityUtils.consume(rsp.getEntity());
                 throw new Exception(String.format("Failed to read WSDL for service: %s. Got HTTP status %s %s"
                     ,smpConnector.connectInfo(),statusLine.getStatusCode(),statusLine.getReasonPhrase()));
             }
