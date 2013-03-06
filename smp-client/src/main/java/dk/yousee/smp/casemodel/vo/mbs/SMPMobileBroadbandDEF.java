@@ -31,7 +31,7 @@ public class SMPMobileBroadbandDEF extends BasicUnit {
     public PropHolder mobilebb_product_code = new PropHolder(this, "mobilebb_product_code", true);
     public PropHolder mobilebb_msisdn = new PropHolder(this, "mobilebb_msisdn", true);
 
-    protected PropHolder tdc_subscriber_id = new PropHolder(this, "tdc_subscriber_id", true);
+    public PropHolder tdc_subscriber_id = new PropHolder(this, "tdc_subscriber_id", true);
 
     public static final String MOBB_SUBSCRIBER_PREFIX = "446327224 ";
 
@@ -96,4 +96,10 @@ public class SMPMobileBroadbandDEF extends BasicUnit {
 
     //Type.ASSOC
     public AssociationHolder mobile_service_defn_has_sim = new AssociationHolder(this, "mobile_service_defn_has_sim", SMPSIMCard.TYPE);
+    
+    public PropHolder suspend_billing = new PropHolder(this, "suspend_billing", false);
+    
+    public PropHolder suspend_abuse = new PropHolder(this, "suspend_abuse", false);
+    
+    public PropHolder product_name = new PropHolder(this, "product_name", false);
 }

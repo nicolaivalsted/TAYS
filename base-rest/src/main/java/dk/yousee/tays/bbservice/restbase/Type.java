@@ -19,7 +19,9 @@ public enum Type {
     VoiceMail("SubSvcSpec:primary_voicemail_box"),
     Play("SubSvcSpec:play_composed"),
     TdcMail("SubSvcSpec:tdcmail_composed"),
-    EmailUnblock("SubSvcSpec:email_server_unblock");
+    EmailUnblock("SubSvcSpec:email_server_unblock"),
+    Mobb("SubSvcSpec:mobile_broadband"),
+    SimCard("SubSvcSpec:sim_card");
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();
 

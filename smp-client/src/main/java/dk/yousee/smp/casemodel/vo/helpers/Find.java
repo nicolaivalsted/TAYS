@@ -500,6 +500,15 @@ public class Find {
         return (SMPSIMCard) find(SMPSIMCard.TYPE, key.SMPSIMCard(modemId));
     }
 
+    public List<SMPSIMCard> smpSimCards() {
+        List<SMPSIMCard> res = new ArrayList<SMPSIMCard>();
+        for (BasicUnit plan : serviceLevelUnit) {
+            if (plan.getType().equals(SMPSIMCard.TYPE)) {
+                res.add((SMPSIMCard) plan);
+            }
+        }
+        return res;
+    }
 
 //    /**
 //     * find service level unit
