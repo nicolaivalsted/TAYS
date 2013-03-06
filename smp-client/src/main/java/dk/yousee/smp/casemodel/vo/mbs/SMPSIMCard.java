@@ -1,6 +1,7 @@
 package dk.yousee.smp.casemodel.vo.mbs;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
 import dk.yousee.smp.order.model.NickName;
@@ -42,4 +43,8 @@ public class SMPSIMCard extends BasicUnit {
      */
     public PropHolder sim_card_service_id = new PropHolder(this, "sim_card_service_id", true);
     public PropHolder sim_card_id = new PropHolder(this, "sim_card_id", true);
+    
+    public ModemId getModemId(){
+       return ModemId.extract(getExternalKey());
+    }
 }
