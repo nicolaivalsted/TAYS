@@ -65,7 +65,7 @@ public class HsdAccess extends BasicUnit {
 //    public PropHolder dflt_cm_dhcp_rules = new PropHolder(this, "dflt_cm_dhcp_rules");
 //    public PropHolder dflt_cpe_dhcp_rules = new PropHolder(this, "dflt_cpe_dhcp_rules");
 //    public PropHolder dflt_quality_of_svc = new PropHolder(this, "dflt_quality_of_svc");
-//    public PropHolder class_of_service = new PropHolder(this, "class_of_service");
+    public PropHolder class_of_service = new PropHolder(this, "class_of_service",false);
 
 
     //Type.ASSOC

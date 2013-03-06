@@ -52,7 +52,7 @@ public class DialToneAccess extends BasicUnit {
             business_position.setValue(businessPosition.toString());
         }
     }
-
+    
     public PropHolder dial_tone_service_id = new PropHolder(this, "dial_tone_service_id", true);
 
     private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
