@@ -21,7 +21,8 @@ public enum Type {
     TdcMail("SubSvcSpec:tdcmail_composed"),
     EmailUnblock("SubSvcSpec:email_server_unblock"),
     Mobb("SubSvcSpec:mobile_broadband"),
-    SimCard("SubSvcSpec:sim_card");
+    SimCard("SubSvcSpec:sim_card"),
+    Mta("SubSvcSpec:smp_emta_pc_voip_access");
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();
 

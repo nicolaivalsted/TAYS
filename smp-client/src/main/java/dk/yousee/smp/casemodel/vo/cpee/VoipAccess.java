@@ -33,15 +33,15 @@ public class VoipAccess extends BasicUnit {
     public PropHolder mta_id = new PropHolder(this, "mta_id", true);
 
 //    public PropHolder mta_manufacturer = new PropHolder(this, "mta_manufacturer");
-//    public PropHolder mta_fqdn = new PropHolder(this, "mta_fqdn");
+    public PropHolder mta_fqdn = new PropHolder(this, "mta_fqdn", false);
 //    public PropHolder voip_protocol = new PropHolder(this, "voip_protocol");
-//    public PropHolder cm_mac = new PropHolder(this, "cm_mac");
+    public PropHolder cm_mac = new PropHolder(this, "cm_mac", false);
 //    public PropHolder mta_dhcp_rules = new PropHolder(this, "mta_dhcp_rules");
 //    public PropHolder mta_technology = new PropHolder(this, "mta_technology");
 //    public PropHolder dev_prov_req = new PropHolder(this, "dev_prov_req");
 //    public PropHolder num_of_voice_lines = new PropHolder(this, "num_of_voice_lines");
 //    public PropHolder mta_max_port_num = new PropHolder(this, "mta_max_port_num");
-//    public PropHolder cmts = new PropHolder(this, "cmts");
+    public PropHolder cmts = new PropHolder(this, "cmts", false);
 //    public PropHolder mta_quality_of_svc = new PropHolder(this, "mta_quality_of_svc");
 
 }
