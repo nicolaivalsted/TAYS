@@ -12,52 +12,43 @@ import org.apache.http.params.CoreConnectionPNames;
 import org.apache.http.params.HttpParams;
 
 /**
- * Created with IntelliJ IDEA.
- * User: aka
- * Date: 06/09/12
- * Time: 23.08
- * Connectors - that can be configured from Spring
+ * Created with IntelliJ IDEA. User: aka Date: 06/09/12 Time: 23.08 Connectors -
+ * that can be configured from Spring
  */
 public abstract class AbstractConnector {
-
-
     /**
      * Default 1 seconds for connection timeout
      */
-    public static final int DEFAULT_CONNECTION_TIMEOUT=1000;
-
+    public static final int DEFAULT_CONNECTION_TIMEOUT = 1000;
     /**
      * Default 20 seconds to ask this question as max.
      */
-    public static final int DEFAULT_OPERATION_TIMEOUT=20000;
-
+    public static final int DEFAULT_OPERATION_TIMEOUT = 20000;
     /**
      * Default no proxy host
      */
-    public static final String DEFAULT_PROXY_HOST="none";
+    public static final String DEFAULT_PROXY_HOST = "none";
     /**
      * Default number of connections in pool
      */
-    public static final int DEFAULT_MAX_TOTAL_CONNECTIONS=10;
-
+    public static final int DEFAULT_MAX_TOTAL_CONNECTIONS = 10;
     private PoolingClientConnectionManager cm;
 
     protected PoolingClientConnectionManager getCm() {
         return cm;
     }
-    private Map<Integer,DefaultHttpClient> clients=new HashMap<Integer, DefaultHttpClient>();
+    private Map<Integer, DefaultHttpClient> clients = new HashMap<Integer, DefaultHttpClient>();
 
-    public void clearClients(){
-        clients=new HashMap<Integer, DefaultHttpClient>();
+    public void clearClients() {
+        clients = new HashMap<Integer, DefaultHttpClient>();
     }
-
     private UrlContext urlContext;
 
     protected AbstractConnector() {
         cm = new PoolingClientConnectionManager();
         cm.setDefaultMaxPerRoute(DEFAULT_MAX_TOTAL_CONNECTIONS);
         cm.setMaxTotal(DEFAULT_MAX_TOTAL_CONNECTIONS);
-        urlContext=new UrlContext();
+        urlContext = new UrlContext();
         urlContext.setProxyHost(DEFAULT_PROXY_HOST);
         urlContext.setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
         urlContext.setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
@@ -90,6 +81,7 @@ public abstract class AbstractConnector {
     public Integer getConnectionTimeout() {
         return urlContext.getConnectionTimeout();
     }
+
     public Integer getOperationTimeout() {
         return urlContext.getOperationTimeout();
     }
@@ -98,16 +90,16 @@ public abstract class AbstractConnector {
         return urlContext;
     }
 
-    public void setMaxTotalConnections(int maxTotalConnections){
+    public void setMaxTotalConnections(int maxTotalConnections) {
         cm.setDefaultMaxPerRoute(maxTotalConnections);
         cm.setMaxTotal(maxTotalConnections);
     }
-    
-    public void setMaxPerRoute(int max){
+
+    public void setMaxPerRoute(int max) {
         cm.setDefaultMaxPerRoute(max);
     }
-    
-    public int getMaxTotalConnections(){
+
+    public int getMaxTotalConnections() {
         return cm.getDefaultMaxPerRoute();
     }
 
@@ -128,36 +120,38 @@ public abstract class AbstractConnector {
             return null;
         }
     }
+
     /**
-     * Get a client that matches requirements.
-     * <p>
-     * We understand DefaultHttpClient as a "Facade" that can handle multiple concurrent request.
-     * The facade is configured specific for each purpose.
-     * Therefore it takes two facades to call the same service with different operation timeout.
-     * And this is the reason that this class uses a map of DefaultHttpClient that is different by operation timeout.
-     * </p>
-     * @param operationTimeout requered timeout to be this value. Null means default operation timeout
+     * Get a client that matches requirements. <p> We understand
+     * DefaultHttpClient as a "Facade" that can handle multiple concurrent
+     * request. The facade is configured specific for each purpose. Therefore it
+     * takes two facades to call the same service with different operation
+     * timeout. And this is the reason that this class uses a map of
+     * DefaultHttpClient that is different by operation timeout. </p>
+     *
+     * @param operationTimeout requered timeout to be this value. Null means
+     * default operation timeout
      * @return a DefaultHttpClient that matches requirements.
      */
     public DefaultHttpClient getClient(Integer operationTimeout) {
-        Integer ot=operationTimeout==null?getOperationTimeout():operationTimeout;
-        DefaultHttpClient client= clients.get(ot);
-        if(client==null){
-            client=addClient(ot);
+        Integer ot = operationTimeout == null ? getOperationTimeout() : operationTimeout;
+        DefaultHttpClient client = clients.get(ot);
+        if (client == null) {
+            client = addClient(ot);
         }
         return client;
     }
 
     private synchronized DefaultHttpClient addClient(Integer operationTimeout) {
-        DefaultHttpClient client= clients.get(operationTimeout); //maybe last thread just made me..
-        if(client==null){
-            client=createClient(operationTimeout);
-            clients.put(operationTimeout,client);
+        DefaultHttpClient client = clients.get(operationTimeout); //maybe last thread just made me..
+        if (client == null) {
+            client = createClient(operationTimeout);
+            clients.put(operationTimeout, client);
         }
         return client;
     }
 
-    private DefaultHttpClient createClient(Integer operationTimeout){
+    private DefaultHttpClient createClient(Integer operationTimeout) {
         HttpParams params = new BasicHttpParams();
         HttpHost proxy = extractProxy();
         if (proxy != null) {
@@ -165,7 +159,7 @@ public abstract class AbstractConnector {
         }
         params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, getConnectionTimeout());
         params.setParameter(CoreConnectionPNames.SO_TIMEOUT, operationTimeout);
-        return new DefaultHttpClient(getCm(),params);
+        return new DefaultHttpClient(getCm(), params);
     }
 
     public String connectInfo() {
@@ -188,11 +182,11 @@ public abstract class AbstractConnector {
         sb.append("}");
         return sb.toString();
     }
+
     /**
      * Take down services, called by Spring at deactivation
      */
     public void destroy() {
         cm.shutdown();
     }
-
 }
