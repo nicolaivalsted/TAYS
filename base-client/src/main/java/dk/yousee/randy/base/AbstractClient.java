@@ -1,5 +1,8 @@
 package dk.yousee.randy.base;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -8,20 +11,11 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-
 /**
- * Created with IntelliJ IDEA.
- * User: aka
- * Date: 06/09/12
- * Time: 23.32
- * Clients extends this
+ * Created with IntelliJ IDEA. User: aka Date: 06/09/12 Time: 23.32 Clients
+ * extends this
  */
 public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
-
-
     private Integer operationTimeout;
 
     public Integer getOperationTimeout() {
@@ -31,7 +25,6 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
     public void setOperationTimeout(Integer operationTimeout) {
         this.operationTimeout = operationTimeout;
     }
-
     private CONNECTOR connector;
 
     public CONNECTOR getConnector() {
@@ -44,9 +37,8 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
     }
 
     /**
-     * Execute a get on the specified URL
-     * <br/>
-     * The objective is to do a simple call to the service without much features - just simple
+     * Execute a get on the specified URL <br/> The objective is to do a simple
+     * call to the service without much features - just simple
      *
      * @param url to get data from
      * @return a string with response data
@@ -59,7 +51,8 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
             entity = talk2service(hur);
             return readResponse(entity);
         } finally {
-            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
+            if (entity != null)
+                EntityUtils.consume(entity); // Make sure the connection can go back to pool
         }
     }
 
@@ -72,7 +65,7 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
         } catch (java.net.UnknownHostException e) {
             throw e;
         } catch (Throwable e) {
-            String message = String.format("could not execute %s %s got error: %s,", hur.getMethod(),hur.getURI(), e);
+            String message = String.format("could not execute %s %s got error: %s,", hur.getMethod(), hur.getURI(), e);
             throw new Exception(message);
         }
     }
@@ -87,12 +80,12 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
      * @throws Exception when there is errors
      */
     protected HttpEntity talk2service(HttpUriRequest hur) throws Exception {
-
         HttpResponse rsp = execute(hur);
-        String errorMessage=extractMessage(rsp);
+        String errorMessage = extractMessage(rsp);
         if (errorMessage != null) {
             HttpEntity entity = rsp.getEntity();
-            if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
+            if (entity != null)
+                EntityUtils.consume(entity); // Make sure the connection can go back to pool
             throwExceptionWithMessage(rsp, errorMessage);
         }
         return rsp.getEntity();
@@ -100,12 +93,13 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
 
     /**
      * Throw exception with message
+     *
      * @param rsp response that made exception
      * @param errorMessage message to put into exception
      * @throws Exception
      */
     protected void throwExceptionWithMessage(HttpResponse rsp, String errorMessage) throws Exception {
-        int httpStatus=extractStatus(rsp);
+        int httpStatus = extractStatus(rsp);
         throw new Exception(String.format("status:%s ,phrase:%s", httpStatus, errorMessage));
     }
 
@@ -134,6 +128,7 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
         }
         return errorMessage;
     }
+
     protected int extractStatus(HttpResponse response) {
         return response.getStatusLine().getStatusCode();
     }
@@ -144,7 +139,6 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
         res = sr.readInputStreamAsString(is);
         return res;
     }
-
 
     protected String readResponse(HttpEntity entity) {
         InputStream is = null;
@@ -161,11 +155,11 @@ public abstract class AbstractClient<CONNECTOR extends AbstractConnector> {
     }
 
     protected void close(InputStream is) {
-        if (is != null) try {
-            is.close();
-        } catch (IOException e) {
-            System.out.println("AbstractClient, unexpected could not close input stream, message: " + e.getMessage());
-        }
+        if (is != null)
+            try {
+                is.close();
+            } catch (IOException e) {
+                System.out.println("AbstractClient, unexpected could not close input stream, message: " + e.getMessage());
+            }
     }
-
 }
