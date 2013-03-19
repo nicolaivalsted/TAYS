@@ -326,4 +326,26 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
+
+    /**
+     * Log in to YSPro and return CustomerInfo on successful login. On failure to log in, retur null
+     * @param username
+     * @param password
+     * @return YSpro session id on success, null on failure
+     * @throws YsProException 
+     */
+    public String login(String username, String password) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/Login.php?HandleID=%s&UserName=%s&Password=%s",
+                        client.getYsProHost(), client.getHandleId(), username, password));
+            String sessionid = execute(new HttpGet(url));
+            if (sessionid == null || sessionid.trim().equals("0"))
+                return null;
+            return sessionid;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+
+    }
 }
