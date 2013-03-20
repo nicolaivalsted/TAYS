@@ -37,33 +37,6 @@ public class Device {
     public Device() {
     }
 
-   /* public Device(RDUDevice rduDevice) {
-        deviceType = rduDevice.getDeviceType();
-        macAddress = rduDevice.getMacAddress().toString(MACaddress.fmtCOLON);
-        if (rduDevice.getIp() != null)
-            ip = rduDevice.getIp().getHostAddress();
-        if (rduDevice.getGiAddress() != null)
-            giAddress = rduDevice.getGiAddress().getHostAddress();
-        if (rduDevice.isDocsis3Capable() != null)
-            docsis3Capable = rduDevice.isDocsis3Capable();
-        if (rduDevice.isWifiCapable() != null)
-            wifiCapable = rduDevice.isWifiCapable();
-        smpEquipmentType = rduDevice.getSmpEquipmentType();
-        RDUDevice rdu = rduDevice;
-        firmwareVersion = rdu.getFirmwareVersion();
-        serialNo = rdu.getSerialNo();
-        model = rdu.getModel();
-        ssid = rdu.getSsid();
-        psk = rdu.getPsk();
-        channel = rdu.getChannel();
-        classOfService = rdu.getClassOfService();
-        downstream = rdu.getDownstream();
-        upstream = rdu.getUpstream();
-        manufacturer = rdu.getManufacturer();
-        vrfId = rdu.getVrfId();
-        ownerid = rdu.getOwnerid();
-    }*/
-
     public String getDeviceType() {
         return deviceType;
     }

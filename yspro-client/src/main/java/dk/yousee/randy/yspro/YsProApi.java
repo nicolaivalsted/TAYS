@@ -171,6 +171,31 @@ public class YsProApi {
         }
     }
 
+    /**
+     * http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&SesssionID=xxxxxxx&xml=1
+     */
+    public UserInfo findSessionInfo(String sessionId) throws YsProException {
+        try {
+            ensureHandle();
+            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&SessionID=%s&xml=1", 
+                    client.getYsProHost(), client.getHandleId(), sessionId));
+            String st = execute(new HttpGet(uri));
+
+            UserInfo ui = new UserInfo(UserInfo.DataFormat.xml, st);
+            if (ui.getStatus() == 50) {
+                client.clearHandle();
+                ensureHandle();
+                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&SessionID=%s&xml=1", 
+                        client.getYsProHost(), client.getHandleId(), sessionId));
+                st = execute(new HttpGet(uri));
+                ui = new UserInfo(UserInfo.DataFormat.xml, st);
+            }
+            return ui;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+
     //http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&CustomerNumber=607777777&xml=1
     public UserInfo findUserInfo(String userID) throws YsProException {
         try {
