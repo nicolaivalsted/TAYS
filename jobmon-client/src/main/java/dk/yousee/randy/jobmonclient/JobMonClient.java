@@ -103,7 +103,7 @@ public class JobMonClient {
             queryParams.add(new BasicNameValuePair("name", jobName));
             URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run", URLEncodedUtils.format(queryParams, null), null);*/
             
-            URI uri = new URIBuilder("http://"+jobMonHost+":"+jobMonPort).setPath("jobmon-rest/run").addParameter("name", jobName).build();
+            URI uri = new URIBuilder("http://"+jobMonHost+":"+jobMonPort).setPath("/jobmon-rest/run").addParameter("name", jobName).build();
             HttpPost post = new HttpPost(uri);
             post.setHeader("accept", "application/json");
             post.setHeader("Content-Type", "application/json");
@@ -156,7 +156,7 @@ public class JobMonClient {
         HttpEntity entity=null;
         try {
             DefaultHttpClient client = ac.getClient(null);
-            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run/" + run.getId(), null, null);
+            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "/jobmon-rest/run/" + run.getId(), null, null);
 
             HttpPut put = new HttpPut(uri);
             put.setHeader("accept", "application/json");
