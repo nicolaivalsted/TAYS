@@ -9,6 +9,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * User: aka
@@ -17,7 +19,7 @@ import java.net.URL;
  * Client to access voucher
  */
 public class VoucherClient extends AbstractClient<VoucherConnectorImpl> {
-
+    private static final Logger LOGGER = Logger.getLogger(VoucherClient.class.getName());
 
     String generateBaselUrl() throws MalformedURLException {
         return String.format("%s/voucherService/voucherInterface"
@@ -50,6 +52,7 @@ public class VoucherClient extends AbstractClient<VoucherConnectorImpl> {
         post.setHeader("SOAPAction", "");
 
         String body=request.printXml();
+        LOGGER.log(Level.WARNING, "Voucher request: {0}", body);
         try {
             post.setEntity(new StringEntity(body, "text/xml", "UTF-8"));
         } catch (Throwable e) {
@@ -61,6 +64,7 @@ public class VoucherClient extends AbstractClient<VoucherConnectorImpl> {
         try {
             entity = talk2service(post);
             String xmlResponse=readResponse(entity);
+            LOGGER.log(Level.WARNING, "Voucher response: {0}", xmlResponse);
             return parseResponse(xmlResponse);
         } finally {
             if (entity != null) EntityUtils.consume(entity); // Make sure the connection can go back to pool
