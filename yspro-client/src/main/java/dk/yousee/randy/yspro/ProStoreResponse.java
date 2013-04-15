@@ -49,19 +49,15 @@ public class ProStoreResponse {
         if (element != null) {
             dateTime = YsProTime.create(root.get("DateTime").getAsString());
         }
-        JsonElement dataElement;
-        if (root.has("Products")) {
-            dataElement = root.get("Products");
-        } else {
-            dataElement = root.get("Data");
-        }
 
-        if (dataElement != null && !dataElement.isJsonPrimitive()) {
+        if (root.has("Data")) { 
             exists = true;
-            products = parseData(dataElement.getAsJsonArray());
+            products = parseData(root.get("Data").getAsJsonArray());
         } else {
             products = new ArrayList<StoreProduct>();
         }
+
+       
     }
 
     public boolean isExists() {
@@ -198,6 +194,16 @@ public class ProStoreResponse {
             res.add(new StoreProduct(res.size(), json));
         }
         return res;
+    }
+    
+    public JsonObject getData() {
+        JsonObject root = jsonSource.getAsJsonObject();
+        return root.getAsJsonObject("Data");
+    }
+    
+    public JsonArray getDataArray() {
+        JsonObject root = jsonSource.getAsJsonObject();
+        return root.getAsJsonArray("Data");
     }
 
     public JsonElement printJson() {
