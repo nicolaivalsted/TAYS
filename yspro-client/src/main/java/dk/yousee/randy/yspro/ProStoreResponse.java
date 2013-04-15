@@ -50,7 +50,7 @@ public class ProStoreResponse {
             dateTime = YsProTime.create(root.get("DateTime").getAsString());
         }
 
-        if (root.has("Data")) { 
+        if (root.has("Data") && root.get("Data").isJsonArray()) { 
             exists = true;
             products = parseData(root.get("Data").getAsJsonArray());
         } else {

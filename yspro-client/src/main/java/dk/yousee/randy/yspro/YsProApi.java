@@ -25,12 +25,8 @@ import org.apache.http.util.EntityUtils;
  */
 public class YsProApi {
     private static final Logger LOG = Logger.getLogger(YsProApi.class.getName());
-    private int timeout = 2500;
 
-    public void setTimeout(int timeout) {
-        this.timeout = timeout;
-    }
-    private volatile ProStoreConnectorImpl client;
+    private ProStoreConnectorImpl client;
 
     public void setClient(ProStoreConnectorImpl client) {
         this.client = client;
@@ -64,7 +60,7 @@ public class YsProApi {
         HttpEntity entity = null;
         try {
             LOG.log(Level.FINE, "Trying execute url: {0}", request.getURI());
-            HttpResponse response = client.getClient(timeout).execute(request);
+            HttpResponse response = client.getClient().execute(request);
             int statusSode = response.getStatusLine().getStatusCode();
             LOG.log(Level.FINE, "Executed url with status: {0}", statusSode);
 

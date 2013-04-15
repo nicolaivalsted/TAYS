@@ -3,10 +3,13 @@ package dk.yousee.randy.yspro;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dk.yousee.randy.base.HttpPool;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,20 +23,27 @@ public class YsProApiIT {
     private static ProStoreConnectorImpl connector;
     private static String customer, customer2;
     private static final String ottProduct = "crudCycleProduct";
-
+    private static HttpPool pool;
+    
     @BeforeClass
     public static void before() {
+        pool = new HttpPool();
         connector = new ProStoreConnectorImpl();
+        connector.setPool(pool);
         connector.setYsProHost(ProStoreConnectorImpl.NEW_YSPRO_HOST);
         connector.setSystemLogin(connector.getSystemLogin());
         connector.setSystemPassword("We4rAndy");
-        connector.setOperationTimeout(20000);
 
         api = new YsProApi();
         api.setClient(connector);
 
         customer = "608252633";
         customer2 = "617670043";
+    }
+    
+    @AfterClass
+    public static void after() {
+        pool.shutdown();
     }
 
 //    @Test

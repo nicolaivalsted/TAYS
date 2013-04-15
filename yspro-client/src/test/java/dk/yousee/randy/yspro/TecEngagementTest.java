@@ -153,7 +153,7 @@ public class TecEngagementTest {
 //            "}";
     }
 
-    @Test
+    //@Test
     public void createFromDetils() throws Exception {
         ProStoreResponse test= new ProStoreResponse(input);
         Assert.assertNotNull(test);
