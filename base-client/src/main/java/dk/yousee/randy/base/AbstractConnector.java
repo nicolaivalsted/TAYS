@@ -15,6 +15,7 @@ import org.apache.http.params.HttpParams;
  * Created with IntelliJ IDEA. User: aka Date: 06/09/12 Time: 23.08 Connectors -
  * that can be configured from Spring
  */
+@Deprecated
 public abstract class AbstractConnector {
     /**
      * Default 1 seconds for connection timeout
