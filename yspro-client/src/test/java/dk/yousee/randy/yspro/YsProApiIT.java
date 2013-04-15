@@ -299,4 +299,10 @@ public class YsProApiIT {
             Assert.assertEquals("Response must be returned with no error", 0, rs3.getStatus().intValue());
         }
     }
+    
+    @Test
+    public void login() throws YsProException{
+        String session = api.login("SimonOFKtestIT", "");
+        Assert.assertNotNull(session);
+    }
 }

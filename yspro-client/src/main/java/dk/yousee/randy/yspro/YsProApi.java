@@ -333,10 +333,12 @@ public class YsProApi {
             ensureHandle();
             URI url = new URI(String.format("%s/Login.php?HandleID=%s&UserName=%s&Password=%s",
                     client.getYsProHost(), client.getHandleId(), username, password));
-            String sessionid = execute(new HttpGet(url));
-            if (sessionid == null || sessionid.trim().equals("0"))
-                return null;
-            return sessionid;
+            ProStoreResponse res = new ProStoreResponse(execute(new HttpGet(url)));
+            
+            if(res.getData()!=null && res.getData().has("SessionID"))
+                return res.getData().get("SessionID").getAsString();
+     
+            return null;
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
