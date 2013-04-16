@@ -56,10 +56,10 @@ public class YsProApiIT {
         Assert.assertTrue(psr.getStatus() == 0);
     }
 
-//    @Test
+    @Test
     public void testGetNewPasswordMethods() throws YsProException, UnknownHostException {
 
-        JsonElement e = api.getNewPasswordMethods("SimonOfk", InetAddress.getByName("4.4.4.4"));
+        ProStoreResponse e = api.getNewPasswordMethods("SimonOfk", InetAddress.getByName("4.4.4.4"));
 
         Assert.assertNotNull(e);
     }
@@ -300,7 +300,7 @@ public class YsProApiIT {
         }
     }
     
-    @Test
+//    @Test
     public void login() throws YsProException{
         String session = api.login("SimonOFKtestIT", "");
         Assert.assertNotNull(session);
