@@ -1,5 +1,10 @@
 package dk.yousee.randy.base;
 
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.scheme.SchemeSocketFactory;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
 import org.apache.http.params.BasicHttpParams;
@@ -48,12 +53,14 @@ public class HttpPool {
 //        credsProvider.setCredentials(
 //                new AuthScope("test.biersys.dk", AuthScope.ANY_PORT),
 //                new UsernamePasswordCredentials(username, password));
-//        
-//        SchemeRegistry schemeRegistry = new SchemeRegistry();
-//        schemeRegistry.register(
-//                new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
+        
+        SchemeRegistry schemeRegistry = new SchemeRegistry();
+        schemeRegistry.register(
+                new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
+        schemeRegistry.register(
+                new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
 
-        pccm = new PoolingClientConnectionManager();
+        pccm = new PoolingClientConnectionManager(schemeRegistry);
         pccm.setMaxTotal(max_conn);
         pccm.setDefaultMaxPerRoute(max_conn_route);
         
