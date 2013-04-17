@@ -355,13 +355,13 @@ public class YsProApi {
         }
     }
 
-    public JsonElement generateNewPassword(String userId, String using, InetAddress customerIp) throws YsProException {
+    public ProStoreResponse generateNewPassword(String userId, String using, InetAddress customerIp) throws YsProException {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/GetNewPasswordMethods.php?HandleID=%s&UserID=%s&SendUsing=%s&ClientIP=%s",
                     client.getYsProHost(), client.getHandleId(), userId, using, customerIp.getHostName()));
             String res = execute(new HttpGet(url));
-            return new JsonParser().parse(res);
+            return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
