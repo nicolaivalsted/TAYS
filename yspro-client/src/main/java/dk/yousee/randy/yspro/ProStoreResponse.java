@@ -241,4 +241,8 @@ public class ProStoreResponse {
         sb.append('}');
         return sb.toString();
     }
+
+    public JsonObject getJsonSource() {
+        return jsonSource.getAsJsonObject();
+    } 
 }

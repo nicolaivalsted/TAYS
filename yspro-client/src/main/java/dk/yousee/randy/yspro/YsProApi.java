@@ -348,7 +348,7 @@ public class YsProApi {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/GetNewPasswordMethods.php?HandleID=%s&SearchFor=%s&ClientIP=%s",
-                    client.getYsProHost(), client.getHandleId(), search, customerIp.getHostName()));
+                    client.getYsProHost(), client.getHandleId(), search, customerIp.getHostAddress()));
             return new ProStoreResponse(execute(new HttpGet(url)));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -358,8 +358,8 @@ public class YsProApi {
     public ProStoreResponse generateNewPassword(String userId, String using, InetAddress customerIp) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetNewPasswordMethods.php?HandleID=%s&UserID=%s&SendUsing=%s&ClientIP=%s",
-                    client.getYsProHost(), client.getHandleId(), userId, using, customerIp.getHostName()));
+            URI url = new URI(String.format("%s/GenerateNewPassword.php?HandleID=%s&UserID=%s&SendUsing=%s&ClientIP=%s",
+                    client.getYsProHost(), client.getHandleId(), userId, using, customerIp.getHostAddress()));
             String res = execute(new HttpGet(url));
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
