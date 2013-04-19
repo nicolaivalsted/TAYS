@@ -24,7 +24,7 @@ import dk.yousee.smp.smpclient.SmpConnectorImpl;
  * Time: 3:10:52 PM
  * Integration tests for Forenings mail
  */
-//@Ignore
+@Ignore
 public class CommunityWifiCaseIT {
     private static final Logger logger = Logger.getLogger(CommunityWifiCaseIT.class);
 
