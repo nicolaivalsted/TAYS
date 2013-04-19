@@ -129,6 +129,7 @@ class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements Smp
                 "</ns1:executeXml>" +
                 "</soapenv:Body>" +
                 "</soapenv:Envelope>", escapedXml);
+        System.out.println("Sending soap xml: " + body);
         try {
             post.setEntity(new StringEntity(body, "text/xml", "UTF-8"));
         } catch (Throwable e) {

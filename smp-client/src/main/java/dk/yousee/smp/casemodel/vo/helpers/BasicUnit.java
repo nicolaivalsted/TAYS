@@ -12,53 +12,42 @@ import dk.yousee.smp.order.model.ResponseAssociation;
 import dk.yousee.smp.order.model.ResponseEntity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by IntelliJ IDEA.
- * User: m14857
- * Date: Oct 13, 2010
- * Time: 3:11:30 PM
+ * Created by IntelliJ IDEA. User: m14857 Date: Oct 13, 2010 Time: 3:11:30 PM
  * The common object for the model value objects.
  */
 public abstract class BasicUnit {
-
     /**
-     * Entity that describes this service plan node in the subscriber response. Null means it does not exist
+     * Entity that describes this service plan node in the subscriber response.
+     * Null means it does not exist
      */
-
     private ResponseEntity entity;
 
     public ResponseEntity getEntity() {
         return entity;
     }
-
     /**
      * Unit that this service plan element belongs to, null means no parent
      */
-
     private BasicUnit parent = null;
-
     private List<BasicUnit> childrenServices = new ArrayList<BasicUnit>();
     /**
      * The order data this unit is constructing
      */
     private List<OrderData> orderDatas = new ArrayList<OrderData>();
-
     private OrderData cloneADDOrderData = null;
-
     private OrderDataType type;
 
     public OrderDataType getType() {
         return type;
     }
-
     private OrderDataLevel level;
-
     private SubscriberModel model;
-
     private String externalKey;
-
     private NickName name;
 
     public NickName getName() {
@@ -66,24 +55,24 @@ public abstract class BasicUnit {
     }
 
     /**
-     * constructs a basic unit with relevant settings.<br/>
-     * 1) Establish entity reference.<br/>
-     * 2) Establish reference to parent and parents reference to me<br/>
+     * constructs a basic unit with relevant settings.<br/> 1) Establish entity
+     * reference.<br/> 2) Establish reference to parent and parents reference to
+     * me<br/>
      *
-     * @param model       that is under construction
+     * @param model that is under construction
      * @param externalKey instance id
-     * @param type        "class id"
-     * @param level       "where in hierarchy"
-     * @param parent      the service plan this unit belongs to (null means no parent, it could be a service plan it self)
+     * @param type "class id"
+     * @param level "where in hierarchy"
+     * @param parent the service plan this unit belongs to (null means no
+     * parent, it could be a service plan it self)
      */
-    protected BasicUnit(SubscriberModel model, String externalKey, OrderDataType type, OrderDataLevel level
-        ,NickName name, BasicUnit parent) {
+    protected BasicUnit(SubscriberModel model, String externalKey, OrderDataType type, OrderDataLevel level, NickName name, BasicUnit parent) {
         this.model = model;
         this.type = type;
         this.level = level;
         this.externalKey = externalKey;
         this.parent = parent;
-        this.name=name;
+        this.name = name;
         if (parent != null) {
             parent.addChild(this);
             if (parent.getEntity() != null) {
@@ -105,23 +94,25 @@ public abstract class BasicUnit {
     }
 
     /**
-     * Searches the subscribers existing entities to find the one this unit belongs to
+     * Searches the subscribers existing entities to find the one this unit
+     * belongs to
      *
      * @param entity starting point (first called from top)
      * @return the entity that matches, null if none matches
      */
     ResponseEntity findBelong2me(ResponseEntity entity) {
-        if (entity == null) return null;
+        if (entity == null)
+            return null;
         if (this.externalKey.equals(entity.getExternalKey())
-                && (this.getType().equals(entity.getType()))) return entity;
+                && (this.getType().equals(entity.getType())))
+            return entity;
         for (ResponseEntity child : entity.getEntities()) {
             ResponseEntity mine = findBelong2me(child);
-            if (mine != null) return mine;
+            if (mine != null)
+                return mine;
         }
         return null;
     }
-
-
 
     protected void assignValueToKey(String key, String value) {
         OrderData orderData = getDefaultOrderData();
@@ -147,7 +138,6 @@ public abstract class BasicUnit {
         return null;
     }
 
-
     protected String getValueByKeyInResponse(String key) {
         if (entity != null && entity.getParams() != null) {
             return entity.getParams().get(key);
@@ -155,7 +145,6 @@ public abstract class BasicUnit {
             return null;
         }
     }
-
 
     protected String getValueByKeyInDefaultOrderData(String key) {
         OrderData orderData = getDefaultOrderData();
@@ -198,7 +187,16 @@ public abstract class BasicUnit {
                 od.setAction(Action.ACTIVATE);
             } else {
                 od.setAction(Action.UPDATE);
-                //od.getParams().putAll(entity.getParams());
+                // and all paramss.. if present... 
+                Map params;
+                if (od.getParams() == null) {
+                    params = new HashMap();
+                    od.setParams(params);
+                } else
+                    params = od.getParams();
+                Map eparams = entity.getParams();
+                if (eparams != null)
+                    params.putAll(eparams);
             }
             orderDatas.add(od);
             if (parent == null) {
@@ -225,7 +223,6 @@ public abstract class BasicUnit {
         childrenServices.add(unit);
     }
 
-
     public String getExternalKey() {
         return externalKey;
     }
@@ -244,7 +241,6 @@ public abstract class BasicUnit {
 //        }
 //        return units;
 //    }
-
     /**
      * Cause to send delete command to sigma
      */
@@ -286,21 +282,22 @@ public abstract class BasicUnit {
         }
     }
 
-
     /**
      * Is there progress under this ?
+     *
      * @return null or a collection of units with progress
      */
-    public List<BasicUnit> filterProgress(){
-        List<BasicUnit> res=null;
-        if(isInProgress()){
-            res=new ArrayList<BasicUnit>();
+    public List<BasicUnit> filterProgress() {
+        List<BasicUnit> res = null;
+        if (isInProgress()) {
+            res = new ArrayList<BasicUnit>();
             res.add(this);
         }
-        for(BasicUnit unit:getChildrenServices()){
-            List<BasicUnit> units=unit.filterProgress();
-            if(units!=null){
-                if(res==null)res=new ArrayList<BasicUnit>();
+        for (BasicUnit unit : getChildrenServices()) {
+            List<BasicUnit> units = unit.filterProgress();
+            if (units != null) {
+                if (res == null)
+                    res = new ArrayList<BasicUnit>();
                 res.addAll(units);
             }
         }
@@ -309,10 +306,12 @@ public abstract class BasicUnit {
 
     /**
      * Is this unit in progress of being updated by SMP
-     * @return yes (note that it is only Child service levels that ever gets in this state)
+     *
+     * @return yes (note that it is only Child service levels that ever gets in
+     * this state)
      */
-    public boolean isInProgress(){
-        ProvisionStateEnum state=getEntity()==null?null:getEntity().getState();
+    public boolean isInProgress() {
+        ProvisionStateEnum state = getEntity() == null ? null : getEntity().getState();
         return state != null && state.isProgress();
     }
 

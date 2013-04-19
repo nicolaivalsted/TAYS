@@ -76,6 +76,9 @@ public class MacAddressCase extends AbstractCase {
             ha.svc_provider_nm.setValue(hsdAccessData.getSvc_provider_nm());
             ha.cm_technology.setValue(hsdAccessData.getCm_technology());
             ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe());
+            ha.cm_manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+            ha.cm_model.setValue(hsdAccessData.getCm_model());
+            ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
         }
         return ha;
     }
