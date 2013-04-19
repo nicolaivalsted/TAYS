@@ -35,7 +35,7 @@ public class SimpleGraphiteStatsFilter implements Filter {
     protected String graphiteHost;
     protected int graphitePort;
     private Timer timer = new Timer();
-    protected ConcurrentHashMap<String, StatsValues> graphiteMap = new ConcurrentHashMap();
+    protected static ConcurrentHashMap<String, StatsValues> graphiteMap = new ConcurrentHashMap();
     // You might want to look into the lock free hash table implementation by Cliff Click, 
     // it's part of the Highly Scalable Java library
     // http://sourceforge.net/projects/high-scale-lib/
