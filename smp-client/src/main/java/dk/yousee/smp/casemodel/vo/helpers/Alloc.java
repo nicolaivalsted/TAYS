@@ -189,7 +189,8 @@ public class Alloc {
         HsdAccess res = find.HsdAccess(modemId);
         if (res == null) {
             res = add.HsdAccess(modemId);
-        }
+        } else
+            res.getDefaultOrderData();
         return res;
     }
 
