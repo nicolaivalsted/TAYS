@@ -140,6 +140,7 @@ public class UrlRewriterTest {
     }
 }
 
+
 /**
  * Mockup of SerlvetRequestProxy - only holds header key/value pairs.
  * @author jablo
@@ -400,7 +401,28 @@ class ServletRequestProxy implements HttpServletRequest {
     public boolean isRequestedSessionIdFromUrl() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public int getRemotePort() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getLocalName() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getLocalAddr() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public int getLocalPort() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
+
 
 /**
  * Mockup of ServletResponse giving just enough functionality to test the filter: ie, it will
@@ -562,6 +584,16 @@ class ServletResponseProxy implements HttpServletResponse {
 
     @Override
     public void setStatus(int i, String string) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public String getContentType() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setCharacterEncoding(String string) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

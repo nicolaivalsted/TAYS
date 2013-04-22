@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class SimpleGraphiteStatsFilter implements Filter {
     private final static Logger log = Logger.getLogger(SimpleGraphiteStatsFilter.class.getName());
     protected FilterConfig filterConfig;
-    protected String graphiteHost;
+    protected InetAddress graphiteHost;
     protected int graphitePort;
     private Timer timer = new Timer();
     protected static ConcurrentHashMap<String, StatsValues> graphiteMap = new ConcurrentHashMap();
@@ -48,12 +48,18 @@ public class SimpleGraphiteStatsFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("Graphite Stats filter configuring");
         String filterName = filterConfig.getFilterName();
-        graphiteHost = filterConfig.getInitParameter("graphite-host");
+        try {
+            graphiteHost = InetAddress.getByName(filterConfig.getInitParameter("graphite-host"));
+        } catch (UnknownHostException ex) {
+            throw new RuntimeException("graphite-host " + filterConfig.getInitParameter("graphite-host") + " not found", ex);
+        }
         String gPort = filterConfig.getInitParameter("graphite-port");
         if (graphiteHost == null)
             throw new ServletException(filterName + " filter missing parameter graphite-host");
-        if (gPort == null)
-            throw new ServletException(filterName + " filter missing parameter graphite-port");
+        if (gPort == null) {
+            log.info("Using default graphite port 2003");
+            gPort = "2003";
+        }
         try {
             this.graphitePort = Integer.parseInt(gPort);
         } catch (NumberFormatException e) {
@@ -75,7 +81,7 @@ public class SimpleGraphiteStatsFilter implements Filter {
         log.log(Level.FINE, "{0} filter executing {1}", new Object[]{filterConfig.getFilterName(), this.getClass().getName()});
         HttpServletRequest req = (HttpServletRequest) _request;
         ServletResponseWithStatus response = new ServletResponseWithStatus((HttpServletResponse) _response);
-        String graphiteGraph = graphiteGraph(req);
+        String graphiteGraph = graphName(req);
         Date preCallDate = new Date();
         countCall(graphiteGraph);
         chain.doFilter(_request, response);
@@ -100,7 +106,10 @@ public class SimpleGraphiteStatsFilter implements Filter {
      * @return name of the graphite graph to calculate stats for
      */
     protected String graphiteGraph(HttpServletRequest req) {
-        String method = req.getMethod(); // GET, PUT, POST, DELETE, ...
+        return "";
+    }
+
+    protected String graphiteGraphPrefix(HttpServletRequest req) {
         String module = req.getContextPath();
         if (module == null)
             module = "";
@@ -111,15 +120,18 @@ public class SimpleGraphiteStatsFilter implements Filter {
             Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
         String graphPrefix = hostName + module.replace('/', '.');
-        String res = graphPrefix + "." + method;
-        System.out.append("GraphiteGraph: " + res);
-        return res;
+        return graphPrefix;
+    }
+
+    protected String graphiteGraphPostfix(HttpServletRequest req) {
+        return "." + req.getMethod();
     }
 
     /**
      * OVerride in children that use different StatsValues
+     *
      * @param graphiteGraph
-     * @return 
+     * @return
      */
     protected StatsValues countCall(String graphiteGraph) {
         StatsValues stats = getOrCreate(graphiteGraph);
@@ -161,21 +173,39 @@ public class SimpleGraphiteStatsFilter implements Filter {
 
     /**
      * Override in children that use different stats values or reporting
-     * @return 
+     *
+     * @return
      */
     protected TimerTask getTimerTask() {
         return new TimerTask() {
             @Override
             public void run() {
-                System.out.println("Reporting stats");
-                for (Entry<String, StatsValues> e : graphiteMap.entrySet())
-                    System.out.println(e.getKey() + " --> " + e.getValue().calls.getAndSet(0)
-                            + ", " + e.getValue().retTotal.getAndSet(0)
-                            + ", " + e.getValue().ret200.getAndSet(0)
-                            + ", " + e.getValue().ret300.getAndSet(0)
-                            + ", " + e.getValue().ret400.getAndSet(0)
-                            + ", " + e.getValue().ret500.getAndSet(0));
+                try {
+                    GraphiteConnection graphite = new GraphiteConnection(graphiteHost, graphitePort);
+                    log.fine("Reporting stats");
+                    for (Entry<String, StatsValues> e : graphiteMap.entrySet()) {
+                        log.log(Level.FINER, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}",
+                                new Object[]{e.getKey(), e.getValue().calls.getAndSet(0),
+                                    e.getValue().retTotal.getAndSet(0),
+                                    e.getValue().ret200.getAndSet(0), e.getValue().ret300.getAndSet(0),
+                                    e.getValue().ret400.getAndSet(0), e.getValue().ret500.getAndSet(0)});
+                        String graph = e.getKey();
+                        StatsValues value = e.getValue();
+                        graphite.sendData(graph + ".calls", value.calls.getAndSet(0));
+                        graphite.sendData(graph + ".returns", value.retTotal.getAndSet(0));
+                        graphite.sendData(graph + ".ret200", value.ret200.getAndSet(0));
+                        graphite.sendData(graph + ".ret300", value.ret300.getAndSet(0));
+                        graphite.sendData(graph + ".ret400", value.ret400.getAndSet(0));
+                        graphite.sendData(graph + ".ret500", value.ret500.getAndSet(0));                        
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         };
+    }
+
+    public String graphName(HttpServletRequest req) {
+        return graphiteGraphPrefix(req) + graphiteGraph(req) + graphiteGraphPostfix(req);
     }
 }

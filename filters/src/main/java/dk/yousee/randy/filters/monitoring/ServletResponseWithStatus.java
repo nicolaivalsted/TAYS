@@ -5,7 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
- *
+ * Stop-gap temporary solution until we can switch to Servlet spec 3.0, where
+ * the http status code is readily available.
  * @author jablo
  */
 public class ServletResponseWithStatus extends HttpServletResponseWrapper {
