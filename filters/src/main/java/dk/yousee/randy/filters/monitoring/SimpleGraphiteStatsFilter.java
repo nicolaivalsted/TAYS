@@ -44,6 +44,10 @@ public class SimpleGraphiteStatsFilter implements Filter {
     // It happens only in the very beginning when we collect the different graph names. Once all URLs
     // have been visited, the hashmap does not change - thus no need for concurrency control. Interesting thought.
 
+    public SimpleGraphiteStatsFilter() {
+        log.log(Level.WARNING, "{0} creating instance", SimpleGraphiteStatsFilter.class.getName());
+    }
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("Graphite Stats filter configuring");
@@ -119,7 +123,7 @@ public class SimpleGraphiteStatsFilter implements Filter {
         } catch (UnknownHostException ex) {
             Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String graphPrefix = hostName + module.replace('/', '.');
+        String graphPrefix = "servers." + hostName + module.replace('/', '.');
         return graphPrefix;
     }
 
@@ -180,8 +184,9 @@ public class SimpleGraphiteStatsFilter implements Filter {
         return new TimerTask() {
             @Override
             public void run() {
+                GraphiteConnection graphite = null;
                 try {
-                    GraphiteConnection graphite = new GraphiteConnection(graphiteHost, graphitePort);
+                    graphite = new GraphiteConnection(graphiteHost, graphitePort);
                     log.fine("Reporting stats");
                     for (Entry<String, StatsValues> e : graphiteMap.entrySet()) {
                         log.log(Level.FINER, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}",
@@ -196,10 +201,16 @@ public class SimpleGraphiteStatsFilter implements Filter {
                         graphite.sendData(graph + ".ret200", value.ret200.getAndSet(0));
                         graphite.sendData(graph + ".ret300", value.ret300.getAndSet(0));
                         graphite.sendData(graph + ".ret400", value.ret400.getAndSet(0));
-                        graphite.sendData(graph + ".ret500", value.ret500.getAndSet(0));                        
+                        graphite.sendData(graph + ".ret500", value.ret500.getAndSet(0));
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
+                    if (graphite != null)
+                        try {
+                            graphite.close();
+                        } catch (IOException ex1) {
+                            Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
                 }
             }
         };

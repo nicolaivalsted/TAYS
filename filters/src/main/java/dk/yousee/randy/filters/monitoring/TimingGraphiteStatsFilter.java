@@ -53,8 +53,9 @@ public class TimingGraphiteStatsFilter extends SimpleGraphiteStatsFilter {
         return new TimerTask() {
             @Override
             public void run() {
+                GraphiteConnection graphite = null;
                 try {
-                    GraphiteConnection graphite = new GraphiteConnection(graphiteHost, graphitePort);
+                    graphite = new GraphiteConnection(graphiteHost, graphitePort);
                     log.fine("Reporting stats");
                     for (Entry<String, StatsValues> e : graphiteMap.entrySet()) {
                         log.log(Level.FINER, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}",
@@ -64,18 +65,38 @@ public class TimingGraphiteStatsFilter extends SimpleGraphiteStatsFilter {
                                     e.getValue().ret400.getAndSet(0), e.getValue().ret500.getAndSet(0)});
                         String graph = e.getKey();
                         TimingStatsValues value = (TimingStatsValues) e.getValue();
-                        graphite.sendData(graph + ".calls", value.calls.getAndSet(0));
-                        graphite.sendData(graph + ".returns", value.retTotal.getAndSet(0));
-                        graphite.sendData(graph + ".ret200", value.ret200.getAndSet(0));
-                        graphite.sendData(graph + ".ret300", value.ret300.getAndSet(0));
-                        graphite.sendData(graph + ".ret400", value.ret400.getAndSet(0));
-                        graphite.sendData(graph + ".ret500", value.ret500.getAndSet(0));
-                        graphite.sendData(graph + ".avgtime", value.movingTimeAverage);
-                        graphite.sendData(graph + ".maxtime", value.movingMax);
-                        graphite.sendData(graph + ".mintime", value.movingMin);
+                        int calls, returns, ret200, ret300, ret400, ret500;
+                        double avgtime, maxtime, mintime;
+                        calls = value.calls.getAndSet(0);
+                        returns = value.retTotal.getAndSet(0);
+                        ret200 = value.ret200.getAndSet(0);
+                        ret300 = value.ret300.getAndSet(0);
+                        ret400 = value.ret400.getAndSet(0);
+                        ret500 = value.ret500.getAndSet(0);
+                        avgtime = value.movingTimeAverage;
+                        maxtime = value.movingMax;
+                        mintime = value.movingMin;
+                        log.log(Level.INFO, "Sending graphipte {0}: {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}", new Object[]{
+                                    calls, returns, ret200, ret300, ret400, ret500, avgtime, mintime, maxtime
+                                });
+                        graphite.sendData(graph + ".calls", calls);
+                        graphite.sendData(graph + ".returns", returns);
+                        graphite.sendData(graph + ".ret200", ret200);
+                        graphite.sendData(graph + ".ret300", ret300);
+                        graphite.sendData(graph + ".ret400", ret400);
+                        graphite.sendData(graph + ".ret500", ret500);
+                        graphite.sendData(graph + ".avgtime", avgtime);
+                        graphite.sendData(graph + ".maxtime", maxtime);
+                        graphite.sendData(graph + ".mintime", mintime);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
+                    if (graphite != null)
+                        try {
+                            graphite.close();
+                        } catch (IOException ex1) {
+                            Logger.getLogger(TimingGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex1);
+                        }
                 }
             }
         };

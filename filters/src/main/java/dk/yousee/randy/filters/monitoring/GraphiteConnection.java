@@ -7,6 +7,7 @@ package dk.yousee.randy.filters.monitoring;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Date;
 
@@ -15,21 +16,23 @@ import java.util.Date;
  * @author jablo
  */
 public class GraphiteConnection {
+    private final static int timeoutMillis = 3000;
     private final Socket graphiteSocket;
-    private final DataOutputStream outToServer;
+    private final DataOutputStream graphite;
 
     public GraphiteConnection(InetAddress host, int port) throws IOException {
-        graphiteSocket = new Socket(host, port);
-        outToServer = new DataOutputStream(graphiteSocket.getOutputStream());
+        graphiteSocket = new Socket();
+        graphiteSocket.connect(new InetSocketAddress(host, port), timeoutMillis);
+        graphite = new DataOutputStream(graphiteSocket.getOutputStream());
     }
 
     public void sendData(String graph, double data) throws IOException {
         long timestamp = (new Date()).getTime() / 1000;
-        outToServer.writeBytes(graph + " " + data + " " + timestamp + '\n');
+        graphite.writeBytes(graph + " " + data + " " + timestamp + '\n');
     }
 
     public void close() throws IOException {
-        outToServer.close();
+        graphite.close();
         graphiteSocket.close();
     }
 }
