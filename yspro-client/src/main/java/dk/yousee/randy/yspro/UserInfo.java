@@ -1,20 +1,26 @@
 package dk.yousee.randy.yspro;
 
+import com.google.gson.JsonElement;
+
 /**
  * Information for a user
  */
-public class UserInfo extends ProStoreResponse{
-       
+public class UserInfo extends ProStoreResponse {
     public UserInfo(String json) {
         super(json);
     }
-    
-     public String getCustomer() {   
-         return super.getDataArray().get(0).getAsJsonObject().get("CustomerNumber").getAsString();
+
+    public String getUserName() {
+        return super.getDataArray().get(0).getAsJsonObject().get("UserLogin").getAsString();
+    }
+
+    public String getCustomer() {
+        return super.getDataArray().get(0).getAsJsonObject().get("CustomerNumber").getAsString();
     }
 
     /**
      * The same UserID as queried about
+     *
      * @return userId
      */
     public String getUserId() {
@@ -28,97 +34,14 @@ public class UserInfo extends ProStoreResponse{
         return super.getDataArray().get(0).getAsJsonObject().get("DIBS").getAsBoolean();
     }
 
-//    public UserInfo(DataFormat format, String input) {
-//        this.input = input;
-//        if(format==DataFormat.xml){
-//            map=parseJson(parseXml(input));
-//            String stat=filterXml("Status",input);
-//            if(stat!=null){
-//                status=Integer.decode(stat);
-//            }
-//            message=filterXml("Message",input);
-//        } else if(format==DataFormat.json){
-//            map=parseJson(input);
-//        } else {
-//            throw new IllegalArgumentException(String.format("format %s is not allowed",format));
-//        }
-//    }
-
-//    private Map<String, String> parseJson(String input) {
-//        JsonElement jsonSource;
-//        jsonSource = new JsonParser().parse(input);
-//        return parseJson(jsonSource);
-//    }
-
-//    private Map<String, String> parseJson(JsonElement jsonSource) {
-//        JsonObject jo=jsonSource.getAsJsonObject();
-//        Map<String,String> res=new TreeMap<String, String>();
-//        for(Map.Entry<String, JsonElement> entry:jo.entrySet()){
-//            res.put(entry.getKey(),entry.getValue().getAsString()   );
-//        }
-//        return res;
-//    }
-
-//    private JsonObject parseXml(String xml) {
-//
-//        JsonObject jo = new JsonObject();
-//        addProperty("UserID", jo, xml);
-//        addProperty("FirstName", jo, xml);
-//        addProperty("LastName", jo, xml);
-//        addProperty("EmailAddress", jo, xml);
-//        addProperty("CellPhone", jo, xml);
-//        addProperty("Address1", jo, xml);
-//        addProperty("Address2", jo, xml);
-//        addProperty("Zipcode", jo, xml);
-//        addProperty("City", jo, xml);
-//        addProperty("Country", jo, xml);
-//        addProperty("CustomerNumber", jo, xml);
-//        addProperty("KPMNumber", jo, xml);
-//        addProperty("UserLogin", jo, xml);
-//        addProperty("TDCExternalPersonID", jo, xml);
-//        addProperty("FirstTimeUsed", jo, xml);
-//        addProperty("IsActive", jo, xml);
-//        addProperty("DIBS", jo, xml);
-//        return jo;
-//    }
-
-//    private void addProperty(String tag, JsonObject jo, String xml) {
-//        String value=filterXml(tag, xml);
-//        if(value!=null){
-//            jo.addProperty(tag, value);
-//        }
-//    }
-
-//    private String filterXml(String tag, String xml) {
-//        String res=null;
-//        int pos0 = xml.indexOf("<" + tag + ">");
-//        int pos1 = xml.indexOf("</" + tag + ">");
-//        if (pos0 > 0 && pos1 > 0) {
-//            int tagLen = tag.length() + 2;
-//            String value = xml.substring(pos0 + tagLen, pos1);
-//            if (value != null && value.trim().length() != 0) {
-//                res=value;
-//            }
-//        }
-//        return res;
-//    }
-
-
-//    public JsonElement printJson() {
-////        JSONObject.fromObject(map);
-//        JsonObject jo=new JsonObject();
-//        if(status!=0){
-//            jo.addProperty("Status",getStatus());
-//            jo.addProperty("Message",getMessage());
-//        }
-//        for (String one:map.keySet()) {
-//            jo.addProperty(one, map.get(one));
-//        }
-//        return jo;
-//    }
-
-//    public static enum DataFormat {
-//        xml,
-//        json
-//    }
+    /**
+     * 
+     * @return email adresse or null if nothing defined
+     */
+    public String getEmail() {       
+        JsonElement res = super.getDataArray().get(0).getAsJsonObject().get("EmailAddress");
+        if(res!=null)
+            return res.getAsString();   
+        return null;
+    }
 }
