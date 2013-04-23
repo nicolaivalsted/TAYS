@@ -188,7 +188,6 @@ public class GraphiteStatsFilter implements Filter {
                 GraphiteConnection graphite = null;
                 try {
                     graphite = new GraphiteConnection(graphiteHost, graphitePort);
-                    log.fine("Reporting stats");
                     for (Entry<String, StatsValues> e : graphiteMap.entrySet()) {
                         String graph = e.getKey();
                         StatsValues value = e.getValue();
@@ -200,9 +199,9 @@ public class GraphiteStatsFilter implements Filter {
                         int ret400 = value.ret400.getAndSet(0);
                         int ret500 = value.ret500.getAndSet(0);
                         int calltime = value.executionTime.getAndSet(0);
-                        double avgcalltime = (0.0+calltime/calls);
+                        double avgcalltime = (calls > 0) ? (0.0+calltime/calls) : -1;
                         // log
-                        log.log(Level.FINER, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                        log.log(Level.INFO, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}, {7}",
                                 new Object[]{e.getKey(), calls, avgcalltime, returns, ret200, ret300, ret400, ret500 });
                         graphite.sendData(graph + ".calls", calls);
                         graphite.sendData(graph + ".returns", returns);
@@ -210,7 +209,9 @@ public class GraphiteStatsFilter implements Filter {
                         graphite.sendData(graph + ".ret300", ret300);
                         graphite.sendData(graph + ".ret400", ret400);
                         graphite.sendData(graph + ".ret500", ret500);
-                        graphite.sendData(graph + ".avgtime", avgcalltime);
+                        // Only send average call if we have a meaning number, ie calls > 0
+                        if (calls > 0)
+                            graphite.sendData(graph + ".avgtime", avgcalltime);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(GraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
