@@ -190,21 +190,27 @@ public class GraphiteStatsFilter implements Filter {
                     graphite = new GraphiteConnection(graphiteHost, graphitePort);
                     log.fine("Reporting stats");
                     for (Entry<String, StatsValues> e : graphiteMap.entrySet()) {
-                        log.log(Level.FINER, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}",
-                                new Object[]{e.getKey(), e.getValue().calls.getAndSet(0),
-                                    e.getValue().retTotal.getAndSet(0),
-                                    e.getValue().ret200.getAndSet(0), e.getValue().ret300.getAndSet(0),
-                                    e.getValue().ret400.getAndSet(0), e.getValue().ret500.getAndSet(0)});
                         String graph = e.getKey();
                         StatsValues value = e.getValue();
+                        // get counters and clear
                         int calls = value.calls.getAndSet(0);
-                        graphite.sendData(graph + ".calls", value.calls.getAndSet(0));
-                        graphite.sendData(graph + ".returns", value.retTotal.getAndSet(0));
-                        graphite.sendData(graph + ".ret200", value.ret200.getAndSet(0));
-                        graphite.sendData(graph + ".ret300", value.ret300.getAndSet(0));
-                        graphite.sendData(graph + ".ret400", value.ret400.getAndSet(0));
-                        graphite.sendData(graph + ".ret500", value.ret500.getAndSet(0));
-                        graphite.sendData(graph + ".avgtime", (0.0+value.executionTime.getAndSet(0))/calls);
+                        int returns = value.retTotal.getAndSet(0);
+                        int ret200 = value.ret200.getAndSet(0);
+                        int ret300 = value.ret300.getAndSet(0);
+                        int ret400 = value.ret400.getAndSet(0);
+                        int ret500 = value.ret500.getAndSet(0);
+                        int calltime = value.executionTime.getAndSet(0);
+                        double avgcalltime = (0.0+calltime/calls);
+                        // log
+                        log.log(Level.INFO, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                                new Object[]{e.getKey(), calls, avgcalltime, returns, ret200, ret300, ret400, ret500 });
+                        graphite.sendData(graph + ".calls", calls);
+                        graphite.sendData(graph + ".returns", returns);
+                        graphite.sendData(graph + ".ret200", ret200);
+                        graphite.sendData(graph + ".ret300", ret300);
+                        graphite.sendData(graph + ".ret400", ret400);
+                        graphite.sendData(graph + ".ret500", ret500);
+                        graphite.sendData(graph + ".avgtime", avgcalltime);
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(GraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
