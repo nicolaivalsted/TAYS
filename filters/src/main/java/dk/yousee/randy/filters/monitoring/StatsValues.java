@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author jablo
  */
 public class StatsValues {
+    AtomicInteger executionTime = new AtomicInteger();
     AtomicInteger calls = new AtomicInteger();
     AtomicInteger retTotal = new AtomicInteger();
     AtomicInteger ret200 = new AtomicInteger();

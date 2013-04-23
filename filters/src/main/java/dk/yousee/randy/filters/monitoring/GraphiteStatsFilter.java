@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Jacob Lorensen, YouSee, 2013-04-18
  */
-public class SimpleGraphiteStatsFilter implements Filter {
-    private final static Logger log = Logger.getLogger(SimpleGraphiteStatsFilter.class.getName());
+public class GraphiteStatsFilter implements Filter {
+    private final static Logger log = Logger.getLogger(GraphiteStatsFilter.class.getName());
     protected FilterConfig filterConfig;
     protected InetAddress graphiteHost;
     protected int graphitePort;
@@ -44,8 +44,8 @@ public class SimpleGraphiteStatsFilter implements Filter {
     // It happens only in the very beginning when we collect the different graph names. Once all URLs
     // have been visited, the hashmap does not change - thus no need for concurrency control. Interesting thought.
 
-    public SimpleGraphiteStatsFilter() {
-        log.log(Level.WARNING, "{0} creating instance", SimpleGraphiteStatsFilter.class.getName());
+    public GraphiteStatsFilter() {
+        log.log(Level.WARNING, "{0} creating instance", GraphiteStatsFilter.class.getName());
     }
 
     @Override
@@ -121,7 +121,7 @@ public class SimpleGraphiteStatsFilter implements Filter {
         try {
             hostName = InetAddress.getLocalHost().getHostName();
         } catch (UnknownHostException ex) {
-            Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
         }
         String graphPrefix = "servers." + hostName + module.replace('/', '.');
         return graphPrefix;
@@ -154,6 +154,7 @@ public class SimpleGraphiteStatsFilter implements Filter {
             stats.ret400.incrementAndGet();
         else
             stats.ret500.incrementAndGet();
+        stats.executionTime.addAndGet((int) l);
         return stats;
     }
 
@@ -196,20 +197,22 @@ public class SimpleGraphiteStatsFilter implements Filter {
                                     e.getValue().ret400.getAndSet(0), e.getValue().ret500.getAndSet(0)});
                         String graph = e.getKey();
                         StatsValues value = e.getValue();
+                        int calls = value.calls.getAndSet(0);
                         graphite.sendData(graph + ".calls", value.calls.getAndSet(0));
                         graphite.sendData(graph + ".returns", value.retTotal.getAndSet(0));
                         graphite.sendData(graph + ".ret200", value.ret200.getAndSet(0));
                         graphite.sendData(graph + ".ret300", value.ret300.getAndSet(0));
                         graphite.sendData(graph + ".ret400", value.ret400.getAndSet(0));
                         graphite.sendData(graph + ".ret500", value.ret500.getAndSet(0));
+                        graphite.sendData(graph + ".avgtime", (0.0+value.executionTime.getAndSet(0))/calls);
                     }
                 } catch (IOException ex) {
-                    Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(GraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex);
                     if (graphite != null)
                         try {
                             graphite.close();
                         } catch (IOException ex1) {
-                            Logger.getLogger(SimpleGraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex1);
+                            Logger.getLogger(GraphiteStatsFilter.class.getName()).log(Level.SEVERE, null, ex1);
                         }
                 }
             }
