@@ -1,5 +1,10 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
@@ -21,6 +26,8 @@ import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifiService;
 import dk.yousee.smp.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
@@ -32,10 +39,6 @@ import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
-import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -599,6 +602,46 @@ public class Find {
         PlayService parent=PlayService(position);
         return parent==null?null:parent.getPlay();
     }
+
+    // ======= CommunityWifi =======
+
+    /**
+     * @return the MobileBBService the subscriber has
+     */
+    public List<CommunityWifiService> CommunityWifiService() {
+        List<CommunityWifiService> res = new ArrayList<CommunityWifiService>();
+        for (BasicUnit plan : serviceLevelUnit) {
+            if (plan.getType().equals(CommunityWifiService.TYPE)) {
+                res.add((CommunityWifiService) plan);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param position identifier for specific instance of the service plan
+     * @return instance if it exists
+     */
+    public CommunityWifiService CommunityWifiService(BusinessPosition position) {
+        List<CommunityWifiService> plans = CommunityWifiService();
+        for (CommunityWifiService plan : plans) {
+            if(position.equals(plan.getPosition())) {
+                return plan;
+            }
+        }
+        return null;
+    }
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public CommunityWifi CommunityWifi(BusinessPosition position) {
+        CommunityWifiService parent=CommunityWifiService(position);
+        return parent==null?null:parent.getCommunityWifi();
+    }
+
+    // ======= TdcMail =======
+
     
     public List<TdcMailService> tdcMailServices() {
         List<TdcMailService> res = new ArrayList<TdcMailService>();

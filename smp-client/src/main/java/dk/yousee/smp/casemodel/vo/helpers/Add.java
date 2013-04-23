@@ -20,6 +20,7 @@ import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
@@ -409,7 +410,11 @@ public class Add {
     public Play Play(BusinessPosition position) {
         return new Play(model,position);
     }
-    
+
+    public CommunityWifi CommunityWifi(BusinessPosition position) {
+        return new CommunityWifi(model,position);
+    }
+
     public TdcMail tdcMail(BusinessPosition businessPosition) {
         return new TdcMail(model, businessPosition);
     }

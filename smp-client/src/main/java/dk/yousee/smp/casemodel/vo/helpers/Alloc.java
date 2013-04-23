@@ -16,6 +16,7 @@ import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
@@ -329,6 +330,16 @@ public class Alloc {
         Play sub=find.Play(position);
         return sub==null?add.Play(position):sub;
     }
+
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public CommunityWifi CommunityWifi(BusinessPosition position) {
+        CommunityWifi sub=find.CommunityWifi(position);
+        return sub==null?add.CommunityWifi(position):sub;
+    }
+
     
     public TdcMail tdcMail(BusinessPosition businessPosition) {
         TdcMail sub = find.tdcMail(businessPosition);
