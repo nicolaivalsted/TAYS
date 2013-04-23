@@ -35,6 +35,7 @@ public class GraphiteStatsFilter implements Filter {
     protected InetAddress graphiteHost;
     protected int graphitePort;
     private Timer timer = new Timer();
+    private TimerTask graphiteTask;
     protected static ConcurrentHashMap<String, StatsValues> graphiteMap = new ConcurrentHashMap();
     // You might want to look into the lock free hash table implementation by Cliff Click, 
     // it's part of the Highly Scalable Java library
@@ -70,13 +71,16 @@ public class GraphiteStatsFilter implements Filter {
             throw new ServletException(filterName + " graphite-port not legal integer: " + gPort, e);
         }
         this.filterConfig = filterConfig;
-        timer.scheduleAtFixedRate(getTimerTask(), 60 * 1000, 60 * 1000);
+        graphiteTask = getTimerTask();
+        timer.scheduleAtFixedRate(graphiteTask, 60 * 1000, 60 * 1000);
     }
 
     @Override
     public void destroy() {
+        log.log(Level.INFO, "Canceling graphite timer for filter {0}", filterConfig.getFilterName());
         this.filterConfig = null;
-        timer.cancel();
+        graphiteTask.cancel();
+        timer.cancel();        
     }
 
     @Override
