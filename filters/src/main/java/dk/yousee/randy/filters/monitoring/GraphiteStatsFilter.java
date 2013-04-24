@@ -45,10 +45,6 @@ public class GraphiteStatsFilter implements Filter {
     // It happens only in the very beginning when we collect the different graph names. Once all URLs
     // have been visited, the hashmap does not change - thus no need for concurrency control. Interesting thought.
 
-    public GraphiteStatsFilter() {
-        log.log(Level.WARNING, "{0} creating instance", GraphiteStatsFilter.class.getName());
-    }
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         log.info("Graphite Stats filter configuring");
