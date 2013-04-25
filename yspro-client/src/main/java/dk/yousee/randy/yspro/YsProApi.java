@@ -366,4 +366,52 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
+    
+    public ProStoreResponse setPassword(String userId, String password) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/SetPassword.php?HandleID=%s&UserID=%s&NewPassword=%s",
+                    client.getYsProHost(), client.getHandleId(), userId, password));
+            String res = execute(new HttpGet(url));
+            return new ProStoreResponse(res);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+    
+    public ProStoreResponse updateUserInfo(String userId, String userName, String oldUserName, String emailAddress, String cellPhone) throws YsProException {
+        try {
+            String uri = String.format("%s/UpdateUserInfo.php?HandleID=%s&UserID=%s&",
+                    client.getYsProHost(), client.getHandleId(), userId);
+            
+            if(userName != null) {
+                uri = uri.format("&UserName=%s&OldUserName=%s", userName, oldUserName);
+            }
+            
+            if(emailAddress != null)
+                uri = uri.format("&EmailAddress=%s", emailAddress);
+            
+            if(cellPhone != null)
+                uri = uri.format("&CellPhone=%s", emailAddress);
+            
+            ensureHandle();
+            URI url = new URI(uri);
+            String res = execute(new HttpGet(url));
+            return new ProStoreResponse(res);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+    
+    public ProStoreResponse createYouSeeLogin(String subscriber) throws YsProException{
+         try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/CreateYouSeeLogin.php?HandleID=%s&CustomerNumber=%s",
+                    client.getYsProHost(), client.getHandleId(), subscriber));
+            String res = execute(new HttpGet(url));
+            return new ProStoreResponse(res);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
 }

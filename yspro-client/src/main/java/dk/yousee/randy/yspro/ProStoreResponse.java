@@ -50,14 +50,14 @@ public class ProStoreResponse {
             dateTime = YsProTime.create(root.get("DateTime").getAsString());
         }
 
-        if (root.has("Data") && root.get("Data").isJsonArray()) { 
+        if (root.has("Data") && root.get("Data").isJsonArray() && root.getAsJsonArray("Data").size() > 0) {
             exists = true;
             products = parseData(root.get("Data").getAsJsonArray());
         } else {
             products = new ArrayList<StoreProduct>();
         }
 
-       
+
     }
 
     public boolean isExists() {
@@ -195,12 +195,12 @@ public class ProStoreResponse {
         }
         return res;
     }
-    
+
     public JsonObject getData() {
         JsonObject root = jsonSource.getAsJsonObject();
         return root.getAsJsonObject("Data");
     }
-    
+
     public JsonArray getDataArray() {
         JsonObject root = jsonSource.getAsJsonObject();
         return root.getAsJsonArray("Data");
@@ -244,5 +244,5 @@ public class ProStoreResponse {
 
     public JsonObject getJsonSource() {
         return jsonSource.getAsJsonObject();
-    } 
+    }
 }

@@ -113,7 +113,8 @@ public class StoreProduct {
                     }
                 }
             } else {
-                properties.put(one.getKey(), one.getValue().getAsString());
+                if (!one.getValue().isJsonNull())
+                    properties.put(one.getKey(), one.getValue().getAsString());
             }
         }
     }
