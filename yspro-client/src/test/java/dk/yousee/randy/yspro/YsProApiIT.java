@@ -56,7 +56,7 @@ public class YsProApiIT {
         Assert.assertTrue(psr.getStatus() == 0);
     }
 
-    @Test
+//    @Test
     public void testGetNewPasswordMethods() throws YsProException, UnknownHostException {
 
         ProStoreResponse e = api.getNewPasswordMethods("SimonOfk", InetAddress.getByName("4.4.4.4"));
@@ -304,5 +304,58 @@ public class YsProApiIT {
     public void login() throws YsProException{
         String session = api.login("SimonOFKtestIT", "");
         Assert.assertNotNull(session);
+    }
+    
+//    @Test
+    public void opretProd() throws YsProException{
+        String kunde = "612635818";
+        WriteList wl2 = new WriteList(kunde, new Date());
+        JsonObject job = new JsonObject();
+        job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());
+        job.addProperty(ProStoreDef.OTT_PRODUCT_KEY_YSPRO, "50serier");
+        job.addProperty(ProStoreDef.BUSINESS_POSITION_KEY_YSPRO, "1337");
+        job.addProperty(ProStoreDef.SERVICE_ITEM_KEY_YSPRO, "1990050");
+        job.addProperty(ProStoreDef.DESCRIPTION_KEY_YSPRO, "50 serier");
+        StoreProduct sp3 = new StoreProduct(job);
+        wl2.add(WriteList.Action.add, sp3);
+// fire create ....
+        String jsonWrite2 = wl2.printJson().toString();
+//        URL url2 = client.generateUpdateUrl(customer, jsonWrite2);
+        ProStoreResponse response = api.assignProduct(kunde, jsonWrite2);
+        
+        Assert.assertTrue(response.getStatus()==0);
+        
+        WriteList wl3 = new WriteList(kunde, new Date());
+        job = new JsonObject();
+        job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());
+        job.addProperty(ProStoreDef.OTT_PRODUCT_KEY_YSPRO, "1000film");
+        job.addProperty(ProStoreDef.BUSINESS_POSITION_KEY_YSPRO, "1337");
+        job.addProperty(ProStoreDef.SERVICE_ITEM_KEY_YSPRO, " 1991000");
+        job.addProperty(ProStoreDef.DESCRIPTION_KEY_YSPRO, "Tusinde film");
+        StoreProduct sp4 = new StoreProduct(job);
+        wl3.add(WriteList.Action.add, sp4);
+// fire create ....
+        jsonWrite2 = wl3.printJson().toString();
+//        URL url2 = client.generateUpdateUrl(customer, jsonWrite2);
+         response = api.assignProduct(kunde, jsonWrite2);
+        
+        Assert.assertTrue(response.getStatus()==0);
+        
+        WriteList wl4 = new WriteList(kunde, new Date());
+        job = new JsonObject();
+        job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());
+        job.addProperty(ProStoreDef.OTT_PRODUCT_KEY_YSPRO, "xCmore");
+        job.addProperty(ProStoreDef.BUSINESS_POSITION_KEY_YSPRO, "1337");
+        job.addProperty(ProStoreDef.SERVICE_ITEM_KEY_YSPRO, "1990008");
+        job.addProperty(ProStoreDef.DESCRIPTION_KEY_YSPRO, "Nogle C-more kanaler");
+        StoreProduct sp5 = new StoreProduct(job);
+        wl4.add(WriteList.Action.add, sp5);
+// fire create ....
+        jsonWrite2 = wl4.printJson().toString();
+//        URL url2 = client.generateUpdateUrl(customer, jsonWrite2);
+        response = api.assignProduct(kunde, jsonWrite2);
+        
+        Assert.assertTrue(response.getStatus()==0);
+        
     }
 }
