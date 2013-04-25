@@ -205,7 +205,7 @@ public class GraphiteStatsFilter implements Filter {
                         int calltime = value.executionTime.getAndSet(0);
                         double avgcalltime = (calls > 0) ? (0.0+calltime/calls) : -1;
                         // log
-                        log.log(Level.INFO, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}, {7}",
+                        log.log(Level.FINER, "{0} --> {1}, {2}, {3}, {4}, {5}, {6}, {7}",
                                 new Object[]{e.getKey(), calls, avgcalltime, returns, ret200, ret300, ret400, ret500 });
                         graphite.sendData(graph + ".calls", calls);
                         graphite.sendData(graph + ".returns", returns);
