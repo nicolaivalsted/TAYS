@@ -381,21 +381,23 @@ public class YsProApi {
     
     public ProStoreResponse updateUserInfo(String userId, String userName, String oldUserName, String emailAddress, String cellPhone) throws YsProException {
         try {
-            String uri = String.format("%s/UpdateUserInfo.php?HandleID=%s&UserID=%s&",
-                    client.getYsProHost(), client.getHandleId(), userId);
+            StringBuilder str = new StringBuilder();
+            
+            str.append(String.format("%s/UpdateUserInfo.php?HandleID=%s&UserID=%s",
+                    client.getYsProHost(), client.getHandleId(), userId));
             
             if(userName != null) {
-                uri = uri.format("&UserName=%s&OldUserName=%s", userName, oldUserName);
+                str.append(String.format("&UserName=%s&OldUserName=%s", userName, oldUserName));
             }
             
             if(emailAddress != null)
-                uri = uri.format("&EmailAddress=%s", emailAddress);
+                str.append(String.format("&EmailAddress=%s", emailAddress));
             
             if(cellPhone != null)
-                uri = uri.format("&CellPhone=%s", emailAddress);
+                str.append(String.format("&CellPhone=%s", cellPhone));
             
             ensureHandle();
-            URI url = new URI(uri);
+            URI url = new URI(str.toString());
             String res = execute(new HttpGet(url));
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
