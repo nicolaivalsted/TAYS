@@ -2,8 +2,7 @@ package dk.yousee.randy.messaging;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import dk.yousee.randy.base.AbstractConnector;
-import java.io.IOException;
+import dk.yousee.randy.base.HttpPool;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import org.apache.http.HttpEntity;
@@ -11,7 +10,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
@@ -24,16 +22,16 @@ public class MessagingClient {
     private final static Logger LOG = Logger.getLogger(MessagingClient.class);
     private String host;
     private String acceptHeader;
-    private AbstractConnector connector;
+    private HttpPool httpPool;
     private int opretationTimeOut = 10000;
 
     public MessagingClient() {
     }
 
-    public MessagingClient(String host, String K2acceptHeader, AbstractConnector connector) {
+    public MessagingClient(String host, String K2acceptHeader, HttpPool httpPool) {
         this.host = host;
         this.acceptHeader = K2acceptHeader;
-        this.connector = connector;
+        this.httpPool = httpPool;
     }
 
 
@@ -51,7 +49,7 @@ public class MessagingClient {
             root.add("data", data);
             ByteArrayEntity bae = new ByteArrayEntity(root.toString().getBytes(Charset.forName("UTF-8")));
             post.setEntity(bae);
-            HttpResponse response = connector.getClient(opretationTimeOut).execute(post);
+            HttpResponse response = httpPool.getClient().execute(post);
             int statusCode = response.getStatusLine().getStatusCode();
             LOG.debug("createMessagingOrder got status: " + statusCode);
             entity = response.getEntity();
@@ -77,8 +75,8 @@ public class MessagingClient {
         this.host = host;
     }
 
-    public void setConnector(AbstractConnector connector) {
-        this.connector = connector;
+    public void setHttpPool(HttpPool httpPool) {
+        this.httpPool = httpPool;
     }
 
     public void setOpretationTimeOut(int opretationTimeOut) {
@@ -97,8 +95,8 @@ public class MessagingClient {
         return acceptHeader;
     }
 
-    public AbstractConnector getConnector() {
-        return connector;
+    public HttpPool getHttpPool() {
+        return httpPool;
     }
 
     public int getOpretationTimeOut() {

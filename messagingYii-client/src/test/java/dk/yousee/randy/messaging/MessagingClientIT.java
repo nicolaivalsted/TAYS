@@ -3,8 +3,7 @@ package dk.yousee.randy.messaging;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import dk.yousee.randy.base.AbstractConnector;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import dk.yousee.randy.base.HttpPool;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -22,13 +21,13 @@ public class MessagingClientIT {
     
     @BeforeClass
     public static void before(){
-        AbstractConnector ac = new AbstractConnector() {};
+        HttpPool ac = new HttpPool();
         client = new MessagingClient(PRE_PROD_HOST, ACCEPT_HEADER, ac);       
     }
     
     @AfterClass
     public static void after(){
-        client.getConnector().destroy();
+        client.getHttpPool().shutdown();
     }
     
     /**
