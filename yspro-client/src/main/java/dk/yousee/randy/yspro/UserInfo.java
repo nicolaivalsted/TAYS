@@ -44,4 +44,9 @@ public class UserInfo extends ProStoreResponse {
             return res.getAsString();   
         return null;
     }
+    
+    @Override
+    public boolean isExists() {
+        return super.getDataArray().size()>0;
+    }
 }
