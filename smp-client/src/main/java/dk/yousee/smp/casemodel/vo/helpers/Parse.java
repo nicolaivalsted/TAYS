@@ -18,6 +18,8 @@ import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifiService;
 import dk.yousee.smp.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
@@ -154,6 +156,13 @@ public class Parse {
                         new TdcMail(model, child.getExternalKey(), service);
                     } else if (child.getType().equals(TdcMailResource.TYPE)) {
                         new TdcMailResource(model, child.getExternalKey(), service);
+                    }
+                }                           
+            } else if (plan.getType().equals(CommunityWifiService.TYPE)) {
+            	CommunityWifiService service = new CommunityWifiService(model, plan.getExternalKey());
+                for(ResponseEntity child : plan.getEntities()) {
+                    if(child.getType().equals(CommunityWifi.TYPE)) {
+                        new CommunityWifi(model, child.getExternalKey(), service);
                     }
                 }                           
             } else{

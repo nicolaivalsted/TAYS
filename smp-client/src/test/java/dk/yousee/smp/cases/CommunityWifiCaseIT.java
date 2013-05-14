@@ -35,26 +35,14 @@ public class CommunityWifiCaseIT {
 
     @Before
     public void setup() {
-//        acct=new Acct("609562368"); //QA
-//        acct=new Acct("200000135"); //UDV
         acct=new Acct("608252633"); //PROD Chr fuglsang
-
-//    <bean id="orderService" class="dk.yousee.smp.functions.OrderServiceImpl">
-//        <property name="sigmaServiceUrlProperty" value="${dk.yousee.provisioning.config.SigmaServiceUrlProperty}"/>
-//        <property name="proxyHost" value="${dk.yousee.provisioning.config.ProxyHost}"/>
-//        <property name="proxyPort" value="${dk.yousee.provisioning.config.ProxyPort}"/>
-//        <property name="username" value="${dk.yousee.provisioning.config.Username}"/>
-//        <property name="password" value="${dk.yousee.provisioning.config.Password}"/>
-//    </bean>
 
         SmpConnectorImpl connector=new SmpConnectorImpl();
         connector.setSmpHost(SmpConnectorImpl.T_NET_QA_SMP_HOST);
         connector.setSmpHost(SmpConnectorImpl.T_NET_SMP_HOST);
         connector.setUsername("samp.csra1");
         connector.setPassword("pwcsra1");
-//        connector.setOperationTimeout(5000);
-//        service.setProxyHost("localhost"); service.setProxyPort("4444");  // used by Anders
-//        connector.setProxyHost("sltarray02.tdk.dk"); connector.setProxyPort("8080"); // used by build server
+
         service = new OrderServiceImpl();
         service.setConnector(connector);
         logger.debug("service allocated");
