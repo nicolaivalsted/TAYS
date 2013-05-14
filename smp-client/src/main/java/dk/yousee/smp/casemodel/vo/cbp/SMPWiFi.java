@@ -32,7 +32,9 @@ public class SMPWiFi extends BasicUnit {
     public PropHolder ss_id = new PropHolder(this, "ss_id", true);
     public PropHolder psk = new PropHolder(this, "psk", true);
     public PropHolder gw_channel_id = new PropHolder(this, "gw_channel_id", true);
-
+    public PropHolder ss_id_5g = new PropHolder(this, "ss_id_5g", false); // readonly!
+    public PropHolder gw_channel_id_5g = new PropHolder(this, "gw_channel_id_5g", false);
+    
 
     public static String generateSsid() {
         char Letter[] = "abdfghjkmnpqrstuvzxy345679".toCharArray();
@@ -128,7 +130,4 @@ public class SMPWiFi extends BasicUnit {
         }
         return sChannel;
     }
-
-
-
 }
