@@ -24,7 +24,8 @@ public class SimplifiedSubscriberService {
     private String productCode;
     // wifi
     private String ssid, psk, channel;
-    // foreningsmail
+    private String ss_id_5g, gw_channel_id_5g;
+            // foreningsmail
     private String product;
     private String name;
     private String customerId;
@@ -89,6 +90,22 @@ public class SimplifiedSubscriberService {
 
     public void setSsid(String ssid) {
         this.ssid = ssid;
+    }
+
+    public String getSs_id_5g() {
+        return ss_id_5g;
+    }
+
+    public void setSs_id_5g(String ss_id_5g) {
+        this.ss_id_5g = ss_id_5g;
+    }
+
+    public String getGw_channel_id_5g() {
+        return gw_channel_id_5g;
+    }
+
+    public void setGw_channel_id_5g(String gw_channel_id_5g) {
+        this.gw_channel_id_5g = gw_channel_id_5g;
     }
 
     public String getType() {

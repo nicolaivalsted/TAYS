@@ -482,7 +482,7 @@ public class MacAddressCase extends AbstractCase {
      * @param psk          psk , null means unchanged value and $generate will autogenerate a new value
      * @return model instance or null if customer does not have wifi service
      */
-    public SMPWiFi updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id) {
+    public SMPWiFi updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
         SMPWiFi smpWiFi = getModel().find().SMPWiFi(modemId);
         if (smpWiFi != null) {
             if (gw_ch_id != null) {
@@ -493,6 +493,9 @@ public class MacAddressCase extends AbstractCase {
             }
             if (ss_id != null) {
                 smpWiFi.ss_id.setValue(ss_id);
+            }
+            if (gw_ch_5g != null) {
+                smpWiFi.gw_channel_id_5g.setValue(gw_ch_5g);
             }
         }
         return smpWiFi;

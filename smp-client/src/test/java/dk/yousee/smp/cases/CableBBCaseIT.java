@@ -279,7 +279,7 @@ public class CableBBCaseIT {
     @Test
     public void updateSMPWiFi() throws Exception {
         test=new CableBBCase(acct,service);
-        test.updateSMPWiFi(new ModemId("100000010"),"SSID","pwd","1");
+        test.updateSMPWiFi(new ModemId("100000010"),"SSID","pwd","1", "36");
         Assert.assertNotNull(test.getModel());
     }
 
