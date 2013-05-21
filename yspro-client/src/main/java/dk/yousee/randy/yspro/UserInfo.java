@@ -45,6 +45,14 @@ public class UserInfo extends ProStoreResponse {
         return null;
     }
     
+    public String getFirstName() {
+        return super.getDataArray().get(0).getAsJsonObject().get("FirstName").getAsString();
+    }
+    
+    public String getLastName() {
+        return super.getDataArray().get(0).getAsJsonObject().get("LastName").getAsString();
+    }
+    
     @Override
     public boolean isExists() {
         return super.getDataArray().size()>0;
