@@ -6,28 +6,24 @@ package dk.yousee.randy.jobmonclient;
 
 import com.google.gson.*;
 import dk.yousee.randy.base.AbstractConnector;
+import dk.yousee.randy.base.HttpPool;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.client.utils.URIUtils;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -59,12 +55,12 @@ public class JobMonClient {
         this.jobMonPort = jobMonPort;
     }
     
-    private AbstractConnector ac;
+    private HttpPool httpPool;
 
-    public void setAc(AbstractConnector ac) {
-        this.ac = ac;
+    public void setHttpPool(HttpPool httpPool) {
+        this.httpPool = httpPool;
     }
-
+     
     public JobMonClient() {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new JsonDeserializer<Date>() {
@@ -97,11 +93,7 @@ public class JobMonClient {
         // post to job start and return running job meta data incl. url
         HttpEntity entity = null;
         try {
-            DefaultHttpClient client = ac.getClient(null);
-
-            /*final List<NameValuePair> queryParams = new ArrayList<NameValuePair>();
-            queryParams.add(new BasicNameValuePair("name", jobName));
-            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "jobmon-rest/run", URLEncodedUtils.format(queryParams, null), null);*/
+            DefaultHttpClient client = httpPool.getClient();
             
             URI uri = new URIBuilder("http://"+jobMonHost+":"+jobMonPort).setPath("/jobmon-rest/run").addParameter("name", jobName).build();
             HttpPost post = new HttpPost(uri);
@@ -155,7 +147,7 @@ public class JobMonClient {
         // post to job start and return running job meta data incl. url
         HttpEntity entity=null;
         try {
-            DefaultHttpClient client = ac.getClient(null);
+            DefaultHttpClient client = httpPool.getClient();
             URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "/jobmon-rest/run/" + run.getId(), null, null);
 
             HttpPut put = new HttpPut(uri);
