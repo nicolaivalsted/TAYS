@@ -71,6 +71,23 @@ public class TdcMailCase extends AbstractCase {
         return getModel().getOrder();
     }
 
+    public Order updateResource(BusinessPosition businessPosition, String newKpm) throws BusinessException {
+        ensureAcct();
+
+        TdcMailService service = getModel().find().tdcMailService(businessPosition);
+        if (service != null) {
+            TdcMailResource resource = service.getTdcMailResource();
+            if (resource != null) {
+                resource.kpm_number.setValue(newKpm);
+                resource.cascadeSendAction(Action.UPDATE);
+            } else {
+                throw new BusinessException("No tdcmail Resource to update in SMP");
+            }
+        }
+
+        return getModel().getOrder();
+    }
+
     public TdcMail readProvisioning(BusinessPosition businessPosition) throws BusinessException {
         TdcMailService service = getModel().find().tdcMailService(businessPosition);
         return service != null ? service.getTdcMail() : null;
