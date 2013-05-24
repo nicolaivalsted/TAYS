@@ -34,8 +34,17 @@ public class MessagingClient {
         this.httpPool = httpPool;
     }
 
-
-    public String createMessagingOrder(String subscriber, MessagingKontaktForm kontaktForm, String to, JsonObject data) throws MessagingException {
+    /**
+     * Send message to customer
+     * @param subscriber ex608252633
+     * @param kontaktForm "RandyLukWebmail" or...
+     * @param to ex sikj@yousee.dk
+     * @param from null for standard or "YouSee something something<complete@darkside.dk>"
+     * @param data the data for the template
+     * @return order id
+     * @throws MessagingException 
+     */
+    public String createMessagingOrder(String subscriber, String kontaktForm, String to, String from, JsonObject data) throws MessagingException {
 
         HttpEntity entity = null;
         try {
@@ -43,7 +52,9 @@ public class MessagingClient {
             post.setHeader("accept", acceptHeader);
             
             final JsonObject root = new JsonObject();
-            root.addProperty("kontaktform", kontaktForm.name());
+            if(from!=null)
+                root.addProperty("email-from", from);                   
+            root.addProperty("kontaktform", kontaktForm);
             root.addProperty("email", to);
             root.addProperty("kundenummer", subscriber);
             root.add("data", data);

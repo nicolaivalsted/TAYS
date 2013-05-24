@@ -2,7 +2,6 @@ package dk.yousee.randy.messaging;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import dk.yousee.randy.base.AbstractConnector;
 import dk.yousee.randy.base.HttpPool;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -56,7 +55,7 @@ public class MessagingClientIT {
             data.add("mailAlias", array);
             
             
-            String orderId = client.createMessagingOrder("608252633", MessagingKontaktForm.RandyLukWebmail, "sikj@yousee.dk", data);
+            String orderId = client.createMessagingOrder("608252633", "RandyLukWebmail", "sikj@yousee.dk", "sikj@yousee.dk", data);
             Assert.assertNotNull(orderId);
         } catch (MessagingException ex) {
             Assert.fail(ex.getMessage());
