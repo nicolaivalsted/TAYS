@@ -5,7 +5,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.18-SNAPSHOT</version>
+        <version>3.18</version>
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>virtualmac-client</artifactId>
