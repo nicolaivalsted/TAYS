@@ -8,7 +8,7 @@
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>clients</artifactId>
-    <version>3.16</version>
+    <version>3.17-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>
@@ -44,7 +44,7 @@
         <connection>scm:git:https://github.com/YouSee/randy-clients.git</connection>
         <developerConnection>scm:git:https://github.com/YouSee/randy-clients.git</developerConnection>
         <url>https://github.com/YouSee/randy-clients/blob/master</url>
-      <tag>clients-3.16</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <distributionManagement>
