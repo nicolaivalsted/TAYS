@@ -175,9 +175,8 @@ public class AbstractCase {
         try {
             lastOrderReply = service.maintainPlan(order2send);
         } catch (Exception e) {
-            e.printStackTrace();
             setErrorMessage(e.getMessage());
-            return 0;
+            throw new RuntimeException(e.getMessage(), e);
         }
         if (lastOrderReply.getErrorMessage() != null) {
             String detailError = lastOrderReply.getXml().getResponse();
