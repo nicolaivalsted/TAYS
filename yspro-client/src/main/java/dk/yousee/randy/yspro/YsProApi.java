@@ -16,7 +16,11 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.client.utils.URIUtils;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -39,6 +43,9 @@ public class YsProApi {
         URI uri;
         try {
             uri = new URI(String.format("%s/GetHandle.php?SystemLogin=%s&SystemPassword=%s", client.getYsProHost(), client.getSystemLogin(), client.getSystemPassword()));
+//            URLEncodedUtils.
+                  
+                    
         } catch (URISyntaxException ex) {
             throw new YsProException("URI syntax in getHandle");
         }
@@ -331,9 +338,9 @@ public class YsProApi {
     public String login(String username, String password) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/Login.php?HandleID=%s&UserName=%s&Password=%s",
-                    client.getYsProHost(), client.getHandleId(), username, password));
-            ProStoreResponse res = new ProStoreResponse(execute(new HttpGet(url)));
+          URI uri = new URIBuilder(client.getYsProHost()).setPath("/Login.php").setQuery(String.format("HandleID=%s&UserName=%s&Password=%s",
+                    client.getHandleId(), username, password)).build();                                  
+            ProStoreResponse res = new ProStoreResponse(execute(new HttpGet(uri)));
             
             if(res.getData()!=null && res.getData().has("SessionID"))
                 return res.getData().get("SessionID").getAsString();
@@ -341,14 +348,15 @@ public class YsProApi {
             return null;
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
-        }
+        } 
     }
 
     public ProStoreResponse getNewPasswordMethods(String search, InetAddress customerIp) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetNewPasswordMethods.php?HandleID=%s&SearchFor=%s&ClientIP=%s",
-                    client.getYsProHost(), client.getHandleId(), search, customerIp.getHostAddress()));
+            URI url = new URIBuilder(client.getYsProHost()).setPath("/GetNewPasswordMethods.php").setQuery(String.format("HandleID=%s&SearchFor=%s&ClientIP=%s",
+                    client.getHandleId(), search, customerIp.getHostAddress())).build();
+            
             return new ProStoreResponse(execute(new HttpGet(url)));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -370,8 +378,8 @@ public class YsProApi {
     public ProStoreResponse setPassword(String userId, String password) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/SetPassword.php?HandleID=%s&UserID=%s&NewPassword=%s",
-                    client.getYsProHost(), client.getHandleId(), userId, password));
+             URI url = new URIBuilder(client.getYsProHost()).setPath("/SetPassword.php").setQuery(String.format("HandleID=%s&UserID=%s&NewPassword=%s",
+                    client.getHandleId(), userId, password)).build();
             String res = execute(new HttpGet(url));
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
@@ -381,10 +389,11 @@ public class YsProApi {
     
     public ProStoreResponse updateUserInfo(String userId, String userName, String oldUserName, String emailAddress, String cellPhone) throws YsProException {
         try {
+            ensureHandle();
             StringBuilder str = new StringBuilder();
             
-            str.append(String.format("%s/UpdateUserInfo.php?HandleID=%s&UserID=%s",
-                    client.getYsProHost(), client.getHandleId(), userId));
+            str.append(String.format("HandleID=%s&UserID=%s",
+                    client.getHandleId(), userId));
             
             if(userName != null) {
                 str.append(String.format("&UserName=%s&OldUserName=%s", userName, oldUserName));
@@ -396,8 +405,8 @@ public class YsProApi {
             if(cellPhone != null)
                 str.append(String.format("&CellPhone=%s", cellPhone));
             
-            ensureHandle();
-            URI url = new URI(str.toString());
+            
+            URI url = new URIBuilder(client.getYsProHost()).setPath("/UpdateUserInfo.php").setQuery(str.toString()).build();
             String res = execute(new HttpGet(url));
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {

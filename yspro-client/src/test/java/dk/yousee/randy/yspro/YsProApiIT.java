@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dk.yousee.randy.base.HttpPool;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
@@ -24,7 +25,7 @@ public class YsProApiIT {
     private static String customer, customer2;
     private static final String ottProduct = "crudCycleProduct";
     private static HttpPool pool;
-    
+
     @BeforeClass
     public static void before() {
         pool = new HttpPool();
@@ -40,10 +41,30 @@ public class YsProApiIT {
         customer = "608252633";
         customer2 = "617670043";
     }
-    
+
     @AfterClass
     public static void after() {
         pool.shutdown();
+    }
+
+//    @Test
+    public void testLogin() throws YsProException, UnknownHostException {
+
+        ProStoreResponse res = api.getNewPasswordMethods("Simon kjær", Inet4Address.getByName("10.10.10.10"));
+
+        Assert.assertNotNull(res);
+    }
+
+//    @Test
+    public void testSetPassword() throws YsProException {
+        ProStoreResponse res = api.setPassword("2307030", "Cool=Bro1");
+        Assert.assertNotNull(res);
+    }
+    
+//    @Test
+    public void testSetUser() throws YsProException{
+        ProStoreResponse res = api.updateUserInfo("2307030", "assSikj2=", "assSikj", "sikj@tdc.dk", "30549420");
+        Assert.assertNotNull(res);
     }
 
 //    @Test
@@ -87,7 +108,7 @@ public class YsProApiIT {
         Assert.assertNotSame("status is not 0", 0, userInfo.getStatus());
         Assert.assertNotNull("Expects a message", userInfo.getMessage());
     }
-    
+
     //@Test
     public void sekvens() throws Exception {
         T1_clean();
@@ -242,7 +263,7 @@ public class YsProApiIT {
         List<StoreProduct> sp5 = json5.filterOttProduct(ottProduct);
         Assert.assertTrue("After deleting it must be gone", sp5.isEmpty());
     }
-    
+
     //@Test
     public void t2_stb_create_on_customer() throws Exception {
         Date now = new Date();
@@ -299,15 +320,15 @@ public class YsProApiIT {
             Assert.assertEquals("Response must be returned with no error", 0, rs3.getStatus().intValue());
         }
     }
-    
+
 //    @Test
-    public void login() throws YsProException{
+    public void login() throws YsProException {
         String session = api.login("SimonOFKtestIT", "");
         Assert.assertNotNull(session);
     }
-    
+
 //    @Test
-    public void opretProd() throws YsProException{
+    public void opretProd() throws YsProException {
         String kunde = "612635818";
         WriteList wl2 = new WriteList(kunde, new Date());
         JsonObject job = new JsonObject();
@@ -322,9 +343,9 @@ public class YsProApiIT {
         String jsonWrite2 = wl2.printJson().toString();
 //        URL url2 = client.generateUpdateUrl(customer, jsonWrite2);
         ProStoreResponse response = api.assignProduct(kunde, jsonWrite2);
-        
-        Assert.assertTrue(response.getStatus()==0);
-        
+
+        Assert.assertTrue(response.getStatus() == 0);
+
         WriteList wl3 = new WriteList(kunde, new Date());
         job = new JsonObject();
         job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());
@@ -337,10 +358,10 @@ public class YsProApiIT {
 // fire create ....
         jsonWrite2 = wl3.printJson().toString();
 //        URL url2 = client.generateUpdateUrl(customer, jsonWrite2);
-         response = api.assignProduct(kunde, jsonWrite2);
-        
-        Assert.assertTrue(response.getStatus()==0);
-        
+        response = api.assignProduct(kunde, jsonWrite2);
+
+        Assert.assertTrue(response.getStatus() == 0);
+
         WriteList wl4 = new WriteList(kunde, new Date());
         job = new JsonObject();
         job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());
@@ -354,8 +375,8 @@ public class YsProApiIT {
         jsonWrite2 = wl4.printJson().toString();
 //        URL url2 = client.generateUpdateUrl(customer, jsonWrite2);
         response = api.assignProduct(kunde, jsonWrite2);
-        
-        Assert.assertTrue(response.getStatus()==0);
-        
+
+        Assert.assertTrue(response.getStatus() == 0);
+
     }
 }
