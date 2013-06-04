@@ -60,12 +60,12 @@ public class TdcMailCase extends AbstractCase {
     }
 
     public Order createResource(BusinessPosition businessPosition, TdcMailData lineItem) throws BusinessException {
-        ensureAcct();
-
         TdcMailService service = getModel().find().tdcMailService(businessPosition);
         if (service != null) {
             TdcMailResource resource = getModel().alloc().tdcMailResource(service);
             resource.kpm_number.setValue(lineItem.getKpmNumber());
+        } else {
+            throw new BusinessException("Could not find service on BusinessPosition");
         }
 
         return getModel().getOrder();
