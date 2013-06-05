@@ -54,7 +54,7 @@ public class FindOrderCom extends SmpCom<String, QueryOrderReply> {
 
     @Override
     public Integer getOperationTimeout() {
-        return 3000;
+        return 4000;
     }
 
     private static class Parser extends ResponseParser<QueryOrderReply> {

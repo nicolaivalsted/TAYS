@@ -74,7 +74,7 @@ public class FindOrdersBySubscriberCom extends SmpCom<Acct, QueryOrdersBySubscri
 
     @Override
     public Integer getOperationTimeout() {
-        return 3000;
+        return 4000;
     }
 
     private static final Logger logger = Logger.getLogger(FindOrdersBySubscriberCom.class);

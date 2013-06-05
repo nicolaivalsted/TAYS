@@ -85,7 +85,7 @@ public class ReadSubscriptionCom extends SmpCom<Acct, Response> {
 
     @Override
     public Integer getOperationTimeout() {
-        return 2000;
+        return 5000;
     }
 
     static class Parser extends ResponseParser<Response> {
