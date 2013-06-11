@@ -71,6 +71,8 @@ public class HsdAccess extends BasicUnit {
     //Type.ASSOC
     public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE );
 
+    public AssociationHolder community_wifi = new AssociationHolder(this, "community_wifi", SubAddressSpec.TYPE );
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();
