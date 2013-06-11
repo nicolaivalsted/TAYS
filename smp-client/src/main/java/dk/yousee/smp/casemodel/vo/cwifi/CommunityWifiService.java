@@ -9,38 +9,30 @@ import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
 
 /**
- * Created by IntelliJ IDEA.
- * User: aka
- * Date: 28/02/12
- * Time: 15.54
- * Play service for music
+ * Created by IntelliJ IDEA. User: aka Date: 28/02/12 Time: 15.54 Play service
+ * for music
  */
 public class CommunityWifiService extends BasicUnit {
-
-
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
-    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"community_wifi_composed");
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "community_wifi_composed");
     public static NickName NAME = new NickName("cwifi");
 
     public CommunityWifiService(SubscriberModel model, String externalKey) {
-        super(model, externalKey, TYPE, LEVEL, NAME,null);
+        super(model, externalKey, TYPE, LEVEL, NAME, null);
         model.getServiceLevelUnit().add(this);
     }
-
-
     //children
     private CommunityWifi communityWifi;
 
-	public CommunityWifi getCommunityWifi() {
-		return communityWifi;
-	}
-
-	public void setCommunityWifi(CommunityWifi communityWifi) {
-		this.communityWifi = communityWifi;
-	}
-
-	public BusinessPosition getPosition() {
-        return getCommunityWifi() == null ? null : getCommunityWifi().getPosition();
+    public CommunityWifi getCommunityWifi() {
+        return communityWifi;
     }
 
+    public void setCommunityWifi(CommunityWifi communityWifi) {
+        this.communityWifi = communityWifi;
+    }
+
+    public BusinessPosition getPosition() {
+        return getCommunityWifi() == null ? null : getCommunityWifi().getPosition();
+    }
 }

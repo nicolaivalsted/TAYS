@@ -55,5 +55,10 @@ public class CommunityWifi extends BasicUnit {
 
     public static final String YSPRO_PROVISIONINGID="yspro_provisioningid";
     public PropHolder yspro_provisioningid = new PropHolder(this, YSPRO_PROVISIONINGID);
-
+    
+    public static final String MAX_DEVICE ="max_device";
+    public PropHolder max_device = new PropHolder(this, MAX_DEVICE, true);
+    
+    public static final String SPEED_PROFILE ="speed_profile";
+    public PropHolder speed_profile = new PropHolder(this, SPEED_PROFILE);
 }

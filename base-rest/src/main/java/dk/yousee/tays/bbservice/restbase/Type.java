@@ -22,7 +22,8 @@ public enum Type {
     EmailUnblock("SubSvcSpec:email_server_unblock"),
     Mobb("SubSvcSpec:mobile_broadband"),
     SimCard("SubSvcSpec:sim_card"),
-    Mta("SubSvcSpec:smp_emta_pc_voip_access");
+    Mta("SubSvcSpec:smp_emta_pc_voip_access"),
+    CWiFi("SubSvcSpec:community_wifi");
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();
 
