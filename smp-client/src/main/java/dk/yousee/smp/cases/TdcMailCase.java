@@ -80,9 +80,13 @@ public class TdcMailCase extends AbstractCase {
             if (resource != null) {
                 resource.kpm_number.setValue(newKpm);
                 resource.cascadeSendAction(Action.UPDATE);
-            } else {
-                throw new BusinessException("No tdcmail Resource to update in SMP");
+            } else { //not really an update
+                TdcMailData data = new TdcMailData();
+                data.setKpmNumber(newKpm);
+                return createResource(businessPosition, data);
             }
+        } else {
+            throw new BusinessException("No tdcmail service to update in SMP");
         }
 
         return getModel().getOrder();
