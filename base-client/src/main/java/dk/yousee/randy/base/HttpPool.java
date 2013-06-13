@@ -3,7 +3,6 @@ package dk.yousee.randy.base;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.scheme.SchemeSocketFactory;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.PoolingClientConnectionManager;
@@ -33,7 +32,6 @@ public class HttpPool {
     }
 
     public HttpPool() {
-        initPool();
     }
 
     public DefaultHttpClient getClient() {
@@ -48,12 +46,7 @@ public class HttpPool {
         return res;
     }
 
-    private void initPool() {
-//        credsProvider = new BasicCredentialsProvider();
-//        credsProvider.setCredentials(
-//                new AuthScope("test.biersys.dk", AuthScope.ANY_PORT),
-//                new UsernamePasswordCredentials(username, password));
-        
+    public void initPool() {       
         SchemeRegistry schemeRegistry = new SchemeRegistry();
         schemeRegistry.register(
                 new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
