@@ -53,6 +53,17 @@
             <url>scp://sdoc.yousee.idk/var/www/sdoc/randy/clients/${project.version}</url>
             <name>RANDY source documentation site</name>
         </site>
+        <repository>
+            <id>Tays_Release</id>
+            <name>Randy releases repository</name>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/repositories/Tays_Release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>Tays_Snapshots</id>
+            <name>Randy snapshots repository</name>
+            <url>http://hudson01.yousee.idk:8081/nexus/content/repositories/Tays_Snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>        
     </distributionManagement>
 
     <repositories>  
