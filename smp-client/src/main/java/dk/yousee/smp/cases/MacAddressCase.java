@@ -1,6 +1,7 @@
 package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.cbp.AddnCpe;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
@@ -10,6 +11,7 @@ import dk.yousee.smp.casemodel.vo.cbp.StdCpe;
 import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
 import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.Action;
 import dk.yousee.smp.order.model.BusinessException;
@@ -60,8 +62,9 @@ public class MacAddressCase extends AbstractCase {
      * @param hsdAccessData in
      * @param modemId    modem used
      * @return model instance
+     * @throws BusinessException 
      */
-    public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, ModemId modemId) {
+    public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, ModemId modemId) throws BusinessException {
         HsdAccess ha = getModel().alloc().HsdAccess(modemId);
         if(ha.getServicePlanState()==ProvisionStateEnum.COURTESY_BLOCK){
             ha.sendAction(Action.SUSPEND);
@@ -80,6 +83,12 @@ public class MacAddressCase extends AbstractCase {
             ha.cm_model.setValue(hsdAccessData.getCm_model());
             ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
         }
+        
+        CommunityWifi cwifi = getModel().find().CommunityWifi(new BusinessPosition(modemId.getId()));
+        if (cwifi != null) {
+        	ha.community_wifi.add(cwifi);
+        }
+        
         return ha;
     }
 

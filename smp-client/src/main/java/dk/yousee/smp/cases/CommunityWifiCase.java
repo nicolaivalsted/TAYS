@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
+import dk.yousee.smp.casemodel.vo.ModemId;
+import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
 import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifiService;
 import dk.yousee.smp.order.model.Acct;
@@ -74,9 +76,27 @@ public class CommunityWifiCase extends AbstractCase {
         CommunityWifi def = getModel().alloc().CommunityWifi(position);
 
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
+
         return getModel().getOrder();
     }
 
+    public Order updateHsdAccess(BusinessPosition position) throws BusinessException {
+
+        CommunityWifi cwifi = getModel().find().CommunityWifi(position);
+        if (cwifi == null) {
+        	throw new BusinessException("Community WiFi not found at position: " + position.getId());
+        }
+
+    	// Add this cwifi to existing hsdAccess
+        HsdAccess hsdAccess = getModel().find().HsdAccess(new ModemId(position.getId()));
+        if (hsdAccess != null) {
+        	hsdAccess.community_wifi.add(cwifi);
+        }
+        
+        return getModel().getOrder();
+    	
+    }
+    
     public CommunityWifiData readProvisioning(BusinessPosition position) throws BusinessException {
         CommunityWifiService communityWifiService= getModel().find().CommunityWifiService(position);
         CommunityWifiData res;

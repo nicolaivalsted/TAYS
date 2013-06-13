@@ -3,6 +3,7 @@ package dk.yousee.smp.casemodel.vo.cpee;
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
+import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.casemodel.vo.helpers.AssociationHolder;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
@@ -70,6 +71,8 @@ public class HsdAccess extends BasicUnit {
 
     //Type.ASSOC
     public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE );
+
+    public AssociationHolder community_wifi = new AssociationHolder(this, "cm_has_community_wifi", CommunityWifi.TYPE );
 
     @Override
     public String toString() {
