@@ -77,12 +77,6 @@ public class CommunityWifiCase extends AbstractCase {
 
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
-        // Add this cwifi to existing hsdAccess
-        HsdAccess hsdAccess = getModel().find().HsdAccess(new ModemId(position.getId()));
-        if (hsdAccess != null) {
-        	hsdAccess.community_wifi.add(def);
-        }
-        
         return getModel().getOrder();
     }
 
