@@ -48,11 +48,6 @@
   </scm>
 
     <distributionManagement>
-        <site>
-            <id>Docs_Release</id>
-            <url>scp://sdoc.yousee.idk/var/www/sdoc/randy/clients/${project.version}</url>
-            <name>RANDY source documentation site</name>
-        </site>
         <repository>
             <id>Tays_Release</id>
             <name>Randy releases repository</name>
