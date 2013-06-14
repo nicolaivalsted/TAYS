@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.27-SNAPSHOT</version>
+        <version>3.27</version>
     </parent>
     <artifactId>voucher-client</artifactId>
     <name>${project.artifactId}</name>
