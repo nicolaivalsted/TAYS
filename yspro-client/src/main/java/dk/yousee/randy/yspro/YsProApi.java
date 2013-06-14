@@ -1,6 +1,5 @@
 package dk.yousee.randy.yspro;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
@@ -16,11 +15,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.client.utils.URIUtils;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.util.EntityUtils;
 
 /**
@@ -176,6 +172,23 @@ public class YsProApi {
         }
     }
 
+    public ProStoreResponse getCommunityWifiEngagementUserID(String userID) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetCommunityWifiEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(url)));
+            if (psr.getStatus() == 50) { //handleTimeout clear handle
+                client.clearHandle();
+                ensureHandle();
+                url = new URI(String.format("%s/GetCommunityWifiEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
+                psr = new ProStoreResponse(execute(new HttpGet(url)));
+            }
+            return psr;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+    
     /**
      * http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&SesssionID=xxxxxxx&xml=1
      */
@@ -217,6 +230,31 @@ public class YsProApi {
                 ui = new UserInfo(st);
             }
             return ui;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+    
+    /**
+     * Finds userid for active sessionID
+     * @param sessionID
+     * @return userID or null if not found
+     * @throws YsProException 
+     */
+    public ProStoreResponse findBasicUserInfo(String sessionID) throws YsProException {
+        try {
+            ensureHandle();
+            URI uri = new URI(String.format("%s/GetUserBasicInfo.php?HandleID=%s&SessionID=%s", client.getYsProHost(), client.getHandleId(), sessionID));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpGet(uri)));
+                              
+            if (psr.getStatus() == 50) {
+                client.clearHandle();
+                ensureHandle();
+                uri = new URI(String.format("%s/GetUserBasicInfo.php?HandleID=%s&SessionID=%s", client.getYsProHost(), client.getHandleId(), sessionID));
+                psr = new ProStoreResponse(execute(new HttpGet(uri)));
+  
+            }
+            return psr;
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
