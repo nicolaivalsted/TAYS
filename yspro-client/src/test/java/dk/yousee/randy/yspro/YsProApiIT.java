@@ -29,6 +29,7 @@ public class YsProApiIT {
     @BeforeClass
     public static void before() {
         pool = new HttpPool();
+        pool.initPool();
         connector = new ProStoreConnectorImpl();
         connector.setPool(pool);
         connector.setYsProHost(ProStoreConnectorImpl.NEW_YSPRO_HOST);
@@ -378,5 +379,14 @@ public class YsProApiIT {
 
         Assert.assertTrue(response.getStatus() == 0);
 
+    }
+    
+//    @Test
+    public void testbasicInfo() throws YsProException{
+        String session = api.login("assSikj", "ass123");
+        Assert.assertNotNull(session);
+        
+        String userId = api.findBasicUserInfo(session).getData().get("UserID").getAsString();
+        Assert.assertNotNull(userId);
     }
 }
