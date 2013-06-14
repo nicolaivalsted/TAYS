@@ -15,8 +15,8 @@ public class ProStoreConnectorImpl {
     public static final String TEST_YSPRO_HOST = "http://ysprotest.yousee.dk";
     public static final String YSPRO_HOST = "http://yspro.yousee.dk";
     public static final String NEW_YSPRO_HOST = "https://yspro3.yousee.dk";
-    private int SO_TIMEOUT = 1000;
-    private int CONNECTION_TIMEOUT = 3000;
+    private static final int DEFAULT_SO_TIMEOUT = 1000;
+    private static final int DEFAULT_CONNECTION_TIMEOUT = 3000;
     private HttpParams params = new BasicHttpParams();
     private HttpPool pool; //set with singleton in spring
 
@@ -31,8 +31,8 @@ public class ProStoreConnectorImpl {
     private volatile String handleId;
 
     public ProStoreConnectorImpl() {
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CONNECTION_TIMEOUT);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, SO_TIMEOUT);
+        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
+        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
     }
 
     public DefaultHttpClient getClient() {
@@ -131,10 +131,10 @@ public class ProStoreConnectorImpl {
     }
 
     public void setSO_TIMEOUT(int SO_TIMEOUT) {
-        this.SO_TIMEOUT = SO_TIMEOUT;
+        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, SO_TIMEOUT);
     }
 
     public void setCONNECTION_TIMEOUT(int CONNECTION_TIMEOUT) {
-        this.CONNECTION_TIMEOUT = CONNECTION_TIMEOUT;
+        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CONNECTION_TIMEOUT);
     }
 }
