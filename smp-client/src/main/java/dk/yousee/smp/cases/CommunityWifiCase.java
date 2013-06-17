@@ -96,6 +96,24 @@ public class CommunityWifiCase extends AbstractCase {
         return getModel().getOrder();
     	
     }
+
+    public Order deleteHsdAccessLink(BusinessPosition position) throws BusinessException {
+
+        CommunityWifi cwifi = getModel().find().CommunityWifi(position);
+        if (cwifi == null) {
+        	throw new BusinessException("Community WiFi not found at position: " + position.getId());
+        }
+
+    	// Add this cwifi to existing hsdAccess
+        HsdAccess hsdAccess = getModel().find().HsdAccess(new ModemId(position.getId()));
+        if (hsdAccess != null) {
+        	hsdAccess.community_wifi.delete(cwifi.getExternalKey());
+        }
+        
+        return getModel().getOrder();
+    	
+    }
+
     
     public CommunityWifiData readProvisioning(BusinessPosition position) throws BusinessException {
         CommunityWifiService communityWifiService= getModel().find().CommunityWifiService(position);
