@@ -61,9 +61,9 @@ public class YsProApiIT {
         ProStoreResponse res = api.setPassword("2307030", "Cool=Bro1");
         Assert.assertNotNull(res);
     }
-    
+
 //    @Test
-    public void testSetUser() throws YsProException{
+    public void testSetUser() throws YsProException {
         ProStoreResponse res = api.updateUserInfo("2307030", "assSikj2=", "assSikj", "sikj@tdc.dk", "30549420");
         Assert.assertNotNull(res);
     }
@@ -110,7 +110,7 @@ public class YsProApiIT {
         Assert.assertNotNull("Expects a message", userInfo.getMessage());
     }
 
-    //@Test
+//    @Test
     public void sekvens() throws Exception {
         T1_clean();
         T2_createCustomerProduct();
@@ -195,7 +195,6 @@ public class YsProApiIT {
 
 //    @Test
     public void T4_crudCycle() throws Exception {
-
         Date now = new Date();
 // Read all OTT products
         ProStoreResponse json0 = api.findOttEngagement(customer);
@@ -380,12 +379,26 @@ public class YsProApiIT {
         Assert.assertTrue(response.getStatus() == 0);
 
     }
-    
+
 //    @Test
-    public void testbasicInfo() throws YsProException{
+    public void removeOtt() throws YsProException {
+        String customer = "612148865";
+        List<StoreProduct> sp = api.findEngagementFromProductId(customer, "7000").filterOpen();
+
+        WriteList wl = new WriteList(customer, new Date());
+        for (StoreProduct one : sp) {
+            wl.add(WriteList.Action.delete, one);
+        }
+        
+         String json = wl.printJson().toString();
+        api.assignProduct(customer, json);
+    }
+
+//    @Test
+    public void testbasicInfo() throws YsProException {
         String session = api.login("assSikj", "ass123");
         Assert.assertNotNull(session);
-        
+
         String userId = api.findBasicUserInfo(session).getData().get("UserID").getAsString();
         Assert.assertNotNull(userId);
     }
