@@ -282,8 +282,9 @@ public class MacAddressCase extends AbstractCase {
      * @param modemId       modem used
      * @param hsdAccessData the params data for creating cable modem
      * @return model instance
+     * @throws BusinessException 
      */
-    public HsdAccess addHsdAccess(ModemId modemId, HsdAccessData hsdAccessData) {
+    public HsdAccess addHsdAccess(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
         HsdAccess ha = getModel().add().HsdAccess(modemId);
         ha.cm_mac.setValue(hsdAccessData.getCm_mac());                         //"134345464578"              ** unique
         ha.wifi_capable.setValue(hsdAccessData.getWifi_capable());                              //"N"
@@ -301,6 +302,11 @@ public class MacAddressCase extends AbstractCase {
         ha.cm_manufacturer.setValue(hsdAccessData.getCm_manufacturer());
         ha.cm_model.setValue(hsdAccessData.getCm_model());
         ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
+        
+        CommunityWifi cwifi = getModel().find().CommunityWifi(new BusinessPosition(modemId.getId()));
+        if (cwifi != null) {
+        	ha.community_wifi.add(cwifi);
+        }
         
         return ha;
     }
