@@ -85,8 +85,8 @@ public class MacAddressCase extends AbstractCase {
         }
         
         CommunityWifi cwifi = getModel().find().CommunityWifi(new BusinessPosition(modemId.getId()));
-        if (cwifi != null) {
-        	ha.community_wifi.add(cwifi);
+        if (cwifi != null && ha.community_wifi.isEmpty()) {
+            ha.community_wifi.add(cwifi);
         }
         
         return ha;
