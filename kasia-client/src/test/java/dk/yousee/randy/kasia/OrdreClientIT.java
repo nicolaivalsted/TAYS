@@ -1,6 +1,7 @@
 package dk.yousee.randy.kasia;
 
 import com.google.gson.JsonElement;
+import dk.yousee.randy.base.HttpPool;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,28 +13,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * User: aka
- * Date: 21/10/12
- * Time: 11.35
- * Integration test
+ * User: aka Date: 21/10/12 Time: 11.35 Integration test
  */
 public class OrdreClientIT {
-
     private OrdreClient client;
 
     @Before
     public void before() {
-        KasiaConnectorImpl connector = new KasiaConnectorImpl();
-        connector.setOperationTimeout(20000);
-        connector.setKasiaHost(KasiaConnectorImpl.PREPROD_KASIA_HOST);
-//        connector.setKasiaHost(KasiaConnectorImpl.KASIA_HOST);
+        HttpPool pool = new HttpPool();
+        pool.initPool();
         client = new OrdreClient();
-        client.setConnector(connector);
+        client.setHttpPool(pool);
+        client.setKasiaHost(OrdreClient.PREPROD_KASIA_HOST);
     }
 
     //@Test
     public void makeInvoice() throws Exception {
-        Assert.assertNotSame("Run on preprod..", KasiaConnectorImpl.KASIA_HOST, client.getConnector().getKasiaHost());
+        Assert.assertNotSame("Run on preprod..", OrdreClient.KASIA_HOST, client.getKasiaHost());
         String system = "randy-bio";
         String customer = "608252633";
         String salesItem = "1703001";
@@ -46,7 +42,6 @@ public class OrdreClientIT {
         Assert.assertNull("Should have no errors", response.getMessage());
         Assert.assertNotNull("Must give an order", response.getOrderOutput().getUuid());
     }
-
 //    private static final String ordreId = "b650255e-45b1-4d2d-8f6f-1bb57e96ed8f";
     private static final String ordreId = "cad09183-9ec1-44b3-bdb0-5fae85e583ba";
 //    private static final String ordreId = "bf306e71-f571-4544-bc19-062f2a1f9975";//"3442db26-ddad-4c4c-addc-e49f0f32f62c";
@@ -73,14 +68,13 @@ public class OrdreClientIT {
         Assert.assertNotNull("Should have errors", response.getMessage());
         Assert.assertNull("Cannot contain a status", response.getStatus());
     }
-
     private static final String[] filmRentalItemIds = new String[]{
         "1703000", //YouBio Film 0
         "1703001", //YouBio Film 1
         "1703002", //YouBio Film 2
         "1703003", //YouBio Film 3
         "1703004", //YouBio Film 4
-        "1703005"  //YouBio Film 5
+        "1703005" //YouBio Film 5
     };
 
     @Test
@@ -105,5 +99,4 @@ public class OrdreClientIT {
         Assert.assertNotNull("Should return a price", response.filterByPrice("9,00"));
         Assert.assertNotNull("Should return list of prices", response.availablePrices());
     }
-
 }
