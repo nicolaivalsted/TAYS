@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.32</version>
+        <version>3.33-SNAPSHOT</version>
     </parent>
     <artifactId>messagingYii-client</artifactId>
     <name>${project.artifactId}</name>
