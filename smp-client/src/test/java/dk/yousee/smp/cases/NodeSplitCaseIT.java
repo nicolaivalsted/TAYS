@@ -46,9 +46,9 @@ public class NodeSplitCaseIT {
     @Ignore
     @Test
     public void testUpdateForNodeSplit() throws BusinessException {
-        nodeSplitCase.getModel();
-        nodeSplitCase.updateForNodeSplit(new ModemId("100000004"),"10.50.0.1","0026f2a98f89");
-        nodeSplitCase.send();
+//        nodeSplitCase.getModel();
+//        nodeSplitCase.updateForNodeSplit(new ModemId("100000004"),"10.50.0.1","0026f2a98f89");
+//        nodeSplitCase.send();
     }
 
 
