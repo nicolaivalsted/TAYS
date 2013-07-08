@@ -104,7 +104,11 @@ public class StoreProduct {
             } else if (ORDER_4_SAME.equals(one.getKey())) {
                 orderForSame = one.getValue().getAsString();
             } else if (CUSTOMER_NO.equals(one.getKey())) {
-                customer = one.getValue().getAsString();
+                if (!one.getValue().isJsonNull()) {
+                    customer = one.getValue().getAsString();
+                } else {
+                    customer = null;
+                }
             } else if (PROPERTIES.equals(one.getKey())) {
                 if (one.getValue().isJsonArray()) {
                     for (JsonElement e : one.getValue().getAsJsonArray()) { //hax for perSon jSon
