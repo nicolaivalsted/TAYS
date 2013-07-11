@@ -48,6 +48,10 @@ public class WriteList {
     public boolean isEmpty() {
         return products.isEmpty();
     }
+    
+    public List<WriteProduct> getProducts() {
+		return products;
+	}
 
     public enum Action {
         add,
@@ -64,6 +68,14 @@ public class WriteList {
             this.action = action;
             this.product = product;
         }
+        
+        public Action getAction() {
+			return action;
+		}
+        
+        public StoreProduct getProduct() {
+			return product;
+		}
 
         public JsonElement printJson() {
             JsonObject res=product.printJson().getAsJsonObject();
