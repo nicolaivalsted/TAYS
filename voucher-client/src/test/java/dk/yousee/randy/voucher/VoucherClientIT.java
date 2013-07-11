@@ -1,5 +1,6 @@
 package dk.yousee.randy.voucher;
 
+import dk.yousee.randy.base.HttpPool;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -8,51 +9,38 @@ import org.junit.Test;
 import java.util.logging.Logger;
 
 /**
- * User: aka
- * Date: 06/11/12
- * Time: 08.56
- * Test that voucher client works
+ * User: aka Date: 06/11/12 Time: 08.56 Test that voucher client works
  */
 public class VoucherClientIT {
-
     private final static Logger logger = Logger.getLogger(VoucherClientIT.class.getName());
-
     private VoucherClient client = null;
 
     @Before
     public void setUp() {
         logger.info("setup()");
-        VoucherConnectorImpl connector = new VoucherConnectorImpl();
-        connector.setVoucherHost(VoucherConnectorImpl.VOUCHER_HOST);
-//        connector.setVoucherHost(VoucherConnectorImpl.PREPROD_VOUCHER_HOST);
+        HttpPool hp = new HttpPool();
+        hp.initPool();
         client = new VoucherClient();
-        client.setConnector(connector);
+        client.setVoucherHost(VoucherClient.PREPROD_VOUCHER_HOST);
+        client.setHttpPool(hp);
 
-    }
-
-    @Test
-    public void readWsdl() throws Exception {
-        logger.info("URL: " + client.wsdlUrl());
-        String wsdl = client.readWsdl();
-        Assert.assertNotNull(wsdl);
-        Assert.assertTrue(wsdl.contains("consumeTicket"));
     }
 
     @Test
     public void parseResponse_fail() throws Exception {
         String response =
-            "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "   <S:Body>\n" +
-                "      <ns2:consumeTicketResponse xmlns:ns2=\"http://voucher.smarttv.dk/\">\n" +
-                "         <return>\n" +
-                "            <code>234</code>\n" +
-                "            <correlator>corre</correlator>\n" +
-                "            <description>VOUCHER_NUMBER_TO_SHORT</description>\n" +
-                "            <session_id>516</session_id>\n" +
-                "         </return>\n" +
-                "      </ns2:consumeTicketResponse>\n" +
-                "   </S:Body>\n" +
-                "</S:Envelope>";
+                "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+                + "   <S:Body>\n"
+                + "      <ns2:consumeTicketResponse xmlns:ns2=\"http://voucher.smarttv.dk/\">\n"
+                + "         <return>\n"
+                + "            <code>234</code>\n"
+                + "            <correlator>corre</correlator>\n"
+                + "            <description>VOUCHER_NUMBER_TO_SHORT</description>\n"
+                + "            <session_id>516</session_id>\n"
+                + "         </return>\n"
+                + "      </ns2:consumeTicketResponse>\n"
+                + "   </S:Body>\n"
+                + "</S:Envelope>";
 
         VoucherResponse vr = client.parseResponse(response);
         Assert.assertNotNull(vr);
@@ -66,18 +54,18 @@ public class VoucherClientIT {
     @Test
     public void parseResponse_ok() throws Exception {
         String response =
-            "<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "<S:Body><ns2:consumeTicketResponse xmlns:ns2=\"http://voucher.smarttv.dk/\">\n" +
-                "<return>\n" +
-                "<code>0</code>\n" +
-                "<correlator>record1</correlator>\n" +
-                "<description>OK</description>\n" +
-                "<session_id>458</session_id>\n" +
-                "</return>\n" +
-                "</ns2:consumeTicketResponse>\n" +
-                "</S:Body>\n" +
-                "</S:Envelope>";
+                "<?xml version='1.0' encoding='UTF-8'?>\n"
+                + "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+                + "<S:Body><ns2:consumeTicketResponse xmlns:ns2=\"http://voucher.smarttv.dk/\">\n"
+                + "<return>\n"
+                + "<code>0</code>\n"
+                + "<correlator>record1</correlator>\n"
+                + "<description>OK</description>\n"
+                + "<session_id>458</session_id>\n"
+                + "</return>\n"
+                + "</ns2:consumeTicketResponse>\n"
+                + "</S:Body>\n"
+                + "</S:Envelope>";
 
         VoucherResponse vr = client.parseResponse(response);
         Assert.assertNotNull(vr);
@@ -91,17 +79,17 @@ public class VoucherClientIT {
     @Test
     public void parseResponse_used() throws Exception {
         String response =
-            "<?xml version='1.0' encoding='UTF-8'?>\n" +
-                "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">\n" +
-                "<S:Body><ns2:consumeTicketResponse xmlns:ns2=\"http://voucher.smarttv.dk/\">\n" +
-                "<return>\n" +
-                "<code>231</code>\n" +
-                "<correlator>record1</correlator>\n" +
-                "<description>VOUCHER_ALLREADY_USED</description>\n" +
-                "<session_id>246</session_id>\n" +
-                "</return></ns2:consumeTicketResponse>\n" +
-                "</S:Body>\n" +
-                "</S:Envelope>";
+                "<?xml version='1.0' encoding='UTF-8'?>\n"
+                + "<S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">\n"
+                + "<S:Body><ns2:consumeTicketResponse xmlns:ns2=\"http://voucher.smarttv.dk/\">\n"
+                + "<return>\n"
+                + "<code>231</code>\n"
+                + "<correlator>record1</correlator>\n"
+                + "<description>VOUCHER_ALLREADY_USED</description>\n"
+                + "<session_id>246</session_id>\n"
+                + "</return></ns2:consumeTicketResponse>\n"
+                + "</S:Body>\n"
+                + "</S:Envelope>";
         VoucherResponse vr = client.parseResponse(response);
         Assert.assertNotNull(vr);
         Assert.assertEquals(response, vr.getXml());
@@ -115,7 +103,7 @@ public class VoucherClientIT {
     @Ignore
     @Test
     public void testConsume() {
-        Assert.assertNotNull(VoucherConnectorImpl.PREPROD_VOUCHER_HOST);
+        Assert.assertNotNull(VoucherClient.PREPROD_VOUCHER_HOST);
         Assert.assertNotNull(client);
 
         String customer = "618204167";
@@ -130,12 +118,12 @@ public class VoucherClientIT {
         logger.info("response: XML " + vr.xml);
         logger.info("response: value " + vr.toString());
         Assert.assertEquals("Client reference must be returned", clientReference, vr.getClientReference());
-        Assert.assertNull("Communication error must be empty",vr.getError());
+        Assert.assertNull("Communication error must be empty", vr.getError());
     }
 
     @Test
     public void testConsume_used() {
-        Assert.assertNotNull(VoucherConnectorImpl.PREPROD_VOUCHER_HOST);
+        Assert.assertNotNull(VoucherClient.PREPROD_VOUCHER_HOST);
         Assert.assertNotNull(client);
 
         String customer = "618204167";

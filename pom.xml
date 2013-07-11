@@ -4,11 +4,11 @@
     <parent>
         <artifactId>randy</artifactId>
         <groupId>dk.yousee</groupId>
-        <version>1.2</version>
+        <version>1.5</version>
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>clients</artifactId>
-    <version>3.30-SNAPSHOT</version>
+    <version>3.36-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>

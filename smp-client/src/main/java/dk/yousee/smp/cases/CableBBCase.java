@@ -25,27 +25,27 @@ import org.apache.log4j.Logger;
 import java.util.List;
 
 /**
- * Created by IntelliJ IDEA.
- * User: aka
- * Date: Oct 14, 2010
- * Time: 5:01:32 PM<br/>
+ * Created by IntelliJ IDEA. User: aka Date: Oct 14, 2010 Time: 5:01:32 PM<br/>
  * Case for cable broad band
  */
 public class CableBBCase extends AbstractCase {
-
     private static final Logger logger = Logger.getLogger(CableBBCase.class);
 
     public CableBBCase(Acct acct, OrderService service) {
         super(acct, service);
     }
 
+    public CableBBCase(SubscriberModel model, OrderService service) {
+        super(model, service);
+    }
+
     /**
      * Construct this case based on existing Subscriber Case<br/>
      * This is a kind of chaining of use-cases. <br/>
      * <p>
-     * First ask for the customer, eventually create him
-     * Then work with cable broad band.
-     * </p>    ?
+     * First ask for the customer, eventually create him Then work with cable
+     * broad band.
+     * </p> ?
      *
      * @param customerCase subscriber case's
      */
@@ -69,16 +69,17 @@ public class CableBBCase extends AbstractCase {
     }
 
     /**
-     * Use-case 8: Erling: Lav en ordre, som indeholder en opret-service (lineItem.getVarenummer())<br/>
+     * Use-case 8: Erling: Lav en ordre, som indeholder en opret-service
+     * (lineItem.getVarenummer())<br/>
      * <p/>
      * Was previously called: mkCreateServiceOrder
      *
-     * @param modemId  selected service plan instance (key is modemId)
+     * @param modemId selected service plan instance (key is modemId)
      * @param lineItem - data from casper
-     * @return smpOrder - en Order(), som allerede har kunde opret/opdater udfyldt.
-     * @throws dk.yousee.smp.order.model.BusinessException
-     *          when <br/>
-     *          1) The customer does not exist<br/>
+     * @return smpOrder - en Order(), som allerede har kunde opret/opdater
+     * udfyldt.
+     * @throws dk.yousee.smp.order.model.BusinessException when <br/>
+     * 1) The customer does not exist<br/>
      */
     public Order createBB(ModemId modemId, AbonData lineItem) throws BusinessException {
         ensureAcct();
@@ -223,10 +224,10 @@ public class CableBBCase extends AbstractCase {
     }
 
     /**
-     * Inner class that holds the contract between cable broad band - seen from Casper/ Stallone and Sigma
+     * Inner class that holds the contract between cable broad band - seen from
+     * Casper/ Stallone and Sigma
      */
     public static class AbonData {
-
         private String position;
 
         public String getPosition() {
@@ -236,13 +237,11 @@ public class CableBBCase extends AbstractCase {
         public void setPosition(String position) {
             this.position = position;
         }
-
         private String rateCodes;
         private String staticIpProductCode;
         private String emailServerUnblockProductCode;
         private String wifiServiceProductCode;
         private String addnCPEProductCode;
-
         private String modemActivationCode;
 
         /**
@@ -270,7 +269,8 @@ public class CableBBCase extends AbstractCase {
         }
 
         /**
-         * @param emailServerUnblockProductCode sample value "ABCD" in the cases from Sigma
+         * @param emailServerUnblockProductCode sample value "ABCD" in the cases
+         * from Sigma
          */
         public void setEmailServerUnblockProductCode(String emailServerUnblockProductCode) {
             this.emailServerUnblockProductCode = emailServerUnblockProductCode;
@@ -281,7 +281,8 @@ public class CableBBCase extends AbstractCase {
         }
 
         /**
-         * @param wifiServiceProductCode field wifi_service_product_code sample value: 2948203984
+         * @param wifiServiceProductCode field wifi_service_product_code sample
+         * value: 2948203984
          */
         public void setWifiServiceProductCode(String wifiServiceProductCode) {
             this.wifiServiceProductCode = wifiServiceProductCode;
@@ -306,7 +307,6 @@ public class CableBBCase extends AbstractCase {
         public void setModemActivationCode(String modemActivationCode) {
             this.modemActivationCode = modemActivationCode;
         }
-
         private String vrf;
 
         public String getVrf() {
@@ -316,7 +316,6 @@ public class CableBBCase extends AbstractCase {
         public void setVrf(String vrf) {
             this.vrf = vrf;
         }
-
         private String activationReference;
 
         public String getActivationReference() {
@@ -326,8 +325,7 @@ public class CableBBCase extends AbstractCase {
         public void setActivationReference(String activationReference) {
             this.activationReference = activationReference;
         }
-
-        private boolean usingStdCpe=true;
+        private boolean usingStdCpe = true;
 
         public boolean isUsingStdCpe() {
             return usingStdCpe;
@@ -342,14 +340,14 @@ public class CableBBCase extends AbstractCase {
      * Delete function
      *
      * @param modemId selected service plan instance (key is modemId)
-     * @return true if anything was marked for delete, false if nothing marked for delete.<br/>
-     *         Hereby the client can decide if anything needs to be send to Sigma
-     * @throws dk.yousee.smp.order.model.BusinessException
-     *          when <br/>
-     *          1) The customer does not exist<br/>
+     * @return true if anything was marked for delete, false if nothing marked
+     * for delete.<br/>
+     * Hereby the client can decide if anything needs to be send to Sigma
+     * @throws dk.yousee.smp.order.model.BusinessException when <br/>
+     * 1) The customer does not exist<br/>
      */
     public boolean deleteBB(ModemId modemId)
-        throws BusinessException {
+            throws BusinessException {
         ensureAcct();
 
         VoiceCase vc = new VoiceCase(this.getModel(), this.getService());
@@ -362,8 +360,9 @@ public class CableBBCase extends AbstractCase {
      * Assign BB CPE to be suspended
      *
      * @param modemId id to BB
-     * @param reason  why suspend
-     * @return resulting state - calculated as bss-adapter expects it to become after order is (as expected) shipped to SMP
+     * @param reason why suspend
+     * @return resulting state - calculated as bss-adapter expects it to become
+     * after order is (as expected) shipped to SMP
      * @throws BusinessException when customer does not exist ..
      */
     public SuspendStatus suspendAbuse(ModemId modemId, SuspendReasonAbuse reason) throws BusinessException {
@@ -374,8 +373,7 @@ public class CableBBCase extends AbstractCase {
             stdCpe.sendAction(Action.SUSPEND);
             stdCpe.suspend_abuse.setValue(reason.name());
             spSt = new SuspendStatus(
-                SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue())
-                , SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+                    SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()), SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
             List<AddnCpe> addnCpes = getModel().find().AddnCpe(modemId);
             for (AddnCpe addnCpe : addnCpes) {
                 addnCpe.sendAction(Action.SUSPEND);
@@ -391,8 +389,9 @@ public class CableBBCase extends AbstractCase {
      * Assign BB CPE to be suspended
      *
      * @param modemId id to BB
-     * @param reason  why suspend
-     * @return resulting state - calculated as bss-adapter expects it to become after order is (as expected) shipped to SMP
+     * @param reason why suspend
+     * @return resulting state - calculated as bss-adapter expects it to become
+     * after order is (as expected) shipped to SMP
      * @throws BusinessException when customer does not exist ..
      */
     public SuspendStatus suspendBilling(ModemId modemId, SuspendReasonBilling reason) throws BusinessException {
@@ -403,8 +402,7 @@ public class CableBBCase extends AbstractCase {
             stdCpe.sendAction(Action.SUSPEND);
             stdCpe.suspend_billing.setValue(reason.name());
             spSt = new SuspendStatus(
-                SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue())
-                , SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+                    SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()), SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
             List<AddnCpe> addnCpes = getModel().find().AddnCpe(modemId);
             for (AddnCpe addnCpe : addnCpes) {
                 addnCpe.sendAction(Action.SUSPEND);
@@ -421,16 +419,16 @@ public class CableBBCase extends AbstractCase {
      * <br/>
      * The suspend abuse will always be set to blank - or better called removed
      * <br/>
-     * The subservices - on the other hand will be RESUMED or SUSPENDED - dependent on billing status.
+     * The subservices - on the other hand will be RESUMED or SUSPENDED -
+     * dependent on billing status.
      *
      * @param modemId selected service plan instance (key is modemId)
      * @return resulting suspend status, might still be suspended
-     * @throws dk.yousee.smp.order.model.BusinessException
-     *          when <br/>
-     *          1) The customer does not exist<br/>
+     * @throws dk.yousee.smp.order.model.BusinessException when <br/>
+     * 1) The customer does not exist<br/>
      */
     public SuspendStatus resumeAbuse(
-        ModemId modemId) throws BusinessException {
+            ModemId modemId) throws BusinessException {
         ensureAcct();
         SuspendStatus spSt;
         StdCpe stdCpe = getModel().find().StdCpe(modemId);
@@ -440,8 +438,7 @@ public class CableBBCase extends AbstractCase {
             if (stdCpe.suspend_billing.hasValue()) {
                 resultingAction = Action.SUSPEND;
                 spSt = new SuspendStatus(
-                    SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue())
-                    , SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+                        SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()), SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
             } else {
                 resultingAction = Action.RESUME;
                 spSt = new SuspendStatus(true);
@@ -461,16 +458,18 @@ public class CableBBCase extends AbstractCase {
     /**
      * Resume BB seen from business provisioning
      * <br/>
-     * The suspend billing will always be set to blank - or better called removed
+     * The suspend billing will always be set to blank - or better called
+     * removed
      * <br/>
-     * The subservices - on the other hand will be RESUMED or SUSPENDED - dependent on abuse status.
+     * The subservices - on the other hand will be RESUMED or SUSPENDED -
+     * dependent on abuse status.
      *
      * @param modemId identify BB plan
      * @return resulting suspend status, might still be suspended
      * @throws BusinessException when account is missing
      */
     public SuspendStatus resumeBilling(
-        ModemId modemId) throws BusinessException {
+            ModemId modemId) throws BusinessException {
         ensureAcct();
         SuspendStatus spSt;
         StdCpe stdCpe = getModel().find().StdCpe(modemId);
@@ -480,8 +479,7 @@ public class CableBBCase extends AbstractCase {
             if (stdCpe.suspend_abuse.hasValue()) {
                 resultingAction = Action.SUSPEND;
                 spSt = new SuspendStatus(
-                    SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue())
-                    , SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+                        SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()), SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
             } else {
                 resultingAction = Action.RESUME;
                 spSt = new SuspendStatus(true);
@@ -497,26 +495,27 @@ public class CableBBCase extends AbstractCase {
         }
         return spSt;
     }
+
     /**
      * SuspendStatus to CSAM2 function
-     *  @param modemId selected service plan instance (key is modemId)
-     * checks the status of the stdCPE
+     *
+     * @param modemId selected service plan instance (key is modemId) checks the
+     * status of the stdCPE
      */
     /* public boolean suspendStatus(ModemId modemId) throws BusinessException {
-        ensureAcct();
-        logger.info("suspend reason0");
-        boolean status = false;
-        StdCpe stdCpe = getModel().find().StdCpe(modemId);
-        if (stdCpe != null) {
-            if (stdCpe.getServicePlanState().compareTo(ProvisionStateEnum.COURTESY_BLOCK) == 0) {
-                status = true;
-                logger.info("suspend reason1" + status);
-            }
-        }
-        return status;
-    }
-    */
-
+     ensureAcct();
+     logger.info("suspend reason0");
+     boolean status = false;
+     StdCpe stdCpe = getModel().find().StdCpe(modemId);
+     if (stdCpe != null) {
+     if (stdCpe.getServicePlanState().compareTo(ProvisionStateEnum.COURTESY_BLOCK) == 0) {
+     status = true;
+     logger.info("suspend reason1" + status);
+     }
+     }
+     return status;
+     }
+     */
     /**
      * @param modemId identifier for BB service plan
      * @return status instance
@@ -529,8 +528,7 @@ public class CableBBCase extends AbstractCase {
         if (stdCpe != null) {
             if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
                 spSt = new SuspendStatus(
-                    SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue())
-                    , SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+                        SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()), SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
             } else {
                 spSt = new SuspendStatus(true);
             }
@@ -544,7 +542,7 @@ public class CableBBCase extends AbstractCase {
      * Constructs an order from action change
      *
      * @param modemId selected service plan instance (key is modemId)
-     * @param action  the action to send to the subscription
+     * @param action the action to send to the subscription
      * @return true if anything to do
      */
     private boolean buildOrderFromAction(ModemId modemId, Action action) {
@@ -558,9 +556,10 @@ public class CableBBCase extends AbstractCase {
                  * It was proven from tests that delete on top level works.<br/>
                  * But suspend/resume must be performed at each child-service
                  * <p>
-                 * Tests shows that marking elements for something the element already is results in no order line
-                 * in Sigma. This might be use full when sending commands to Sigma - so sending too much does not
-                 * really matter in Sigma !!
+                 * Tests shows that marking elements for something the element
+                 * already is results in no order line in Sigma. This might be
+                 * use full when sending commands to Sigma - so sending too much
+                 * does not really matter in Sigma !!
                  * </p>
                  *
                  */
@@ -600,12 +599,16 @@ public class CableBBCase extends AbstractCase {
     }
 
     /**
-     * Update the customer's WiFi settings such as gw.channel.id, psk, ss_id - See PCR13
+     * Update the customer's WiFi settings such as gw.channel.id, psk, ss_id -
+     * See PCR13
      *
-     * @param modemId  modem used
-     * @param gw_ch_id gw_ch_id, null means unchanged value and $generate will autogenerate a new value
-     * @param ss_id    ss_id, null means unchanged value and $generate will autogenerate a new value
-     * @param psk      psk , null means unchanged value and $generate will autogenerate a new value
+     * @param modemId modem used
+     * @param gw_ch_id gw_ch_id, null means unchanged value and $generate will
+     * autogenerate a new value
+     * @param ss_id ss_id, null means unchanged value and $generate will
+     * autogenerate a new value
+     * @param psk psk , null means unchanged value and $generate will
+     * autogenerate a new value
      * @return model instance
      */
     public SMPWiFi updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
@@ -631,11 +634,11 @@ public class CableBBCase extends AbstractCase {
     /**
      * Add the customer's WiFi settings as A06
      *
-     * @param modemId      modem used
+     * @param modemId modem used
      * @param product_code product code
-     * @param gw_ch_id     gw_ch_id
-     * @param ss_id        ss_id
-     * @param psk          psk
+     * @param gw_ch_id gw_ch_id
+     * @param ss_id ss_id
+     * @param psk psk
      * @return model instance
      */
     public SMPWiFi addSMPWiFi(ModemId modemId, String product_code, String gw_ch_id, String psk, String ss_id) {

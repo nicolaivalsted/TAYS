@@ -2,6 +2,7 @@ package dk.yousee.randy.kasia;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import dk.yousee.randy.base.HttpPool;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,10 +15,10 @@ public class EngagementClientIT {
 
     @Before
     public void before() {
-        KasiaConnectorImpl connector = new KasiaConnectorImpl();
-        connector.setOperationTimeout(20000);
+        HttpPool pool = new HttpPool();
+        pool.initPool();
         client = new EngagementClient();
-        client.setConnector(connector);
+        client.setHttpPool(pool);
     }
 
     @Test

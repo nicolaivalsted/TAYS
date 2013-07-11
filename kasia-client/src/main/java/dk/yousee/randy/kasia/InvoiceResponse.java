@@ -29,7 +29,7 @@ public class InvoiceResponse {
                 if (element != null) {
                     orderOutput = new OrderOutput(element.getAsJsonObject());
                 } else {
-                    this.message=String.format("Kasia response does not contain json element %s ",name);
+                    this.message="Kasia response does not contain json element "+name +" k2-error: " + jsonSource.toString();
                 }
             } catch (JsonSyntaxException e) {
                 this.message = String.format("Tried to parse kasia response, got syntax error, message: %s", e.getMessage());
