@@ -46,6 +46,11 @@ public class MobileBBCase extends AbstractCase {
         super(new SubscriberModel(customerCase.getModel().getResponse()), customerCase.getService());
     }
 
+    public MobileBBCase(SubscriberModel model, OrderService service) {
+        super(model,service);
+    }
+
+    
 //    /**
 //     * Find service plan for mobile broad band<br/>
 //     * Use this call to see if the service plan exists before deleting it.
