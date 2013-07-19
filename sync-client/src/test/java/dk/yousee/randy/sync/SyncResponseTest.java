@@ -29,6 +29,61 @@ public class SyncResponseTest {
     }
 
     @Test
+    public void construct3() throws Exception {
+        String input="{\n" + 
+        		"   \"forbruger\": \"612448541\",\n" + 
+        		"   \"produkter\": [\n" + 
+        		"       {\n" + 
+        		"           \"id\": \"105938087\",\n" + 
+        		"           \"service_items\": [\n" + 
+        		"               \"1302102\"\n" + 
+        		"           ],\n" + 
+        		"           \"signal\": false\n" + 
+        		"       },\n" + 
+        		"       {\n" + 
+        		"           \"id\": \"105938087\",\n" + 
+        		"           \"service_items\": [\n" + 
+        		"               \"1313108\"\n" + 
+        		"           ],\n" + 
+        		"           \"signal\": false\n" + 
+        		"       },\n" + 
+        		"       {\n" + 
+        		"           \"id\": \"105938087\",\n" + 
+        		"           \"service_items\": [\n" + 
+        		"               \"1302102\"\n" + 
+        		"           ],\n" + 
+        		"           \"signal\": false\n" + 
+        		"       },\n" + 
+        		"       {\n" + 
+        		"           \"id\": \"105938087\",\n" + 
+        		"           \"service_items\": [\n" + 
+        		"               \"1302101\"\n" + 
+        		"           ],\n" + 
+        		"           \"signal\": true\n" + 
+        		"       }\n" + 
+        		"   ],\n" + 
+        		"   \"syncDate\": \"2013-07-19T15:04:06.949Z\",\n" + 
+        		"   \"inputContainsSMP\": true,\n" + 
+        		"   \"inputContainsYsPro\": false,\n" + 
+        		"   \"id\": \"40f0a249-f1ae-4034-bda4-e1ec177b3707\",\n" + 
+        		"   \"links\": [\n" + 
+        		"       {\n" + 
+        		"           \"rel\": \"debug\",\n" + 
+        		"           \"type\": \"get\",\n" + 
+        		"           \"url\": \"http://ttays.yousee.tv/sync/api/synchronize/debug/40f0a249-f1ae-4034-bda4-e1ec177b3707\",\n" + 
+        		"           \"href\": \"http://ttays.yousee.tv/sync/api/synchronize/debug/40f0a249-f1ae-4034-bda4-e1ec177b3707\",\n" + 
+        		"           \"mediatype\": \"application/json\"\n" + 
+        		"       }\n" + 
+        		"   ]," +
+        		"	\"complete\": true" +
+        		"}";
+            SyncResponse response=new SyncResponse(null,input);
+            
+            Assert.assertTrue(response.isComplete());
+    	
+    }
+    
+    @Test
     public void construct2() throws Exception {
         String input="{\"id\":133,\"subscriber\":\"608301280\"\n" +
             ",\"complete\":true" +
