@@ -41,14 +41,16 @@ public class CommunityWifiCase extends AbstractCase {
      */
     public static class CommunityWifiData {
 
+        private String ysproPcode="1200";
+        private int maxDevices = 5; // default 5
+    	
+    	
         public CommunityWifiData() {
         }
 
         public CommunityWifiData(String uuid) {
             this.uuid = uuid;
         }
-
-        private String ysproPcode="1200";
 
         public String getYsproPcode() {
             return ysproPcode;
@@ -59,6 +61,16 @@ public class CommunityWifiCase extends AbstractCase {
         public String getUuid() {
             return uuid;
         }
+
+		public int getMaxDevices() {
+			return maxDevices;
+		}
+
+		public void setMaxDevices(int maxDevices) {
+			this.maxDevices = maxDevices;
+		}
+        
+        
     }
 
     /**
@@ -74,6 +86,7 @@ public class CommunityWifiCase extends AbstractCase {
         ensureAcct();
 
         CommunityWifi def = getModel().alloc().CommunityWifi(position);
+        def.max_device.setValue(""+lineItem.getMaxDevices());
 
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
