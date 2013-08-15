@@ -238,6 +238,7 @@ public class Alloc {
         DialToneAccess res = find.DialToneAccess(position);
         if (res == null) {
             res = add.DialToneAccess();
+            res.setPosition(position);
         }
         return res;
     }
