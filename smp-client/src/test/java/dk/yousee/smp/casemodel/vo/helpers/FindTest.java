@@ -1,5 +1,7 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
+import java.util.UUID;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
@@ -79,22 +81,25 @@ public class FindTest {
 
     @Test
     public void CableVoiceService() {
-        // parse a compose service
-        CableVoiceService service = new CableVoiceService(model, model.key().CableVoiceService(modemId.getId()));
         Find find = new Find(model, model.getServiceLevelUnit());
 
-        // check composed services
-        Assert.assertEquals("Must contain 1 element", 1, find.CableVoiceService().size());
-
-        CableVoiceService selected1 = find.CableVoiceService(modemId);
-        Assert.assertNotNull("Modem is identified by external key, therefore we can look it up now", selected1);
+        // parse a compose service
+        CableVoiceService service = new CableVoiceService(model, model.key().CableVoiceService(UUID.randomUUID().toString()));
 
         PhoneNumber phone = PhoneNumber.create("458774897");
         CableVoiceService selected2 = find.CableVoiceService(phone);
         Assert.assertNull("Not yet found a voice, phone not connected", selected2);
 
         DialToneAccess dta = new DialToneAccess(model, model.key().generateUUID(), service);
+        dta.modem_id.setValue(modemId.getId());
         dta.setPhoneNumber(phone);
+
+        
+        // check composed services
+        Assert.assertEquals("Must contain 1 element", 1, find.CableVoiceService().size());
+
+        CableVoiceService selected1 = find.CableVoiceService(modemId);
+        Assert.assertNotNull("Modem is identified by external key, therefore we can look it up now", selected1);
 
         CableVoiceService selected3 = find.CableVoiceService(phone);
         Assert.assertTrue("voip is identified by phone, therefore we can look it up now", service == selected3);
