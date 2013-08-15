@@ -80,7 +80,7 @@ public class FindTest {
     @Test
     public void CableVoiceService() {
         // parse a compose service
-        CableVoiceService service = new CableVoiceService(model, model.key().CableVoiceService(modemId));
+        CableVoiceService service = new CableVoiceService(model, model.key().CableVoiceService(modemId.getId()));
         Find find = new Find(model, model.getServiceLevelUnit());
 
         // check composed services

@@ -1,5 +1,7 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
+import java.util.UUID;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
@@ -262,8 +264,8 @@ public class Add {
      * @param modemId to the modem
      * @return new instance
      */
-    public CableVoiceService CableVoiceService(ModemId modemId) {
-        CableVoiceService res = new CableVoiceService(model, key.CableVoiceService(modemId));
+    public CableVoiceService CableVoiceService() {
+        CableVoiceService res = new CableVoiceService(model, key.CableVoiceService(UUID.randomUUID().toString()));
         if (res.getEntity() == null) {
             res.getDefaultOrderData();
         }
@@ -274,8 +276,8 @@ public class Add {
      * @param modemId to the modem
      * @return new instance
      */
-    public DialToneAccess DialToneAccess(ModemId modemId) {
-        CableVoiceService parent = model.alloc().CableVoiceService(modemId);
+    public DialToneAccess DialToneAccess() {
+        CableVoiceService parent = model.alloc().CableVoiceService();
         DialToneAccess res = new DialToneAccess(model, key.generateUUID(), parent);
         if (res.getEntity() == null) {
             res.getDefaultOrderData();
@@ -300,8 +302,8 @@ public class Add {
      * @param modemId to the modem
      * @return new instance
      */
-    public SwitchFeature SwitchFeature(ModemId modemId) {
-        CableVoiceService parent = model.alloc().CableVoiceService(modemId);
+    public SwitchFeature SwitchFeature(BusinessPosition position) {
+        CableVoiceService parent = model.alloc().CableVoiceService(position);
         SwitchFeature res = new SwitchFeature(model, key.generateUUID(), parent);
         if (res.getEntity() == null) {
             res.getDefaultOrderData();
@@ -313,8 +315,8 @@ public class Add {
      * @param modemId to the modem
      * @return new instance
      */
-    public VoiceMail VoiceMail(ModemId modemId) {
-        CableVoiceService parent = model.alloc().CableVoiceService(modemId);
+    public VoiceMail VoiceMail(BusinessPosition position) {
+        CableVoiceService parent = model.alloc().CableVoiceService(position);
         VoiceMail res = new VoiceMail(model, key.generateUUID(), parent);
         if (res.getEntity() == null) {
             res.getDefaultOrderData();

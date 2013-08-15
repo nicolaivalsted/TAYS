@@ -14,6 +14,7 @@ import dk.yousee.smp.casemodel.vo.cbp.SuspendHelper.SuspendReasonAbuse;
 import dk.yousee.smp.casemodel.vo.cbp.SuspendStatus;
 import dk.yousee.smp.casemodel.vo.cpee.CpeComposedService;
 import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
+import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.Action;
 import dk.yousee.smp.order.model.BusinessException;
@@ -350,8 +351,9 @@ public class CableBBCase extends AbstractCase {
             throws BusinessException {
         ensureAcct();
 
+        CableVoiceService voiceService = this.getModel().find().CableVoiceService(modemId);
         VoiceCase vc = new VoiceCase(this.getModel(), this.getService());
-        boolean r1 = vc.deleteVoice(modemId);
+        boolean r1 = voiceService != null ? vc.deleteVoice(voiceService.getPosition()) : false;
         boolean r2 = buildOrderFromAction(modemId, Action.DELETE);
         return r2 || r1;
     }

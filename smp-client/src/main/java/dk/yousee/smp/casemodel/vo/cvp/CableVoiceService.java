@@ -65,7 +65,11 @@ public class CableVoiceService extends BasicUnit {
         }
     }
     public ModemId getModemId() {
-        return ModemId.extract(getExternalKey());
+        if(dialToneAccess==null){
+            return null;
+        } else {
+            return ModemId.create(dialToneAccess.modem_id.getValue());
+        }
     }
 
     /**

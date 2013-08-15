@@ -1,6 +1,7 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.order.model.Acct;
 
@@ -69,8 +70,8 @@ public class Key {
      * @param modemId to modem
      * @return external Key
      */
-    public String CableVoiceService(ModemId modemId) {         //                      voice_
-        return getProvider() + ":voice_" + modemId;
+    public String CableVoiceService(String uuid) {         //                      voice_
+        return getProvider() + ":voice_" + uuid;
     }
 
     /**

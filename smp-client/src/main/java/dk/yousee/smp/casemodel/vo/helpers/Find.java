@@ -373,13 +373,47 @@ public class Find {
         }
         return null;
     }
+
     /**
      * @param modemId to the modem
      * @return instance if it exists
      * TODO: use telephone number to identify
      */
     public CableVoiceService CableVoiceService(ModemId modemId) {
-        return (CableVoiceService) find(CableVoiceService.TYPE, key.CableVoiceService(modemId));
+		List<CableVoiceService> services = CableVoiceService();
+		for (CableVoiceService service : services) {
+			if (modemId.equals(service.getModemId())) {
+				return service;
+			}
+		}
+    	
+        return null;
+    }
+
+    /**
+     * @param modemId to the modem
+     * @return instance if it exists
+     * TODO: use telephone number to identify
+     */
+    public CableVoiceService CableVoiceService(BusinessPosition position) {
+		List<CableVoiceService> services = CableVoiceService();
+		for (CableVoiceService service : services) {
+			if (position.equals(service.getPosition())) {
+				return service;
+			}
+		}
+    	
+        return null;
+    }
+
+    /**
+     * @param BusinessPosition to the modem
+     * @return instance if it exists
+     */
+    public DialToneAccess DialToneAccess(BusinessPosition position) {
+        CableVoiceService parent = CableVoiceService(position);
+        if (parent == null) return null;
+        return parent.getDialToneAccess();
     }
 
     /**
@@ -392,29 +426,13 @@ public class Find {
         return parent.getDialToneAccess();
     }
 
-    /**
-     * @param modemId to the modem
-     * @param childId what is this ???
-     * @return instance  if it exists
-     */
-    public SwitchFeature SwitchFeature(ModemId modemId, String childId) {
-//        return SwitchFeature(key.CableVoiceService(modemId), childId);
-        CableVoiceService parent = CableVoiceService(modemId);
-        if (parent == null) return null;
-        for (SwitchFeature switchFeature : parent.getSwitchFeatureList()) {
-            if (switchFeature.getExternalKey().equalsIgnoreCase(childId)) {
-                return switchFeature;
-            }
-        }
-        return null;
-    }
-
+    
     /**
      * @param modemId to the modem
      * @return instance list if it exists
      */
-    public List<SwitchFeature> SwitchFeature(ModemId modemId) {
-        CableVoiceService parent = CableVoiceService(modemId);
+    public List<SwitchFeature> SwitchFeature(BusinessPosition position) {
+        CableVoiceService parent = CableVoiceService(position);
         if (parent == null) return null;
         return parent.getSwitchFeatureList();
     }
@@ -423,8 +441,8 @@ public class Find {
      * @param modemId to the modem
      * @return instance if it exists
      */
-    public VoiceMail VoiceMail(ModemId modemId) {
-        CableVoiceService parent = CableVoiceService(modemId);
+    public VoiceMail VoiceMail(BusinessPosition position) {
+        CableVoiceService parent = CableVoiceService(position);
         if (parent == null) return null;
         return parent.getVoiceMail();
     }

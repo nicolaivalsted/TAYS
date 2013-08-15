@@ -60,6 +60,7 @@ public class VoiceCase extends AbstractCase {
         private String Privacy;
         private String Cos_restrict_id;
         private String cnam;
+        private String modemActivationCode;
 
         public BusinessPosition getBusinessPosition() {
             return businessPosition;
@@ -116,6 +117,15 @@ public class VoiceCase extends AbstractCase {
         public void setCos_restrict_id(String cos_restrict_id) {
             Cos_restrict_id = cos_restrict_id;
         }
+
+		public String getModemActivationCode() {
+			return modemActivationCode;
+		}
+
+		public void setModemActivationCode(String modemActivationCode) {
+			this.modemActivationCode = modemActivationCode;
+		}
+
     }
 
     public CableVoiceService findByPhoneNumber(PhoneNumber phoneNumber) {
@@ -123,9 +133,9 @@ public class VoiceCase extends AbstractCase {
     }
 
 
-    Order createVoiceMail(ModemId modemId, PhoneNumber phoneNumber) throws BusinessException {
+    Order createVoiceMail(BusinessPosition position, PhoneNumber phoneNumber) throws BusinessException {
         ensureAcct();
-        VoiceMail voiceMail = getModel().alloc().VoiceMail(modemId);
+        VoiceMail voiceMail = getModel().alloc().VoiceMail(position);
         voiceMail.setPhoneNumber(phoneNumber);
         return getModel().getOrder();
     }
@@ -133,10 +143,11 @@ public class VoiceCase extends AbstractCase {
     public Order createVoice(ModemId modemId, VoiceData voiceData) throws BusinessException {
         ensureAcct();
 
-        DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(modemId);
-        if(voiceData.getBusinessPosition()!=null){
-            dialToneAccess.setPosition(voiceData.getBusinessPosition());
-        }
+        DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(voiceData.getBusinessPosition());
+
+        if (modemId != null)
+        	dialToneAccess.modem_id.setValue(modemId.getId());
+        
         dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
         dialToneAccess.mta_voice_port.setValue(voiceData.getMta_voice_port());
         dialToneAccess.rate_codes.setValue(voiceData.getRate_codes());
@@ -145,24 +156,26 @@ public class VoiceCase extends AbstractCase {
         dialToneAccess.cnam.setValue(voiceData.getCnam());
 
         //create ASSOC if mta exist 
-        VoipAccess voipAccess = getModel().find().VoipAccess(modemId);
-        if(voipAccess !=null && dialToneAccess.dt_has_access.get() == null){
-            dialToneAccess.dt_has_access.add(voipAccess);
+        if (modemId != null) {
+            VoipAccess voipAccess = getModel().find().VoipAccess(modemId);
+            if(voipAccess !=null && dialToneAccess.dt_has_access.get() == null){
+                dialToneAccess.dt_has_access.add(voipAccess);
+            }
         }
 
-        getModel().add().SwitchFeature(modemId);
+        getModel().add().SwitchFeature(voiceData.getBusinessPosition());
 
-        createVoiceMail(modemId, voiceData.getPhoneNumber());
+        createVoiceMail(voiceData.getBusinessPosition(), voiceData.getPhoneNumber());
         return getModel().getOrder();
     }
 
-    public Order updateDialToneAccess(ModemId modemId, VoiceData voiceData) throws BusinessException {
+    public Order updateDialToneAccess(BusinessPosition position, VoiceData voiceData) throws BusinessException {
         ensureAcct();
 
-        DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
+        DialToneAccess dialToneAccess = getModel().find().DialToneAccess(position);
         if (dialToneAccess == null) {
             throw new BusinessException(
-                    "Update failed,  Voice service Plan was not found: for modemId: %s", modemId);
+                    "Update failed,  Voice service Plan was not found: for position: %s", position);
         }
         if(voiceData.getBusinessPosition()!=null){
             dialToneAccess.setPosition(voiceData.getBusinessPosition());
@@ -182,6 +195,11 @@ public class VoiceCase extends AbstractCase {
         if (voiceData.getCos_restrict_id() != null) {
             dialToneAccess.Cos_restrict_id.setValue(voiceData.getCos_restrict_id());
         }
+        if(voiceData.getModemActivationCode()!=null){
+            dialToneAccess.modem_id.setValue(voiceData.getModemActivationCode());
+        }
+
+        
         return null;
     }
 
@@ -195,10 +213,9 @@ public class VoiceCase extends AbstractCase {
      *          when <br/>
      *          1) The customer does not exist<br/>
      */
-    public boolean deleteVoice(ModemId modemId)
-            throws BusinessException {
+    public boolean deleteVoice(BusinessPosition position) throws BusinessException {
         ensureAcct();
-        return buildOrderFromAction(modemId, Action.DELETE);
+        return buildOrderFromAction(position, Action.DELETE);
     }
 
 
@@ -212,11 +229,9 @@ public class VoiceCase extends AbstractCase {
      *          when <br/>
      *          1) The customer does not exist<br/>
      */
-    public boolean suspendVoice(
-            ModemId modemId
-    ) throws BusinessException {
+    public boolean suspendVoice(BusinessPosition position) throws BusinessException {
         ensureAcct();
-        return buildOrderFromAction(modemId, Action.SUSPEND);
+        return buildOrderFromAction(position, Action.SUSPEND);
     }
 
     /**
@@ -229,11 +244,9 @@ public class VoiceCase extends AbstractCase {
      *          when <br/>
      *          1) The customer does not exist<br/>
      */
-    public boolean resumeVoice(
-            ModemId modemId
-    ) throws BusinessException {
+    public boolean resumeVoice(BusinessPosition position) throws BusinessException {
         ensureAcct();
-        return buildOrderFromAction(modemId, Action.RESUME);
+        return buildOrderFromAction(position, Action.RESUME);
     }
 
     /**
@@ -243,10 +256,10 @@ public class VoiceCase extends AbstractCase {
      * @param action  the action to send to the subscription
      * @return true if anything to do
      */
-    private boolean buildOrderFromAction(ModemId modemId, Action action) {
+    private boolean buildOrderFromAction(BusinessPosition position, Action action) {
         boolean doAnything = false;
 
-        CableVoiceService service = getModel().find().CableVoiceService(modemId);
+        CableVoiceService service = getModel().find().CableVoiceService(position);
 
         if (service != null) {
             doAnything = true;
@@ -270,22 +283,6 @@ public class VoiceCase extends AbstractCase {
         return doAnything;
     }
 
-    /**
-     * add association for InetAccess
-     *
-     * @param voipAccess service
-     * @param modemId    modem used
-     * @return model instance
-     * @throws dk.yousee.smp.order.model.BusinessException   when there is an error for link.
-     */
-    public DialToneAccess addDt_has_accessForDialToneAccess(VoipAccess voipAccess, ModemId modemId) throws BusinessException {
-        DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(modemId);
-        if (dialToneAccess.dt_has_access.get() == null) {
-            dialToneAccess.dt_has_access.add(voipAccess);
-        }
-        return dialToneAccess;
-    }
-    
     public void updateVoiceMailRandyState(PhoneNumber pn, String state) throws BusinessException{
        ensureAcct();
         

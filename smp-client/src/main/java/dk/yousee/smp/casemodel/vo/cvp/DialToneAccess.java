@@ -53,6 +53,13 @@ public class DialToneAccess extends BasicUnit {
         }
     }
     
+    @Override
+    protected CableVoiceService getParent() {
+    	return (CableVoiceService)super.getParent();
+    }
+
+    public PropHolder modem_id = new PropHolder(this, "modem_id");
+
     public PropHolder dial_tone_service_id = new PropHolder(this, "dial_tone_service_id", true);
 
     private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);

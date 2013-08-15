@@ -14,7 +14,6 @@ import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
 import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
 import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
-import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
 import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
@@ -213,10 +212,32 @@ public class Alloc {
      * @param modemId to modem
      * @return instance either an existing plan or a new plan ready for fill in data
      */
-    public CableVoiceService CableVoiceService(ModemId modemId) {
-        CableVoiceService res = find.CableVoiceService(modemId);
+    public CableVoiceService CableVoiceService() {
+        return add.CableVoiceService();
+    }
+
+    /**
+     * @param modemId to modem
+     * @return instance either an existing plan or a new plan ready for fill in data
+     */
+    public CableVoiceService CableVoiceService(BusinessPosition position) {
+    	CableVoiceService res = find.CableVoiceService(position);
+
+    	if (res == null) {
+            res = add.CableVoiceService();
+        }
+        return res;
+    }
+
+    
+    /**
+     * @param modemId to modem
+     * @return instance either an existing child-service or a new child-service ready for fill in data
+     */
+    public DialToneAccess DialToneAccess(BusinessPosition position) {
+        DialToneAccess res = find.DialToneAccess(position);
         if (res == null) {
-            res = add.CableVoiceService(modemId);
+            res = add.DialToneAccess();
         }
         return res;
     }
@@ -225,35 +246,10 @@ public class Alloc {
      * @param modemId to modem
      * @return instance either an existing child-service or a new child-service ready for fill in data
      */
-    public DialToneAccess DialToneAccess(ModemId modemId) {
-        DialToneAccess res = find.DialToneAccess(modemId);
+    public VoiceMail VoiceMail(BusinessPosition position) {
+        VoiceMail res = find.VoiceMail(position);
         if (res == null) {
-            res = add.DialToneAccess(modemId);
-        }
-        return res;
-    }
-
-    /**
-     * @param modemId to modem
-     * @param childKey ?? what is that ??
-     * @return instance either an existing child-service or a new child-service ready for fill in data
-     */
-    public SwitchFeature SwitchFeature(ModemId modemId, String childKey) {
-        SwitchFeature res = find.SwitchFeature(modemId, childKey);
-        if (res == null) {
-            res = add.SwitchFeature(modemId);
-        }
-        return res;
-    }
-
-    /**
-     * @param modemId to modem
-     * @return instance either an existing child-service or a new child-service ready for fill in data
-     */
-    public VoiceMail VoiceMail(ModemId modemId) {
-        VoiceMail res = find.VoiceMail(modemId);
-        if (res == null) {
-            res = add.VoiceMail(modemId);
+            res = add.VoiceMail(position);
         }
         return res;
     }
