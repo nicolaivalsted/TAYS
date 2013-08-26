@@ -28,6 +28,7 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
+import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
@@ -420,6 +421,10 @@ public class Add {
 
     public Backup Backup(BusinessPosition position) {
         return new Backup(model,position);
+    }
+
+    public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
+        return new Sikkerhedspakke(model,position);
     }
 
     public TdcMail tdcMail(BusinessPosition businessPosition) {

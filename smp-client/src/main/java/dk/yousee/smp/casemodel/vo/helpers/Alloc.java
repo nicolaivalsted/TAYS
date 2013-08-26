@@ -22,6 +22,7 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
+import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
@@ -347,7 +348,16 @@ public class Alloc {
         return sub==null?add.Backup(position):sub;
     }
 
-    
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
+        Sikkerhedspakke sub=find.Sikkerhedspakke(position);
+        return sub==null?add.Sikkerhedspakke(position):sub;
+    }
+
+
     public TdcMail tdcMail(BusinessPosition businessPosition) {
         TdcMail sub = find.tdcMail(businessPosition);
         return sub==null?add.tdcMail(businessPosition):sub;

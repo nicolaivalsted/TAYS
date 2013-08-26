@@ -33,6 +33,8 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
+import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
+import dk.yousee.smp.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
@@ -695,6 +697,45 @@ public class Find {
     public Backup Backup(BusinessPosition position) {
         BackupService parent=BackupService(position);
         return parent==null?null:parent.getBackup();
+    }
+
+    // ======= Sikkerhedspakke =======
+
+    /**
+     * @return the MobileBBService the subscriber has
+     */
+    public List<SikkerhedspakkeService> SikkerhedspakkeService() {
+        List<SikkerhedspakkeService> res = new ArrayList<SikkerhedspakkeService>();
+        for (BasicUnit plan : serviceLevelUnit) {
+            if (plan.getType().equals(BackupService.TYPE)) {
+                res.add((SikkerhedspakkeService) plan);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param position identifier for specific instance of the service plan
+     * @return instance if it exists
+     */
+    public SikkerhedspakkeService SikkerhedspakkeService(BusinessPosition position) {
+        List<SikkerhedspakkeService> plans = SikkerhedspakkeService();
+        for (SikkerhedspakkeService plan : plans) {
+            if(position.equals(plan.getPosition())) {
+                return plan;
+            }
+        }
+        return null;
+    }
+
+    /**
+     *
+     * @param position to service
+     * @return new instance
+     */
+    public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
+        SikkerhedspakkeService parent=SikkerhedspakkeService(position);
+        return parent==null?null:parent.getSikkerhedspakke();
     }
 
     // ======= TdcMail =======
