@@ -3,6 +3,7 @@ package dk.yousee.smp.casemodel.vo.helpers;
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
+import dk.yousee.smp.casemodel.vo.backup.Backup;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
 import dk.yousee.smp.casemodel.vo.cbp.SMPEmail;
@@ -335,6 +336,15 @@ public class Alloc {
     public CommunityWifi CommunityWifi(BusinessPosition position) {
         CommunityWifi sub=find.CommunityWifi(position);
         return sub==null?add.CommunityWifi(position):sub;
+    }
+
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public Backup Backup(BusinessPosition position) {
+        Backup sub=find.Backup(position);
+        return sub==null?add.Backup(position):sub;
     }
 
     

@@ -1,10 +1,9 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
-import java.util.UUID;
-
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
+import dk.yousee.smp.casemodel.vo.backup.Backup;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp.casemodel.vo.base.SubSpec;
@@ -32,6 +31,8 @@ import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
+
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -415,6 +416,10 @@ public class Add {
 
     public CommunityWifi CommunityWifi(BusinessPosition position) {
         return new CommunityWifi(model,position);
+    }
+
+    public Backup Backup(BusinessPosition position) {
+        return new Backup(model,position);
     }
 
     public TdcMail tdcMail(BusinessPosition businessPosition) {

@@ -1,14 +1,11 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
+import dk.yousee.smp.casemodel.vo.backup.Backup;
+import dk.yousee.smp.casemodel.vo.backup.BackupService;
 import dk.yousee.smp.casemodel.vo.base.SampSub;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
@@ -39,6 +36,10 @@ import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -656,6 +657,44 @@ public class Find {
     public CommunityWifi CommunityWifi(BusinessPosition position) {
         CommunityWifiService parent=CommunityWifiService(position);
         return parent==null?null:parent.getCommunityWifi();
+    }
+
+    // ======= Backup =======
+
+    /**
+     * @return the MobileBBService the subscriber has
+     */
+    public List<BackupService> BackupService() {
+        List<BackupService> res = new ArrayList<BackupService>();
+        for (BasicUnit plan : serviceLevelUnit) {
+            if (plan.getType().equals(BackupService.TYPE)) {
+                res.add((BackupService) plan);
+            }
+        }
+        return res;
+    }
+
+    /**
+     * @param position identifier for specific instance of the service plan
+     * @return instance if it exists
+     */
+    public BackupService BackupService(BusinessPosition position) {
+        List<BackupService> plans = BackupService();
+        for (BackupService plan : plans) {
+            if(position.equals(plan.getPosition())) {
+                return plan;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public Backup Backup(BusinessPosition position) {
+        BackupService parent=BackupService(position);
+        return parent==null?null:parent.getBackup();
     }
 
     // ======= TdcMail =======
