@@ -14,7 +14,7 @@ import dk.yousee.smp.order.model.ServicePrefix;
 public class Sikkerhedspakke extends BasicUnit {
 
     public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "sikpakke");
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "security_package");
 
 
     public Sikkerhedspakke(SubscriberModel model, String externalKey, SikkerhedspakkeService parent) {

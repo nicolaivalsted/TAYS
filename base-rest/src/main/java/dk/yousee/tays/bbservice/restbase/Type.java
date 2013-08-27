@@ -25,7 +25,7 @@ public enum Type {
     Mta("SubSvcSpec:smp_emta_pc_voip_access"),
     CWiFi("SubSvcSpec:community_wifi"),
     Backup("SubSvcSpec:backup"),
-    Sikkerhedspakke("SubSvcSpec:sikpakke");
+    Sikkerhedspakke("SubSvcSpec:security_package");
     
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();

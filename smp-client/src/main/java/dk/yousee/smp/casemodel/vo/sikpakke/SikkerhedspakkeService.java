@@ -10,8 +10,8 @@ import dk.yousee.smp.order.model.ServicePrefix;
 
 public class SikkerhedspakkeService extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
-    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "sikpakke_composed");
-    public static NickName NAME = new NickName("sikpakke");
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "security_package_composed");
+    public static NickName NAME = new NickName("security_package");
 
     public SikkerhedspakkeService(SubscriberModel model, String externalKey) {
         super(model, externalKey, TYPE, LEVEL, NAME, null);
