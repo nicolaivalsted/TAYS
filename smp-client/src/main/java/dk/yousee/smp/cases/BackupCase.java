@@ -1,6 +1,7 @@
 package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
+import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.backup.Backup;
 import dk.yousee.smp.casemodel.vo.backup.BackupService;
 import dk.yousee.smp.order.model.Acct;
@@ -38,9 +39,11 @@ public class BackupCase extends AbstractCase {
      */
     public static class BackupData {
 
+        private BusinessPosition businessPosition;
         private String ysproPcode = "4020";
         private String uuid;
-        private String licenseId;
+        private String licenseType;
+        private String modemId;
 
 
         public BackupData() {
@@ -48,6 +51,14 @@ public class BackupCase extends AbstractCase {
 
         public BackupData(String uuid) {
             this.uuid = uuid;
+        }
+
+        public BusinessPosition getBusinessPosition() {
+            return businessPosition;
+        }
+
+        public void setBusinessPosition(BusinessPosition businessPosition) {
+            this.businessPosition = businessPosition;
         }
 
         public String getYsproPcode() {
@@ -58,28 +69,39 @@ public class BackupCase extends AbstractCase {
             return uuid;
         }
 
-        public String getLicenseId() {
-            return licenseId;
+        public String getLicenseType() {
+            return licenseType;
         }
 
-        public void setLicenseId(String licenseId) {
-            this.licenseId = licenseId;
+        public void setLicenseType(String licenseType) {
+            this.licenseType = licenseType;
+        }
+
+        public ModemId getModemId() {
+            return ModemId.create(modemId);
+        }
+
+        public void setModemId(ModemId modemId) {
+            this.modemId = modemId == null ? null : modemId.getId();
         }
     }
 
     /**
      * Create Backup
      *
-     * @param position where?
+     *
      * @param lineItem data to add
      * @return order for this
      * @throws dk.yousee.smp.order.model.BusinessException on error like no subscriber
      */
-    public Order createProvisioning(BusinessPosition position, BackupData lineItem) throws BusinessException {
+    public Order create(BackupData lineItem) throws BusinessException {
         ensureAcct();
 
-        Backup def = getModel().alloc().Backup(position);
-        def.license_id.setValue(lineItem.getLicenseId());
+        Backup def = getModel().alloc().Backup(lineItem.getBusinessPosition());
+        def.license_type.setValue(lineItem.getLicenseType());
+
+        ModemId modemId = lineItem.getModemId();
+        def.modem_id.setValue(modemId == null ? null : modemId.getId());
 
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
@@ -209,5 +231,21 @@ public class BackupCase extends AbstractCase {
         }
         return res;
     }
+
+    public Order update(BusinessPosition position, BackupData data) throws BusinessException {
+        ensureAcct();
+
+        Backup backup = getModel().find().Backup(position);
+        if (backup == null) {
+            throw new BusinessException("Update failed, Backup service Plan was not found: for position: %s", position);
+        }
+
+        if(data.getBusinessPosition()!=null){
+            backup.business_position.setValue(data.getBusinessPosition().getId());
+        }
+
+        return getModel().getOrder();
+    }
+
 
 }

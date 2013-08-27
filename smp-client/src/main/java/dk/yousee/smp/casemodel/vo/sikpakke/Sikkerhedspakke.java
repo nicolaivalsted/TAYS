@@ -2,6 +2,7 @@ package dk.yousee.smp.casemodel.vo.sikpakke;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
+import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
 import dk.yousee.smp.order.model.OrderDataLevel;
@@ -37,10 +38,14 @@ public class Sikkerhedspakke extends BasicUnit {
      */
     public static final String BUSINESS_POSITION = "business_position";
 
-    protected PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
+    public PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
 
     public BusinessPosition getPosition() {
         return BusinessPosition.create(business_position.getValue());
+    }
+
+    public ModemId getModemId() {
+        return ModemId.create(modem_id.getValue());
     }
 
     public static final String YSPRO_PCODE = "yspro_pcode";
@@ -48,4 +53,10 @@ public class Sikkerhedspakke extends BasicUnit {
 
     public static final String YSPRO_PROVISIONINGID = "yspro_provisioningid";
     public PropHolder yspro_provisioningid = new PropHolder(this, YSPRO_PROVISIONINGID);
+
+    public static final String LICENSE_TYPE = "licenseType";
+    public PropHolder license_type = new PropHolder(this, LICENSE_TYPE, true);
+
+    public static final String MODEM_ID = "modem_id";
+    public PropHolder modem_id = new PropHolder(this, MODEM_ID, true);
 }

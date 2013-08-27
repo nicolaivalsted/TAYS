@@ -39,6 +39,7 @@ import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
 import org.apache.log4j.Logger;
+import org.omg.CORBA._PolicyStub;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -699,6 +700,41 @@ public class Find {
         return parent==null?null:parent.getBackup();
     }
 
+    /**
+     * @param modemId identifier for specific instance of the service plan
+     * @return list of found services
+     */
+    public List<BackupService> BackupService(ModemId modemId) {
+        List<BackupService> services = new ArrayList<BackupService>();
+
+        if (modemId == null) {
+            return services;
+        }
+
+        List<BackupService> plans = BackupService();
+        for (BackupService plan : plans) {
+            if(modemId.equals(plan.getModemId())) {
+                services.add(plan);
+            }
+        }
+
+        return services;
+    }
+
+    /**
+     *
+     * @param modemId to service
+     * @return list of found items
+     */
+    public List<Backup> Backup(ModemId modemId) {
+        List<Backup> backups = new ArrayList<Backup>();
+        List<BackupService> parent=BackupService(modemId);
+        for (BackupService service : parent) {
+            backups.add(service.getBackup());
+        }
+        return backups;
+    }
+
     // ======= Sikkerhedspakke =======
 
     /**
@@ -719,6 +755,9 @@ public class Find {
      * @return instance if it exists
      */
     public SikkerhedspakkeService SikkerhedspakkeService(BusinessPosition position) {
+        if (position == null) {
+            return null;
+        }
         List<SikkerhedspakkeService> plans = SikkerhedspakkeService();
         for (SikkerhedspakkeService plan : plans) {
             if(position.equals(plan.getPosition())) {
@@ -736,6 +775,41 @@ public class Find {
     public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
         SikkerhedspakkeService parent=SikkerhedspakkeService(position);
         return parent==null?null:parent.getSikkerhedspakke();
+    }
+
+    /**
+     * @param modemId identifier for specific instance of the service plan
+     * @return list of found services
+     */
+    public List<SikkerhedspakkeService> SikkerhedspakkeService(ModemId modemId) {
+        List<SikkerhedspakkeService> services = new ArrayList<SikkerhedspakkeService>();
+
+        if (modemId == null) {
+            return services;
+        }
+
+        List<SikkerhedspakkeService> plans = SikkerhedspakkeService();
+        for (SikkerhedspakkeService plan : plans) {
+            if(modemId.equals(plan.getModemId())) {
+                services.add(plan);
+            }
+        }
+
+        return services;
+    }
+
+    /**
+     *
+     * @param modemId to service
+     * @return list of found items
+     */
+    public List<Sikkerhedspakke> Sikkerhedspakke(ModemId modemId) {
+        List<Sikkerhedspakke> sikkerhedspakker = new ArrayList<Sikkerhedspakke>();
+        List<SikkerhedspakkeService> parent=SikkerhedspakkeService(modemId);
+        for (SikkerhedspakkeService service : parent) {
+            sikkerhedspakker.add(service.getSikkerhedspakke());
+        }
+        return sikkerhedspakker;
     }
 
     // ======= TdcMail =======

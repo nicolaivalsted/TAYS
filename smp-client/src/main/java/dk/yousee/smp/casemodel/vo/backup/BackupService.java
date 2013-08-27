@@ -2,6 +2,7 @@ package dk.yousee.smp.casemodel.vo.backup;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
+import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.order.model.NickName;
 import dk.yousee.smp.order.model.OrderDataLevel;
@@ -30,5 +31,9 @@ public class BackupService extends BasicUnit {
 
     public BusinessPosition getPosition() {
         return getBackup() == null ? null : getBackup().getPosition();
+    }
+
+    public ModemId getModemId() {
+        return getBackup() == null ? null : getBackup().getModemId();
     }
 }

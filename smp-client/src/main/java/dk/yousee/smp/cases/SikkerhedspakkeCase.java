@@ -1,6 +1,7 @@
 package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
+import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp.order.model.Acct;
@@ -38,15 +39,25 @@ public class SikkerhedspakkeCase extends AbstractCase {
      */
     public static class SikkerhedspakkeData {
 
+        private BusinessPosition businessPosition;
         private String ysproPcode = "4020";
         private String uuid;
-
+        private String licenseType;
+        private String modemId;
 
         public SikkerhedspakkeData() {
         }
 
         public SikkerhedspakkeData(String uuid) {
             this.uuid = uuid;
+        }
+
+        public BusinessPosition getBusinessPosition() {
+            return businessPosition;
+        }
+
+        public void setBusinessPosition(BusinessPosition businessPosition) {
+            this.businessPosition = businessPosition;
         }
 
         public String getYsproPcode() {
@@ -56,20 +67,41 @@ public class SikkerhedspakkeCase extends AbstractCase {
         public String getUuid() {
             return uuid;
         }
+
+        public String getLicenseType() {
+            return licenseType;
+        }
+
+        public void setLicenseType(String licenseType) {
+            this.licenseType = licenseType;
+        }
+
+        public ModemId getModemId() {
+            return ModemId.create(modemId);
+        }
+
+        public void setModemId(ModemId modemId) {
+            this.modemId = modemId == null ? null : modemId.getId();
+        }
     }
 
     /**
      * Create Sikkerhedspakke
      *
-     * @param position where?
+     *
+     *
      * @param lineItem data to add
      * @return order for this
      * @throws dk.yousee.smp.order.model.BusinessException on error like no subscriber
      */
-    public Order createProvisioning(BusinessPosition position, SikkerhedspakkeData lineItem) throws BusinessException {
+    public Order create(SikkerhedspakkeData lineItem) throws BusinessException {
         ensureAcct();
 
-        Sikkerhedspakke def = getModel().alloc().Sikkerhedspakke(position);
+        Sikkerhedspakke def = getModel().alloc().Sikkerhedspakke(lineItem.getBusinessPosition());
+        def.license_type.setValue(lineItem.getLicenseType());
+
+        ModemId modemId = lineItem.getModemId();
+        def.modem_id.setValue(modemId == null ? null : modemId.getId());
 
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
@@ -199,5 +231,21 @@ public class SikkerhedspakkeCase extends AbstractCase {
         }
         return res;
     }
+
+    public Order update(BusinessPosition position, SikkerhedspakkeData data) throws BusinessException {
+        ensureAcct();
+
+        Sikkerhedspakke sikkerhedspakke = getModel().find().Sikkerhedspakke(position);
+        if (sikkerhedspakke == null) {
+            throw new BusinessException("Update failed, Sikkerhedspakke service Plan was not found: for position: %s", position);
+        }
+
+        if(data.getBusinessPosition()!=null){
+            sikkerhedspakke.business_position.setValue(data.getBusinessPosition().getId());
+        }
+
+        return getModel().getOrder();
+    }
+
 
 }
