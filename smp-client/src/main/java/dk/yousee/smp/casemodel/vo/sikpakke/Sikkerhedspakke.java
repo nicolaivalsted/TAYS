@@ -39,7 +39,7 @@ public class Sikkerhedspakke extends BasicUnit {
 
     protected PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
 
-    BusinessPosition getPosition() {
+    public BusinessPosition getPosition() {
         return BusinessPosition.create(business_position.getValue());
     }
 
