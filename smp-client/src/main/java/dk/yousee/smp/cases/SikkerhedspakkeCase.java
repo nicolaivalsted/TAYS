@@ -40,7 +40,7 @@ public class SikkerhedspakkeCase extends AbstractCase {
     public static class SikkerhedspakkeData {
 
         private BusinessPosition businessPosition;
-        private String ysproPcode = "4020";
+        private String ysproPcode = "6000";
         private String modemId;
 
         public SikkerhedspakkeData(BusinessPosition businessPosition) {
