@@ -1,6 +1,8 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
+import dk.yousee.smp.casemodel.vo.backup.Backup;
+import dk.yousee.smp.casemodel.vo.backup.BackupService;
 import dk.yousee.smp.casemodel.vo.base.SampSub;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
@@ -28,12 +30,13 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
+import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
+import dk.yousee.smp.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.ResponseEntity;
 import org.apache.log4j.Logger;
-import sun.awt.PlatformFont;
 
 /**
  * Created by IntelliJ IDEA.
@@ -165,6 +168,20 @@ public class Parse {
                         new CommunityWifi(model, child.getExternalKey(), service);
                     }
                 }                           
+            } else if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
+            	SikkerhedspakkeService service = new SikkerhedspakkeService(model, plan.getExternalKey());
+                for(ResponseEntity child : plan.getEntities()) {
+                    if(child.getType().equals(Sikkerhedspakke.TYPE)) {
+                        new Sikkerhedspakke(model, child.getExternalKey(), service);
+                    }
+                }
+            } else if (plan.getType().equals(BackupService.TYPE)) {
+                BackupService service = new BackupService(model, plan.getExternalKey());
+                for(ResponseEntity child : plan.getEntities()) {
+                    if(child.getType().equals(Backup.TYPE)) {
+                        new Backup(model, child.getExternalKey(), service);
+                    }
+                }
             } else{
                 logger.warn("unknown service, type=" + plan.getType() + ", externalKey=" + plan.getExternalKey());
             }

@@ -41,15 +41,10 @@ public class SikkerhedspakkeCase extends AbstractCase {
 
         private BusinessPosition businessPosition;
         private String ysproPcode = "4020";
-        private String uuid;
-        private String licenseType;
         private String modemId;
 
-        public SikkerhedspakkeData() {
-        }
-
-        public SikkerhedspakkeData(String uuid) {
-            this.uuid = uuid;
+        public SikkerhedspakkeData(BusinessPosition businessPosition) {
+            this.businessPosition = businessPosition;
         }
 
         public BusinessPosition getBusinessPosition() {
@@ -62,18 +57,6 @@ public class SikkerhedspakkeCase extends AbstractCase {
 
         public String getYsproPcode() {
             return ysproPcode;
-        }
-
-        public String getUuid() {
-            return uuid;
-        }
-
-        public String getLicenseType() {
-            return licenseType;
-        }
-
-        public void setLicenseType(String licenseType) {
-            this.licenseType = licenseType;
         }
 
         public ModemId getModemId() {
@@ -98,7 +81,6 @@ public class SikkerhedspakkeCase extends AbstractCase {
         ensureAcct();
 
         Sikkerhedspakke def = getModel().alloc().Sikkerhedspakke(lineItem.getBusinessPosition());
-        def.license_type.setValue(lineItem.getLicenseType());
 
         ModemId modemId = lineItem.getModemId();
         def.modem_id.setValue(modemId == null ? null : modemId.getId());
@@ -106,17 +88,6 @@ public class SikkerhedspakkeCase extends AbstractCase {
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
         return getModel().getOrder();
-    }
-
-    public SikkerhedspakkeData readProvisioning(BusinessPosition position) throws BusinessException {
-        SikkerhedspakkeService sikkerhedspakkeService = getModel().find().SikkerhedspakkeService(position);
-        SikkerhedspakkeData res;
-        if (sikkerhedspakkeService == null) {
-            res = null;
-        } else {
-            res = new SikkerhedspakkeData(sikkerhedspakkeService.getSikkerhedspakke().yspro_provisioningid.getValue());
-        }
-        return res;
     }
 
     /**

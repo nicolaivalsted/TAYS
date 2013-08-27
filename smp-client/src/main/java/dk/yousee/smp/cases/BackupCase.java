@@ -41,16 +41,11 @@ public class BackupCase extends AbstractCase {
 
         private BusinessPosition businessPosition;
         private String ysproPcode = "4020";
-        private String uuid;
-        private String licenseType;
         private String modemId;
 
 
-        public BackupData() {
-        }
-
-        public BackupData(String uuid) {
-            this.uuid = uuid;
+        public BackupData(BusinessPosition businessPosition) {
+            this.businessPosition = businessPosition;
         }
 
         public BusinessPosition getBusinessPosition() {
@@ -63,18 +58,6 @@ public class BackupCase extends AbstractCase {
 
         public String getYsproPcode() {
             return ysproPcode;
-        }
-
-        public String getUuid() {
-            return uuid;
-        }
-
-        public String getLicenseType() {
-            return licenseType;
-        }
-
-        public void setLicenseType(String licenseType) {
-            this.licenseType = licenseType;
         }
 
         public ModemId getModemId() {
@@ -98,7 +81,6 @@ public class BackupCase extends AbstractCase {
         ensureAcct();
 
         Backup def = getModel().alloc().Backup(lineItem.getBusinessPosition());
-        def.license_type.setValue(lineItem.getLicenseType());
 
         ModemId modemId = lineItem.getModemId();
         def.modem_id.setValue(modemId == null ? null : modemId.getId());
@@ -106,17 +88,6 @@ public class BackupCase extends AbstractCase {
         def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
         return getModel().getOrder();
-    }
-
-    public BackupData readProvisioning(BusinessPosition position) throws BusinessException {
-        BackupService backupService = getModel().find().BackupService(position);
-        BackupData res;
-        if (backupService == null) {
-            res = null;
-        } else {
-            res = new BackupData(backupService.getBackup().yspro_provisioningid.getValue());
-        }
-        return res;
     }
 
     /**

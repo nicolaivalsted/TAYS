@@ -38,7 +38,7 @@ public class Sikkerhedspakke extends BasicUnit {
      */
     public static final String BUSINESS_POSITION = "business_position";
 
-    public PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
+    public PropHolder business_position = new PropHolder(this, BUSINESS_POSITION, true);
 
     public BusinessPosition getPosition() {
         return BusinessPosition.create(business_position.getValue());
@@ -49,13 +49,13 @@ public class Sikkerhedspakke extends BasicUnit {
     }
 
     public static final String YSPRO_PCODE = "yspro_pcode";
-    public PropHolder yspro_pcode = new PropHolder(this, YSPRO_PCODE, true);
+    public PropHolder yspro_pcode = new PropHolder(this, YSPRO_PCODE, false);
 
     public static final String YSPRO_PROVISIONINGID = "yspro_provisioningid";
-    public PropHolder yspro_provisioningid = new PropHolder(this, YSPRO_PROVISIONINGID);
+    public PropHolder yspro_provisioningid = new PropHolder(this, YSPRO_PROVISIONINGID, false);
 
     public static final String LICENSE_TYPE = "licenseType";
-    public PropHolder license_type = new PropHolder(this, LICENSE_TYPE, true);
+    public PropHolder license_type = new PropHolder(this, LICENSE_TYPE, false);
 
     public static final String MODEM_ID = "modem_id";
     public PropHolder modem_id = new PropHolder(this, MODEM_ID, true);

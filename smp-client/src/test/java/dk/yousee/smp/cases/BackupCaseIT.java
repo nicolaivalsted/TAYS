@@ -2,7 +2,6 @@ package dk.yousee.smp.cases;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
-import dk.yousee.smp.casemodel.vo.backup.BackupService;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.functions.OrderServiceImpl;
 import dk.yousee.smp.order.model.Acct;
@@ -39,22 +38,6 @@ public class BackupCaseIT {
         orderServiceImpl.setConnector(connector);
         orderService = orderServiceImpl;
         logger.debug("service allocated");
-    }
-
-    @Test
-    public void step_02_readProvisioning() throws Exception {
-        test = new BackupCase(orderService, acct);
-        model = test.getModel();
-        Assert.assertTrue("customer must exist", model.customerExists());
-        List<BackupService> services = model.find().BackupService();
-        Assert.assertNotNull("Services can never be null", services);
-        Assert.assertFalse("There must be at least one service", services.isEmpty());
-        BackupService service = services.get(0);
-        BusinessPosition position = service.getPosition();
-
-        BackupCase.BackupData data = test.readProvisioning(position);
-        Assert.assertNotNull("Expected to find data", data);
-        Assert.assertNotNull("Expected to product", data.getYsproPcode());
     }
 
     @Test

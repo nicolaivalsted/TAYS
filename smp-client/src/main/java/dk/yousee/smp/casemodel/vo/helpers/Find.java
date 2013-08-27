@@ -39,7 +39,6 @@ import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
 import org.apache.log4j.Logger;
-import org.omg.CORBA._PolicyStub;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -743,7 +742,7 @@ public class Find {
     public List<SikkerhedspakkeService> SikkerhedspakkeService() {
         List<SikkerhedspakkeService> res = new ArrayList<SikkerhedspakkeService>();
         for (BasicUnit plan : serviceLevelUnit) {
-            if (plan.getType().equals(BackupService.TYPE)) {
+            if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
                 res.add((SikkerhedspakkeService) plan);
             }
         }
