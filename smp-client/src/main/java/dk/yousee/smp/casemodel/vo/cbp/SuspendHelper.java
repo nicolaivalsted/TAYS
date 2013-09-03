@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.yousee.smp.casemodel.vo.cbp;
 
 /**
@@ -12,7 +8,7 @@ public class SuspendHelper {
 
     public enum SuspendReasonAbuse {
 
-        ABUSE("Abuse"), ABUSEWARNING("Abuse Warning"), UKENDT("UKENDT");
+        ABUSE("Abuse"), ABUSEWARNING("Abuse Warning"), UKENDT("UKENDT"), MODEM("Modem");
         
         String description;
                 

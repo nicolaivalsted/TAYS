@@ -33,5 +33,8 @@ public class SuspendHelperTest {
 
         test= SuspendHelper.SuspendReasonAbuse.getEnum("ABUSEWARNING");
         Assert.assertEquals(SuspendHelper.SuspendReasonAbuse.ABUSEWARNING, test);
+        
+        test= SuspendHelper.SuspendReasonAbuse.getEnum("MODEM");
+        Assert.assertEquals(SuspendHelper.SuspendReasonAbuse.MODEM, test);
     }
 }
