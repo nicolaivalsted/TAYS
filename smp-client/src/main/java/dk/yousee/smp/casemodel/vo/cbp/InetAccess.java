@@ -167,6 +167,9 @@ public class InetAccess extends BasicUnit {
     public PropHolder email_cos = new PropHolder(this, "email_cos");
     public PropHolder cm_mac = new PropHolder(this, "cm_mac");
     public PropHolder product_name = new PropHolder(this, "product_name");
+    public PropHolder upstream_bonding_enabled = new PropHolder(this, "upstream_bonding_enabled");
+    public PropHolder upstream_channel_bonding = new PropHolder(this, "upstream_channel_bonding");
+    public PropHolder cisco_sm_package_id = new PropHolder(this, "cisco_sm_package_id");
 
     /**
      * Method to return activation code, will return modemId if property is missing
