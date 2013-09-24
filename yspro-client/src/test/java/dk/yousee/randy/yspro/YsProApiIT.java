@@ -1,7 +1,6 @@
 package dk.yousee.randy.yspro;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dk.yousee.randy.base.HttpPool;
 import java.net.Inet4Address;
@@ -9,7 +8,6 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
