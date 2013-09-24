@@ -56,13 +56,6 @@ public class VoiceCaseIT {
 
     @Ignore
 //    @Test
-    public void createVoiceMail() throws BusinessException {
-        test.createVoiceMail(BusinessPosition.create("600195777"),PhoneNumber.create("74674391"));
-        test.send();
-    }
-
-    @Ignore
-//    @Test
     public void deleteVoice() throws BusinessException {
         test.deleteVoice(new BusinessPosition("605396311"));
         test.send();

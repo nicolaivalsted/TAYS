@@ -54,7 +54,7 @@ public class DialToneAccess extends BasicUnit {
     }
     
     @Override
-    protected CableVoiceService getParent() {
+    public CableVoiceService getParent() {
     	return (CableVoiceService)super.getParent();
     }
 

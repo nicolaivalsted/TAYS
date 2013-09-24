@@ -133,9 +133,9 @@ public class VoiceCase extends AbstractCase {
     }
 
 
-    Order createVoiceMail(BusinessPosition position, PhoneNumber phoneNumber) throws BusinessException {
+    Order createVoiceMail(BusinessPosition position, PhoneNumber phoneNumber, CableVoiceService parent) throws BusinessException {
         ensureAcct();
-        VoiceMail voiceMail = getModel().alloc().VoiceMail(position);
+        VoiceMail voiceMail = getModel().alloc().VoiceMail(position, parent);
         voiceMail.setPhoneNumber(phoneNumber);
         return getModel().getOrder();
     }
@@ -163,9 +163,9 @@ public class VoiceCase extends AbstractCase {
             }
         }
 
-        getModel().add().SwitchFeature(voiceData.getBusinessPosition());
+        getModel().add().SwitchFeature(voiceData.getBusinessPosition(), dialToneAccess.getParent());
 
-        createVoiceMail(voiceData.getBusinessPosition(), voiceData.getPhoneNumber());
+        createVoiceMail(voiceData.getBusinessPosition(), voiceData.getPhoneNumber(), dialToneAccess.getParent());
         return getModel().getOrder();
     }
 

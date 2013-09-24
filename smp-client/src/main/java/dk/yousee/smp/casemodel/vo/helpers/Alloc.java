@@ -246,8 +246,8 @@ public class Alloc {
      * @param modemId to modem
      * @return instance either an existing child-service or a new child-service ready for fill in data
      */
-    public VoiceMail VoiceMail(BusinessPosition position) {
-        VoiceMail res = find.VoiceMail(position);
+    public VoiceMail VoiceMail(BusinessPosition position, CableVoiceService parent) {
+    	VoiceMail res = parent.getVoiceMail();
         if (res == null) {
             res = add.VoiceMail(position);
         }

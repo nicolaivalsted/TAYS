@@ -304,8 +304,7 @@ public class Add {
      * @param modemId to the modem
      * @return new instance
      */
-    public SwitchFeature SwitchFeature(BusinessPosition position) {
-        CableVoiceService parent = model.alloc().CableVoiceService(position);
+    public SwitchFeature SwitchFeature(BusinessPosition position, CableVoiceService parent) {
         SwitchFeature res = new SwitchFeature(model, key.generateUUID(), parent);
         if (res.getEntity() == null) {
             res.getDefaultOrderData();
