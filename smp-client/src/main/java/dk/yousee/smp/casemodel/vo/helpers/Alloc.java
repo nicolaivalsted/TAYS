@@ -237,11 +237,8 @@ public class Alloc {
      * @return instance either an existing child-service or a new child-service ready for fill in data
      */
     public DialToneAccess DialToneAccess(BusinessPosition position) {
-        DialToneAccess res = find.DialToneAccess(position);
-        if (res == null) {
-            res = add.DialToneAccess();
-            res.setPosition(position);
-        }
+        DialToneAccess res = add.DialToneAccess();
+        res.setPosition(position);
         return res;
     }
 
