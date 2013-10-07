@@ -4,20 +4,20 @@
  */
 package dk.yousee.randy.jobmonclient;
 
-import com.google.gson.*;
-import dk.yousee.randy.base.AbstractConnector;
-import dk.yousee.randy.base.HttpPool;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
@@ -28,6 +28,20 @@ import org.apache.http.util.EntityUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
+
+import dk.yousee.randy.base.HttpPool;
 
 /**
  * <bean id="jobMonClient" class="dk.yousee.randy.jobmonclient.JobMonClient">
@@ -186,4 +200,37 @@ public class JobMonClient {
             }
         }
     }
+
+	public List<RunningJobVo> findLatestJobs(String jobName) throws RestException {
+        // post to job start and return running job meta data incl. url
+        HttpEntity entity=null;
+        try {
+            DefaultHttpClient client = httpPool.getClient();
+            URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "/jobmon/run/byjobname/" + jobName, null, null);
+
+            HttpGet put = new HttpGet(uri);
+            put.setHeader("accept", "application/json");
+            HttpResponse rsp = client.execute(put);
+            if (rsp.getStatusLine().getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
+                throw new RestException(rsp.getStatusLine().getReasonPhrase());
+            }
+            entity = rsp.getEntity();
+            String res = EntityUtils.toString(entity, "UTF-8");
+           return gson.fromJson(res, new TypeToken<List<RunningJobVo>>() {}.getType());
+        } catch (IOException ex) {
+            throw new RestException(ex.getMessage());
+        } catch (JsonSyntaxException ex) {
+            throw new RestException(ex.getMessage());
+        } catch (URISyntaxException ex) {
+            throw new RestException(ex);
+        } finally{
+            if(entity!=null){
+                try {
+                    EntityUtils.consume(entity);
+                } catch (IOException ex) {
+                    log.log(Level.WARNING, "Could not clean http");
+                }
+            }
+        }
+	}
 }
