@@ -147,6 +147,10 @@ public class MacAddressCase extends AbstractCase {
     public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, ModemId modemId) {
         VoipAccess voipAccess = getModel().alloc().VoipAccess(modemId);
         voipAccess.mta_mac.setValue(macAddress);
+        DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
+        if (dialToneAccess != null && dialToneAccess.dt_has_access.get() == null) {
+            dialToneAccess.dt_has_access.add(voipAccess);
+        }
         return voipAccess;
     }
 
@@ -264,7 +268,7 @@ public class MacAddressCase extends AbstractCase {
      * @throws dk.yousee.smp.order.model.BusinessException when
      * association cannot be established (internal error in model ... should be refactored)
      */
-    public VoipAccess addVoipAccess(ModemId modemId, String mta_id, String mta_mac) throws BusinessException {
+    public VoipAccess addVoipAccess(ModemId modemId, String mta_id, String mta_mac) {
         VoipAccess voipAccess = getModel().add().VoipAccess(modemId);
         voipAccess.mta_id.setValue(mta_id);                                  //   "12345678903"    ** unique
         voipAccess.mta_mac.setValue(mta_mac);                                //   "33885aa32503"   ** unique

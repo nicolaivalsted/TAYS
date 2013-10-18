@@ -53,12 +53,10 @@ public class AssociationHolder {
      * if associationType is service_on_address, we don't need externalKey, it is always 'primary'
      *
      * @param basicUnit == the service we want to link to.
-     * @throws dk.yousee.smp.order.model.BusinessException
-     *          when the basic unit's type is not the correct one.
      */
-    public void add(BasicUnit basicUnit) throws BusinessException {
+    public void add(BasicUnit basicUnit)  {
         if (basicUnit.getType() != type) {
-            throw new BusinessException("The service 's type doesn't match with the suppoesd association service 's type.");
+            throw new IllegalArgumentException("The service 's type doesn't match with the suppoesd association service 's type.");
         }
         if (get() == null) {
             OrderDataAssociation orderDataAssociation = new OrderDataAssociation();
