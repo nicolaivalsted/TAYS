@@ -40,4 +40,6 @@ public class ProStoreDef {
     public static final String OTT_CMORE_PRODUCT = "xCmore";
 
     public static final String OTT_HW_INFO_KEY_YSPRO = "HW_Version";
+    
+    public static final String  DMS_SERVICE_ID = "DmsService";
 }
