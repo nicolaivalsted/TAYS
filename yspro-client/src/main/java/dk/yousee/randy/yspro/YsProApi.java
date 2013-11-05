@@ -167,6 +167,29 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
+    
+    /**
+     * Show active Digital dvb-c tv products
+     * @param userID
+     * @return
+     * @throws YsProException 
+     */
+     public ProStoreResponse getDigiTvEngagementUserID(String userID) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/GetDigiTVEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
+            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
+            if (psr.getStatus() == 50) { //handleTimeout clear handle
+                client.clearHandle();
+                ensureHandle();
+                url = new URI(String.format("%s/GetDigiTVEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
+                psr = new ProStoreResponse(execute(new HttpPost(url)));
+            }
+            return psr;
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
 
     /**
      * http://ysprodev.yousee.dk/GetUserInfo.php?HandleID=0nQU9YUs0f4u88czvWCkB2587OL2CX&SesssionID=xxxxxxx&xml=1
