@@ -327,7 +327,7 @@ public class YsProApiIT {
 
 //    @Test
     public void opretProd() throws YsProException {
-        String kunde = "612635818";
+        String kunde = "608252633";
         WriteList wl2 = new WriteList(kunde, new Date());
         JsonObject job = new JsonObject();
         job.addProperty(StoreProduct.PRODUCT_ID_YSPRO, ProStoreDef.YOU_BIO_PRODUCT.toString());

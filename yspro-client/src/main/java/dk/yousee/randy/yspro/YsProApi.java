@@ -8,13 +8,18 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
-import org.apache.http.client.methods.HttpGet;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
@@ -36,12 +41,18 @@ public class YsProApi {
     private String getHandle() throws YsProException {
         URI uri;
         try {
-            uri = new URI(String.format("%s/GetHandle.php?SystemLogin=%s&SystemPassword=%s", client.getYsProHost(), client.getSystemLogin(), client.getSystemPassword()));
+            uri = new URI(String.format("%s/GetHandle.php", client.getYsProHost()));
 
         } catch (URISyntaxException ex) {
             throw new YsProException("URI syntax in getHandle");
         }
-        JsonObject res = new JsonParser().parse(execute(new HttpGet(uri))).getAsJsonObject();
+        HttpPost post = new HttpPost(uri);
+        List<NameValuePair> params = new ArrayList<NameValuePair>();
+        params.add(new BasicNameValuePair("SystemLogin", client.getSystemLogin()));
+        params.add(new BasicNameValuePair("SystemPassword", client.getSystemPassword()));
+        post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+        JsonObject res = new JsonParser().parse(execute(post)).getAsJsonObject();
         return res.getAsJsonObject("Data").get("HandleID").getAsString();
     }
 
@@ -85,15 +96,16 @@ public class YsProApi {
     public ProStoreResponse findOttEngagement(String customer) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), client.getHandleId(), customer));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.setHandleId(null);
-                ensureHandle();
-                url = new URI(String.format("%s/GetOttEngagement.php?HandleID=%s&CustomerNumber=%s&json=1", client.getYsProHost(), client.getHandleId(), customer));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
+            URI url = new URI(String.format("%s/GetOttEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
+            params.add(new BasicNameValuePair("json", "1"));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -103,15 +115,15 @@ public class YsProApi {
     public ProStoreResponse findEngagement(String customer) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
+            URI url = new URI(String.format("%s/GetEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -120,15 +132,16 @@ public class YsProApi {
     public ProStoreResponse findEngagementOnlyActive(String customer) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ShowOnlyActive=true", client.getYsProHost(), client.getHandleId(), customer));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ShowOnlyActive=true", client.getYsProHost(), client.getHandleId(), customer));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
+            URI url = new URI(String.format("%s/GetEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
+            params.add(new BasicNameValuePair("ShowOnlyActive", "true"));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -137,15 +150,16 @@ public class YsProApi {
     public ProStoreResponse findEngagementFromProductId(String customer, String productId) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, productId));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&CustomerNumber=%s&ProductID=%s", client.getYsProHost(), client.getHandleId(), customer, productId));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
+            URI url = new URI(String.format("%s/GetEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
+            params.add(new BasicNameValuePair("ProductID", productId));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -154,38 +168,39 @@ public class YsProApi {
     public ProStoreResponse getCommunityWifiEngagementUserID(String userID) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetCommunityWifiEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetCommunityWifiEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
+            URI url = new URI(String.format("%s/GetCommunityWifiEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userID));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
+
     /**
      * Show active Digital dvb-c tv products
+     *
      * @param userID
      * @return
-     * @throws YsProException 
+     * @throws YsProException
      */
-     public ProStoreResponse getDigiTvEngagementUserID(String userID) throws YsProException {
+    public ProStoreResponse getDigiTvEngagementUserID(String userID) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetDigiTVEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetDigiTVEngagement.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
+            URI url = new URI(String.format("%s/GetDigiTVEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userID));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -197,20 +212,16 @@ public class YsProApi {
     public UserInfo findSessionInfo(String sessionId) throws YsProException {
         try {
             ensureHandle();
-            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&SessionID=%s",
-                    client.getYsProHost(), client.getHandleId(), sessionId));
-            String st = execute(new HttpPost(uri));
+            URI uri = new URI(String.format("%s/GetUserInfo.php",
+                    client.getYsProHost()));
 
-            UserInfo ui = new UserInfo(st);
-            if (ui.getStatus() == 50) {
-                client.clearHandle();
-                ensureHandle();
-                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&SessionID=%s",
-                        client.getYsProHost(), client.getHandleId(), sessionId));
-                st = execute(new HttpPost(uri));
-                ui = new UserInfo(st);
-            }
-            return ui;
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("SessionID", sessionId));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            return new UserInfo(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -220,18 +231,15 @@ public class YsProApi {
     public UserInfo findUserInfo(String userID) throws YsProException {
         try {
             ensureHandle();
-            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
-            String st = execute(new HttpPost(uri));
+            URI uri = new URI(String.format("%s/GetUserInfo.php", client.getYsProHost()));
 
-            UserInfo ui = new UserInfo(st);
-            if (ui.getStatus() == 50) {
-                client.clearHandle();
-                ensureHandle();
-                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&UserID=%s", client.getYsProHost(), client.getHandleId(), userID));
-                st = execute(new HttpPost(uri));
-                ui = new UserInfo(st);
-            }
-            return ui;
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userID));
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            return new UserInfo(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -247,16 +255,15 @@ public class YsProApi {
     public ProStoreResponse findBasicUserInfo(String sessionID) throws YsProException {
         try {
             ensureHandle();
-            URI uri = new URI(String.format("%s/GetUserBasicInfo.php?HandleID=%s&SessionID=%s", client.getYsProHost(), client.getHandleId(), sessionID));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(uri)));
+            URI uri = new URI(String.format("%s/GetUserBasicInfo.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("SessionID", sessionID));
 
-            if (psr.getStatus() == 50) {
-                client.clearHandle();
-                ensureHandle();
-                uri = new URI(String.format("%s/GetUserBasicInfo.php?HandleID=%s&SessionID=%s", client.getYsProHost(), client.getHandleId(), sessionID));
-                psr = new ProStoreResponse(execute(new HttpPost(uri)));
-            }
-            return psr;
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -266,38 +273,34 @@ public class YsProApi {
     public UserInfo findCustomerInfo(String customer) throws YsProException {
         try {
             ensureHandle();
-            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
-            String st = execute(new HttpPost(uri));
+            URI uri = new URI(String.format("%s/GetUserInfo.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
 
-            UserInfo ui = new UserInfo(st);
-            if (ui.getStatus() == 50) {
-                client.clearHandle();
-                ensureHandle();
-                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s", client.getYsProHost(), client.getHandleId(), customer));
-                st = execute(new HttpPost(uri));
-                ui = new UserInfo(st);
-            }
-            return ui;
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            return new UserInfo(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
+
     public UserInfo findCustomerInfoAndInactive(String customer) throws YsProException {
         try {
             ensureHandle();
-            URI uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&ShowOnlyActive=false", client.getYsProHost(), client.getHandleId(), customer));
-            String st = execute(new HttpPost(uri));
+            URI uri = new URI(String.format("%s/GetUserInfo.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
+            params.add(new BasicNameValuePair("ShowOnlyActive", "false"));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
-            UserInfo ui = new UserInfo(st);
-            if (ui.getStatus() == 50) {
-                client.clearHandle();
-                ensureHandle();
-                uri = new URI(String.format("%s/GetUserInfo.php?HandleID=%s&CustomerNumber=%s&ShowOnlyActive=false", client.getYsProHost(), client.getHandleId(), customer));
-                st = execute(new HttpPost(uri));
-                ui = new UserInfo(st);
-            }
-            return ui;
+            String st = execute(post);
+
+            return new UserInfo(st);
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -307,26 +310,16 @@ public class YsProApi {
     public ProStoreResponse findCustomersFromOTTmacStb(String mac) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), client.getHandleId(), mac));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetEngagementByValue.php?HandleID=%s&ProductID=6900&DataName=Device_Mac&Value=%s", client.getYsProHost(), client.getHandleId(), mac));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
-            return psr;
-        } catch (URISyntaxException ex) {
-            throw new YsProException(ex.getMessage(), ex);
-        }
-    }
+            URI url = new URI(String.format("%s/GetEngagementByValue.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("ProductID", "6900"));
+            params.add(new BasicNameValuePair("DataName", "Device_Mac"));
+            params.add(new BasicNameValuePair("Value", mac));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
-    public URI generateUpdateUrl(String customer, String json) throws YsProException {
-        try {
-            String encoded = URLEncoder.encode(json, "UTF-8");
-            return new URI(String.format("%s/ApplyEngagement.php?HandleID=%s&CustomerNumber=%s&Products=%s", client.getYsProHost(), client.getHandleId(), customer, encoded));
-        } catch (UnsupportedEncodingException ex) {
-            throw new YsProException(ex.getMessage(), ex);
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -334,28 +327,34 @@ public class YsProApi {
 
     public ProStoreResponse assignProduct(String customer, String json) throws YsProException {
         ensureHandle();
-        URI href = generateUpdateUrl(customer, json);
-        ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(href)));
-        if (psr.getStatus() == 50) { //handleTimeout clear handle
-            client.clearHandle();
-            ensureHandle();
-            href = generateUpdateUrl(customer, json);
-            psr = new ProStoreResponse(execute(new HttpPost(href)));
+        try {
+            URI uri = new URI(String.format("%s/ApplyEngagement.php", client.getYsProHost()));
+
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", customer));
+            params.add(new BasicNameValuePair("Products", json));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            return new ProStoreResponse(execute(post));
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
         }
-        return psr;
     }
 
     public ProStoreResponse findEngagementFromUuid(String uuid) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&UUID=%s", client.getYsProHost(), client.getHandleId(), uuid));
-            ProStoreResponse psr = new ProStoreResponse(execute(new HttpPost(url)));
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/GetEngagement.php?HandleID=%s&UUID=%s", client.getYsProHost(), client.getHandleId(), uuid));
-                psr = new ProStoreResponse(execute(new HttpPost(url)));
-            }
+            URI url = new URI(String.format("%s/GetEngagement.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UUID", uuid));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            ProStoreResponse psr = new ProStoreResponse(execute(post));
+
             return psr;
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -365,17 +364,16 @@ public class YsProApi {
     public ProStoreResponse findMailGetInfo(String kpmNumber) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/MailGetInfo.php?HandleID=%s&MailID=%s", client.getYsProHost(), client.getHandleId(), kpmNumber));
-            JsonObject json = new JsonParser().parse(execute(new HttpPost(url))).getAsJsonObject();
+            URI url = new URI(String.format("%s/MailGetInfo.php", client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("MailID", kpmNumber));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            JsonObject json = new JsonParser().parse(execute(post)).getAsJsonObject();
             ProStoreResponse psr = new ProStoreResponse(json);
 
-            if (psr.getStatus() == 50) { //handleTimeout clear handle
-                client.clearHandle();
-                ensureHandle();
-                url = new URI(String.format("%s/MailGetInfo.php?HandleID=%s&MailID=%s", client.getYsProHost(), client.getHandleId(), kpmNumber));
-                json = new JsonParser().parse(execute(new HttpPost(url))).getAsJsonObject();
-                psr = new ProStoreResponse(json.get("StatusCode").getAsInt(), json.get("StatusMessage").getAsString());
-            }
             if (json.has("Data")) {
                 StoreProduct sp = new StoreProduct(json.get("Data").getAsJsonObject());
                 psr.getProducts().add(sp);
@@ -398,9 +396,15 @@ public class YsProApi {
     public String login(String username, String password) throws YsProException {
         try {
             ensureHandle();
-            URI uri = new URIBuilder(client.getYsProHost()).setPath("/Login.php").setQuery(String.format("HandleID=%s&UserName=%s&Password=%s",
-                    client.getHandleId(), username, password)).build();                 
-            ProStoreResponse res = new ProStoreResponse(execute(new HttpPost(uri)));
+            URI uri = new URIBuilder(client.getYsProHost()).setPath("/Login.php").build();
+            HttpPost post = new HttpPost(uri);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserName", username));
+            params.add(new BasicNameValuePair("Password", password));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            ProStoreResponse res = new ProStoreResponse(execute(post));
             if (res.getData() != null && res.getData().has("SessionID"))
                 return res.getData().get("SessionID").getAsString();
 
@@ -413,10 +417,15 @@ public class YsProApi {
     public ProStoreResponse getNewPasswordMethods(String search, InetAddress customerIp) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URIBuilder(client.getYsProHost()).setPath("/GetNewPasswordMethods.php").setQuery(String.format("HandleID=%s&SearchFor=%s&ClientIP=%s",
-                    client.getHandleId(), search, customerIp.getHostAddress())).build();
+            URI url = new URIBuilder(client.getYsProHost()).setPath("/GetNewPasswordMethods.php").build();
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("SearchFor", search));
+            params.add(new BasicNameValuePair("ClientIP", customerIp.getHostAddress()));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
-            return new ProStoreResponse(execute(new HttpPost(url)));
+            return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
         }
@@ -425,9 +434,17 @@ public class YsProApi {
     public ProStoreResponse generateNewPassword(String userId, String using, InetAddress customerIp) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/GenerateNewPassword.php?HandleID=%s&UserID=%s&SendUsing=%s&ClientIP=%s",
-                    client.getYsProHost(), client.getHandleId(), userId, using, customerIp.getHostAddress()));
-            String res = execute(new HttpPost(url));
+            URI url = new URI(String.format("%s/GenerateNewPassword.php",
+                    client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userId));
+            params.add(new BasicNameValuePair("SendUsing", using));
+            params.add(new BasicNameValuePair("ClientIP", customerIp.getHostAddress()));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            String res = execute(post);
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -437,9 +454,15 @@ public class YsProApi {
     public ProStoreResponse setPassword(String userId, String password) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URIBuilder(client.getYsProHost()).setPath("/SetPassword.php").setQuery(String.format("HandleID=%s&UserID=%s&NewPassword=%s",
-                    client.getHandleId(), userId, password)).build();
-            String res = execute(new HttpPost(url));
+            URI url = new URIBuilder(client.getYsProHost()).setPath("/SetPassword.php").build();
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userId));
+            params.add(new BasicNameValuePair("NewPassword", password));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+
+            String res = execute(post);
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -449,24 +472,23 @@ public class YsProApi {
     public ProStoreResponse updateUserInfo(String userId, String userName, String oldUserName, String emailAddress, String cellPhone) throws YsProException {
         try {
             ensureHandle();
-            StringBuilder str = new StringBuilder();
+            URI url = new URIBuilder(client.getYsProHost()).setPath("/UpdateUserInfo.php").build();
 
-            str.append(String.format("HandleID=%s&UserID=%s",
-                    client.getHandleId(), userId));
-
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userId));
             if (userName != null) {
-                str.append(String.format("&UserName=%s&OldUserName=%s", userName, oldUserName));
+                params.add(new BasicNameValuePair("UserName", userName));
+                params.add(new BasicNameValuePair("OldUserName", oldUserName));
             }
-
             if (emailAddress != null)
-                str.append(String.format("&EmailAddress=%s", emailAddress));
-
+                params.add(new BasicNameValuePair("EmailAddress", emailAddress));
             if (cellPhone != null)
-                str.append(String.format("&CellPhone=%s", cellPhone));
+                params.add(new BasicNameValuePair("CellPhone", cellPhone));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
-
-            URI url = new URIBuilder(client.getYsProHost()).setPath("/UpdateUserInfo.php").setQuery(str.toString()).build();
-            String res = execute(new HttpPost(url));
+            String res = execute(post);
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -476,9 +498,14 @@ public class YsProApi {
     public ProStoreResponse createYouSeeLogin(String subscriber) throws YsProException {
         try {
             ensureHandle();
-            URI url = new URI(String.format("%s/CreateYouSeeLogin.php?HandleID=%s&CustomerNumber=%s",
-                    client.getYsProHost(), client.getHandleId(), subscriber));
-            String res = execute(new HttpPost(url));
+            URI url = new URI(String.format("%s/CreateYouSeeLogin.php",
+                    client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("CustomerNumber", subscriber));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            String res = execute(post);
             return new ProStoreResponse(res);
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
