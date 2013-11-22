@@ -12,6 +12,7 @@ import org.apache.http.params.HttpParams;
 
 /**
  * New pool instead of AbstractConnector
+ *
  * @author m27236
  */
 public class HttpPool {
@@ -56,12 +57,20 @@ public class HttpPool {
         pccm = new PoolingClientConnectionManager(schemeRegistry);
         pccm.setMaxTotal(max_conn);
         pccm.setDefaultMaxPerRoute(max_conn_route);
-        
+
         params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CONNECTION_TIMEOUT);
         params.setParameter(CoreConnectionPNames.SO_TIMEOUT, SO_TIMEOUT);
     }
 
     public void shutdown() {
         pccm.shutdown();
+    }
+
+    public PoolingClientConnectionManager getPccm() {
+        return pccm;
+    }
+
+    public void setPccm(PoolingClientConnectionManager pccm) {
+        this.pccm = pccm;
     }
 }
