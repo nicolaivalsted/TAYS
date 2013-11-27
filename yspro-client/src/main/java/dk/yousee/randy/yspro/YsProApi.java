@@ -220,7 +220,7 @@ public class YsProApi {
             HttpPost post = new HttpPost(url);
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
-            params.add(new BasicNameValuePair("CustomerNumber ", subscriber));
+            params.add(new BasicNameValuePair("CustomerNumber", subscriber));
 
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
