@@ -19,7 +19,6 @@
         <dependency>
             <groupId>uk.me.mjt</groupId>
             <artifactId>log4j-json</artifactId>
-            <version>1.0</version>
         </dependency>
         <!-- testing -->
         <dependency>

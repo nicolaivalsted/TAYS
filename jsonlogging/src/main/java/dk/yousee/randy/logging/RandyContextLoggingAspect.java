@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import dk.yousee.randy.macaddress.MACaddress;
+import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,6 +26,7 @@ import java.util.logging.Level;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
+import org.apache.log4j.Priority;
 import org.aspectj.lang.reflect.MethodSignature;
 
 /**
@@ -37,18 +39,16 @@ import org.aspectj.lang.reflect.MethodSignature;
  */
 @Aspect
 @Component
-@Scope("request")
 public class RandyContextLoggingAspect {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
-    private boolean subFound = false;
-    private boolean macFound = false;
-    private boolean ipFound = false;
 
     @Around("execution(javax.ws.rs.core.Response *(..))")
-    public Object pushLoggingContext(ProceedingJoinPoint pjp) {
+    public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
+        AnalysisState aState = new AnalysisState();
         UriInfo uriInfo;
         Object result;
-        String methodClassName;
+        String methodClassName = this.getClass().getCanonicalName();
+        Logger methodLogger = Logger.getLogger(methodClassName);
         try {
             MethodSignature signature = (MethodSignature) pjp.getSignature();
             Method method = signature.getMethod();
@@ -62,26 +62,37 @@ public class RandyContextLoggingAspect {
             if (uriInfo != null) {
                 MDC.put("path", uriInfo.getAbsolutePath().getRawPath());
             }
+            // Log the method name and class
             String methodName = method.getName();
             methodClassName = method.getDeclaringClass().getCanonicalName();
             MDC.put("restmethod", methodName);
             MDC.put("restclass", methodClassName);
-            analyzeArguments(parameterAnnotations, parameterNames, args);
+            // Log the method path pattern
+            File pathPattern = new File(
+                    new File(peekPathAnnotation(method.getDeclaringClass().getAnnotations())),
+                    peekPathAnnotation(method.getAnnotations()));
+            MDC.put("urlpattern", pathPattern);
+            // Log interesting parameters from arguments
+            analyzeArguments(aState, parameterAnnotations, parameterNames, args);
             result = pjp.proceed();
             if (result instanceof Response) {
                 Response r = (Response) result;
                 MDC.put("httpstatus", r.getStatus());
+                if (r.getStatus() >= 300) {
+                    if (aState.payload != null)
+                        MDC.put("input", aState.payload);
+                    if (r.getEntity() != null)
+                        MDC.put("output", r.getEntity());
+                }
             }
-//            log "as-if" we were logging from the called function doesnt work gives NumberFOrmat in JSONFormatter
-//            log.log(methodClassName, Priority.INFO, "(return) test=hejdavs", null);            
-            log.info("(return)");
+            methodLogger.info("(return)");
             return result;
         } catch (Throwable exception) {
-            MDC.put("uncaughtexception", exception.getMessage());
-//            log "as-if" we were logging from the called function doesn work with Jsonformatter
-//            log.log(methodClassName, Priority.WARN, "uncaught exception", exception);
-            log.warn("uncaught exception", exception);
-            return Response.serverError().entity(serviceDownResponse(exception)).build();
+            MDC.put("uncaughtexceptionmsg", exception.toString());
+            if (aState.payload != null)
+                MDC.put("input", aState.payload);
+            methodLogger.warn("uncaught exception", exception);
+            throw exception;
         } finally {
             NDC.remove();
             MDC.clear();
@@ -124,44 +135,54 @@ public class RandyContextLoggingAspect {
         return null;
     }
 
-    private JsonObject serviceDownResponse(Throwable exception) {
-        log.warn(exception.getMessage(), exception);
-        JsonObject res = new JsonObject();
-        res.addProperty("status", "Service is down");
-        res.addProperty("message", exception.getMessage());
-        return res;
+    private String peekPathAnnotation(Annotation[] annotations) {
+        for (Annotation annotation : annotations) {
+            try {
+                Class<? extends Annotation> annotationType = annotation.annotationType();
+                if (annotationType.equals(javax.ws.rs.Path.class)) {
+                    javax.ws.rs.Path path = (javax.ws.rs.Path) annotation;
+                    return path.value();
+                } else {
+                    System.out.println("Not a Path annotation: " + annotationType);
+                }
+            } catch (ClassCastException ex) {
+                // not possible
+            }
+        }
+        return null;
     }
 
-    private void analyzeArguments(Annotation[][] argAnnotations, String[] parameterNames, Object[] args) {
+    private void analyzeArguments(AnalysisState a, Annotation[][] argAnnotations, String[] parameterNames, Object[] args) {
         // Check annotations for anything that looks like a subscriber, mac or ip; use the first found.
         for (int argc = 0; argc < argAnnotations.length; argc++) {
             if (args[argc] == null)
                 continue;
             Annotation[] annotations = argAnnotations[argc];
-            analyzePayload(args[argc], annotations);
-            analyzeArgByAnnotation(args[argc], annotations);
+            analyzePayload(a, args[argc], annotations);
+            analyzeArgByAnnotation(a, args[argc], annotations);
         }
-        analyzeFormalArgs(args, parameterNames);
+        analyzeFormalArgs(a, args, parameterNames);
     }
 
-    private void analyzePayload(Object arg, Annotation[] annotations) {
+    private void analyzePayload(AnalysisState a, Object arg, Annotation[] annotations) {
         // zero annotations, then it could be "String body" or "InputStream body"
         if (annotations.length == 0) {
             if (arg instanceof java.lang.String) {
                 try {
+                    a.payload = (String) arg;
                     JsonElement body = new JsonParser().parse((String) arg);
                     if (body.isJsonObject()) {
                         JsonObject bo = body.getAsJsonObject();
                         for (Map.Entry<String, JsonElement> e : bo.entrySet()) {
                             if (isSubKey(e.getKey())) {
                                 MDC.put("subscriber", e.getValue().getAsString());
-                                subFound = true;
+                                a.subFound = true;
                             } else if (isMacKey(e.getKey())) {
                                 MDC.put("mac", e.getValue().getAsString());
-                                macFound = true;
+                                a.macFound = true;
                             } else if (isIpKey(e.getKey())) {
                                 MDC.put("ip", e.getValue().getAsString());
-                                ipFound = true;
+                                a.ipFound = true;
                             }
                         }
                     }
@@ -177,7 +198,7 @@ public class RandyContextLoggingAspect {
         }
     }
 
-    private void analyzeArgByAnnotation(Object arg, Annotation[] annotations) {
+    private void analyzeArgByAnnotation(AnalysisState a, Object arg, Annotation[] annotations) {
         // else check annotations for anything interesting on this argument
         for (Annotation annotation : annotations) {
             try {
@@ -196,26 +217,26 @@ public class RandyContextLoggingAspect {
                     continue;
                 if (arg == null)
                     continue;
-                if (!subFound) {
+                if (!a.subFound) {
                     if (isSubKey(value)) {
                         MDC.put("subscriber", arg);
-                        subFound = true;
+                        a.subFound = true;
                     }
                 }
-                if (!macFound) {
+                if (!a.macFound) {
                     if (isMacKey(value)) {
                         String argStr = arg.toString();
                         MACaddress mac = MACaddress.parseMACaddress(argStr);
                         if (mac != null)
                             argStr = mac.toString(MACaddress.fmtCOLON);
                         MDC.put("mac", argStr);
-                        macFound = true;
+                        a.macFound = true;
                     }
                 }
-                if (!ipFound) {
+                if (!a.ipFound) {
                     if (isIpKey(value)) {
                         MDC.put("ip", arg);
-                        ipFound = true;
+                        a.ipFound = true;
                     }
                 }
             } catch (ClassCastException ex) {
@@ -224,7 +245,7 @@ public class RandyContextLoggingAspect {
         }
     }
 
-    private void analyzeFormalArgs(Object[] args, String[] parameterNames) {
+    private void analyzeFormalArgs(AnalysisState a, Object[] args, String[] parameterNames) {
         // Check formal arguments for anything that looks like a name of a subscriber, mac or ip; use the first found
         for (int argc = 0; argc < parameterNames.length; argc++) {
             String paramName = parameterNames[argc];
@@ -232,26 +253,26 @@ public class RandyContextLoggingAspect {
                 continue;
             if (args[argc] == null)
                 continue;
-            if (!subFound) {
+            if (!a.subFound) {
                 if (isSubKey(paramName)) {
                     MDC.put("subscriber", args[argc]);
-                    subFound = true;
+                    a.subFound = true;
                 }
             }
-            if (!macFound) {
+            if (!a.macFound) {
                 if (isMacKey(paramName)) {
                     String arg = (args[argc] != null) ? args[argc].toString() : "";
                     MACaddress mac = MACaddress.parseMACaddress(arg);
                     if (mac != null)
                         arg = mac.toString(MACaddress.fmtCOLON);
                     MDC.put("mac", arg);
-                    macFound = true;
+                    a.macFound = true;
                 }
             }
-            if (!ipFound) {
+            if (!a.ipFound) {
                 if (isIpKey(paramName)) {
                     MDC.put("ip", args[argc]);
-                    ipFound = true;
+                    a.ipFound = true;
                 }
             }
         }
@@ -275,4 +296,14 @@ public class RandyContextLoggingAspect {
             return false;
         return paramName.equalsIgnoreCase("ip") || paramName.equalsIgnoreCase("ipaddress") || paramName.equalsIgnoreCase("ipaddr");
     }
+}
+
+/**
+ * @author jablo
+ */
+class AnalysisState {
+    boolean subFound = false;
+    boolean macFound = false;
+    boolean ipFound = false;
+    String payload = null;
 }

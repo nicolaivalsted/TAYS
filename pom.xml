@@ -39,14 +39,14 @@
         <module>macaddress</module>
         <module>virtualmac-client</module>
         <module>messagingYii-client</module>
-  </modules>
+    </modules>
 
     <scm>
         <connection>scm:git:https://github.com/YouSee/randy-clients.git</connection>
         <developerConnection>scm:git:https://github.com/YouSee/randy-clients.git</developerConnection>
         <url>https://github.com/YouSee/randy-clients/blob/master</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <distributionManagement>
         <repository>
@@ -168,6 +168,11 @@
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.10</version>
+            </dependency>
+            <dependency>
+                <groupId>uk.me.mjt</groupId>
+                <artifactId>log4j-json</artifactId>
+                <version>1.1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>log4j</groupId>

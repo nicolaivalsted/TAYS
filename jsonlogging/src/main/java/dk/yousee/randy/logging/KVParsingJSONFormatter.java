@@ -4,6 +4,9 @@
  */
 package dk.yousee.randy.logging;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -11,6 +14,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.log4j.MDC;
@@ -45,6 +50,7 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
         Hashtable context = MDC.getContext();
         if (context != null)
             r.putAll(hashTableToMap(context));
+        r.put("message_id", messageId(r));
     }
 
     private Map<String, String> hashTableToMap(Hashtable context) {
@@ -58,7 +64,7 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
         }
         return result;
     }
-    
+
     /**
      * LoggingEvent messages can have any type, and we call toString on them. As
      * the user can define the toString method, we should catch any exceptions.
@@ -91,5 +97,37 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
             }
         }
         return result;
+    }
+
+    private String messageId(Map<String, Object> r) {
+        try {
+            //        org.apache.commons.codec.digest.
+            String toHash = safeToString(r.get("timestamp"))
+                    + safeToString(r.get("hostname"))
+                    + safeToString(r.get("username"))
+                    + safeToString(r.get("level"))
+                    + safeToString(r.get("thread"))
+                    + safeToString(r.get("classname"))
+                    + safeToString(r.get("filename"))
+                    + safeToString(r.get("methodname"))
+                    + safeToString(r.get("linenumber") != null ? r.get("linenumber") : "")
+                    + safeToString(r.get("message"))
+                    + safeToString(r.get("throwable"));
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(toHash.getBytes("UTF-8"));
+            StringBuilder hexString = new StringBuilder();
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1)
+                    hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(KVParsingJSONFormatter.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (UnsupportedEncodingException ex) {
+            Logger.getLogger(KVParsingJSONFormatter.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 }

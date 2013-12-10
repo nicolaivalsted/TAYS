@@ -19,9 +19,13 @@
         <dependency>
             <groupId>uk.me.mjt</groupId>
             <artifactId>log4j-json</artifactId>
-            <version>1.0</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
-        
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>dk.yousee.randy</groupId>
             <artifactId>macaddress</artifactId>
