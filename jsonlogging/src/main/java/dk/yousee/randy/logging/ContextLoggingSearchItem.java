@@ -6,38 +6,38 @@ package dk.yousee.randy.logging;
  * @author jablo
  */
 public class ContextLoggingSearchItem {
-    private String itemKey;
-    private String[] searchItems;
+    private String key;
+    private String[] searchKeys;
     private ValueFormatter format = new DefaultFormatter();
 
     public ContextLoggingSearchItem() {
     }
 
-    public ContextLoggingSearchItem(String itemKey, String[] searchItems) {
-        this.itemKey = itemKey;
-        this.searchItems = searchItems;
+    public ContextLoggingSearchItem(String key, String[] searchKeys) {
+        this.key = key;
+        this.searchKeys = searchKeys;
     }
 
-    public ContextLoggingSearchItem(String itemKey, String[] searchItems, ValueFormatter format) {
-        this.itemKey = itemKey;
-        this.searchItems = searchItems;
+    public ContextLoggingSearchItem(String key, String[] searchKeys, ValueFormatter format) {
+        this.key = key;
+        this.searchKeys = searchKeys;
         this.format = format;
     }
 
-    public String getItemKey() {
-        return itemKey;
+    public String getKey() {
+        return key;
     }
 
-    public void setItemKey(String itemKey) {
-        this.itemKey = itemKey;
+    public void setKey(String itemKey) {
+        this.key = itemKey;
     }
 
-    public String[] getSearchItems() {
-        return searchItems;
+    public String[] getSearchKeys() {
+        return searchKeys;
     }
 
-    public void setSearchItems(String[] searchItems) {
-        this.searchItems = searchItems;
+    public void setSearchKeys(String[] searchItems) {
+        this.searchKeys = searchItems;
     }
 
     public ValueFormatter getFormat() {

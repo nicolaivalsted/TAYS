@@ -27,6 +27,7 @@ import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -72,7 +73,7 @@ public class RandyContextLoggingAspect {
         String payload = null;
         JsonObject payloadJo = null;
         for (ContextLoggingSearchItem si : searchItems) {
-            System.out.println("YAY, doing search item: " + si.getItemKey() + "@" + si.getSearchItems() + " with " + si.getFormat().getClass().getName());
+            System.out.println("YAY, doing search item: " + si.getKey() + "@" + si.getSearchKeys() + " with " + si.getFormat().getClass().getName());
             // Check arguments 
             for (int argc = 0; argc < argAnnotations.length; argc++) {
                 if (actualArgs[argc] == null)
@@ -135,11 +136,11 @@ public class RandyContextLoggingAspect {
     private void analyzePayload(ContextLoggingSearchItem si, JsonObject body) {
         if (body == null)
             return;
-        for (String s : si.getSearchItems()) {
+        for (String s : si.getSearchKeys()) {
             // can't just bo.get(s) because we want loose, non-case-sensitive match        
             for (Map.Entry<String, JsonElement> e : body.entrySet()) {
                 if (s.equalsIgnoreCase(e.getKey())) {
-                    MDC.put(si.getItemKey(), si.getFormat().format(e.getValue().getAsString()));
+                    MDC.put(si.getKey(), si.getFormat().format(e.getValue().getAsString()));
                     break;
                 }
             }
@@ -162,9 +163,9 @@ public class RandyContextLoggingAspect {
             }
             if (value == null)
                 continue;
-            for (String s : si.getSearchItems()) {
+            for (String s : si.getSearchKeys()) {
                 if (s.equalsIgnoreCase(value)) {
-                    MDC.put(si.getItemKey(), si.getFormat().format(arg.toString()));
+                    MDC.put(si.getKey(), si.getFormat().format(arg.toString()));
                     continue;
                 }
             }
@@ -174,9 +175,9 @@ public class RandyContextLoggingAspect {
     private void analyzeFormalArg(ContextLoggingSearchItem si, Object arg, String paramName) {
         if (paramName == null || arg == null)
             return;
-        for (String s : si.getSearchItems()) {
+        for (String s : si.getSearchKeys()) {
             if (s.equalsIgnoreCase(paramName))
-                MDC.put(si.getItemKey(), si.getFormat().format(arg.toString()));
+                MDC.put(si.getKey(), si.getFormat().format(arg.toString()));
         }
     }
 
@@ -231,5 +232,13 @@ public class RandyContextLoggingAspect {
             }
         }
         return null;
+    }
+
+    public List<ContextLoggingSearchItem> getSearchItems() {
+        return searchItems;
+    }
+
+    public void setSearchItems(List<ContextLoggingSearchItem> searchItems) {
+        this.searchItems = searchItems;
     }
 }
