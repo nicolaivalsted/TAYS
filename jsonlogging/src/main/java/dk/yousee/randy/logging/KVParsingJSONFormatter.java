@@ -4,6 +4,7 @@
  */
 package dk.yousee.randy.logging;
 
+import com.google.gson.Gson;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,37 +31,41 @@ import org.apache.log4j.spi.LoggingEvent;
 public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout {
     @Override
     public void after(LoggingEvent le, Map<String, Object> r) {
-        Object omsg = le.getMessage();
-        String msg = safeToString(omsg);
-        // Add All key=value from log message as json fields
-        Map parsedkv = parseKVPairs(msg);
-        r.putAll(parsedkv);
-        // Add all key=value messages pushed on the NDC stack
-        Stack cloneStack = NDC.cloneStack();
-        if (cloneStack != null) {
-            for (Iterator it = cloneStack.iterator(); it.hasNext();) {
-                String s = safeToString(it.next());
-                if (s == null)
-                    continue;
-                Map<String, String> kvs = parseKVPairs(s);
-                r.putAll(kvs);
+        try {
+            Object omsg = le.getMessage();
+            String msg = safeToString(omsg);
+            // Add All key=value from log message as json fields
+            Map parsedkv = parseKVPairs(msg);
+            r.putAll(parsedkv);
+            // Add all key=value messages pushed on the NDC stack
+            Stack cloneStack = NDC.cloneStack();
+            if (cloneStack != null) {
+                for (Iterator it = cloneStack.iterator(); it.hasNext();) {
+                    String s = safeToString(it.next());
+                    if (s == null)
+                        continue;
+                    Map<String, String> kvs = parseKVPairs(s);
+                    r.putAll(kvs);
+                }
             }
+            // Add all key-value pairs from the MDC logging map
+            Hashtable context = MDC.getContext();
+            if (context != null)
+                r.putAll(hashTableToMap(context));
+            r.put("message_id", messageId(r));
+        } catch (Exception e) {
+            r.put("jsonlogformatterexception", e);
         }
-        // Add all key-value pairs from the MDC logging map
-        Hashtable context = MDC.getContext();
-        if (context != null)
-            r.putAll(hashTableToMap(context));
-        r.put("message_id", messageId(r));
     }
 
-    private Map<String, String> hashTableToMap(Hashtable context) {
-        HashMap<String, String> result = new HashMap();
+    private Map<String, Object> hashTableToMap(Hashtable context) {
+        HashMap<String, Object> result = new HashMap();
         Set entrySet = context.entrySet();
         for (Object o : entrySet) {
             Entry<String, Object> e = (Entry<String, Object>) o;
             if (e.getValue() == null)
                 continue;
-            result.put(e.getKey(), e.getValue().toString());
+            result.put(e.getKey(), e.getValue());
         }
         return result;
     }
