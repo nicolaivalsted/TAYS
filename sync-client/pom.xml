@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.46</version>
+        <version>3.47-SNAPSHOT</version>
     </parent>
     <artifactId>sync-client</artifactId>
     <name>${project.artifactId}</name>
