@@ -214,7 +214,7 @@ public class RandyContextLoggingAspect {
                 return path.value();
             }
         }
-        return null;
+        return "/";
     }
 
     public List<ContextLoggingSearchItem> getSearchItems() {
