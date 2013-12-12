@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
@@ -48,6 +49,7 @@ public class RandyContextLoggingAspect {
     private String outputJson = "output";
     private String httpstatusJson = "httpstatus";
     private String uncaughtexceptionmsgJson = "uncaughtexceptionmsg";
+    private String calluidJson = "calluid";
 
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
@@ -67,6 +69,7 @@ public class RandyContextLoggingAspect {
         JsonObject payloadJo = null;
 
         try {
+            MDC.put(calluidJson, UUID.randomUUID());
             // Try and find a uriInfo in the called method's environment
             if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null)
                 MDC.put(urlPathJson, uriInfo.getAbsolutePath().getRawPath());

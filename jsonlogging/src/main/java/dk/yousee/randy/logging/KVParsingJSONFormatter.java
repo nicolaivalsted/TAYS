@@ -107,17 +107,11 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
     private String messageId(Map<String, Object> r) {
         try {
             //        org.apache.commons.codec.digest.
-            String toHash = safeToString(r.get("timestamp"))
-                    + safeToString(r.get("hostname"))
-                    + safeToString(r.get("username"))
-                    + safeToString(r.get("level"))
-                    + safeToString(r.get("thread"))
-                    + safeToString(r.get("classname"))
-                    + safeToString(r.get("filename"))
-                    + safeToString(r.get("methodname"))
-                    + safeToString(r.get("linenumber") != null ? r.get("linenumber") : "")
-                    + safeToString(r.get("message"))
-                    + safeToString(r.get("throwable"));
+            StringBuilder sb = new StringBuilder();
+            for (Object e: r.values()) {
+                sb.append(e);
+            }
+            String toHash = sb.toString();
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(toHash.getBytes("UTF-8"));
             StringBuilder hexString = new StringBuilder();
