@@ -80,7 +80,7 @@ public class RandyContextLoggingAspect {
             pathPattern = new File(
                     new File(getPathAnnotation(method.getDeclaringClass().getAnnotations())),
                     getPathAnnotation(method.getAnnotations()));
-            MDC.put(urlpatternJson, pathPattern);
+            MDC.put(urlpatternJson, pathPattern.getPath());
 
             // Find and log interesting arguments
             for (ContextLoggingSearchItem si : searchItems) {
