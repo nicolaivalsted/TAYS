@@ -125,6 +125,10 @@ public class RandyContextLoggingAspect {
             if (r.getStatus() >= logOutputHttpStatus) {
                 if (r.getEntity() != null)
                     MDC.put(outputJson, r.getEntity());
+                if (logInput && payloadJo != null)
+                    MDC.put(inputJson, payloadJo);
+                else if (logInput && payload != null)
+                    MDC.put(inputJson, payload);
             }
             log.info("(return)");
             return r;
