@@ -48,7 +48,7 @@ public class RandyContextLoggingAspect {
     private String outputJson = "output";
     private String httpstatusJson = "httpstatus";
     private String uncaughtexceptionmsgJson = "uncaughtexceptionmsg";
-    
+
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
         // Take the proceedingpoint apart
@@ -230,5 +230,85 @@ public class RandyContextLoggingAspect {
 
     public void setSearchItems(List<ContextLoggingSearchItem> searchItems) {
         this.searchItems = searchItems;
+    }
+
+    public int getLogOutputHttpStatus() {
+        return logOutputHttpStatus;
+    }
+
+    public void setLogOutputHttpStatus(int logOutputHttpStatus) {
+        this.logOutputHttpStatus = logOutputHttpStatus;
+    }
+
+    public boolean isLogInput() {
+        return logInput;
+    }
+
+    public void setLogInput(boolean logInput) {
+        this.logInput = logInput;
+    }
+
+    public String getUrlpatternJson() {
+        return urlpatternJson;
+    }
+
+    public void setUrlpatternJson(String urlpatternJson) {
+        this.urlpatternJson = urlpatternJson;
+    }
+
+    public String getUrlPathJson() {
+        return urlPathJson;
+    }
+
+    public void setUrlPathJson(String urlPathJson) {
+        this.urlPathJson = urlPathJson;
+    }
+
+    public String getRestMethodJson() {
+        return restMethodJson;
+    }
+
+    public void setRestMethodJson(String restMethodJson) {
+        this.restMethodJson = restMethodJson;
+    }
+
+    public String getRestClassJson() {
+        return restClassJson;
+    }
+
+    public void setRestClassJson(String restClassJson) {
+        this.restClassJson = restClassJson;
+    }
+
+    public String getInputJson() {
+        return inputJson;
+    }
+
+    public void setInputJson(String inputJson) {
+        this.inputJson = inputJson;
+    }
+
+    public String getOutputJson() {
+        return outputJson;
+    }
+
+    public void setOutputJson(String outputJson) {
+        this.outputJson = outputJson;
+    }
+
+    public String getHttpstatusJson() {
+        return httpstatusJson;
+    }
+
+    public void setHttpstatusJson(String httpstatusJson) {
+        this.httpstatusJson = httpstatusJson;
+    }
+
+    public String getUncaughtexceptionmsgJson() {
+        return uncaughtexceptionmsgJson;
+    }
+
+    public void setUncaughtexceptionmsgJson(String uncaughtexceptionmsgJson) {
+        this.uncaughtexceptionmsgJson = uncaughtexceptionmsgJson;
     }
 }
