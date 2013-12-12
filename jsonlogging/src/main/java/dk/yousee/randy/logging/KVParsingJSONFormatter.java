@@ -108,8 +108,9 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
         try {
             //        org.apache.commons.codec.digest.
             StringBuilder sb = new StringBuilder();
-            for (Object e: r.values()) {
-                sb.append(e);
+            for (Entry<String, Object> e : r.entrySet()) {
+                sb.append(e.getKey());
+                sb.append(e.getValue());
             }
             String toHash = sb.toString();
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
