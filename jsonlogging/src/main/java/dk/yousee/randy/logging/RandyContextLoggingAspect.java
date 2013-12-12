@@ -4,7 +4,6 @@
  */
 package dk.yousee.randy.logging;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import javax.ws.rs.core.Response;
 
@@ -21,7 +20,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
@@ -39,9 +37,18 @@ import org.aspectj.lang.reflect.MethodSignature;
 public class RandyContextLoggingAspect {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
     private List<ContextLoggingSearchItem> searchItems;
+    // Configuration - name og fiels in json log document
     private int logOutputHttpStatus = 500;
     private boolean logInput = true;
-
+    private String urlpatternJson = "urlpattern";
+    private String urlPathJson = "urlpath";
+    private String restMethodJson = "restmethod";
+    private String restClassJson = "restclass";
+    private String inputJson = "input";
+    private String outputJson = "output";
+    private String httpstatusJson = "httpstatus";
+    private String uncaughtexceptionmsgJson = "uncaughtexceptionmsg";
+    
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
         // Take the proceedingpoint apart
@@ -62,15 +69,15 @@ public class RandyContextLoggingAspect {
         try {
             // Try and find a uriInfo in the called method's environment
             if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null)
-                MDC.put("path", uriInfo.getAbsolutePath().getRawPath());
+                MDC.put(urlPathJson, uriInfo.getAbsolutePath().getRawPath());
             // Log the method name and class
-            MDC.put("restmethod", methodName);
-            MDC.put("restclass", methodClassName);
+            MDC.put(restMethodJson, methodName);
+            MDC.put(restClassJson, methodClassName);
             // Log the method path pattern
             pathPattern = new File(
                     new File(getPathAnnotation(method.getDeclaringClass().getAnnotations())),
                     getPathAnnotation(method.getAnnotations()));
-            MDC.put("urlpattern", pathPattern);
+            MDC.put(urlpatternJson, pathPattern);
 
             // Find and log interesting arguments
             for (ContextLoggingSearchItem si : searchItems) {
@@ -101,9 +108,9 @@ public class RandyContextLoggingAspect {
                 }
             }
             if (logInput && payloadJo != null)
-                MDC.put("input", payloadJo);
+                MDC.put(inputJson, payloadJo);
             else if (logInput && payload != null)
-                MDC.put("input", payload);
+                MDC.put(inputJson, payload);
         } catch (Exception e) {
             log.error("Auto-logging aspect error - continuing", e);
         }
@@ -111,15 +118,15 @@ public class RandyContextLoggingAspect {
         // proceed calling and analyze result
         try {
             Response r = (Response) pjp.proceed();
-            MDC.put("httpstatus", r.getStatus());
+            MDC.put(httpstatusJson, r.getStatus());
             if (r.getStatus() >= logOutputHttpStatus) {
                 if (r.getEntity() != null)
-                    MDC.put("output", r.getEntity());
+                    MDC.put(outputJson, r.getEntity());
             }
             log.info("(return)");
             return r;
         } catch (Throwable exception) {
-            MDC.put("uncaughtexceptionmsg", exception.toString());
+            MDC.put(uncaughtexceptionmsgJson, exception.toString());
             log.warn("uncaught exception", exception);
             throw exception;
         } finally {
