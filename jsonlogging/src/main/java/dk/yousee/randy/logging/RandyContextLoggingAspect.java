@@ -4,17 +4,6 @@
  */
 package dk.yousee.randy.logging;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import javax.ws.rs.core.Response;
-
-import org.apache.log4j.Logger;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -22,11 +11,22 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
+import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.core.annotation.Order;
+import org.springframework.core.Ordered;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -37,7 +37,7 @@ import org.springframework.core.annotation.Order;
  * @author Jacob Lorensen, TDC, December 2013.
  */
 @Aspect
-public class RandyContextLoggingAspect {
+public class RandyContextLoggingAspect implements Ordered {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
     private List<ContextLoggingSearchItem> searchItems;
     // Configuration - name of fields in json log document
@@ -52,8 +52,7 @@ public class RandyContextLoggingAspect {
     private String httpstatusJson = "httpstatus";
     private String uncaughtexceptionmsgJson = "uncaughtexceptionmsg";
     private String calluidJson = "calluid";
-    //
-    private Gson gson = new Gson();
+    private int order = Ordered.LOWEST_PRECEDENCE;
 
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
@@ -359,11 +358,12 @@ public class RandyContextLoggingAspect {
         this.uncaughtexceptionmsgJson = uncaughtexceptionmsgJson;
     }
 
-    public String getCalluidJson() {
-        return calluidJson;
-    }
-
-    public void setCalluidJson(String calluidJson) {
-        this.calluidJson = calluidJson;
-    }
+	@Override
+	public int getOrder() {
+		return order;
+	}
+	
+	public void setOrder(int order) {
+		this.order = order;
+	}
 }
