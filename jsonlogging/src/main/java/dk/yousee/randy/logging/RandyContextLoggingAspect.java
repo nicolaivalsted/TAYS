@@ -4,6 +4,7 @@
  */
 package dk.yousee.randy.logging;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import javax.ws.rs.core.Response;
 
@@ -25,6 +26,7 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.core.annotation.Order;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -38,11 +40,11 @@ import org.aspectj.lang.reflect.MethodSignature;
 public class RandyContextLoggingAspect {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
     private List<ContextLoggingSearchItem> searchItems;
-    // Configuration - name og fiels in json log document
-    private int logOutputHttpStatus = 500;
+    // Configuration - name of fields in json log document
+    private int logPayloadHttpStatusMin = 500;
     private boolean logInput = true;
     private String urlpatternJson = "urlpattern";
-    private String urlPathJson = "urlpath";
+    private String requestUriJson = "requesturi";
     private String restMethodJson = "restmethod";
     private String restClassJson = "restclass";
     private String inputJson = "input";
@@ -50,6 +52,8 @@ public class RandyContextLoggingAspect {
     private String httpstatusJson = "httpstatus";
     private String uncaughtexceptionmsgJson = "uncaughtexceptionmsg";
     private String calluidJson = "calluid";
+    //
+    private Gson gson = new Gson();
 
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
@@ -72,7 +76,7 @@ public class RandyContextLoggingAspect {
             MDC.put(calluidJson, UUID.randomUUID());
             // Try and find a uriInfo in the called method's environment
             if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null)
-                MDC.put(urlPathJson, uriInfo.getAbsolutePath().getRawPath());
+                MDC.put(requestUriJson, uriInfo.getRequestUri().toString());
             // Log the method name and class
             MDC.put(restMethodJson, methodName);
             MDC.put(restClassJson, methodClassName);
@@ -101,7 +105,7 @@ public class RandyContextLoggingAspect {
                                 // well, json parsing didn't work so just ignore it silently
                             }
                         }
-                        // we've caught the http entity body, continue with next argument
+                        // we've caught what we assume must be the http entity body, continue with next argument
                         continue;
                     }
                     // Precedence: path/query-param then payload then name of formal arguments
@@ -110,10 +114,6 @@ public class RandyContextLoggingAspect {
                     analyzeArgAnnotations(si, actualArgs[argc], annotations);
                 }
             }
-            if (logInput && payloadJo != null)
-                MDC.put(inputJson, payloadJo);
-            else if (logInput && payload != null)
-                MDC.put(inputJson, payload);
         } catch (Exception e) {
             log.error("Auto-logging aspect error - continuing", e);
         }
@@ -121,19 +121,26 @@ public class RandyContextLoggingAspect {
         // proceed calling and analyze result
         try {
             Response r = (Response) pjp.proceed();
+            Object entity = r.getEntity();
             MDC.put(httpstatusJson, r.getStatus());
-            if (r.getStatus() >= logOutputHttpStatus) {
-                if (r.getEntity() != null)
-                    MDC.put(outputJson, r.getEntity());
-                if (logInput && payloadJo != null)
+            if (r.getStatus() >= logPayloadHttpStatusMin) {
+                if (entity != null) {
+                    analyzeResponse(entity);
+                    MDC.put(outputJson, entity);
+                }
+                if (payloadJo != null)
                     MDC.put(inputJson, payloadJo);
-                else if (logInput && payload != null)
+                else if (payload != null)
                     MDC.put(inputJson, payload);
             }
             log.info("(return)");
             return r;
         } catch (Throwable exception) {
             MDC.put(uncaughtexceptionmsgJson, exception.toString());
+            if (payloadJo != null)
+                MDC.put(inputJson, payloadJo);
+            else if (payload != null)
+                MDC.put(inputJson, payload);
             log.warn("uncaught exception", exception);
             throw exception;
         } finally {
@@ -162,6 +169,32 @@ public class RandyContextLoggingAspect {
         }
     }
 
+    /**
+     * Format the response entity as a json object and analysze it. It don't like this
+     * <ol>
+     * <li>Response gets serialized twice
+     * <li>We don't necessarily have the right serialization formatter
+     * <li>We should look into the field names instead (fiels and getters&mdash;also complicated)
+     * </ol>
+     * @param response 
+     */
+    private void analyzeResponse(Object response) {
+        if (response == null)
+            return;
+        JsonObject joResponse;
+        if (response instanceof JsonObject)
+            joResponse = (JsonObject) response;
+        else {
+            JsonElement jsonTree = gson.toJsonTree(response);
+            if (!jsonTree.isJsonObject())
+                return;
+            joResponse = jsonTree.getAsJsonObject();
+        }
+        for (ContextLoggingSearchItem si : searchItems) {
+            analyzePayload(si, joResponse);
+        }
+    }
+
     private void analyzeArgAnnotations(ContextLoggingSearchItem si, Object arg, Annotation[] annotations) {
         if (arg == null)
             return;
@@ -169,6 +202,8 @@ public class RandyContextLoggingAspect {
         for (Annotation annotation : annotations) {
             Class<? extends Annotation> annotationType = annotation.annotationType();
             String value = null;
+
+
             if (annotationType.equals(javax.ws.rs.PathParam.class)) {
                 javax.ws.rs.PathParam pathParam = (javax.ws.rs.PathParam) annotation;
                 value = pathParam.value();
@@ -199,6 +234,8 @@ public class RandyContextLoggingAspect {
     private UriInfo getUriInfoField(Object t) {
         // Find a member of type UriInfo
         Field[] fields = t.getClass().getFields();
+
+
         for (Field f : fields) {
             if (f.getType().equals(UriInfo.class)) {
                 try {
@@ -223,8 +260,11 @@ public class RandyContextLoggingAspect {
     private String getPathAnnotation(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
             Class<? extends Annotation> annotationType = annotation.annotationType();
+
+
             if (annotationType.equals(javax.ws.rs.Path.class)) {
                 javax.ws.rs.Path path = (javax.ws.rs.Path) annotation;
+
                 return path.value();
             }
         }
@@ -239,12 +279,12 @@ public class RandyContextLoggingAspect {
         this.searchItems = searchItems;
     }
 
-    public int getLogOutputHttpStatus() {
-        return logOutputHttpStatus;
+    public int getLogPayloadHttpStatusMin() {
+        return logPayloadHttpStatusMin;
     }
 
-    public void setLogOutputHttpStatus(int logOutputHttpStatus) {
-        this.logOutputHttpStatus = logOutputHttpStatus;
+    public void setLogPayloadHttpStatusMin(int logPayloadHttpStatusMin) {
+        this.logPayloadHttpStatusMin = logPayloadHttpStatusMin;
     }
 
     public boolean isLogInput() {
@@ -263,12 +303,12 @@ public class RandyContextLoggingAspect {
         this.urlpatternJson = urlpatternJson;
     }
 
-    public String getUrlPathJson() {
-        return urlPathJson;
+    public String getRequestUriJson() {
+        return requestUriJson;
     }
 
-    public void setUrlPathJson(String urlPathJson) {
-        this.urlPathJson = urlPathJson;
+    public void setRequestUriJson(String requestUriJson) {
+        this.requestUriJson = requestUriJson;
     }
 
     public String getRestMethodJson() {
@@ -317,5 +357,13 @@ public class RandyContextLoggingAspect {
 
     public void setUncaughtexceptionmsgJson(String uncaughtexceptionmsgJson) {
         this.uncaughtexceptionmsgJson = uncaughtexceptionmsgJson;
+    }
+
+    public String getCalluidJson() {
+        return calluidJson;
+    }
+
+    public void setCalluidJson(String calluidJson) {
+        this.calluidJson = calluidJson;
     }
 }
