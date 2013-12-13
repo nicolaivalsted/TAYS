@@ -10,6 +10,7 @@ import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,8 +42,8 @@ import com.google.gson.JsonParser;
 @Aspect
 public class RandyContextLoggingAspect implements Ordered {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
-    private List<ContextLoggingSearchItem> searchItems;
-    private List<ContextLoggingSearchItem> searchItemsAfter;
+    private List<ContextLoggingSearchItem> searchItems = new ArrayList<ContextLoggingSearchItem>();
+    private List<ContextLoggingSearchItem> searchItemsAfter = new ArrayList<ContextLoggingSearchItem>();
     private Gson gson = new Gson();
     // Configuration - aspect
     private int order = Ordered.LOWEST_PRECEDENCE;
