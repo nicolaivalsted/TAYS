@@ -5,10 +5,12 @@
 package dk.yousee.randy.logging;
 
 import com.google.gson.Gson;
+
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -40,7 +42,8 @@ import com.google.gson.JsonParser;
 @Aspect
 public class RandyContextLoggingAspect implements Ordered {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
-    private List<ContextLoggingSearchItem> searchItems;
+    private List<ContextLoggingSearchItem> searchItems = new ArrayList<ContextLoggingSearchItem>();
+    private List<ContextLoggingSearchItem> searchItemsAfter = new ArrayList<ContextLoggingSearchItem>();
     private Gson gson = new Gson();
     // Configuration - aspect
     private int order = Ordered.LOWEST_PRECEDENCE;
@@ -72,7 +75,6 @@ public class RandyContextLoggingAspect implements Ordered {
         UriInfo uriInfo;
         File pathPattern;
         String payload = null;
-        JsonObject payloadJo = null;
 
         try {
             MDC.put(calluidJson, UUID.randomUUID());
@@ -88,34 +90,7 @@ public class RandyContextLoggingAspect implements Ordered {
                     getPathAnnotation(method.getAnnotations()));
             MDC.put(urlpatternJson, pathPattern.getPath());
 
-            // Find and log interesting arguments
-            for (ContextLoggingSearchItem si : searchItems) {
-                // Check arguments 
-                for (int argc = 0; argc < argAnnotations.length; argc++) {
-                    if (actualArgs[argc] == null)
-                        continue;
-                    Annotation[] annotations = argAnnotations[argc];
-                    // String arg receiving entity body does not have annotations - check and parse payload
-                    if (annotations.length == 0 && payload == null) {
-                        payload = getPayload(actualArgs[argc]);
-                        if (payload != null) {
-                            try {
-                                JsonElement body = new JsonParser().parse(payload);
-                                if (body.isJsonObject())
-                                    payloadJo = body.getAsJsonObject();
-                            } catch (Exception e) {
-                                // well, json parsing didn't work so just ignore it silently
-                            }
-                        }
-                        // we've caught what we assume must be the http entity body, continue with next argument
-                        continue;
-                    }
-                    // Precedence: path/query-param then payload then name of formal arguments
-                    analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
-                    analyzePayload(si, payloadJo);
-                    analyzeArgAnnotations(si, actualArgs[argc], annotations);
-                }
-            }
+            payload = updateContext(searchItems, argAnnotations, actualArgs, formalArgs);
         } catch (Exception e) {
             log.error("Auto-logging aspect error - continuing", e);
         }
@@ -123,6 +98,8 @@ public class RandyContextLoggingAspect implements Ordered {
         // proceed calling and analyze result
         try {
             Response r = (Response) pjp.proceed();
+            updateContext(searchItemsAfter, argAnnotations, actualArgs, formalArgs);
+
             Object entity = r.getEntity();
             analyzeResponse(entity);
             MDC.put(httpstatusJson, r.getStatus());
@@ -130,19 +107,18 @@ public class RandyContextLoggingAspect implements Ordered {
                 if (entity != null) {
                     MDC.put(outputJson, entity);
                 }
-                if (payloadJo != null)
-                    MDC.put(inputJson, payloadJo);
-                else if (payload != null)
+                
+                if (payload != null)
                     MDC.put(inputJson, payload);
             }
             log.info("(return)");
             return r;
         } catch (Throwable exception) {
             MDC.put(uncaughtexceptionmsgJson, exception.toString());
-            if (payloadJo != null)
-                MDC.put(inputJson, payloadJo);
-            else if (payload != null)
+            
+            if (payload != null)
                 MDC.put(inputJson, payload);
+            
             log.warn("uncaught exception", exception);
             throw exception;
         } finally {
@@ -151,7 +127,42 @@ public class RandyContextLoggingAspect implements Ordered {
         }
     }
 
-    private String getPayload(Object arg) {
+    private String updateContext(List<ContextLoggingSearchItem> searchItems, Annotation[][] argAnnotations, Object[] actualArgs, String[] formalArgs) {
+        // Find and log interesting arguments
+        JsonObject payloadJo = null;
+        String payload = null;
+        for (ContextLoggingSearchItem si : searchItems) {
+            // Check arguments 
+            for (int argc = 0; argc < argAnnotations.length; argc++) {
+                if (actualArgs[argc] == null)
+                    continue;
+                Annotation[] annotations = argAnnotations[argc];
+                // String arg receiving entity body does not have annotations - check and parse payload
+                if (annotations.length == 0 && payload == null) {
+                    payload = getPayload(actualArgs[argc]);
+                    if (payload != null) {
+                        try {
+                            JsonElement body = new JsonParser().parse(payload);
+                            if (body.isJsonObject())
+                                payloadJo = body.getAsJsonObject();
+                        } catch (Exception e) {
+                            // well, json parsing didn't work so just ignore it silently
+                        }
+                    }
+                    // we've caught what we assume must be the http entity body, continue with next argument
+                    continue;
+                }
+                // Precedence: path/query-param then payload then name of formal arguments
+                analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
+                analyzePayload(si, payloadJo);
+                analyzeArgAnnotations(si, actualArgs[argc], annotations);
+            }
+        }
+		
+        return payload != null ? payload : payloadJo != null ? payloadJo.toString() : null;
+	}
+
+	private String getPayload(Object arg) {
         if (!(arg instanceof java.lang.String))
             return null;
         return (String) arg;
@@ -235,8 +246,11 @@ public class RandyContextLoggingAspect implements Ordered {
         if (paramName == null || arg == null)
             return;
         for (String s : si.getSearchKeys()) {
-            if (s.equalsIgnoreCase(paramName))
-                MDC.put(si.getKey(), si.getFormat().format(arg.toString()));
+            if (s.equalsIgnoreCase(paramName)) {
+                Object value = si.getFormat().format(arg.toString());
+                if (value != null)
+                	MDC.put(si.getKey(), value);
+            }
         }
     }
 
@@ -384,4 +398,8 @@ public class RandyContextLoggingAspect implements Ordered {
     public void setCalluidJson(String calluidJson) {
         this.calluidJson = calluidJson;
     }
+    
+    public void setSearchItemsAfter(List<ContextLoggingSearchItem> searchItemsAfter) {
+		this.searchItemsAfter = searchItemsAfter;
+	}
 }

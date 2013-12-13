@@ -9,5 +9,5 @@ package dk.yousee.randy.logging;
  * @author jablo
  */
 public interface ValueFormatter {
-    String format(String arg);
+    Object format(String arg);
 }
