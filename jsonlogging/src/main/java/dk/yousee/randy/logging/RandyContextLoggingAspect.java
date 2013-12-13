@@ -4,6 +4,7 @@
  */
 package dk.yousee.randy.logging;
 
+import com.google.gson.Gson;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -40,6 +41,9 @@ import com.google.gson.JsonParser;
 public class RandyContextLoggingAspect implements Ordered {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
     private List<ContextLoggingSearchItem> searchItems;
+    private Gson gson = new Gson();
+    // Configuration - aspect
+    private int order = Ordered.LOWEST_PRECEDENCE;
     // Configuration - name of fields in json log document
     private int logPayloadHttpStatusMin = 500;
     private boolean logInput = true;
@@ -52,7 +56,6 @@ public class RandyContextLoggingAspect implements Ordered {
     private String httpstatusJson = "httpstatus";
     private String uncaughtexceptionmsgJson = "uncaughtexceptionmsg";
     private String calluidJson = "calluid";
-    private int order = Ordered.LOWEST_PRECEDENCE;
 
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
@@ -169,13 +172,16 @@ public class RandyContextLoggingAspect implements Ordered {
     }
 
     /**
-     * Format the response entity as a json object and analysze it. It don't like this
+     * Format the response entity as a json object and analysze it. It don't
+     * like this
      * <ol>
      * <li>Response gets serialized twice
      * <li>We don't necessarily have the right serialization formatter
-     * <li>We should look into the field names instead (fiels and getters&mdash;also complicated)
+     * <li>We should look into the field names instead (fiels and
+     * getters&mdash;also complicated)
      * </ol>
-     * @param response 
+     *
+     * @param response
      */
     private void analyzeResponse(Object response) {
         if (response == null)
@@ -358,12 +364,20 @@ public class RandyContextLoggingAspect implements Ordered {
         this.uncaughtexceptionmsgJson = uncaughtexceptionmsgJson;
     }
 
-	@Override
-	public int getOrder() {
-		return order;
-	}
-	
-	public void setOrder(int order) {
-		this.order = order;
-	}
+    @Override
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
+    public String getCalluidJson() {
+        return calluidJson;
+    }
+
+    public void setCalluidJson(String calluidJson) {
+        this.calluidJson = calluidJson;
+    }
 }
