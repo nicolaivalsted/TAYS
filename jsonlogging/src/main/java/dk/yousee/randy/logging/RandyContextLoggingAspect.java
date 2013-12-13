@@ -124,10 +124,10 @@ public class RandyContextLoggingAspect implements Ordered {
         try {
             Response r = (Response) pjp.proceed();
             Object entity = r.getEntity();
+            analyzeResponse(entity);
             MDC.put(httpstatusJson, r.getStatus());
             if (r.getStatus() >= logPayloadHttpStatusMin) {
                 if (entity != null) {
-                    analyzeResponse(entity);
                     MDC.put(outputJson, entity);
                 }
                 if (payloadJo != null)
@@ -184,19 +184,23 @@ public class RandyContextLoggingAspect implements Ordered {
      * @param response
      */
     private void analyzeResponse(Object response) {
-        if (response == null)
-            return;
-        JsonObject joResponse;
-        if (response instanceof JsonObject)
-            joResponse = (JsonObject) response;
-        else {
-            JsonElement jsonTree = gson.toJsonTree(response);
-            if (!jsonTree.isJsonObject())
+        try {
+            if (response == null)
                 return;
-            joResponse = jsonTree.getAsJsonObject();
-        }
-        for (ContextLoggingSearchItem si : searchItems) {
-            analyzePayload(si, joResponse);
+            JsonObject joResponse;
+            if (response instanceof JsonObject)
+                joResponse = (JsonObject) response;
+            else {
+                JsonElement jsonTree = gson.toJsonTree(response);
+                if (!jsonTree.isJsonObject())
+                    return;
+                joResponse = jsonTree.getAsJsonObject();
+            }
+            for (ContextLoggingSearchItem si : searchItems) {
+                analyzePayload(si, joResponse);
+            }
+        } catch (Exception e) {
+            log.warn("Error serializing return value for analysis - ignored", e);
         }
     }
 
