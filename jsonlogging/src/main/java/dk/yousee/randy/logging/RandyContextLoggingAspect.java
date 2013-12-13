@@ -30,6 +30,7 @@ import org.springframework.core.Ordered;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -107,7 +108,7 @@ public class RandyContextLoggingAspect implements Ordered {
                 if (entity != null) {
                     MDC.put(outputJson, entity);
                 }
-                
+
                 if (payload != null)
                     MDC.put(inputJson, payload);
             }
@@ -115,10 +116,10 @@ public class RandyContextLoggingAspect implements Ordered {
             return r;
         } catch (Throwable exception) {
             MDC.put(uncaughtexceptionmsgJson, exception.toString());
-            
+
             if (payload != null)
                 MDC.put(inputJson, payload);
-            
+
             log.warn("uncaught exception", exception);
             throw exception;
         } finally {
@@ -138,19 +139,23 @@ public class RandyContextLoggingAspect implements Ordered {
                     continue;
                 Annotation[] annotations = argAnnotations[argc];
                 // String arg receiving entity body does not have annotations - check and parse payload
-                if (annotations.length == 0 && payload == null) {
-                    payload = getPayload(actualArgs[argc]);
-                    if (payload != null) {
-                        try {
-                            JsonElement body = new JsonParser().parse(payload);
-                            if (body.isJsonObject())
-                                payloadJo = body.getAsJsonObject();
-                        } catch (Exception e) {
-                            // well, json parsing didn't work so just ignore it silently
+                // or has RequestBody annotation
+                if (payload == null) {
+                    if (annotations.length == 0
+                            || (annotations.length == 1 && annotations[0].annotationType().equals(RequestBody.class))) {
+                        payload = getPayload(actualArgs[argc]);
+                        if (payload != null) {
+                            try {
+                                JsonElement body = new JsonParser().parse(payload);
+                                if (body.isJsonObject())
+                                    payloadJo = body.getAsJsonObject();
+                            } catch (Exception e) {
+                                // well, json parsing didn't work so just ignore it silently
+                            }
                         }
+                        // we've caught what we assume must be the http entity body, continue with next argument
+                        continue;
                     }
-                    // we've caught what we assume must be the http entity body, continue with next argument
-                    continue;
                 }
                 // Precedence: path/query-param then payload then name of formal arguments
                 analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
@@ -158,11 +163,10 @@ public class RandyContextLoggingAspect implements Ordered {
                 analyzeArgAnnotations(si, actualArgs[argc], annotations);
             }
         }
-		
         return payload != null ? payload : payloadJo != null ? payloadJo.toString() : null;
-	}
+    }
 
-	private String getPayload(Object arg) {
+    private String getPayload(Object arg) {
         if (!(arg instanceof java.lang.String))
             return null;
         return (String) arg;
@@ -222,8 +226,6 @@ public class RandyContextLoggingAspect implements Ordered {
         for (Annotation annotation : annotations) {
             Class<? extends Annotation> annotationType = annotation.annotationType();
             String value = null;
-
-
             if (annotationType.equals(javax.ws.rs.PathParam.class)) {
                 javax.ws.rs.PathParam pathParam = (javax.ws.rs.PathParam) annotation;
                 value = pathParam.value();
@@ -249,7 +251,7 @@ public class RandyContextLoggingAspect implements Ordered {
             if (s.equalsIgnoreCase(paramName)) {
                 Object value = si.getFormat().format(arg.toString());
                 if (value != null)
-                	MDC.put(si.getKey(), value);
+                    MDC.put(si.getKey(), value);
             }
         }
     }
@@ -398,8 +400,8 @@ public class RandyContextLoggingAspect implements Ordered {
     public void setCalluidJson(String calluidJson) {
         this.calluidJson = calluidJson;
     }
-    
+
     public void setSearchItemsAfter(List<ContextLoggingSearchItem> searchItemsAfter) {
-		this.searchItemsAfter = searchItemsAfter;
-	}
+        this.searchItemsAfter = searchItemsAfter;
+    }
 }
