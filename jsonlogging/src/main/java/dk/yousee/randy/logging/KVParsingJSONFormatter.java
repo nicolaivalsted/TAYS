@@ -5,6 +5,8 @@
 package dk.yousee.randy.logging;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,6 +24,9 @@ import java.util.regex.Pattern;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
 import org.apache.log4j.spi.LoggingEvent;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 /**
  *
@@ -29,24 +34,38 @@ import org.apache.log4j.spi.LoggingEvent;
  */
 //
 public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout {
+    private final Gson gson = new GsonBuilder().create();
+    private DateTimeFormatter df = ISODateTimeFormat.dateTime();
+
     @Override
     public void after(LoggingEvent le, Map<String, Object> r) {
         try {
+            // Override date format as iso datetime format
+            DateTime dt = new DateTime();
+            String sb = df.print(dt);
+            r.put("date", sb);
+
             Object omsg = le.getMessage();
             String msg = safeToString(omsg);
             // Add All key=value from log message as json fields
             Map parsedkv = parseKVPairs(msg);
             r.putAll(parsedkv);
             // Add all key=value messages pushed on the NDC stack
+            // Make the NDC available as a jason array
             Stack cloneStack = NDC.cloneStack();
             if (cloneStack != null) {
+                JsonArray jsonStack = new JsonArray();
                 for (Iterator it = cloneStack.iterator(); it.hasNext();) {
-                    String s = safeToString(it.next());
+                    Object o = it.next();
+                    if (o != null)
+                        jsonStack.add(gson.toJsonTree(o));
+                    String s = safeToString(o);
                     if (s == null)
                         continue;
                     Map<String, String> kvs = parseKVPairs(s);
                     r.putAll(kvs);
                 }
+                r.put("ndc", jsonStack);
             }
             // Add all key-value pairs from the MDC logging map
             Hashtable context = MDC.getContext();
