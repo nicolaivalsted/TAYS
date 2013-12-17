@@ -46,7 +46,7 @@ public enum ProvisionStateEnum {
     /**
      * Kill the WARN message "ProvisionStateEnum does not contain open.running.workflow.processing"
      */
-    OPEN_RUNNING_WORKFLOW_PROCESSING("open.running.workflow.processing")
+    OPEN_RUNNING_WORKFLOW_PROCESSING("open.running.workflow.processing", true)
     ;
 
     private String state;
