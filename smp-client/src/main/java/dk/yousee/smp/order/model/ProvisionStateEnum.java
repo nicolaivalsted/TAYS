@@ -42,7 +42,11 @@ public enum ProvisionStateEnum {
     /**
      * This state is used when state could not be passed, there is also a warn logging on the server with content
      */
-    BUG_IN_BSS_ADAPTER("bug_in_bss_adapter")
+    BUG_IN_BSS_ADAPTER("bug_in_bss_adapter"),
+    /**
+     * Kill the WARN message "ProvisionStateEnum does not contain open.running.workflow.processing"
+     */
+    OPEN_RUNNING_WORKFLOW_PROCESSING("open.running.workflow.processing")
     ;
 
     private String state;
