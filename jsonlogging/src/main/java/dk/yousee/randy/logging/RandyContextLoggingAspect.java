@@ -5,7 +5,6 @@
 package dk.yousee.randy.logging;
 
 import com.google.gson.Gson;
-
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -14,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
@@ -26,12 +23,9 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import javax.ws.rs.core.PathSegment;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -61,6 +55,8 @@ public class RandyContextLoggingAspect implements Ordered {
     private String httpStatusJson = "httpstatus";
     private String uncaughtExcsptionMsgJson = "uncaughtexceptionmsg";
     private String callUUIDJson = "calluuid";
+    // 
+    private String requestBodyAnnotationName = "RequestBody";
 
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
@@ -104,7 +100,7 @@ public class RandyContextLoggingAspect implements Ordered {
                     // String arg receiving entity body does not have annotations - check and parse payload
                     // or has RequestBody annotation
                     if (payload == null) {
-                        if (annotations.length == 0 || annotationsContains(annotations, RequestBody.class)) {
+                        if (annotations.length == 0 || annotationsContains(annotations, requestBodyAnnotationName)) {
                             payload = getPayload(actualArgs[argc]);
                             if (payload != null) {
                                 try {
@@ -283,7 +279,6 @@ public class RandyContextLoggingAspect implements Ordered {
         for (Annotation annotation : annotations) {
             Class<? extends Annotation> annotationType = annotation.annotationType();
 
-
             if (annotationType.equals(javax.ws.rs.Path.class)) {
                 javax.ws.rs.Path path = (javax.ws.rs.Path) annotation;
 
@@ -293,9 +288,18 @@ public class RandyContextLoggingAspect implements Ordered {
         return "/";
     }
 
-    private boolean annotationsContains(Annotation[] annotations, Class<RequestBody> aClass) {
+    /**
+     * Search annotation class names for an annotation that "looks interesting"
+     * @param annotations
+     * @param className
+     * @return true if an annotations that string-matches the given class name, false if none found
+     */
+    private boolean annotationsContains(Annotation[] annotations, String className) {
         for (Annotation a : annotations) {
-            if (a.annotationType().equals(RequestBody.class))
+            String annName = a.annotationType().getCanonicalName();
+            if (annName == null)
+                continue;
+            if (annName.contains(className))
                 return true;
         }
         return false;
