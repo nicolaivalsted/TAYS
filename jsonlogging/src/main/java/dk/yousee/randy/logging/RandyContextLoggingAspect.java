@@ -27,6 +27,7 @@ import org.springframework.core.Ordered;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import uk.me.mjt.log4jjson.SimpleJsonLayout;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -76,6 +77,7 @@ public class RandyContextLoggingAspect implements Ordered {
         String payload = null; // just log the payload as-is. Json log formatter should quote correctly
 
         try {
+            MDC.put(SimpleJsonLayout.GSONLOGSERIALIZER, gson); // inject our gson formatter for the benifit of json formatter!
             MDC.put(callUUIDJson, UUID.randomUUID());
             // Try and find a uriInfo in the called method's environment
             if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null) {

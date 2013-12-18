@@ -27,6 +27,7 @@ import org.apache.log4j.spi.LoggingEvent;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+import uk.me.mjt.log4jjson.SimpleJsonLayout;
 
 /**
  *
@@ -86,6 +87,8 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
             Entry<String, Object> e = (Entry<String, Object>) o;
             if (e.getValue() == null)
                 continue;
+            if (e.getKey().equals(SimpleJsonLayout.GSONLOGSERIALIZER)) // don't serialize the gson serializer
+                continue;            
             result.put(e.getKey(), e.getValue());
         }
         return result;
