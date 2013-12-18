@@ -34,12 +34,12 @@ import org.joda.time.format.ISODateTimeFormat;
  */
 //
 public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout {
-    private final Gson gson = new GsonBuilder().create();
     private DateTimeFormatter df = ISODateTimeFormat.dateTime();
 
     @Override
     public void after(LoggingEvent le, Map<String, Object> r) {
         try {
+            Gson gson = getGsonFormatter();
             // Override date format as iso datetime format
             DateTime dt = new DateTime();
             String sb = df.print(dt);
@@ -48,8 +48,10 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
             Object omsg = le.getMessage();
             String msg = safeToString(omsg);
             // Add All key=value from log message as json fields
-            Map parsedkv = parseKVPairs(msg);
-            r.putAll(parsedkv);
+            if (msg != null) {
+                Map parsedkv = parseKVPairs(msg);
+                r.putAll(parsedkv);
+            }
             // Add all key=value messages pushed on the NDC stack
             // Make the NDC available as a jason array
             Stack cloneStack = NDC.cloneStack();
