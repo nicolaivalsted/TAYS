@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import javax.annotation.PostConstruct;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import org.apache.log4j.Logger;
@@ -39,7 +40,7 @@ import com.google.gson.JsonParser;
 public class RandyContextLoggingAspect implements Ordered {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
     private List<ContextLoggingSearchItem> searchItems = new ArrayList<ContextLoggingSearchItem>();
-    private Gson gson = new Gson();
+    private Gson gson;
     // Configuration - aspect
     private int order = Ordered.LOWEST_PRECEDENCE;
     // Configuration - name of fields in json log document
@@ -156,6 +157,22 @@ public class RandyContextLoggingAspect implements Ordered {
             NDC.remove();
             MDC.clear();
         }
+    }
+
+    @PostConstruct
+    public void postInitialize() {
+        if (gson == null) {
+            gson = new Gson();
+            log.debug("No specific gson implementation injected - using a default one");
+        }
+    }
+
+    public Gson getGson() {
+        return gson;
+    }
+
+    public void setGson(Gson gson) {
+        this.gson = gson;
     }
 
     private String getPayload(Object arg) {
