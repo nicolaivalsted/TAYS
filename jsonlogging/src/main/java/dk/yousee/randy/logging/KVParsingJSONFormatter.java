@@ -55,7 +55,7 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
             }
             // Add all key=value messages pushed on the NDC stack
             // Make the NDC available as a jason array
-            Stack cloneStack = NDC.cloneStack();
+            Stack cloneStack = NDC.cloneStack(); 
             if (cloneStack != null) {
                 JsonArray jsonStack = new JsonArray();
                 for (Iterator it = cloneStack.iterator(); it.hasNext();) {

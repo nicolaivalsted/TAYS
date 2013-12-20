@@ -27,6 +27,8 @@ import org.springframework.core.Ordered;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import java.util.Map.Entry;
+import javax.ws.rs.core.MultivaluedMap;
 import uk.me.mjt.log4jjson.SimpleJsonLayout;
 
 /**
@@ -120,6 +122,12 @@ public class RandyContextLoggingAspect implements Ordered {
                     analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
                     analyzePayload(si, payloadParsed);
                     analyzeArgAnnotations(si, actualArgs[argc], annotations);
+                    if (uriInfo != null) {
+                        MultivaluedMap<String, String> queryParameters = uriInfo.getQueryParameters();
+                        analyzeUriInfoParms(si, queryParameters);
+                        MultivaluedMap<String, String> pathParameters = uriInfo.getPathParameters();
+                        analyzeUriInfoParms(si, pathParameters);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -268,11 +276,28 @@ public class RandyContextLoggingAspect implements Ordered {
         }
     }
 
+    /**
+     * Look for search items in a query or path param multivalued map. Registers the first found matching value in MDC.
+     * @param si search items to look for
+     * @param ps QueryParameters or PathParameters multivalued map
+     */
+    private void analyzeUriInfoParms(ContextLoggingSearchItem si, MultivaluedMap<String, String> ps) {
+        if (ps == null)
+            return;
+        for (String s : si.getSearchKeys()) {
+            // we want case ignorant lookup 
+            for (Entry<String, List<String>> e : ps.entrySet()) {
+                if (e.getValue() != null && s.equalsIgnoreCase(e.getKey())) {
+                    MDC.put(si.getKey(), e.getValue());
+                    break;
+                }
+            }
+        }
+    }
+
     private UriInfo getUriInfoField(Object t) {
         // Find a member of type UriInfo
         Field[] fields = t.getClass().getFields();
-
-
         for (Field f : fields) {
             if (f.getType().equals(UriInfo.class)) {
                 try {
@@ -309,9 +334,11 @@ public class RandyContextLoggingAspect implements Ordered {
 
     /**
      * Search annotation class names for an annotation that "looks interesting"
+     *
      * @param annotations
      * @param className
-     * @return true if an annotations that string-matches the given class name, false if none found
+     * @return true if an annotations that string-matches the given class name,
+     * false if none found
      */
     private boolean annotationsContains(Annotation[] annotations, String className) {
         for (Annotation a : annotations) {
