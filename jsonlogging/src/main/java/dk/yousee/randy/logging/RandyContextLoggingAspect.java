@@ -151,7 +151,11 @@ public class RandyContextLoggingAspect implements Ordered {
                     MDC.put(requestEntityJson, payload);
                 }
             }
-            log.info("(return)");
+            if (r.getStatus() >= 500) {
+                log.warn("(return)");
+            } else {
+                log.info("(return)");
+            }
             return r;
         } catch (Throwable exception) {
             MDC.put(uncaughtExcsptionMsgJson, exception.toString());
@@ -161,7 +165,7 @@ public class RandyContextLoggingAspect implements Ordered {
             } else if (payload != null) {
                 MDC.put(requestEntityJson, payload);
             }
-            log.warn("uncaught exception", exception);
+            log.error("uncaught exception", exception);
             throw exception;
         } finally {
             NDC.remove();
@@ -277,7 +281,9 @@ public class RandyContextLoggingAspect implements Ordered {
     }
 
     /**
-     * Look for search items in a query or path param multivalued map. Registers the first found matching value in MDC.
+     * Look for search items in a query or path param multivalued map. Registers
+     * the first found matching value in MDC.
+     *
      * @param si search items to look for
      * @param ps QueryParameters or PathParameters multivalued map
      */
