@@ -137,13 +137,7 @@ public class RandyContextLoggingAspect implements Ordered {
         // proceed call and analyze result
         try {
             Response r = (Response) pjp.proceed();
-            Object entity = r.getEntity();
-            analyzeResponse(entity);
-            MDC.put(httpStatusJson, r.getStatus());
-            if (r.getStatus() >= logPayloadHttpStatusMin) {
-                if (entity != null) {
-                    MDC.put(responseEntityJson, entity);
-                }
+            if (r == null || r.getStatus() >= logPayloadHttpStatusMin) {
                 // prefer parsed json object - it gives nested json object in the log
                 if (payloadParsed != null) {
                     MDC.put(requestEntityJson, payloadParsed);
@@ -151,10 +145,22 @@ public class RandyContextLoggingAspect implements Ordered {
                     MDC.put(requestEntityJson, payload);
                 }
             }
-            if (r.getStatus() >= 500) {
-                log.warn("(return)");
+            if (r != null) {
+                Object entity = r.getEntity();
+                analyzeResponse(entity);
+                MDC.put(httpStatusJson, r.getStatus());
+                if (r.getStatus() >= logPayloadHttpStatusMin) {
+                    if (entity != null) {
+                        MDC.put(responseEntityJson, entity);
+                    }
+                }
+                if (r.getStatus() >= 500) {
+                    log.warn("(return)");
+                } else {
+                    log.info("(return)");
+                }
             } else {
-                log.info("(return)");
+                log.fatal("NULL response object");
             }
             return r;
         } catch (Throwable exception) {
