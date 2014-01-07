@@ -80,7 +80,7 @@ public class YsProApi {
             	
             	ProStoreResponse proStoreResponse = new ProStoreResponse(responseString);
             	if (proStoreResponse.getStatus() == 0) {
-                    return EntityUtils.toString(entity, "UTF-8");
+                    return responseString;
             	} else if (proStoreResponse.getStatus() == 50) {
                 	if (retry) {
                 		getNewHandleId();
