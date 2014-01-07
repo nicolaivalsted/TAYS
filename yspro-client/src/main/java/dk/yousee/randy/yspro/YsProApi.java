@@ -38,6 +38,11 @@ public class YsProApi {
     public YsProApi() {
     }
 
+	public synchronized void getNewHandleId() throws YsProException {
+		client.setHandleId(null);
+		ensureHandle();
+	}
+    
     private String getHandle() throws YsProException {
         URI uri;
         try {
@@ -57,6 +62,10 @@ public class YsProApi {
     }
 
     private String execute(HttpUriRequest request) throws YsProException {
+    	return execute(request, true);
+    }
+
+    private String execute(HttpUriRequest request, boolean retry) throws YsProException {
         HttpEntity entity = null;
         try {
             LOG.debug("Trying execute url: " + request.getURI());
@@ -67,7 +76,21 @@ public class YsProApi {
             entity = response.getEntity();
 
             if (statusSode == HttpStatus.SC_OK) {
-                return EntityUtils.toString(entity, "UTF-8");
+            	String responseString = EntityUtils.toString(entity, "UTF-8");
+            	
+            	ProStoreResponse proStoreResponse = new ProStoreResponse(responseString);
+            	if (proStoreResponse.getStatus() == 0) {
+                    return EntityUtils.toString(entity, "UTF-8");
+            	} else if (proStoreResponse.getStatus() == 50) {
+                	if (retry) {
+                		getNewHandleId();
+                		return execute(request, false);
+                	}
+            	}
+            	
+            	throw new YsProException(proStoreResponse.getStatus() + " - " + proStoreResponse.getMessage());
+            	
+            	
             } else {
                 LOG.info("YsPro backend fail! " + statusSode);
                 throw new YsProException(new YsProErrorVO(statusSode, EntityUtils.toString(entity, "UTF-8")));
@@ -80,6 +103,7 @@ public class YsProApi {
         }
     }
 
+    
     private void ensureHandle() throws YsProException {
         if (client.getHandleId() == null) {
             client.setHandleId(getHandle());
