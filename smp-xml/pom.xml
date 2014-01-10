@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.51-SNAPSHOT</version>
+        <version>3.53-SNAPSHOT</version>
     </parent>
     <artifactId>smp-xml</artifactId>
     <name>${project.artifactId}</name>
