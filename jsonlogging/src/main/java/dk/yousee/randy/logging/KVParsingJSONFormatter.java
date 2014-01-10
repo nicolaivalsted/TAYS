@@ -35,16 +35,19 @@ import uk.me.mjt.log4jjson.SimpleJsonLayout;
  */
 //
 public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout {
-    private DateTimeFormatter df = ISODateTimeFormat.dateTime();
+    private DateTimeFormatter df = ISODateTimeFormat.dateTime().withZoneUTC();
 
     @Override
     public void after(LoggingEvent le, Map<String, Object> r) {
         try {
             Gson gson = getGsonFormatter();
-            // Override date format as iso datetime format
+            // Override date field as @timestamp and in iso datetime format utc tz
+            // @timestamp is required by logsatsh/elasticsearch
             DateTime dt = new DateTime();
             String sb = df.print(dt);
-            r.put("date", sb);
+            r.put("@timestamp", sb);
+            r.remove("timestamp");
+            r.remove("date");
 
             Object omsg = le.getMessage();
             String msg = safeToString(omsg);
