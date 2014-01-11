@@ -77,13 +77,15 @@ public class RandyContextLoggingAspect implements Ordered {
         File pathPattern;
         JsonElement payloadParsed = null; // prefer payloadJo if payload is json parseable, otherwise
         String payload = null; // just log the payload as-is. Json log formatter should quote correctly
+        boolean clearLog4JOnExit = true;
 
         try {
-            MDC.put(SimpleJsonLayout.GSONLOGSERIALIZER, gson); // inject our gson formatter for the benifit of json formatter!
-            MDC.put(callUUIDJson, UUID.randomUUID());
-            // Try and find a uriInfo in the called method's environment
-            if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null) {
-                MDC.put(requestUriJson, uriInfo.getRequestUri().toString());
+            MDC.put(SimpleJsonLayout.GSONLOGSERIALIZER, gson); // inject our gson formatter for the benifit of json logformatter!
+            // If we already have the unique call uuid field, then log filter is present and will clear NDC/MDC
+            if (MDC.get(callUUIDJson) == null) {
+                MDC.put(callUUIDJson, UUID.randomUUID());
+            } else {
+                clearLog4JOnExit = false;
             }
             // Log the method name and class
             MDC.put(restMethodJson, methodName);
@@ -92,6 +94,10 @@ public class RandyContextLoggingAspect implements Ordered {
             pathPattern = new File(new File(getPathAnnotation(method.getDeclaringClass().getAnnotations())),
                     getPathAnnotation(method.getAnnotations()));
             MDC.put(uriPatternJson, pathPattern);
+            // Try and find a uriInfo in the called method's environment
+            if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null) {
+                MDC.put(requestUriJson, uriInfo.getRequestUri().toString());
+            }
 
             // Find and log interesting arguments. 
             // Output: payloadJo and payload - payloadJo preferred, with payload as second best
@@ -174,8 +180,10 @@ public class RandyContextLoggingAspect implements Ordered {
             log.error("uncaught exception", exception);
             throw exception;
         } finally {
-            NDC.remove();
-            MDC.clear();
+            if (clearLog4JOnExit) {
+                NDC.remove();
+                MDC.clear();
+            }
         }
     }
 

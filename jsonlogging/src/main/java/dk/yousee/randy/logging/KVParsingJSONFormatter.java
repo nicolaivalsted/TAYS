@@ -5,7 +5,6 @@
 package dk.yousee.randy.logging;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -30,10 +29,11 @@ import org.joda.time.format.ISODateTimeFormat;
 import uk.me.mjt.log4jjson.SimpleJsonLayout;
 
 /**
- *
- * @author jablo
+ * Log4J JSON formatter which parses the log message for key=value pairs and also
+ * logs content of log4j MDC and NDC as json (sub-)objects.
+ * Intended for use with logstash/elaticsearch/kibana
+ * @author Jacob Lorensen, December 2013.
  */
-//
 public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout {
     private DateTimeFormatter df = ISODateTimeFormat.dateTime().withZoneUTC();
 
@@ -133,7 +133,6 @@ public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout
 
     private String messageId(Map<String, Object> r) {
         try {
-            //        org.apache.commons.codec.digest.
             StringBuilder sb = new StringBuilder();
             for (Entry<String, Object> e : r.entrySet()) {
                 sb.append(e.getKey());
