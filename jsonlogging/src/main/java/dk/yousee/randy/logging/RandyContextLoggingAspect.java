@@ -34,10 +34,14 @@ import uk.me.mjt.log4jjson.SimpleJsonLayout;
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
  * arguments to find any subscriber, mac or ip address to push into the logging
- * context. Also logs on exit the http return code and clears the logging
- * context again.
+ * context. Also logs on exit the http return code and (optionally) clears the 
+ * logging context again, unless RandyContextLoggingFilter is active in which
+ * case the logging context contents will be left for the RandyContextLoggingFilter
+ * to clear.
  *
  * @author Jacob Lorensen, TDC, December 2013.
+ * @see RandyContextLoggingFilter
+ * @see KVParsingJSONFormatter
  */
 @Aspect
 public class RandyContextLoggingAspect implements Ordered {

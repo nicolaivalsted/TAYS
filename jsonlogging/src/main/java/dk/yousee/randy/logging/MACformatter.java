@@ -8,8 +8,8 @@ import dk.yousee.randy.macaddress.MACaddress;
 import org.springframework.stereotype.Component;
 
 /**
- *
- * @author jablo
+ * Parse and re-format MAC addresses so they appear in a consistent format throughout the json log files.
+ * @author Jacob Lorensen, TDC, December 2013.
  */
 @Component
 public class MACformatter implements ValueFormatter {

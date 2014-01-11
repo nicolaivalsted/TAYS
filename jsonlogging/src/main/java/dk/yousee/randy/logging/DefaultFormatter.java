@@ -6,7 +6,7 @@ package dk.yousee.randy.logging;
 
 /**
  *
- * @author jablo
+ * @author Jacob Lorensen, TDC, December 2013.
  */
 public class DefaultFormatter implements ValueFormatter {
     @Override

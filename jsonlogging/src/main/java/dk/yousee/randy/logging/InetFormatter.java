@@ -8,8 +8,9 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 /**
- *
- * @author jablo
+ * Parse and re-format ip addresses so they appear in a consistent format 
+ * in all logs.
+ * @author Jacob Lorensen, TDC, December 2013.
  */
 public class InetFormatter implements ValueFormatter {
     @Override

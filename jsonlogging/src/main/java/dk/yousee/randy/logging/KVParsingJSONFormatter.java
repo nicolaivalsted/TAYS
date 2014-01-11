@@ -33,6 +33,8 @@ import uk.me.mjt.log4jjson.SimpleJsonLayout;
  * logs content of log4j MDC and NDC as json (sub-)objects.
  * Intended for use with logstash/elaticsearch/kibana
  * @author Jacob Lorensen, December 2013.
+ * @see RandyContextLoggingAspect
+ * @see RandyContextLoggingFilter
  */
 public class KVParsingJSONFormatter extends uk.me.mjt.log4jjson.SimpleJsonLayout {
     private DateTimeFormatter df = ISODateTimeFormat.dateTime().withZoneUTC();

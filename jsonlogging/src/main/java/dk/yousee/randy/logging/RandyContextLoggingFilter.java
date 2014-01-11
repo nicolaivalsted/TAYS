@@ -20,7 +20,7 @@ import org.apache.log4j.NDC;
  * <li>Principal / User name
  * <li>Authentication method
  * </ul>
- *
+ * Also clears the logging context (NDC and MDC) on return
  * @author Jacob Lorensen, YouSee, 2014-01-11
  * @see RandyContextLoggingAspect
  * @see KVParsingJSONFormatter
