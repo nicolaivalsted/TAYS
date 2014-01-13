@@ -85,7 +85,7 @@ public class RandyContextLoggingAspect implements Ordered {
 
         try {
             MDC.put(SimpleJsonLayout.GSONLOGSERIALIZER, gson); // inject our gson formatter for the benifit of json logformatter!
-            // If we already have the unique call uuid field, then log filter is present and will clear NDC/MDC
+            // If we already have the unique call uuid field, then log RandyContextLoggingFilter is in the filter chain and will clear NDC/MDC
             if (MDC.get(callUUIDJson) == null) {
                 MDC.put(callUUIDJson, UUID.randomUUID());
             } else {
@@ -129,7 +129,8 @@ public class RandyContextLoggingAspect implements Ordered {
                         }
                     }
                     // Precedence: path/query-param then payload then name of formal arguments
-                    analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
+                    if (formalArgs != null) // we don't necessarily *have* formalArgs (may be null).
+                        analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
                     analyzePayload(si, payloadParsed);
                     analyzeArgAnnotations(si, actualArgs[argc], annotations);
                     if (uriInfo != null) {
