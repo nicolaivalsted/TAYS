@@ -72,7 +72,7 @@ public class RandyContextLoggingFilter implements Filter {
     @Override
     public void doFilter(ServletRequest _request, ServletResponse _response,
             FilterChain chain) throws IOException, ServletException {
-        log.debug("Jersey filter!");
+        log.debug("RandyContextLoggingFilter filter!");
         try {
             MDC.put(callUUIDJson, UUID.randomUUID());
             HttpServletRequest req;
