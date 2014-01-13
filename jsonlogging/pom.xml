@@ -8,7 +8,7 @@
     </parent>
     <artifactId>jsonlogging</artifactId>
     <name>${project.artifactId}</name>
-
+    
     <dependencies>               
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -28,7 +28,7 @@
         <dependency>
             <groupId>dk.yousee.randy</groupId>
             <artifactId>macaddress</artifactId>
-            <version>3.39</version>
+            <version>3.50</version>
         </dependency>
         <!-- testing -->
         <dependency>
@@ -85,7 +85,6 @@
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.2</version>
             <type>jar</type>
         </dependency>
     </dependencies>
