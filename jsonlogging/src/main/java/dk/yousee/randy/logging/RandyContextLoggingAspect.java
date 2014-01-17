@@ -97,7 +97,7 @@ public class RandyContextLoggingAspect implements Ordered {
             // Log the method path pattern
             pathPattern = new File(new File(getPathAnnotation(method.getDeclaringClass().getAnnotations())),
                     getPathAnnotation(method.getAnnotations()));
-            MDC.put(uriPatternJson, pathPattern.getPath());
+            MDC.put(uriPatternJson, pathPattern);
             // Try and find a uriInfo in the called method's environment
             if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null) {
                 MDC.put(requestUriJson, uriInfo.getRequestUri().toString());
