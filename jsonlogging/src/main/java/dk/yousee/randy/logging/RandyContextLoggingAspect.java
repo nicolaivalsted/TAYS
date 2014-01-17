@@ -34,10 +34,10 @@ import uk.me.mjt.log4jjson.SimpleJsonLayout;
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
  * arguments to find any subscriber, mac or ip address to push into the logging
- * context. Also logs on exit the http return code and (optionally) clears the 
+ * context. Also logs on exit the http return code and (optionally) clears the
  * logging context again, unless RandyContextLoggingFilter is active in which
- * case the logging context contents will be left for the RandyContextLoggingFilter
- * to clear.
+ * case the logging context contents will be left for the
+ * RandyContextLoggingFilter to clear.
  *
  * @author Jacob Lorensen, TDC, December 2013.
  * @see RandyContextLoggingFilter
@@ -97,7 +97,7 @@ public class RandyContextLoggingAspect implements Ordered {
             // Log the method path pattern
             pathPattern = new File(new File(getPathAnnotation(method.getDeclaringClass().getAnnotations())),
                     getPathAnnotation(method.getAnnotations()));
-            MDC.put(uriPatternJson, pathPattern);
+            MDC.put(uriPatternJson, pathPattern.getPath());
             // Try and find a uriInfo in the called method's environment
             if ((uriInfo = getUriInfoArg(actualArgs)) != null || (uriInfo = getUriInfoField(pjp.getTarget())) != null) {
                 MDC.put(requestUriJson, uriInfo.getRequestUri().toString());
@@ -313,7 +313,8 @@ public class RandyContextLoggingAspect implements Ordered {
             // we want case ignorant lookup 
             for (Entry<String, List<String>> e : ps.entrySet()) {
                 if (e.getValue() != null && s.equalsIgnoreCase(e.getKey())) {
-                    MDC.put(si.getKey(), e.getValue());
+                    if (!e.getValue().isEmpty())
+                        MDC.put(si.getKey(), e.getValue().get(0));
                     break;
                 }
             }
