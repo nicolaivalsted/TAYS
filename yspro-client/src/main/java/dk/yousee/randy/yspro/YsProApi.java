@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
  * @author m27236
  */
 public class YsProApi {
+
     private static final Logger LOG = Logger.getLogger(YsProApi.class);
     private ProStoreConnectorImpl client;
 
@@ -38,11 +39,11 @@ public class YsProApi {
     public YsProApi() {
     }
 
-	public synchronized void getNewHandleId() throws YsProException {
-		client.setHandleId(null);
-		ensureHandle();
-	}
-    
+    public synchronized void getNewHandleId() throws YsProException {
+        client.setHandleId(null);
+        ensureHandle();
+    }
+
     private String getHandle() throws YsProException {
         URI uri;
         try {
@@ -62,7 +63,7 @@ public class YsProApi {
     }
 
     private String execute(HttpUriRequest request) throws YsProException {
-    	return execute(request, true);
+        return execute(request, true);
     }
 
     private String execute(HttpUriRequest request, boolean retry) throws YsProException {
@@ -76,21 +77,20 @@ public class YsProApi {
             entity = response.getEntity();
 
             if (statusSode == HttpStatus.SC_OK) {
-            	String responseString = EntityUtils.toString(entity, "UTF-8");
-            	
-            	ProStoreResponse proStoreResponse = new ProStoreResponse(responseString);
-            	if (proStoreResponse.getStatus() == 0) {
+                String responseString = EntityUtils.toString(entity, "UTF-8");
+
+                ProStoreResponse proStoreResponse = new ProStoreResponse(responseString);
+                if (proStoreResponse.getStatus() == 50) {
+                    if (retry) {
+                        getNewHandleId();
+                        return execute(request, false);
+                    }
+                } else {
                     return responseString;
-            	} else if (proStoreResponse.getStatus() == 50) {
-                	if (retry) {
-                		getNewHandleId();
-                		return execute(request, false);
-                	}
-            	}
-            	
-            	throw new YsProException(proStoreResponse.getStatus() + " - " + proStoreResponse.getMessage());
-            	
-            	
+                }
+
+                throw new YsProException(proStoreResponse.getStatus() + " - " + proStoreResponse.getMessage());
+
             } else {
                 LOG.info("YsPro backend fail! " + statusSode);
                 throw new YsProException(new YsProErrorVO(statusSode, EntityUtils.toString(entity, "UTF-8")));
@@ -103,7 +103,6 @@ public class YsProApi {
         }
     }
 
-    
     private void ensureHandle() throws YsProException {
         if (client.getHandleId() == null) {
             client.setHandleId(getHandle());
@@ -128,7 +127,7 @@ public class YsProApi {
             params.add(new BasicNameValuePair("json", "1"));
 
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
-            
+
             return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -146,7 +145,7 @@ public class YsProApi {
             params.add(new BasicNameValuePair("CustomerNumber", customer));
 
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
-            
+
             return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -164,7 +163,7 @@ public class YsProApi {
             params.add(new BasicNameValuePair("ShowOnlyActive", "true"));
 
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
-            
+
             return new ProStoreResponse(execute(post));
         } catch (URISyntaxException ex) {
             throw new YsProException(ex.getMessage(), ex);
@@ -229,8 +228,8 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
-     /**
+
+    /**
      * Show active Digital dvb-c tv products
      *
      * @param userID
@@ -453,8 +452,9 @@ public class YsProApi {
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
             ProStoreResponse res = new ProStoreResponse(execute(post));
-            if (res.getData() != null && res.getData().has("SessionID"))
+            if (res.getData() != null && res.getData().has("SessionID")) {
                 return res.getData().get("SessionID").getAsString();
+            }
 
             return null;
         } catch (URISyntaxException ex) {
@@ -530,10 +530,12 @@ public class YsProApi {
                 params.add(new BasicNameValuePair("UserName", userName));
                 params.add(new BasicNameValuePair("OldUserName", oldUserName));
             }
-            if (emailAddress != null)
+            if (emailAddress != null) {
                 params.add(new BasicNameValuePair("EmailAddress", emailAddress));
-            if (cellPhone != null)
+            }
+            if (cellPhone != null) {
                 params.add(new BasicNameValuePair("CellPhone", cellPhone));
+            }
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
 
             String res = execute(post);
