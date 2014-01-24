@@ -561,4 +561,21 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
+    
+    public ProStoreResponse terminateProduct(String uuid) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/RemoveEngagement.php",
+                    client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UUID", uuid));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            String res = execute(post);
+            return new ProStoreResponse(res);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
 }
