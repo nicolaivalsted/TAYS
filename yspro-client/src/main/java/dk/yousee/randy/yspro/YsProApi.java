@@ -8,6 +8,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -569,6 +570,27 @@ public class YsProApi {
             List<NameValuePair> params = new ArrayList<NameValuePair>();
             params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
             params.add(new BasicNameValuePair("UUID", uuid));
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            String res = execute(post);
+            return new ProStoreResponse(res);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+    
+     public ProStoreResponse terminateProductOnDate(String uuid, Date closeDate) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/RemoveEngagement.php",
+                    client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UUID", uuid));
+            JsonObject o = new JsonObject();
+            o.addProperty("To", YsProTime.formatDate(closeDate));
+            params.add(new BasicNameValuePair("To", o.toString()));
+            
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
             String res = execute(post);
             return new ProStoreResponse(res);

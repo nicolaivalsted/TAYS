@@ -8,6 +8,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.List;
+import org.joda.time.DateTime;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -30,7 +31,7 @@ public class YsProApiIT {
         pool.initPool();
         connector = new ProStoreConnectorImpl();
         connector.setPool(pool);
-        connector.setYsProHost(ProStoreConnectorImpl.NEW_YSPRO_HOST);
+        connector.setYsProHost(ProStoreConnectorImpl.TEST_YSPRO_HOST);
         connector.setSystemLogin(connector.getSystemLogin());
         connector.setSystemPassword("We4rAndy");
 
@@ -399,5 +400,11 @@ public class YsProApiIT {
 
         String userId = api.findBasicUserInfo(session).getData().get("UserID").getAsString();
         Assert.assertNotNull(userId);
+    }
+    
+    @Test
+    public void terminateOnDateTest() throws YsProException {
+        
+        api.terminateProductOnDate("636f1dbc-c7ad-403f-9b2f-b49a568c5538", new DateTime().plusMonths(1).dayOfMonth().withMaximumValue().toDate());
     }
 }
