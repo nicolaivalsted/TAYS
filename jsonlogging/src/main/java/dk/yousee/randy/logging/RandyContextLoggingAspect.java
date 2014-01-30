@@ -168,7 +168,7 @@ public class RandyContextLoggingAspect implements Ordered {
                 if (r.getStatus() >= 500) {
                     log.warn("(return)");
                 } else {
-                    log.info("(return)");
+                    log.debug("(return)");
                 }
             } else {
                 log.fatal("NULL response object");
