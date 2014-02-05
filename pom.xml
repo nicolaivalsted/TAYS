@@ -4,7 +4,7 @@
     <parent>
         <artifactId>randy</artifactId>
         <groupId>dk.yousee</groupId>
-        <version>1.5</version>
+        <version>1.8</version>
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>clients</artifactId>
@@ -50,12 +50,12 @@
         <repository>
             <id>Tays_Release</id>
             <name>Randy releases repository</name>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/repositories/Tays_Release/</url>
+            <url>http://nexus.yousee.idk/nexus/content/repositories/Tays_Release/</url>
         </repository>
         <snapshotRepository>
             <id>Tays_Snapshots</id>
             <name>Randy snapshots repository</name>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/repositories/Tays_Snapshots/</url>
+            <url>http://nexus.yousee.idk/nexus/content/repositories/Tays_Snapshots/</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>        
     </distributionManagement>
@@ -63,7 +63,7 @@
     <repositories>  
         <repository>
             <id>nexus</id>
-            <url>http://hudson01.yousee.idk:8081/nexus/content/groups/tays_repositories</url>
+            <url>http://nexus.yousee.idk/nexus/content/groups/tays_repositories</url>
             <releases>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
