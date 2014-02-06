@@ -29,6 +29,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.Map.Entry;
 import javax.ws.rs.core.MultivaluedMap;
+import org.apache.log4j.spi.Filter;
 import uk.me.mjt.log4jjson.SimpleJsonLayout;
 
 /**
@@ -168,7 +169,9 @@ public class RandyContextLoggingAspect implements Ordered {
                 if (r.getStatus() >= 500) {
                     log.warn("(return)");
                 } else {
-                    log.debug("(return)");
+                    // This log level MUST be info, otherwise for calls that don't fail or don't log
+                    // internally we won't get *any* log messages at all. Please don't change this
+                    log.info("(return)");
                 }
             } else {
                 log.fatal("NULL response object");
