@@ -4,7 +4,6 @@
  */
 package dk.yousee.randy.logging;
 
-import com.google.gson.Gson;
 import java.io.File;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -12,10 +11,14 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
+
 import javax.annotation.PostConstruct;
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.NDC;
@@ -24,13 +27,13 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.core.Ordered;
+
+import uk.me.mjt.log4jjson.SimpleJsonLayout;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import java.util.Map.Entry;
-import javax.ws.rs.core.MultivaluedMap;
-import org.apache.log4j.spi.Filter;
-import uk.me.mjt.log4jjson.SimpleJsonLayout;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -224,7 +227,7 @@ public class RandyContextLoggingAspect implements Ordered {
         for (String s : si.getSearchKeys()) {
             // can't just bo.get(s) because we want loose, non-case-sensitive match        
             for (Map.Entry<String, JsonElement> e : body.entrySet()) {
-                if (s.equalsIgnoreCase(e.getKey())) {
+                if (s.equalsIgnoreCase(e.getKey()) && !e.getValue().isJsonNull()) {
                     MDC.put(si.getKey(), si.getFormat().format(e.getValue().getAsString()));
                     break;
                 }
