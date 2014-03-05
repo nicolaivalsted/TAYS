@@ -146,7 +146,9 @@ public class GraphiteStatsFilter implements Filter {
     protected StatsValues countReturn(String graphiteGraph, int status, long l) {
         StatsValues stats = getOrCreate(graphiteGraph);
         stats.retTotal.incrementAndGet();
-        if (status < 300)
+        if(status < 100) {
+            stats.unknown.incrementAndGet();
+        } else if (status < 300)
             stats.ret200.incrementAndGet();
         else if (status < 400)
             stats.ret300.incrementAndGet();
@@ -198,6 +200,7 @@ public class GraphiteStatsFilter implements Filter {
                         int ret300 = value.ret300.getAndSet(0);
                         int ret400 = value.ret400.getAndSet(0);
                         int ret500 = value.ret500.getAndSet(0);
+                        int unknown = value.unknown.getAndSet(0);
                         int calltime = value.executionTime.getAndSet(0);
                         double avgcalltime = (calls > 0) ? (0.0+calltime/calls) : -1;
                         // log
@@ -209,6 +212,7 @@ public class GraphiteStatsFilter implements Filter {
                         graphite.sendData(graph + ".ret300", ret300);
                         graphite.sendData(graph + ".ret400", ret400);
                         graphite.sendData(graph + ".ret500", ret500);
+                        graphite.sendData(graph + ".unknown", unknown);
                         // Only send average call if we have a meaning number, ie calls > 0
                         if (calls > 0)
                             graphite.sendData(graph + ".avgtime", avgcalltime);

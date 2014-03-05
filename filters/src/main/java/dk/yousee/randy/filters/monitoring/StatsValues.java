@@ -18,5 +18,6 @@ public class StatsValues {
     AtomicInteger ret300 = new AtomicInteger();
     AtomicInteger ret400 = new AtomicInteger();
     AtomicInteger ret500 = new AtomicInteger();
+    AtomicInteger unknown = new AtomicInteger();
 }
 
