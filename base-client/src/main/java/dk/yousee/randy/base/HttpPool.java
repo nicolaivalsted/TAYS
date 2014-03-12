@@ -1,14 +1,13 @@
 package dk.yousee.randy.base;
 
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
-import org.apache.http.conn.ssl.SSLSocketFactory;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.impl.conn.PoolingClientConnectionManager;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
+import org.apache.http.conn.socket.PlainConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 
 /**
  * New pool instead of AbstractConnector
@@ -16,14 +15,13 @@ import org.apache.http.params.HttpParams;
  * @author m27236
  */
 public class HttpPool {
-    private PoolingClientConnectionManager pccm;
+    private PoolingHttpClientConnectionManager phccm;
+
     private int max_conn = 20;
     private int max_conn_route = 10;
     private final int SO_TIMEOUT = 2000;
     private final int CONNECTION_TIMEOUT = 5000;
-    private final HttpParams params = new BasicHttpParams();
 
-    //    private CredentialsProvider credsProvider;
     public void setMax_conn(int max_conn) {
         this.max_conn = max_conn;
     }
@@ -35,42 +33,31 @@ public class HttpPool {
     public HttpPool() {
     }
 
-    public DefaultHttpClient getClient() {
-        DefaultHttpClient res = new DefaultHttpClient(pccm);
-        res.setParams(params);
-        return res;
+    public CloseableHttpClient getClient() {
+        RequestConfig req = RequestConfig.custom().setSocketTimeout(SO_TIMEOUT).setConnectTimeout(CONNECTION_TIMEOUT).build();
+        return HttpClientBuilder.create().setConnectionManager(phccm).setDefaultRequestConfig(req).build();
     }
 
-    public DefaultHttpClient getClient(HttpParams params) {
-        DefaultHttpClient res = new DefaultHttpClient(pccm);
-        res.setParams(params);
-        return res;
+    public CloseableHttpClient getClient(RequestConfig config) {
+        return HttpClientBuilder.create().setConnectionManager(phccm).setDefaultRequestConfig(config).build();
     }
 
-    public void initPool() {       
-        SchemeRegistry schemeRegistry = new SchemeRegistry();
-        schemeRegistry.register(
-                new Scheme("http", 80, PlainSocketFactory.getSocketFactory()));
-        schemeRegistry.register(
-                new Scheme("https", 443, SSLSocketFactory.getSocketFactory()));
-
-        pccm = new PoolingClientConnectionManager(schemeRegistry);
-        pccm.setMaxTotal(max_conn);
-        pccm.setDefaultMaxPerRoute(max_conn_route);
-
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CONNECTION_TIMEOUT);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, SO_TIMEOUT);
+    public void initPool() {
+        Registry registry = RegistryBuilder.create().register("http", PlainConnectionSocketFactory.getSocketFactory()).register("https", SSLConnectionSocketFactory.getSocketFactory()).build();
+        phccm = new PoolingHttpClientConnectionManager(registry);
+        phccm.setMaxTotal(max_conn);
+        phccm.setDefaultMaxPerRoute(max_conn_route);
     }
 
     public void shutdown() {
-        pccm.shutdown();
+        phccm.shutdown();
     }
 
-    public PoolingClientConnectionManager getPccm() {
-        return pccm;
+    public PoolingHttpClientConnectionManager getPccm() {
+        return phccm;
     }
 
-    public void setPccm(PoolingClientConnectionManager pccm) {
-        this.pccm = pccm;
+    public void setPccm(PoolingHttpClientConnectionManager phccm) {
+        this.phccm = phccm;
     }
 }
