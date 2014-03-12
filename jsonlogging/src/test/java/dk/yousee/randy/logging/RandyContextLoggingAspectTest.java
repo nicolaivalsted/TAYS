@@ -4,28 +4,34 @@
  */
 package dk.yousee.randy.logging;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+
 import org.apache.log4j.MDC;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.springframework.aop.aspectj.annotation.AspectJProxyFactory;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 
 /**
  *
@@ -35,10 +41,11 @@ public class RandyContextLoggingAspectTest {
     List<ContextLoggingSearchItem> si;
 
     public RandyContextLoggingAspectTest() {
-        si = new ArrayList();
+        si = new ArrayList<ContextLoggingSearchItem>();
         si.add(new ContextLoggingSearchItem("ipaddress", new String[]{"ip", "ipaddress"}));
         si.add(new ContextLoggingSearchItem("macaddress", new String[]{"mac", "macaddress"}));
         si.add(new ContextLoggingSearchItem("modemid", new String[]{"modemid"}));
+        si.add(new ContextLoggingSearchItem("subPassword", new String[]{"subPassword"}, true));
     }
 
     @BeforeClass
@@ -84,6 +91,13 @@ public class RandyContextLoggingAspectTest {
         mockUriInfo.setQueryParameters(qparms);
         JsonObject input = new JsonObject();
         input.addProperty("modemid", "123456789");
+        input.addProperty("password", "123456789");
+        
+        JsonObject subObject = new JsonObject();
+        subObject.addProperty("subPassword", "123456789");
+        input.add("subObject", subObject);
+        
+
         // then you can call methods on proxy, and make assertions about aspect, proxy and target
         MDC.put(aspect.getCalluidJson(), UUID.randomUUID());
         aspect.setLogPayloadHttpStatusMin(0);
@@ -95,6 +109,8 @@ public class RandyContextLoggingAspectTest {
         assertEquals(mockResp.getStatus(), Response.Status.OK.getStatusCode());
         assertNotNull(mockResp.getEntity());
         assertEquals(mockResp.getEntity(), "Ok");
+        assertEquals("********", MDC.get("password"));
+        assertEquals("********", MDC.get("subPassword"));
         // mocking up this proves difficult :(
 //        assertNotNull(spy.get(aspect.getInputJson()));
 //        assertEquals(spy.get(aspect.getInputJson()), input);

@@ -34,6 +34,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 
 /**
  * Logging aspect wraps top-level ReST service methods and inspects input
@@ -51,6 +52,11 @@ import com.google.gson.JsonParser;
 public class RandyContextLoggingAspect implements Ordered {
     private static final Logger log = Logger.getLogger(RandyContextLoggingAspect.class);
     private List<ContextLoggingSearchItem> searchItems = new ArrayList<ContextLoggingSearchItem>();
+    private static List<ContextLoggingSearchItem> defaultSearchItems = new ArrayList<ContextLoggingSearchItem>();
+    {
+        defaultSearchItems.add(new ContextLoggingSearchItem("password", new String[]{"password"}, true));
+    }
+    
     private Gson gson;
     // Configuration - aspect
     private int order = Ordered.LOWEST_PRECEDENCE;
@@ -69,7 +75,7 @@ public class RandyContextLoggingAspect implements Ordered {
     private String callUUIDJson = "calluuid";
     // 
     private String requestBodyAnnotationName = "RequestBody";
-
+    
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
         // Take the proceedingpoint apart
@@ -225,15 +231,24 @@ public class RandyContextLoggingAspect implements Ordered {
             return;
         JsonObject body = ebody.getAsJsonObject();
         for (String s : si.getSearchKeys()) {
-            // can't just bo.get(s) because we want loose, non-case-sensitive match        
-            for (Map.Entry<String, JsonElement> e : body.entrySet()) {
-                if (s.equalsIgnoreCase(e.getKey()) && !e.getValue().isJsonNull()) {
-                    MDC.put(si.getKey(), si.getFormat().format(e.getValue().getAsString()));
-                    break;
-                }
-            }
+            searchJsonObject(si, body, s, true);
         }
     }
+
+	private void searchJsonObject(ContextLoggingSearchItem si, JsonObject body, String s, boolean followJsonObject) {
+		// can't just bo.get(s) because we want loose, non-case-sensitive match        
+		for (Map.Entry<String, JsonElement> e : body.entrySet()) {
+		    if (s.equalsIgnoreCase(e.getKey()) && !e.getValue().isJsonNull()) {
+		        MDC.put(si.getKey(), si.getFormat().format(e.getValue().getAsString()));
+		        if (si.isObscure()) {
+		        	e.setValue(new JsonPrimitive(si.getFormat().format(e.getValue().getAsString())));
+		        }
+		        return;
+		    } else if (followJsonObject && e.getValue().isJsonObject()) {
+	            searchJsonObject(si, e.getValue().getAsJsonObject(), s, false);
+		    }
+		}
+	}
 
     /**
      * Format the response entity as a json object and analysze it. It don't
@@ -383,12 +398,15 @@ public class RandyContextLoggingAspect implements Ordered {
         return false;
     }
 
-    public List<ContextLoggingSearchItem> getSearchItems() {
-        return searchItems;
-    }
-
     public void setSearchItems(List<ContextLoggingSearchItem> searchItems) {
         this.searchItems = searchItems;
+        
+        // add default items
+        if (searchItems != null)
+        	searchItems.addAll(defaultSearchItems);
+        else
+        	searchItems = defaultSearchItems;
+        
     }
 
     public int getLogPayloadHttpStatusMin() {

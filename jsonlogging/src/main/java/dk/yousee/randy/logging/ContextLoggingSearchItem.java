@@ -9,6 +9,11 @@ public class ContextLoggingSearchItem {
     private String key;
     private String[] searchKeys;
     private ValueFormatter format = new DefaultFormatter();
+    
+    /**
+     * If true will print eight stars (********), if field exists and is not null
+     */
+    private boolean obscure = false;
 
     public ContextLoggingSearchItem() {
     }
@@ -24,6 +29,15 @@ public class ContextLoggingSearchItem {
         this.format = format;
     }
 
+    public ContextLoggingSearchItem(String key, String[] searchKeys, boolean obscure) {
+    	this(key, searchKeys);
+    	this.obscure = obscure;
+    	
+    	if (obscure)
+    		format = new ObscureFormatter();
+    }
+
+    
     public String getKey() {
         return key;
     }
@@ -47,4 +61,9 @@ public class ContextLoggingSearchItem {
     public void setFormat(ValueFormatter format) {
         this.format = format;
     }
+
+	public boolean isObscure() {
+		return obscure;
+	}
+
 }
