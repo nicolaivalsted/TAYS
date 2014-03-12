@@ -18,6 +18,11 @@ public class ContextLoggingSearchItem {
     public ContextLoggingSearchItem() {
     }
 
+    public ContextLoggingSearchItem(boolean obscure) {
+    	this(null, null, obscure);
+    	
+    }
+
     public ContextLoggingSearchItem(String key, String[] searchKeys) {
         this.key = key;
         this.searchKeys = searchKeys;
@@ -31,10 +36,7 @@ public class ContextLoggingSearchItem {
 
     public ContextLoggingSearchItem(String key, String[] searchKeys, boolean obscure) {
     	this(key, searchKeys);
-    	this.obscure = obscure;
-    	
-    	if (obscure)
-    		format = new ObscureFormatter();
+    	setObscure(obscure);
     }
 
     
@@ -64,6 +66,14 @@ public class ContextLoggingSearchItem {
 
 	public boolean isObscure() {
 		return obscure;
+	}
+	
+	public void setObscure(boolean obscure) {
+		this.obscure = obscure;
+
+    	if (obscure)
+    		format = new ObscureFormatter();
+
 	}
 
 }
