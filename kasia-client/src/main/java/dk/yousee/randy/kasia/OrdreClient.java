@@ -13,24 +13,21 @@ import org.apache.http.util.EntityUtils;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
+import org.apache.http.client.config.RequestConfig;
 
 /**
  * User: aka Date: 19/10/12 Time: 08.52 Ordre handling in kasia II.
  */
 public class OrdreClient {
-    private final HttpParams params = new BasicHttpParams();
     private static final String mediaType = "application/vnd.yousee.kasia2+json;version=1;charset=UTF-8";
     public static final String PREPROD_KASIA_HOST = "http://preprod-kasia.yousee.dk";
     public static final String KASIA_HOST = "http://kasia.yousee.dk";
     private String kasiaHost;
     private HttpPool httpPool;
+    
+    private final RequestConfig req = RequestConfig.custom().setSocketTimeout(20000).setConnectTimeout(20000).build();
 
     public OrdreClient() {
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
     }
 
     public String getKasiaHost() {
@@ -54,7 +51,7 @@ public class OrdreClient {
 
             String value = request.printJson().toString();
             post.setEntity(new StringEntity(value, Charset.forName("UTF-8")));
-            entity = httpPool.getClient(params).execute(post).getEntity();
+            entity = httpPool.getClient(req).execute(post).getEntity();
             return new InvoiceResponse(null, EntityUtils.toString(entity));
         } catch (Exception e) {
             String message = String.format("Tried to make Invoice, got exception: %s", e.getMessage());
@@ -70,7 +67,7 @@ public class OrdreClient {
             URL href = new URL(String.format("%s/ordre/%s", kasiaHost, ordreId));
             HttpGet hur = new HttpGet(href.toString());
             hur.setHeader(HttpHeaders.ACCEPT, mediaType);
-            HttpResponse response = httpPool.getClient(params).execute(hur);
+            HttpResponse response = httpPool.getClient(req).execute(hur);
             entity = response.getEntity();
             if (response.getStatusLine().getStatusCode() == HttpStatus.SC_NOT_FOUND) {
                 return new OrderStateResponse(String.format("Order %s not found", ordreId), null);
@@ -98,7 +95,7 @@ public class OrdreClient {
             URL href = new URL(String.format("%s/afsaetning/priser/intet/K", kasiaHost));
             HttpGet hur = new HttpGet(href.toString());
             hur.setHeader(HttpHeaders.ACCEPT, mediaType);
-            HttpResponse response = httpPool.getClient(params).execute(hur);
+            HttpResponse response = httpPool.getClient(req).execute(hur);
             entity = response.getEntity();
 
             return new PricesResponse(itemKeys, null, EntityUtils.toString(entity));

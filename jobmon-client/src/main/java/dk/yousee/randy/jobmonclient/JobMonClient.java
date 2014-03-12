@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.yousee.randy.jobmonclient;
 
 import java.io.IOException;
@@ -42,6 +38,8 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import dk.yousee.randy.base.HttpPool;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.CloseableHttpClient;
 
 /**
  * <bean id="jobMonClient" class="dk.yousee.randy.jobmonclient.JobMonClient">
@@ -107,7 +105,7 @@ public class JobMonClient {
         // post to job start and return running job meta data incl. url
         HttpEntity entity = null;
         try {
-            DefaultHttpClient client = httpPool.getClient();
+            HttpClient client = httpPool.getClient();
             
             URI uri = new URIBuilder("http://"+jobMonHost+":"+jobMonPort).setPath("/jobmon/run").addParameter("name", jobName).build();
             HttpPost post = new HttpPost(uri);
@@ -161,7 +159,7 @@ public class JobMonClient {
         // post to job start and return running job meta data incl. url
         HttpEntity entity=null;
         try {
-            DefaultHttpClient client = httpPool.getClient();
+            CloseableHttpClient client = httpPool.getClient();
             URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "/jobmon/run/" + run.getId(), null, null);
 
             HttpPut put = new HttpPut(uri);
@@ -205,7 +203,7 @@ public class JobMonClient {
         // post to job start and return running job meta data incl. url
         HttpEntity entity=null;
         try {
-            DefaultHttpClient client = httpPool.getClient();
+            CloseableHttpClient client = httpPool.getClient();
             URI uri = URIUtils.createURI("http", jobMonHost, jobMonPort, "/jobmon/run/byjobname/" + jobName, null, null);
 
             HttpGet put = new HttpGet(uri);

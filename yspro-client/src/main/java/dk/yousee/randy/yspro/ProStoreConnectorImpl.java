@@ -1,10 +1,9 @@
 package dk.yousee.randy.yspro;
 
 import dk.yousee.randy.base.HttpPool;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
 
 /**
  * Created with IntelliJ IDEA. User: aka Date: 09/04/12 Time: 14.46 Class that
@@ -15,11 +14,10 @@ public class ProStoreConnectorImpl {
     public static final String TEST_YSPRO_HOST = "https://ysprotest.yousee.dk";
     public static final String YSPRO_HOST = "http://yspro.yousee.dk";
     public static final String NEW_YSPRO_HOST = "https://yspro3.yousee.dk";
-    private static final int DEFAULT_SO_TIMEOUT = 2000;
-    private static final int DEFAULT_CONNECTION_TIMEOUT = 5000;
-    private HttpParams params = new BasicHttpParams();
     private HttpPool pool; //set with singleton in spring
-
+    
+    private final RequestConfig req;
+    
     public HttpPool getPool() {
         return pool;
     }
@@ -30,13 +28,12 @@ public class ProStoreConnectorImpl {
 
     private volatile String handleId;
 
-    public ProStoreConnectorImpl() {
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, DEFAULT_CONNECTION_TIMEOUT);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, DEFAULT_SO_TIMEOUT);
+    public ProStoreConnectorImpl(int socketTimeout, int connTimeout) {
+        req = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connTimeout).build();
     }
 
-    public DefaultHttpClient getClient() {
-        return pool.getClient(params);
+    public CloseableHttpClient getClient() {
+        return pool.getClient(req);
     }
     private String ysProHost;
 
@@ -84,13 +81,5 @@ public class ProStoreConnectorImpl {
 
     public void disconnect() {
         clearHandleId();
-    }
-
-    public void setSO_TIMEOUT(int SO_TIMEOUT) {
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, SO_TIMEOUT);
-    }
-
-    public void setCONNECTION_TIMEOUT(int CONNECTION_TIMEOUT) {
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, CONNECTION_TIMEOUT);
     }
 }

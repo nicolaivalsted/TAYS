@@ -29,7 +29,7 @@ public class YsProApiIT {
     public static void before() {
         pool = new HttpPool();
         pool.initPool();
-        connector = new ProStoreConnectorImpl();
+        connector = new ProStoreConnectorImpl(3000,8000);
         connector.setPool(pool);
         connector.setYsProHost(ProStoreConnectorImpl.TEST_YSPRO_HOST);
         connector.setSystemLogin(connector.getSystemLogin());

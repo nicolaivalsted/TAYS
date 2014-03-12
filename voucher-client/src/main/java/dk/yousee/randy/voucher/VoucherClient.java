@@ -2,7 +2,6 @@ package dk.yousee.randy.voucher;
 
 import dk.yousee.randy.base.HttpPool;
 import dk.yousee.randy.base.XmlFiltering;
-import java.io.IOException;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -14,9 +13,7 @@ import java.nio.charset.Charset;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.apache.http.HttpResponse;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreConnectionPNames;
-import org.apache.http.params.HttpParams;
+import org.apache.http.client.config.RequestConfig;
 
 /**
  * User: aka Date: 06/09/12 Time: 23.45 Client to access voucher
@@ -28,14 +25,13 @@ public class VoucherClient {
     public void setHttpPool(HttpPool httpPool) {
         this.httpPool = httpPool;
     }
-    private final HttpParams params = new BasicHttpParams();
+    private final RequestConfig req = RequestConfig.custom().setSocketTimeout(20000).setConnectTimeout(20000).build();
     public static final String PREPROD_VOUCHER_HOST = "http://192.168.98.10:8080";
     public static final String VOUCHER_HOST = "http://smt-h3106.yousee.dk:8080";
     private String voucherHost;
 
     public VoucherClient() {
-        params.setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, 20000);
-        params.setParameter(CoreConnectionPNames.SO_TIMEOUT, 20000);
+
     }
 
     public String getVoucherHost() {
@@ -87,7 +83,7 @@ public class VoucherClient {
 
         HttpEntity entity = null;
         try {
-            HttpResponse response = httpPool.getClient(params).execute(post);
+            HttpResponse response = httpPool.getClient(req).execute(post);
             entity = response.getEntity();
             LOGGER.log(Level.INFO, "Status {0}", response.getStatusLine().getStatusCode());
             String xmlResponse = EntityUtils.toString(entity);
