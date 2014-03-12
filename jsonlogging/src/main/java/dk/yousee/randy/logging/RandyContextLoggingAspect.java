@@ -238,7 +238,7 @@ public class RandyContextLoggingAspect implements Ordered {
 	private void searchJsonObject(ContextLoggingSearchItem si, JsonObject body, String s, boolean followJsonObject) {
 		// can't just bo.get(s) because we want loose, non-case-sensitive match        
 		for (Map.Entry<String, JsonElement> e : body.entrySet()) {
-		    if (s.equalsIgnoreCase(e.getKey()) && !e.getValue().isJsonNull()) {
+		    if (s.equalsIgnoreCase(e.getKey()) && !e.getValue().isJsonNull() && e.getValue().isJsonPrimitive()) {
 		        MDC.put(si.getKey(), si.getFormat().format(e.getValue().getAsString()));
 		        if (si.isObscure()) {
 		        	e.setValue(new JsonPrimitive(si.getFormat().format(e.getValue().getAsString())));
