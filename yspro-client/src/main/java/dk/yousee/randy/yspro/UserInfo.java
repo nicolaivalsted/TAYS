@@ -53,6 +53,10 @@ public class UserInfo extends ProStoreResponse {
         return super.getDataArray().get(0).getAsJsonObject().get("LastName").getAsString();
     }
     
+    public String getFirstTimeUsed() {
+        return super.getDataArray().get(0).getAsJsonObject().get("FirstTimeUsed").getAsString();
+    }
+    
     @Override
     public boolean isExists() {
         return super.getDataArray().size()>0;
