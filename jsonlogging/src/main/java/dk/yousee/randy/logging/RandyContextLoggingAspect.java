@@ -266,15 +266,17 @@ public class RandyContextLoggingAspect implements Ordered {
         try {
             if (response == null)
                 return;
-            JsonObject joResponse;
-            if (response instanceof JsonObject)
-                joResponse = (JsonObject) response;
-            else {
-                JsonElement jsonTree = gson.toJsonTree(response);
-                if (!jsonTree.isJsonObject())
-                    return;
-                joResponse = jsonTree.getAsJsonObject();
+            
+            if (response instanceof JsonObject) {
+            	response = gson.toJson(response);
             }
+            
+            JsonElement jsonTree = gson.toJsonTree(response);
+            if (!jsonTree.isJsonObject())
+                return;
+            
+            JsonObject joResponse = jsonTree.getAsJsonObject();
+            
             for (ContextLoggingSearchItem si : searchItems) {
                 analyzePayload(si, joResponse);
             }

@@ -29,7 +29,7 @@ public class MockRestClass implements MockRestIntf {
     @Path("/my/path/{mac}")
     public Response mockRestMethod(UriInfo uriInfo,
             @PathParam("mac") String pparm,
-            @QueryParam("ip") String qparm, String reqEntity) {
+            @QueryParam("ip") String qparm, String reqEntity, Object output) {
         spy.put(aspect.getCalluidJson(), MDC.get(aspect.getCalluidJson()));
         spy.put(aspect.getUrlpatternJson(), MDC.get(aspect.getUrlpatternJson()));
         spy.put(aspect.getRequestUriJson(), MDC.get(aspect.getRequestUriJson()));
@@ -37,6 +37,6 @@ public class MockRestClass implements MockRestIntf {
         spy.put(aspect.getOutputJson(), MDC.get(aspect.getOutputJson()));
         spy.put(aspect.getHttpstatusJson(), MDC.get(aspect.getHttpstatusJson()));
         spy.put(aspect.getUncaughtexceptionmsgJson(), MDC.get(aspect.getUncaughtexceptionmsgJson()));
-        return Response.status(Response.Status.OK).entity("Ok").build();
+        return Response.status(Response.Status.OK).entity(output).build();
     }
 }

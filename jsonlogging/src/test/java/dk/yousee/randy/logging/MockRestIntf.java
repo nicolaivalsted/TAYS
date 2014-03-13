@@ -13,6 +13,6 @@ import javax.ws.rs.core.UriInfo;
 
 public interface MockRestIntf {
     @Path("/my/path/{mac}")
-    Response mockRestMethod(@Context UriInfo uriInfo, @PathParam("mac") String pparm, @QueryParam("ip") String qparm, String reqEntity);
+    Response mockRestMethod(@Context UriInfo uriInfo, @PathParam("mac") String pparm, @QueryParam("ip") String qparm, String reqEntity, Object output);
 }
 

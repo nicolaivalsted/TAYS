@@ -97,20 +97,29 @@ public class RandyContextLoggingAspectTest {
         subObject.addProperty("subPassword", "123456789");
         input.add("subObject", subObject);
         
+        JsonObject response = new JsonObject();
+        response.addProperty("password", "true");
+        
+        
+        
 
         // then you can call methods on proxy, and make assertions about aspect, proxy and target
         MDC.put(aspect.getCalluidJson(), UUID.randomUUID());
         aspect.setLogPayloadHttpStatusMin(0);
-        Response mockResp = proxy.mockRestMethod(mockUriInfo, "11:22:33:44:55:66", "10.20.30.40", input.toString());
+        Response mockResp = proxy.mockRestMethod(mockUriInfo, "11:22:33:44:55:66", "10.20.30.40", input.toString(), response);
         // make assertions
         assertNotNull(spy.get(aspect.getCalluidJson()));
         assertTrue(UUID.class.isInstance(spy.get(aspect.getCalluidJson())));
         assertNotNull(mockResp);
         assertEquals(mockResp.getStatus(), Response.Status.OK.getStatusCode());
         assertNotNull(mockResp.getEntity());
-        assertEquals(mockResp.getEntity(), "Ok");
+        assertEquals(mockResp.getEntity(), response);
         assertEquals("********", MDC.get("password"));
         assertEquals("********", MDC.get("subPassword"));
+
+        assertEquals("true", ((JsonObject)mockResp.getEntity()).get("password").getAsString());
+
+        
         // mocking up this proves difficult :(
 //        assertNotNull(spy.get(aspect.getInputJson()));
 //        assertEquals(spy.get(aspect.getInputJson()), input);
