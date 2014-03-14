@@ -134,13 +134,13 @@ public class RandyContextLoggingAspect implements Ordered {
                                     // well, json parsing didn't work so just ignore it silently
                                 }
                             }
-                            // we've caught what we assume must be the http entity body, continue with next argument
-                            continue;
                         }
                     }
+                    
                     // Precedence: path/query-param then payload then name of formal arguments
                     if (formalArgs != null) // we don't necessarily *have* formalArgs (may be null).
                         analyzeFormalArg(si, actualArgs[argc], formalArgs[argc]);
+                    
                     analyzePayload(si, payloadParsed);
                     analyzeArgAnnotations(si, actualArgs[argc], annotations);
                     if (uriInfo != null) {
