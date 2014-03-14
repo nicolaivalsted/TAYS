@@ -124,7 +124,7 @@ public class CableBBCase extends AbstractCase {
 
             smpWifi.ss_id.setValue(SMPWiFi.generateSsid());
             smpWifi.psk.setValue(SMPWiFi.generatePsk());
-            smpWifi.gw_channel_id.setValue(Integer.toString(SMPWiFi.generateChannel(0)));
+            smpWifi.gw_channel_id.setValue("0");
         }
         return getModel().getOrder();
     }
@@ -179,7 +179,7 @@ public class CableBBCase extends AbstractCase {
             if (old == null) { // this means it is created now, then generate and fill in values
                 smpWifi.ss_id.setValue(SMPWiFi.generateSsid());
                 smpWifi.psk.setValue(SMPWiFi.generatePsk());
-                smpWifi.gw_channel_id.setValue(Integer.toString(SMPWiFi.generateChannel(0)));
+                smpWifi.gw_channel_id.setValue("0");
             }
         }
         if (lineItem.getAddnCPEProductCode() != null) {

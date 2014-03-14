@@ -34,7 +34,6 @@ public class SMPWiFiTest {
             System.out.println("runde    :"+ii);
             System.out.println("ssid     >" + SMPWiFi.generateSsid()+"<");
             System.out.println("pwd      >" + SMPWiFi.generatePsk()+"<");
-            System.out.println("channel  :" + SMPWiFi.generateChannel(0));
         }
     }
 
