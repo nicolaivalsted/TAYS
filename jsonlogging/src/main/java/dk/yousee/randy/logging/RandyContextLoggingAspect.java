@@ -268,7 +268,7 @@ public class RandyContextLoggingAspect implements Ordered {
                 return;
             
             String jsonString;
-            if (!(response instanceof String)) {
+            if (response instanceof String) {
             	jsonString = (String)response; 
             } else {
             	jsonString = gson.toJson(response); // do not touch original object, so we convert to string
