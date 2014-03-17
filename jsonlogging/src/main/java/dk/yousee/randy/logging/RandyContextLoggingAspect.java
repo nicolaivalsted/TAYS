@@ -267,19 +267,23 @@ public class RandyContextLoggingAspect implements Ordered {
             if (response == null)
                 return;
             
-            if (response instanceof JsonObject) {
-            	response = gson.toJson(response);
+            String jsonString;
+            if (!(response instanceof String)) {
+            	jsonString = (String)response; 
+            } else {
+            	jsonString = gson.toJson(response); // do not touch original object, so we convert to string
             }
             
-            JsonElement jsonTree = gson.toJsonTree(response);
-            if (!jsonTree.isJsonObject())
+           JsonElement jsonElement = new JsonParser().parse(jsonString);
+            if (!jsonElement.isJsonObject())
                 return;
-            
-            JsonObject joResponse = jsonTree.getAsJsonObject();
-            
+
+            JsonObject joResponse = jsonElement.getAsJsonObject();
+
             for (ContextLoggingSearchItem si : searchItems) {
                 analyzePayload(si, joResponse);
             }
+
         } catch (Exception e) {
             log.warn("Error serializing return value for analysis - ignored", e);
         }
