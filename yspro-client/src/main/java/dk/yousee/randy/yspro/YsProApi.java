@@ -560,7 +560,7 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
+
     public ProStoreResponse terminateProduct(String uuid) throws YsProException {
         try {
             ensureHandle();
@@ -577,8 +577,8 @@ public class YsProApi {
             throw new YsProException(ex.getMessage(), ex);
         }
     }
-    
-     public ProStoreResponse terminateProductOnDate(String uuid, Date closeDate) throws YsProException {
+
+    public ProStoreResponse terminateProductOnDate(String uuid, Date closeDate) throws YsProException {
         try {
             ensureHandle();
             URI url = new URI(String.format("%s/RemoveEngagement.php",
@@ -590,7 +590,25 @@ public class YsProApi {
             JsonObject o = new JsonObject();
             o.addProperty("To", YsProTime.formatDate(closeDate));
             params.add(new BasicNameValuePair("To", o.toString()));
-            
+
+            post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
+            String res = execute(post);
+            return new ProStoreResponse(res);
+        } catch (URISyntaxException ex) {
+            throw new YsProException(ex.getMessage(), ex);
+        }
+    }
+
+    public ProStoreResponse setFirstTimeUsed(String userId) throws YsProException {
+        try {
+            ensureHandle();
+            URI url = new URI(String.format("%s/SetFirstTimeUsed.php",
+                    client.getYsProHost()));
+            HttpPost post = new HttpPost(url);
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            params.add(new BasicNameValuePair("HandleID", client.getHandleId()));
+            params.add(new BasicNameValuePair("UserID", userId));
+
             post.setEntity(new UrlEncodedFormEntity(params, Charset.forName("UTF-8")));
             String res = execute(post);
             return new ProStoreResponse(res);
