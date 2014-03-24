@@ -61,6 +61,8 @@ public class CableBBService extends BasicUnit {
     private SMPWiFi smpWiFi;
 
     private SMPEmail smpEmail;
+    
+    private BSA bsa;
 
     public InetAccess getInetAccess() {
         return inetAccess;
@@ -104,6 +106,14 @@ public class CableBBService extends BasicUnit {
         this.smpWiFi = smpWiFi;
     }
 
+    public BSA getBsa() {
+		return bsa;
+	}
+    
+    public void setBsa(BSA bsa) {
+		this.bsa = bsa;
+	}
+    
     public SMPEmail getSmpEmail() {
         return smpEmail;
     }

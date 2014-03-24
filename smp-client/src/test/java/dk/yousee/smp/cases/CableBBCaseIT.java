@@ -184,27 +184,6 @@ public class CableBBCaseIT {
 
     @Ignore
     @Test
-    public void updateBB_activationReference() {
-        test=new CableBBCase(acct,service);
-        model=test.getModel();
-        Assert.assertTrue("customer must exist",model.customerExists());
-        Assert.assertFalse("cable BB MUST exist",model.find().CableBBService().isEmpty());
-
-        CableBBCase.AbonData data=new CableBBCase.AbonData();
-        data.setActivationReference("city-bb");
-
-        int orderId= 0;
-        try {
-            test.updateBB(new ModemId("357912345"),data);
-            orderId = test.send();
-        } catch (BusinessException e) {
-            Assert.fail("should not come here"+e.getMessage());
-        }
-        Assert.assertTrue(orderId!=0);
-    }
-
-    @Ignore
-    @Test
     public void deleteBB() throws Exception {
         test=new CableBBCase(acct,service);
         model=test.getModel();

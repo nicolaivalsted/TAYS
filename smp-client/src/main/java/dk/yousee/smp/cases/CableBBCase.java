@@ -1,16 +1,21 @@
 package dk.yousee.smp.cases;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.cbp.AddnCpe;
+import dk.yousee.smp.casemodel.vo.cbp.BSA;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
 import dk.yousee.smp.casemodel.vo.cbp.SMPEmail;
 import dk.yousee.smp.casemodel.vo.cbp.SMPStaticIP;
 import dk.yousee.smp.casemodel.vo.cbp.SMPWiFi;
 import dk.yousee.smp.casemodel.vo.cbp.StdCpe;
-import dk.yousee.smp.casemodel.vo.cbp.SuspendHelper.SuspendReasonBilling;
 import dk.yousee.smp.casemodel.vo.cbp.SuspendHelper.SuspendReasonAbuse;
+import dk.yousee.smp.casemodel.vo.cbp.SuspendHelper.SuspendReasonBilling;
 import dk.yousee.smp.casemodel.vo.cbp.SuspendStatus;
 import dk.yousee.smp.casemodel.vo.cpee.CpeComposedService;
 import dk.yousee.smp.casemodel.vo.cpee.HsdAccess;
@@ -21,9 +26,6 @@ import dk.yousee.smp.order.model.BusinessException;
 import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderService;
 import dk.yousee.smp.order.model.ProvisionStateEnum;
-import org.apache.log4j.Logger;
-
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA. User: aka Date: Oct 14, 2010 Time: 5:01:32 PM<br/>
@@ -91,9 +93,9 @@ public class CableBBCase extends AbstractCase {
         inetAccess.rate_codes.setValue(lineItem.getRateCodes());
         inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
         if (lineItem.getVrf() != null) {
-            inetAccess.vrf.setValue(lineItem.getVrf());
+        	BSA bsa = getModel().alloc().BSA(modemId);
+        	bsa.vrf.setValue(lineItem.getVrf());
         }
-        inetAccess.setActivationReference(lineItem.getActivationReference());
 
         if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
             HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
@@ -138,9 +140,9 @@ public class CableBBCase extends AbstractCase {
             inetAccess.rate_codes.setValue(lineItem.getRateCodes());
         }
         if (lineItem.getVrf() != null) {
-            inetAccess.vrf.setValue(lineItem.getVrf());
+        	BSA bsa = getModel().alloc().BSA(modemId);
+            bsa.vrf.setValue(lineItem.getVrf());
         }
-        inetAccess.setActivationReference(lineItem.getActivationReference());
 
         inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
 
@@ -316,15 +318,6 @@ public class CableBBCase extends AbstractCase {
 
         public void setVrf(String vrf) {
             this.vrf = vrf;
-        }
-        private String activationReference;
-
-        public String getActivationReference() {
-            return activationReference;
-        }
-
-        public void setActivationReference(String activationReference) {
-            this.activationReference = activationReference;
         }
         private boolean usingStdCpe = true;
 
@@ -651,4 +644,19 @@ public class CableBBCase extends AbstractCase {
         smpWiFi.ss_id.setValue(ss_id);
         return smpWiFi;
     }
+
+
+    /**
+     * Add the customer's BSA settings
+     *
+     * @param modemId modem used
+     * @param vrf
+     * @return model instance
+     */
+    public BSA addBSA(ModemId modemId, String vrf) {
+        BSA bsa = getModel().add().BSA(modemId);
+        bsa.vrf.setValue(vrf);
+        return bsa;
+    }
+
 }

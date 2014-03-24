@@ -1,5 +1,7 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
+import org.apache.log4j.Logger;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.backup.Backup;
 import dk.yousee.smp.casemodel.vo.backup.BackupService;
@@ -7,6 +9,7 @@ import dk.yousee.smp.casemodel.vo.base.SampSub;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp.casemodel.vo.cbp.AddnCpe;
+import dk.yousee.smp.casemodel.vo.cbp.BSA;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
 import dk.yousee.smp.casemodel.vo.cbp.SMPEmail;
@@ -36,7 +39,6 @@ import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.ResponseEntity;
-import org.apache.log4j.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -94,6 +96,8 @@ public class Parse {
                         new SMPStaticIP(model, child.getExternalKey(), cableBBService);
                     } else if (child.getType().equals(SMPWiFi.TYPE)) {
                         new SMPWiFi(model, child.getExternalKey(), cableBBService);
+                    } else if (child.getType().equals(BSA.TYPE)) {
+                        new BSA(model, child.getExternalKey(), cableBBService);
                     } else {
                         logger.warn("unknown CableBBService child_service " + child.getExternalKey());
                     }

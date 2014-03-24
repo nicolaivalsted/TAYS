@@ -1,5 +1,10 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
@@ -10,6 +15,7 @@ import dk.yousee.smp.casemodel.vo.base.SampSub;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp.casemodel.vo.cbp.AddnCpe;
+import dk.yousee.smp.casemodel.vo.cbp.BSA;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
 import dk.yousee.smp.casemodel.vo.cbp.SMPEmail;
@@ -38,10 +44,6 @@ import dk.yousee.smp.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
-import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -296,6 +298,17 @@ public class Find {
         CableBBService parent = CableBBService(modemId);
         if (parent == null) return null;
         return parent.getSmpWiFi();
+    }
+
+    
+    /**
+     * @param modemId to the modem
+     * @return instance if it exists
+     */
+    public BSA BSA(ModemId modemId) {
+        CableBBService parent = CableBBService(modemId);
+        if (parent == null) return null;
+        return parent.getBsa();
     }
 
 /** CpeComposedService find ***************************************************************************************************/

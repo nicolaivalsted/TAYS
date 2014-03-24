@@ -39,11 +39,8 @@ public class InetAccessTest {
         Assert.assertNotNull(parent.getType());
         Assert.assertEquals(externalKey, test.broadband_service_id.getValue());
 
-        test.vrf.setValue("vrf");
-        test.vrf_effective.setValue("vrf_effective");
         test.setModemId(modemId);
         test.business_position.setValue("business_position");
-        test.activation_reference.setValue("activation_reference");
         test.svc_provider_nm.setValue("test");
         test.upstream_speed.setValue("test");
         test.config_file_override.setValue("test");

@@ -4,6 +4,7 @@ import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.backup.Backup;
+import dk.yousee.smp.casemodel.vo.cbp.BSA;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
 import dk.yousee.smp.casemodel.vo.cbp.SMPEmail;
@@ -163,6 +164,18 @@ public class Alloc {
         SMPWiFi res = find.SMPWiFi(modemId);
         if (res == null) {
             return add.SMPWiFi(modemId);
+        }
+        return res;
+    }
+
+    /**
+     * @param modemId to modem
+     * @return instance either an existing child-service or a new child-service ready for fill in data
+     */
+    public BSA BSA(ModemId modemId) {
+        BSA res = find.BSA(modemId);
+        if (res == null) {
+            return add.BSA(modemId);
         }
         return res;
     }

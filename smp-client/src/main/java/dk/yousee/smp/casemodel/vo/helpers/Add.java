@@ -1,5 +1,7 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
+import java.util.UUID;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
@@ -8,6 +10,7 @@ import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp.casemodel.vo.base.SubSpec;
 import dk.yousee.smp.casemodel.vo.cbp.AddnCpe;
+import dk.yousee.smp.casemodel.vo.cbp.BSA;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
 import dk.yousee.smp.casemodel.vo.cbp.SMPEmail;
@@ -32,8 +35,6 @@ import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
-
-import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -192,6 +193,19 @@ public class Add {
     public SMPWiFi SMPWiFi(ModemId modemId) {
         CableBBService parent = model.alloc().CableBBService(modemId);
         SMPWiFi res = new SMPWiFi(model, key.generateUUID(), parent);
+        if (res.getEntity() == null) {
+            res.getDefaultOrderData();
+        }
+        return res;
+    }
+
+    /**
+     * @param modemId to the modem
+     * @return new instance
+     */
+    public BSA BSA(ModemId modemId) {
+        CableBBService parent = model.alloc().CableBBService(modemId);
+        BSA res = new BSA(model, key.generateUUID(), parent);
         if (res.getEntity() == null) {
             res.getDefaultOrderData();
         }
