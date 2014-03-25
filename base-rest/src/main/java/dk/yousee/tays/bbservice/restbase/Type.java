@@ -11,6 +11,7 @@ public enum Type {
     Telefoni("SubSvcSpec:smp_switch_dial_tone_access"),
     Foreningsmail("foreningsmail"),
     WiFi("SubSvcSpec:wifi_service"),
+    BSA("SubSvcSpec:bit_stream_access"),
     StaticIp("SubSvcSpec:static_ip_cpe"),
     InternetAccess("SubSvcSpec:internet_access"),
     StdCpe("SubSvcSpec:std_cpe"),
