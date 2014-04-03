@@ -96,17 +96,26 @@ public class ForeningsMailCase extends AbstractCase {
         return res;
     }
 
-//    public Order updateProvisioning(BusinessPosition position, ForeningsData lineItem) throws BusinessException {
-//        ensureAcct();
-//        Mail def = getModel().find().ForeningsMail(position);
-//        if(lineItem.getProduct()!=null){
-//            def.product_code.setValue(lineItem.getProduct());
-//        }
-//        if(lineItem.getName()!=null){
-//            def.product_name.setValue(lineItem.getName());
-//        }
-//        return getModel().getOrder();
-//    }
+    /**
+     * Update parameters on 
+     * 
+     * @param position
+     * @param lineItem
+     * @return
+     * @throws BusinessException
+     */
+    public Order updateProvisioning(BusinessPosition position, ForeningsData lineItem) throws BusinessException {
+        ensureAcct();
+        Mail def = getModel().find().ForeningsMail(position);
+        if(lineItem.getProduct()!=null){
+            def.product_code.setValue(lineItem.getProduct());
+        }
+        if(lineItem.getName()!=null){
+            def.product_name.setValue(lineItem.getName());
+        }
+        return getModel().getOrder();
+    }
+
     /**
      * Delete function
      *
