@@ -29,6 +29,7 @@
         <module>base-rest</module>
         <module>dms-client</module>
         <module>jobmon-client</module>
+        <module>jobmon-springrunner</module>
         <module>kasia-client</module>
         <module>smp-xml</module>
         <module>smp-client</module>
