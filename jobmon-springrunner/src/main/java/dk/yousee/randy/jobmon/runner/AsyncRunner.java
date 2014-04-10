@@ -3,6 +3,7 @@ package dk.yousee.randy.jobmon.runner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
 import javax.annotation.PreDestroy;
 import org.apache.log4j.Logger;
 
@@ -44,6 +45,12 @@ public class AsyncRunner {
         log.info("Cleaning up " + activeJobs.size() + " running jobs");
         for (StoppableRunnable r : activeJobs) {
             r.stop();
+        }
+        try {
+            // Give background jobs a little time to stop and cleanup
+            Thread.sleep(15*1000L);
+        } catch (InterruptedException ex) {
+            log.info("Background job termination wait interrupted", ex);
         }
         activeJobs.clear();
     }

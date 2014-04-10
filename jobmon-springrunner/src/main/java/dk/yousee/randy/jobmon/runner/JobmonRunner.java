@@ -122,6 +122,7 @@ public class JobmonRunner {
         @Override
         public void updateProgress(String progress) {
             try {
+                job.setState(JobState.RUNNING);
                 job.setProgress(progress);
                 // Limit the number of updates of job status - expensive web service calls (compared to row inserts)
                 if (lastUpdateTime < System.currentTimeMillis() - UPDATE_INTERVAL) {
@@ -135,8 +136,8 @@ public class JobmonRunner {
 
         @Override
         public void done(String progress) {
-            job.setProgress(progress);
             job.setState(JobState.DONE);
+            job.setProgress(progress);
             try {
                 jobMonClient.updateRun(job);
             } catch (Throwable ex) {
@@ -146,8 +147,8 @@ public class JobmonRunner {
 
         @Override
         public void fail(String progress) {
-            job.setProgress(progress);
             job.setState(JobState.FAIL);
+            job.setProgress(progress);
             try {
                 jobMonClient.updateRun(job);
             } catch (Throwable ex) {
