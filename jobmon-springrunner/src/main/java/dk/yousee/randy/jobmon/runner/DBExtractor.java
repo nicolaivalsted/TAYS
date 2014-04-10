@@ -157,6 +157,7 @@ public class DBExtractor {
 
         public void stop() {
             stop = true;
+            progressCallback.fail("Terminated");
         }
     };
 }

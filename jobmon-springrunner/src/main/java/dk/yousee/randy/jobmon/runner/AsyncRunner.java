@@ -3,7 +3,6 @@ package dk.yousee.randy.jobmon.runner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 import javax.annotation.PreDestroy;
 import org.apache.log4j.Logger;
 
