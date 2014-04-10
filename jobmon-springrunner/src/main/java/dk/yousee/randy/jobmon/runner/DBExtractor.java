@@ -122,7 +122,19 @@ public class DBExtractor {
         private volatile boolean stop = false;
 
         public ProgressReportingExtractor(ExtractorIntf dbw) {
-            this(dbw, null);
+            this(dbw, new ProgressCallback() {
+                @Override
+                public void updateProgress(String progress) {
+                }
+
+                @Override
+                public void done(String progress) {
+                }
+
+                @Override
+                public void fail(String progress) {
+                }
+            });
         }
 
         public ProgressReportingExtractor(ExtractorIntf dbw, ProgressCallback progressCallback) {
@@ -138,15 +150,6 @@ public class DBExtractor {
             return stop;
         }
 
-        private synchronized void progress(ProgressCallback progressCallback, int rows) {
-            if (progressCallback != null) {
-                if (!getStop())
-                    progressCallback.done("Inserted " + rows + " rows");
-                else
-                    progressCallback.fail("Terminated after " + rows + " rows");
-            }
-        }
-
         @Override
         public Integer extractData(ResultSet rs) throws SQLException {
             int rows = 0;
@@ -155,16 +158,18 @@ public class DBExtractor {
                 while (!stop && rs.next()) {
                     dbw.rowHandler(new ReadOnlyResultSet(rs));
                     rows++;
-                    if (progressCallback != null)
-                        progressCallback.updateProgress("Inserted " + rows + " rows");
+                    progressCallback.updateProgress("Inserted " + rows + " rows");
                 }
             } catch (Exception e) {
-                progressCallback.fail("Inserted " + rows + " rows");
+                progressCallback.fail(e.getMessage() + " " + rows + " rows");
                 log.warn("Job terminated due to uncaught exception time=" + (System.currentTimeMillis() - start));
                 throw new RuntimeException("Job terminated due to uncaught exception", e);
             }
             log.info("extract time=" + (System.currentTimeMillis() - start));
-            progress(progressCallback, rows);
+            if (!getStop())
+                progressCallback.done("Inserted " + rows + " rows");
+            else
+                progressCallback.fail("Terminated after " + rows + " rows");
             return rows;
         }
 
