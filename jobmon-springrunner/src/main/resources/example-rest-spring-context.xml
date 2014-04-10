@@ -27,6 +27,9 @@
     <bean id="executorService" class="java.util.concurrent.Executors"
           factory-method="newFixedThreadPool" destroy-method="shutdown">
         <constructor-arg value="2" />
+        <constructor-arg>
+            <bean id="daemonThreadFactory" class="dk.yousee.randy.jobmon.runner.DaemonThreadFactory"/>
+        </constructor-arg>
     </bean>
     <task:executor id="threadPoolTaskExecutor" pool-size="2" />
     <task:annotation-driven executor="executorService" />
