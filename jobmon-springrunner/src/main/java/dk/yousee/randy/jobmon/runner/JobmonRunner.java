@@ -145,6 +145,7 @@ public class JobmonRunner {
             if (failCalled)
                 return;
             job.setState(JobState.DONE);
+            job.setStatus(progress);
             job.setProgress(progress);
             try {
                 jobMonClient.updateRun(job);
@@ -157,6 +158,7 @@ public class JobmonRunner {
         public synchronized void fail(String progress) {
             failCalled = true;
             job.setState(JobState.FAIL);
+            job.setStatus(progress);
             job.setProgress(progress);
             try {
                 jobMonClient.updateRun(job);
