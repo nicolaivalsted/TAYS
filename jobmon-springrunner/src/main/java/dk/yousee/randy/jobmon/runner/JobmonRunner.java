@@ -4,6 +4,7 @@
  */
 package dk.yousee.randy.jobmon.runner;
 
+import dk.yousee.randy.jobmon.runner.AsyncRunner.StoppableRunnable;
 import dk.yousee.randy.jobmonclient.JobMonClient;
 import dk.yousee.randy.jobmonclient.JobState;
 import dk.yousee.randy.jobmonclient.RestException;
@@ -16,7 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Class to execute a runnable wrapped in jobmon test/start/stop and with jobmon progress reporting.
+ * Class to execute a runnable wrapped in jobmon test/start/stop and with jobmon
+ * progress reporting.
+ *
  * @author Jacob Lorensen, TDC, April 2014.
  */
 @Component
@@ -35,8 +38,10 @@ public class JobmonRunner {
      * @param jobName job name in jobmon
      * @param expectedRuntime expected running time (see jobmon documentation)
      * handle each row, and end extraction
-     * @param run the job executing method, called with a ProgressCallback object to report progress
-     * @return the jobmon job created or the existing jobmon job already executing
+     * @param run the job executing method, called with a ProgressCallback
+     * object to report progress
+     * @return the jobmon job created or the existing jobmon job already
+     * executing
      */
     public Response jobmonAsyncRunner(final String jobName, long expectedRuntime, final JobmonRunnable run) {
         try {
@@ -48,7 +53,7 @@ public class JobmonRunner {
             if (latestJob == null || (latestJob.getState() != JobState.STARTED && latestJob.getState() != JobState.RUNNING)) {
                 final RunningJobVo job = jobMonClient.startRun(jobName, expectedRuntime);
                 latestJob = job;
-                runner.runRunnable(jobName, new Runnable() {
+                runner.runRunnable(jobName, new StoppableRunnable() {
                     @Override
                     public void run() {
                         JobmonProgressCallback progressCallback = new JobmonProgressCallback(job);
@@ -56,8 +61,13 @@ public class JobmonRunner {
                             run.run(progressCallback);
                         } catch (Exception e) {
                             log.warn("Exception running " + jobName, e);
-                            progressCallback.done("Error: " + e);
+                            progressCallback.fail(e.getMessage());
                         }
+                    }
+
+                    @Override
+                    public void stop() {
+                        run.stop();
                     }
                 });
                 res = Response.status(Response.Status.CREATED);
@@ -77,24 +87,30 @@ public class JobmonRunner {
      */
     public interface JobmonRunnable {
         void run(ProgressCallback progress);
+
+        void stop();
     }
- 
+
     /**
-     * Progress reporting interface. Call progress.updateProgress() whenever convenient, as often as
-     * progress can be reasonably reported. The implementation will update jobmon status in spaced intervals
-     * of at least 1 second, keeping the number of remote web service calls low.
+     * Progress reporting interface. Call progress.updateProgress() whenever
+     * convenient, as often as progress can be reasonably reported. The
+     * implementation will update jobmon status in spaced intervals of at least
+     * 1 second, keeping the number of remote web service calls low.
      */
     public interface ProgressCallback {
         void updateProgress(String progress);
+
         public void done(String progress);
+
+        public void fail(String progress);
     }
-    
+
     /**
      * Update jobmon job status and periodically (synchronously) send the status
      * to the jobmon web service. This is an inner class so it has access to
      * jobMonClient
      */
-    private class JobmonProgressCallback implements ProgressCallback { 
+    private class JobmonProgressCallback implements ProgressCallback {
         private RunningJobVo job;
         private final static long UPDATE_INTERVAL = 1000L;
         private long lastUpdateTime = 0;
@@ -121,6 +137,17 @@ public class JobmonRunner {
         public void done(String progress) {
             job.setProgress(progress);
             job.setState(JobState.DONE);
+            try {
+                jobMonClient.updateRun(job);
+            } catch (Throwable ex) {
+                log.warn("Could not update runningJob progress: " + job.getId(), ex);
+            }
+        }
+
+        @Override
+        public void fail(String progress) {
+            job.setProgress(progress);
+            job.setState(JobState.FAIL);
             try {
                 jobMonClient.updateRun(job);
             } catch (Throwable ex) {

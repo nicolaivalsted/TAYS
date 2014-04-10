@@ -51,6 +51,11 @@ public class DBExtractor {
          * Make the final commit etc clean up after sending all data.
          */
         void done();
+
+        /**
+         * Tell extractor to terminate early
+         */
+        void stop();
     }
 
     /**
@@ -67,13 +72,18 @@ public class DBExtractor {
      */
     public Response jobmonAsyncExtract(String jobName, long expectedRuntime, final ExtractorIntf extractor) {
         return jobmonRun.jobmonAsyncRunner(jobName, expectedRuntime, new JobmonRunnable() {
+            // This is the intricate wiring... extractor gets the ResultSetExtractor
+            // which in itself will call the handleRow() method in the extractor - ie.
+            // control loop and jobmon updates are kept here inside DBExtractor, while 
+            // the work is being done in the caller's context.
             @Override
             public void run(ProgressCallback progress) {
-                // This is the intricate wiring... extractor gets the ResultSetExtractor
-                // which in itself will call the handleRow() method in the extractor - ie.
-                // control loop and jobmon updates are kept here inside DBExtractor, while 
-                // the work is being done in the caller's context.
                 extractor.runExtract(new ProgressReportingExtractor(extractor, progress));
+            }
+
+            @Override
+            public void stop() {
+                extractor.stop();
             }
         });
     }
