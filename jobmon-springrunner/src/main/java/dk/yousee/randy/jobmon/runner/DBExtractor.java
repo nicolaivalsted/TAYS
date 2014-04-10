@@ -84,8 +84,9 @@ public class DBExtractor {
                 extractor.runExtract(ex);
             }
 
-            /** 
-             * Stop the extraction loop and tell the extracting user that we're stopping.
+            /**
+             * Stop the extraction loop and tell the extracting user that we're
+             * stopping.
              */
             @Override
             public void stop() {
@@ -129,6 +130,23 @@ public class DBExtractor {
             this.progressCallback = progressCallback;
         }
 
+        private synchronized void setStop(boolean s) {
+            stop = s;
+        }
+
+        private synchronized boolean getStop() {
+            return stop;
+        }
+
+        private synchronized void progress(ProgressCallback progressCallback, int rows) {
+            if (progressCallback != null) {
+                if (!getStop())
+                    progressCallback.done("Inserted " + rows + " rows");
+                else
+                    progressCallback.fail("Terminated after " + rows + " rows");
+            }
+        }
+
         @Override
         public Integer extractData(ResultSet rs) throws SQLException {
             int rows = 0;
@@ -146,17 +164,12 @@ public class DBExtractor {
                 throw new RuntimeException("Job terminated due to uncaught exception", e);
             }
             log.info("extract time=" + (System.currentTimeMillis() - start));
-            if (progressCallback != null) {
-                if (!stop)
-                    progressCallback.done("Inserted " + rows + " rows");
-                else
-                    progressCallback.fail("Terminated after " + rows + " rows");
-            }
+            progress(progressCallback, rows);
             return rows;
         }
 
         public void stop() {
-            stop = true;
+            setStop(true);
             progressCallback.fail("Terminated");
         }
     };
