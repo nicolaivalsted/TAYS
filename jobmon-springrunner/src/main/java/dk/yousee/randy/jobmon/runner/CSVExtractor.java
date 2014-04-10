@@ -71,4 +71,17 @@ public abstract class CSVExtractor implements DBExtractor.ExtractorIntf {
             throw new RuntimeException("Error writing csv output", ex);
         }
     }
+    
+    @Override
+    public void stop() {
+        try {
+            log.warn("Terminated time=" + (System.currentTimeMillis() - start));
+            writer.write("Error: incomplete output");
+            writer.newLine();
+            writer.flush();
+            writer.close();
+        } catch (IOException ex) {
+            throw new RuntimeException("Error writing csv output", ex);
+        }
+    }
 }

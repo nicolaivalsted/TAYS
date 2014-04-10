@@ -53,7 +53,7 @@ public class DBExtractor {
         void done();
 
         /**
-         * Tell extractor to terminate early
+         * Tell extractor that the job is terminating early.
          */
         void stop();
     }
@@ -76,13 +76,20 @@ public class DBExtractor {
             // which in itself will call the handleRow() method in the extractor - ie.
             // control loop and jobmon updates are kept here inside DBExtractor, while 
             // the work is being done in the caller's context.
-            @Override
-            public void run(ProgressCallback progress) {
-                extractor.runExtract(new ProgressReportingExtractor(extractor, progress));
-            }
+            private ProgressReportingExtractor ex;
 
             @Override
+            public void run(ProgressCallback progress) {
+                ex = new ProgressReportingExtractor(extractor, progress);
+                extractor.runExtract(ex);
+            }
+
+            /** 
+             * Stop the extraction loop and tell the extracting user that we're stopping.
+             */
+            @Override
             public void stop() {
+                ex.stop();
                 extractor.stop();
             }
         });
@@ -111,6 +118,7 @@ public class DBExtractor {
         private static final int updateInterval = 1000;
         private final ExtractorIntf dbw;
         private ProgressCallback progressCallback;
+        private volatile boolean stop = false;
 
         public ProgressReportingExtractor(ExtractorIntf dbw) {
             this(dbw, null);
@@ -126,22 +134,29 @@ public class DBExtractor {
             int rows = 0;
             long start = System.currentTimeMillis();
             try {
-                while (rs.next()) {
+                while (!stop && rs.next()) {
                     dbw.rowHandler(new ReadOnlyResultSet(rs));
                     rows++;
                     if (progressCallback != null)
                         progressCallback.updateProgress("Inserted " + rows + " rows");
                 }
-                dbw.done();
             } catch (Exception e) {
-                progressCallback.done("Inserted " + rows + " rows");
+                progressCallback.fail("Inserted " + rows + " rows");
                 log.warn("Job terminated due to uncaught exception time=" + (System.currentTimeMillis() - start));
                 throw new RuntimeException("Job terminated due to uncaught exception", e);
             }
             log.info("extract time=" + (System.currentTimeMillis() - start));
-            if (progressCallback != null)
-                progressCallback.done("Inserted " + rows + " rows");
+            if (progressCallback != null) {
+                if (!stop)
+                    progressCallback.done("Inserted " + rows + " rows");
+                else
+                    progressCallback.fail("Terminated after " + rows + " rows");
+            }
             return rows;
+        }
+
+        public void stop() {
+            stop = true;
         }
     };
 }
