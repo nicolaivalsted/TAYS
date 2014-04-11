@@ -69,7 +69,7 @@ public class JobmonRunner {
 
                     @Override
                     public void stop() {
-                        progressCallback.fail("Terminated");
+                        progressCallback.fail("Terminating");
                         run.stop();
                     }
                 });
