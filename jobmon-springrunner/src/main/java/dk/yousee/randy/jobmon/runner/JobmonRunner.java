@@ -55,7 +55,7 @@ public class JobmonRunner {
                 latestJob = job;
                 runner.runRunnable(jobName, new StoppableRunnable() {
                     private JobmonProgressCallback progressCallback;
-                    
+
                     @Override
                     public void run() {
                         progressCallback = new JobmonProgressCallback(job);
@@ -66,7 +66,7 @@ public class JobmonRunner {
                             progressCallback.fail(e.getMessage());
                         }
                     }
-                    
+
                     @Override
                     public void stop() {
                         progressCallback.fail("Terminated");
@@ -90,8 +90,25 @@ public class JobmonRunner {
      */
     public interface JobmonRunnable {
         void run(ProgressCallback progress);
-        
+
         void stop();
+    }
+
+    /**
+     * Default implementation of a JobmonRunnable with a simple isStop() routine
+     * to test if job should stop. Override run(ProgressCallback p) method to implement a job.
+     */
+    public static abstract class DefaultJobmonRunnable implements JobmonRunnable {
+        private volatile boolean stop = false;
+
+        protected final synchronized boolean isStop() {
+            return stop;
+        }
+
+        @Override
+        public synchronized void stop() {
+            stop = true;
+        }
     }
 
     /**
@@ -102,9 +119,9 @@ public class JobmonRunner {
      */
     public interface ProgressCallback {
         void updateProgress(String progress);
-        
+
         public void done(String progress);
-        
+
         public void fail(String progress);
     }
 
@@ -118,11 +135,11 @@ public class JobmonRunner {
         private final static long UPDATE_INTERVAL = 1000L;
         private long lastUpdateTime = 0;
         private volatile boolean failCalled = false;
-        
+
         public JobmonProgressCallback(RunningJobVo job) {
             this.job = job;
         }
-        
+
         @Override
         public synchronized void updateProgress(String progress) {
             if (failCalled)
@@ -139,7 +156,7 @@ public class JobmonRunner {
                 log.warn("Could not update runningJob progress: " + job.getId(), t);
             }
         }
-        
+
         @Override
         public synchronized void done(String progress) {
             if (failCalled)
@@ -153,7 +170,7 @@ public class JobmonRunner {
                 log.warn("Could not update runningJob progress: " + job.getId(), ex);
             }
         }
-        
+
         @Override
         public synchronized void fail(String progress) {
             failCalled = true;

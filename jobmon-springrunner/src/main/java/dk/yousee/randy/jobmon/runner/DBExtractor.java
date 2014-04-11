@@ -4,6 +4,7 @@
  */
 package dk.yousee.randy.jobmon.runner;
 
+import dk.yousee.randy.jobmon.runner.JobmonRunner.DefaultJobmonRunnable;
 import dk.yousee.randy.jobmon.runner.JobmonRunner.JobmonRunnable;
 import dk.yousee.randy.jobmon.runner.JobmonRunner.ProgressCallback;
 import java.sql.ResultSet;
@@ -71,29 +72,7 @@ public class DBExtractor {
      * @return the job created or the existing job running
      */
     public Response jobmonAsyncExtract(String jobName, long expectedRuntime, final ExtractorIntf extractor) {
-        return jobmonRun.jobmonAsyncRunner(jobName, expectedRuntime, new JobmonRunnable() {
-            // This is the intricate wiring... extractor gets the ResultSetExtractor
-            // which in itself will call the handleRow() method in the extractor - ie.
-            // control loop and jobmon updates are kept here inside DBExtractor, while 
-            // the work is being done in the caller's context.
-            private ProgressReportingExtractor ex;
-
-            @Override
-            public void run(ProgressCallback progress) {
-                ex = new ProgressReportingExtractor(extractor, progress);
-                extractor.runExtract(ex);
-            }
-
-            /**
-             * Stop the extraction loop and tell the extracting user that we're
-             * stopping.
-             */
-            @Override
-            public void stop() {
-                ex.stop();
-                extractor.stop();
-            }
-        });
+        return jobmonRun.jobmonAsyncRunner(jobName, expectedRuntime, new ProgressReportingExtractor(extractor));
     }
 
     /**
@@ -114,12 +93,11 @@ public class DBExtractor {
      * <code>rowHandler</code> and
      * <code>done()</code> methods to handle each row.
      */
-    private static class ProgressReportingExtractor implements ResultSetExtractor<Integer> {
+    private static class ProgressReportingExtractor extends DefaultJobmonRunnable implements ResultSetExtractor<Integer> {
         private static final Logger log = Logger.getLogger(ProgressReportingExtractor.class);
         private static final int updateInterval = 1000;
         private final ExtractorIntf dbw;
         private ProgressCallback progressCallback;
-        private volatile boolean stop = false;
 
         public ProgressReportingExtractor(ExtractorIntf dbw) {
             this(dbw, new ProgressCallback() {
@@ -142,12 +120,8 @@ public class DBExtractor {
             this.progressCallback = progressCallback;
         }
 
-        private synchronized void setStop(boolean s) {
-            stop = s;
-        }
-
-        private synchronized boolean getStop() {
-            return stop;
+        public void setProgress(ProgressCallback pcb) {
+            progressCallback = pcb;
         }
 
         @Override
@@ -155,7 +129,7 @@ public class DBExtractor {
             int rows = 0;
             long start = System.currentTimeMillis();
             try {
-                while (!stop && rs.next()) {
+                while (!isStop() && rs.next()) {
                     dbw.rowHandler(new ReadOnlyResultSet(rs));
                     rows++;
                     progressCallback.updateProgress("Inserted " + rows + " rows");
@@ -166,16 +140,23 @@ public class DBExtractor {
                 throw new RuntimeException("Job terminated due to uncaught exception", e);
             }
             log.info("extract time=" + (System.currentTimeMillis() - start));
-            if (!getStop())
+            if (!isStop())
                 progressCallback.done("Inserted " + rows + " rows");
             else
                 progressCallback.fail("Terminated after " + rows + " rows");
             return rows;
         }
 
+        @Override
+        public void run(ProgressCallback progress) {
+            setProgress(progress);
+            dbw.runExtract(this);
+        }
+
+        @Override
         public void stop() {
-            setStop(true);
-            progressCallback.fail("Terminated");
+            super.stop();
+            dbw.stop();
         }
     };
 }

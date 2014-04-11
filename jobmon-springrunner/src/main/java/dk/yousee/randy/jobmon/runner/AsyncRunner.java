@@ -39,18 +39,30 @@ public class AsyncRunner {
         void stop();
     }
 
+    public abstract static class Stoppable implements Runnable {
+        private volatile boolean stop = false;
+
+        protected synchronized boolean isStop() {
+            return stop;
+        }
+
+        public synchronized void stop() {
+            stop = true;
+        }
+    }
+
     @PreDestroy
     void preDestroy() {
         log.info("Cleaning up " + activeJobs.size() + " running jobs");
         for (StoppableRunnable r : activeJobs) {
             r.stop();
         }
+        activeJobs.clear();
         try {
             // Give background jobs a little time to stop and cleanup
-            Thread.sleep(15*1000L);
+            Thread.sleep(15 * 1000L);
         } catch (InterruptedException ex) {
             log.info("Background job termination wait interrupted", ex);
         }
-        activeJobs.clear();
     }
 }
