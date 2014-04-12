@@ -15,6 +15,7 @@ public class RunningJobVo {
     private String result;
     private String detaillink;
     private String estimateend;
+    private Boolean stopRequest;
     private Date endtime;
 
     public String getDetaillink() {
@@ -87,5 +88,13 @@ public class RunningJobVo {
 
     public void setEndtime(Date endtime) {
         this.endtime = endtime;
+    }
+
+    public Boolean getStopRequest() {
+        return stopRequest;
+    }
+
+    public void setStopRequest(Boolean stopRequest) {
+        this.stopRequest = stopRequest;
     }
 }
