@@ -53,6 +53,10 @@ public class AsyncRunner {
 
     @PreDestroy
     void preDestroy() {
+        if (activeJobs.isEmpty()) {
+            log.info("No background jobs to stop");
+            return;
+        }
         log.info("Cleaning up " + activeJobs.size() + " running jobs");
         for (StoppableRunnable r : activeJobs) {
             r.stop();
@@ -60,6 +64,7 @@ public class AsyncRunner {
         activeJobs.clear();
         try {
             // Give background jobs a little time to stop and cleanup
+            log.info("Waiting 15 seconds for background jobs to terminate");
             Thread.sleep(15 * 1000L);
         } catch (InterruptedException ex) {
             log.info("Background job termination wait interrupted", ex);

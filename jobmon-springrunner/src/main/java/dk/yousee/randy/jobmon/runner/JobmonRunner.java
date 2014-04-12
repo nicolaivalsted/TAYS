@@ -58,7 +58,7 @@ public class JobmonRunner {
 
                     @Override
                     public void run() {
-                        progressCallback = new JobmonProgressCallback(job);
+                        progressCallback = new JobmonProgressCallback(job, this);
                         try {
                             run.run(progressCallback);
                         } catch (Exception e) {
@@ -120,9 +120,9 @@ public class JobmonRunner {
     public interface ProgressCallback {
         void updateProgress(String progress);
 
-        public void done(String progress);
+        void done(String progress);
 
-        public void fail(String progress);
+        void fail(String progress);
     }
 
     /**
@@ -131,13 +131,15 @@ public class JobmonRunner {
      * jobMonClient
      */
     private class JobmonProgressCallback implements ProgressCallback {
-        private RunningJobVo job;
         private final static long UPDATE_INTERVAL = 1000L;
-        private long lastUpdateTime = 0;
+        private final StoppableRunnable r;
+        private volatile RunningJobVo job;
         private volatile boolean failCalled = false;
+        private long lastUpdateTime = 0;
 
-        public JobmonProgressCallback(RunningJobVo job) {
+        public JobmonProgressCallback(RunningJobVo job, StoppableRunnable r) {
             this.job = job;
+            this.r = r;
         }
 
         @Override
@@ -150,8 +152,11 @@ public class JobmonRunner {
                 // Limit the number of updates of job status - expensive web service calls (compared to row inserts)
                 if (lastUpdateTime < System.currentTimeMillis() - UPDATE_INTERVAL) {
                     lastUpdateTime = System.currentTimeMillis();
-                    jobMonClient.updateRun(job);
+                    job = jobMonClient.updateRun(job);
                 }
+                // Check if job status has a request to stop 
+                if (job.getStopRequest() != null && job.getStopRequest())
+                    r.stop();
             } catch (Throwable t) {
                 log.warn("Could not update runningJob progress: " + job.getId(), t);
             }
