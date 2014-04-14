@@ -132,6 +132,11 @@ public class JobmonRunner {
      */
     private class JobmonProgressCallback implements ProgressCallback {
         private final static long UPDATE_INTERVAL = 1000L;
+        /**
+         * The StoppableRunnable that we're reporting progress for&mdash;with this information
+         * we can call back to the running job and signal it to stop if the jobmon status has
+         * stopRequest true.
+         */
         private final StoppableRunnable r;
         private volatile RunningJobVo job;
         private volatile boolean failCalled = false;
@@ -154,7 +159,7 @@ public class JobmonRunner {
                     lastUpdateTime = System.currentTimeMillis();
                     job = jobMonClient.updateRun(job);
                 }
-                // Check if job status has a request to stop 
+                // Check if job status has a request to stop, and signal the running job to stop.
                 if (job.getStopRequest() != null && job.getStopRequest())
                     r.stop();
             } catch (Throwable t) {
