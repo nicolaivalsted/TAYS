@@ -5,7 +5,6 @@
 package dk.yousee.randy.jobmon.runner;
 
 import dk.yousee.randy.jobmon.runner.JobmonRunner.DefaultJobmonRunnable;
-import dk.yousee.randy.jobmon.runner.JobmonRunner.JobmonRunnable;
 import dk.yousee.randy.jobmon.runner.JobmonRunner.ProgressCallback;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -99,6 +98,10 @@ public class DBExtractor {
         private final ExtractorIntf dbw;
         private ProgressCallback progressCallback;
 
+        /**
+         * Create a ProgressReportingExtractor with a default do-nothing progress-reporting functions.
+         * @param dbw 
+         */
         public ProgressReportingExtractor(ExtractorIntf dbw) {
             this(dbw, new ProgressCallback() {
                 @Override
@@ -120,6 +123,10 @@ public class DBExtractor {
             this.progressCallback = progressCallback;
         }
 
+        /**
+         * Late binding of the progress reporter
+         * @param pcb 
+         */
         public void setProgress(ProgressCallback pcb) {
             progressCallback = pcb;
         }
