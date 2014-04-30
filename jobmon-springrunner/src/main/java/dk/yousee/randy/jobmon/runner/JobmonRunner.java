@@ -43,7 +43,7 @@ public class JobmonRunner {
      * @return the jobmon job created or the existing jobmon job already
      * executing
      */
-    public Response jobmonAsyncRunner(final String jobName, long expectedRuntime, final JobmonRunnable run) {
+    public Response.ResponseBuilder jobmonAsyncRunner(final String jobName, long expectedRuntime, final JobmonRunnable run) {
         try {
             Response.ResponseBuilder res;
             // find job in jobmon
@@ -78,10 +78,10 @@ public class JobmonRunner {
                 res = Response.ok();
             }
             // return jobInfo for the existing running or the newly started jobmon run
-            return res.entity(latestJob).build();
+            return res.entity(latestJob);
         } catch (RestException se) {
             log.error("Backend error: ", se);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new Message("Error " + se.getMessage())).build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new Message("Error " + se.getMessage()));
         }
     }
 

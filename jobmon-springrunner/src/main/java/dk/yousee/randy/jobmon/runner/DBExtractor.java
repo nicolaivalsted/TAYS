@@ -70,7 +70,7 @@ public class DBExtractor {
      * @param dbw destination writing function
      * @return the job created or the existing job running
      */
-    public Response jobmonAsyncExtract(String jobName, long expectedRuntime, final ExtractorIntf extractor) {
+    public Response.ResponseBuilder jobmonAsyncExtract(String jobName, long expectedRuntime, final ExtractorIntf extractor) {
         return jobmonRun.jobmonAsyncRunner(jobName, expectedRuntime, new ProgressReportingExtractor(extractor));
     }
 
@@ -80,11 +80,11 @@ public class DBExtractor {
      * @param extractor extracting function
      * @return the job created or the existing job running
      */
-    public Response syncExtract(final ExtractorIntf extractor) {
+    public Response.ResponseBuilder syncExtract(final ExtractorIntf extractor) {
         Response.ResponseBuilder res;
         extractor.runExtract(new ProgressReportingExtractor(extractor));
         res = Response.status(Response.Status.CREATED);
-        return res.build();
+        return res;
     }
 
     /**
