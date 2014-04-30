@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>dk.yousee.randy</groupId>
 		<artifactId>clients</artifactId>
-		<version>3.73</version>
+		<version>3.74-SNAPSHOT</version>
 	</parent>
 	<groupId>dk.yousee.randy</groupId>
 	<artifactId>hornetq-client</artifactId>
