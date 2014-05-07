@@ -61,6 +61,7 @@ public class JobmonRunner {
                         progressCallback = new JobmonProgressCallback(job, this);
                         try {
                             run.run(progressCallback);
+                            progressCallback.done("Completed without failure");
                         } catch (Exception e) {
                             log.warn("Exception running " + jobName, e);
                             progressCallback.fail(e.getMessage());
@@ -139,7 +140,7 @@ public class JobmonRunner {
          */
         private final StoppableRunnable r;
         private volatile RunningJobVo job;
-        private volatile boolean failCalled = false;
+        private volatile boolean failCalled = false, doneCalled = false;
         private long lastUpdateTime = 0;
 
         public JobmonProgressCallback(RunningJobVo job, StoppableRunnable r) {
@@ -149,7 +150,7 @@ public class JobmonRunner {
 
         @Override
         public synchronized void updateProgress(String progress) {
-            if (failCalled)
+            if (failCalled || doneCalled)
                 return;
             try {
                 job.setState(JobState.RUNNING);
@@ -169,8 +170,9 @@ public class JobmonRunner {
 
         @Override
         public synchronized void done(String progress) {
-            if (failCalled)
+            if (failCalled || doneCalled)
                 return;
+            doneCalled = true;
             job.setState(JobState.DONE);
             job.setStatus(progress);
             job.setProgress(progress);
@@ -183,6 +185,8 @@ public class JobmonRunner {
 
         @Override
         public synchronized void fail(String progress) {
+            if (failCalled || doneCalled)
+                return;
             failCalled = true;
             job.setState(JobState.FAIL);
             job.setStatus(progress);
