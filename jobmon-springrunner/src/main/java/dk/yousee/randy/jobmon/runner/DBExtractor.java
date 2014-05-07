@@ -99,8 +99,10 @@ public class DBExtractor {
         private ProgressCallback progressCallback;
 
         /**
-         * Create a ProgressReportingExtractor with a default do-nothing progress-reporting functions.
-         * @param dbw 
+         * Create a ProgressReportingExtractor with a default do-nothing
+         * progress-reporting functions.
+         *
+         * @param dbw
          */
         public ProgressReportingExtractor(ExtractorIntf dbw) {
             this(dbw, new ProgressCallback() {
@@ -125,7 +127,8 @@ public class DBExtractor {
 
         /**
          * Late binding of the progress reporter
-         * @param pcb 
+         *
+         * @param pcb
          */
         public void setProgress(ProgressCallback pcb) {
             progressCallback = pcb;
@@ -141,6 +144,7 @@ public class DBExtractor {
                     rows++;
                     progressCallback.updateProgress("Inserted " + rows + " rows");
                 }
+                dbw.done();
             } catch (Exception e) {
                 progressCallback.fail(e.getMessage() + " " + rows + " rows");
                 log.warn("Job terminated due to uncaught exception time=" + (System.currentTimeMillis() - start));
