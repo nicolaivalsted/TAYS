@@ -11,11 +11,17 @@ import com.google.gson.JsonObject;
  */
 public class VoucherResponse {
 
+	/** Retur XML fra voucher system */
     String xml;
+    /** Retur kode fra voucher system */
     int code;
+    /** reference fra input kald */
     String clientReference;
+    /** Beskrivelse af status kode */
     String description;
+    /** Sessions id */
     String session_id;
+    /** Fejl tekst hvis kommunikation fejlede mod voucher system */
     String error=null;
 
     public VoucherResponse(String error, String description) {
