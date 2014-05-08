@@ -10,6 +10,7 @@ import dk.yousee.randy.jobmonclient.JobState;
 import dk.yousee.randy.jobmonclient.RestException;
 import dk.yousee.randy.jobmonclient.RunningJobVo;
 import dk.yousee.tays.bbservice.restbase.Message;
+import java.util.Date;
 import java.util.List;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.Logger;
@@ -176,6 +177,7 @@ public class JobmonRunner {
             job.setState(JobState.DONE);
             job.setStatus(progress);
             job.setProgress(progress);
+            job.setEndtime(new Date());
             try {
                 jobMonClient.updateRun(job);
             } catch (Throwable ex) {
