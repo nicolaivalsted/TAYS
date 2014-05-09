@@ -145,7 +145,7 @@ public class DBExtractor {
                     progressCallback.updateProgress("Inserted " + rows + " rows");
                 }
                 dbw.done();
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 progressCallback.fail(e.getMessage() + " " + rows + " rows");
                 log.warn("Job terminated due to uncaught exception time=" + (System.currentTimeMillis() - start));
                 throw new RuntimeException("Job terminated due to uncaught exception", e);
