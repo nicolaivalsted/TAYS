@@ -23,12 +23,13 @@ public class GraphiteConnection {
     public GraphiteConnection(InetAddress host, int port) throws IOException {
         graphiteSocket = new Socket();
         graphiteSocket.connect(new InetSocketAddress(host, port), timeoutMillis);
-        graphite = new DataOutputStream(graphiteSocket.getOutputStream());
+        graphite = new DataOutputStream(graphiteSocket.getOutputStream());        
     }
 
     public void sendData(String graph, double data) throws IOException {
         long timestamp = (new Date()).getTime() / 1000;
-        graphite.writeBytes(graph + " " + data + " " + timestamp + '\n');
+        String msg = graph + " " + data + " " + timestamp + '\n';        
+        graphite.write(msg.getBytes("UTF-8"));
     }
 
     public void close() throws IOException {
