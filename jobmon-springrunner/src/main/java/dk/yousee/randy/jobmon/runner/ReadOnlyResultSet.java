@@ -27,9 +27,13 @@ import java.util.Calendar;
 import java.util.Map;
 
 /**
- * ReadOnlyResultSet wrapper so we can guarantee in the callbacks to DBExtractor.ExtractorIntf that
- * the callee does not close() or call next() in the handleRow method. All methods are just 
- * wrapper methods except next() and close() which both throw a RuntimeException
+ * ReadOnlyResultSet wrapper so we can guarantee in the callbacks to
+ * DBExtractor.ExtractorIntf that the callee does not close() or call next() in
+ * the handleRow method. All methods are just wrapper methods except next() and
+ * close() which both throw a RuntimeException
+ * <p>
+ * This is not compatible with java 1.7, java 1.7 has additional methods on ResultSet
+ *
  * @author Jacob Lorensen, TDC, March 2014
  */
 public class ReadOnlyResultSet implements ResultSet {
