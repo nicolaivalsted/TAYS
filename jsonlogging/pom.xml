@@ -28,7 +28,7 @@
         <dependency>
             <groupId>dk.yousee.randy</groupId>
             <artifactId>macaddress</artifactId>
-            <version>3.50</version>
+            <version>${project.version}</version>
         </dependency>
         <!-- testing -->
         <dependency>
@@ -40,16 +40,10 @@
 
         <!-- jersey rest for spring -->
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-server</artifactId>
-            <version>1.17.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.sun.jersey.contribs</groupId>
             <artifactId>jersey-spring</artifactId>
             <version>1.17.1</version>
         </dependency>
-        
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
