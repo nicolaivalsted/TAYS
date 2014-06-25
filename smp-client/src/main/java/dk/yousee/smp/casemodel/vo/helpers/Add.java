@@ -1,7 +1,5 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
-import java.util.UUID;
-
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
@@ -30,11 +28,13 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
+import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
+import java.util.UUID;
 
 /**
  * Created by IntelliJ IDEA.
@@ -447,5 +447,8 @@ public class Add {
     public TdcMailResource tdcMailResource(TdcMailService tdcMailService) {
         return new TdcMailResource(model, model.key().generateUUID(), tdcMailService);
     }
-
+    
+     public Mofibo Mofibo(BusinessPosition position) {
+        return new Mofibo(model,position);
+    }
 }

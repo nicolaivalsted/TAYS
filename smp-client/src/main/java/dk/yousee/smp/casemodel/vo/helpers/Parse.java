@@ -31,6 +31,8 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
+import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
+import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
@@ -184,6 +186,13 @@ public class Parse {
                 for(ResponseEntity child : plan.getEntities()) {
                     if(child.getType().equals(Backup.TYPE)) {
                         new Backup(model, child.getExternalKey(), service);
+                    }
+                }
+            } else if (plan.getType().equals(MofiboService.TYPE)) {
+                MofiboService service = new MofiboService(model, plan.getExternalKey());
+                for(ResponseEntity child : plan.getEntities()){
+                    if (child.getType().equals(Mofibo.TYPE)) {
+                        new Mofibo(model, child.getExternalKey(), service);
                     }
                 }
             } else{

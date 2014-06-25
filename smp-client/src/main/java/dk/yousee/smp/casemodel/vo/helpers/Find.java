@@ -37,6 +37,8 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
+import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
+import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
@@ -851,5 +853,34 @@ public class Find {
     public TdcMail tdcMail(BusinessPosition businessPosition) {
         TdcMailService parent = tdcMailService(businessPosition);
         return parent!=null?parent.getTdcMail():null;
+    }
+    
+    
+    // ======= Mofibo =======
+
+    public List<MofiboService> mofiboService() {
+        List<MofiboService> res = new ArrayList<MofiboService>();
+        for(BasicUnit plan : serviceLevelUnit) {
+            if(plan.getType().equals(MofiboService.TYPE)) {
+                res.add((MofiboService) plan);
+            }
+        }
+        
+        return res;
+    }
+    
+    public MofiboService mofiboService(BusinessPosition businessPosition) {
+        List<MofiboService> plans = mofiboService();
+        for(MofiboService plan : plans) {
+            if(businessPosition.equals(plan.getPosition())) {
+                return plan;
+            }
+        }        
+        return null;
+    }
+    
+    public Mofibo mofibo(BusinessPosition businessPosition) {
+        MofiboService parent = mofiboService(businessPosition);
+        return parent!=null?parent.getMofibo():null;
     }
 }

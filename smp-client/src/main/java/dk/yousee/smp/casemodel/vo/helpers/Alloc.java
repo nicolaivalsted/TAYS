@@ -22,6 +22,7 @@ import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
+import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
 import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
@@ -375,5 +376,14 @@ public class Alloc {
     
     public TdcMailResource tdcMailResource(TdcMailService service) {
        return service.getTdcMailResource()==null ? add.tdcMailResource(service) : service.getTdcMailResource();
+    }
+    
+    /**
+     * @param position to service
+     * @return new instance
+     */
+    public Mofibo Mofibo(BusinessPosition position) {
+        Mofibo sub=find.mofibo(position);
+        return sub==null?add.Mofibo(position):sub;
     }
 }
