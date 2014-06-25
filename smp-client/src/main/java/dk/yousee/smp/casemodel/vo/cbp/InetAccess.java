@@ -11,22 +11,18 @@ import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
 
-
 /**
- * Created by IntelliJ IDEA.
- * User: m14857
- * Date: Oct 12, 2010
- * Time: 3:49:28 PM
- * Value object for Internet Access
- * Data structure reference to YouSee Data Migration Requirements: 5.5.1 Internet Access
+ * Created by IntelliJ IDEA. User: m14857 Date: Oct 12, 2010 Time: 3:49:28 PM
+ * Value object for Internet Access Data structure reference to YouSee Data
+ * Migration Requirements: 5.5.1 Internet Access
  */
 public class InetAccess extends BasicUnit {
 
     public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"internet_access");
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "internet_access");
 
     public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
-        super(model, externalKey, TYPE, LEVEL,null, parent);
+        super(model, externalKey, TYPE, LEVEL, null, parent);
         parent.setInetAccess(this);
         broadband_service_id.updateValue(externalKey);
     }
@@ -36,12 +32,12 @@ public class InetAccess extends BasicUnit {
      */
     public static final String BUSINESS_POSITION = "business_position";
     /**
-     * identifier that identify the subscribers modem among all the modems the subscriber has.
-     * Field value can be "1", "2" etc. It is only required to be unique for the subscriber.
-     * So two different subscribers can both have position called "1"
-     * The objective is to manage relation to CRM subscription.
-     * This is an instance key to service plan. It is normally never modified.
-     * YouSee will fill in modem_id / aftale Nr / ... tbd.
+     * identifier that identify the subscribers modem among all the modems the
+     * subscriber has. Field value can be "1", "2" etc. It is only required to
+     * be unique for the subscriber. So two different subscribers can both have
+     * position called "1" The objective is to manage relation to CRM
+     * subscription. This is an instance key to service plan. It is normally
+     * never modified. YouSee will fill in modem_id / aftale Nr / ... tbd.
      */
     public PropHolder business_position = new PropHolder(this, BUSINESS_POSITION);
 
@@ -53,12 +49,11 @@ public class InetAccess extends BasicUnit {
      */
     public static final String MODEM_ACTIVATION_CODE = "modem_activation_code";
     /**
-     * Pin code that customer must enter to activate modem.
-     * For YouSee this is the old classic "modem_id".
-     * For whole sale this value is generated in Gaia.
+     * Pin code that customer must enter to activate modem. For YouSee this is
+     * the old classic "modem_id". For whole sale this value is generated in
+     * Gaia.
      */
     protected PropHolder modem_activation_code = new PropHolder(this, MODEM_ACTIVATION_CODE);
-
 
     /**
      * Identifier for BACC account, and reference for VOICE media gateway
@@ -67,7 +62,9 @@ public class InetAccess extends BasicUnit {
     private PropHolder modem_id = new PropHolder(this, "modem_id");
 
     /**
-     * Reads the assigned modemId from field modem_id or from external key if modem_id is not assigned yet
+     * Reads the assigned modemId from field modem_id or from external key if
+     * modem_id is not assigned yet
+     *
      * @return modemId
      */
     public ModemId getModemId() {
@@ -80,10 +77,11 @@ public class InetAccess extends BasicUnit {
 
     /**
      * Assign modemId to servicePlan
+     *
      * @param modemId in cannot be null
      */
     public void setModemId(ModemId modemId) {
-        if(modemId==null){
+        if (modemId == null) {
             throw new IllegalArgumentException("ModemId can never be null on InetAccess, it is the primary key to BB-service");
         } else {
             modem_id.setValue(modemId.getId());
@@ -95,8 +93,7 @@ public class InetAccess extends BasicUnit {
      */
     public static final String RATE_CODES = "rate_codes";
     /**
-     * Reference to rate for modem.
-     * Key to rate table in SMP
+     * Reference to rate for modem. Key to rate table in SMP
      */
     public PropHolder rate_codes = new PropHolder(this, RATE_CODES, true);
     /**
@@ -120,19 +117,21 @@ public class InetAccess extends BasicUnit {
     public PropHolder upstream_bonding_enabled = new PropHolder(this, "upstream_bonding_enabled");
     public PropHolder upstream_channel_bonding = new PropHolder(this, "upstream_channel_bonding");
     public PropHolder cisco_sm_package_id = new PropHolder(this, "cisco_sm_package_id");
+    public PropHolder downstream = new PropHolder(this, "downstream_speed");
+    public PropHolder upstream = new PropHolder(this, "upstream_speed");
 
     /**
-     * Method to return activation code, will return modemId if property is missing
+     * Method to return activation code, will return modemId if property is
+     * missing
      * <p>
      * BB's from Casper / Kasia uses modemId as self activation code.<br/>
-     * BB from M5 uses a PIN code like activation code that has nothing to do with modemId
-     * From ASU this tweak is hidden by this method.<
-     * </p>
-     * <p>
+     * BB from M5 uses a PIN code like activation code that has nothing to do
+     * with modemId From ASU this tweak is hidden by this method.< </p> <p>
      * This method will return modem_activation_code from property if it exists
      * Otherwise it will return modemId
      * </p>
-     * ASU can use this one to validate users  / authentication in stead of assuming it is modemId
+     * ASU can use this one to validate users / authentication in stead of
+     * assuming it is modemId
      *
      * @return modem activation code. (PIN code)
      */
@@ -147,10 +146,10 @@ public class InetAccess extends BasicUnit {
     /**
      * Assign activation code
      *
-     * @param modemActivationCode to become PIN - null values are ignored
-     *                            (there fore it legal to send a null)
-     *                            Null will be the case in the intermediate faces before all software uses
-     *                            modemActivationCode to express this situation
+     * @param modemActivationCode to become PIN - null values are ignored (there
+     * fore it legal to send a null) Null will be the case in the intermediate
+     * faces before all software uses modemActivationCode to express this
+     * situation
      */
     public void setModemActivationCode(String modemActivationCode) {
         if (modemActivationCode != null) {
@@ -166,7 +165,6 @@ public class InetAccess extends BasicUnit {
     public boolean isModemActivationCodeUsed() {
         return modem_activation_code.hasValue();
     }
-
 
     public CableBBService getParent() {
         return (CableBBService) super.getParent();
