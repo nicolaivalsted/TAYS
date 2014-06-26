@@ -10,3 +10,4 @@ logs
 target/
 /.settings
 /.project
+/nb-configuration.xml
