@@ -26,6 +26,7 @@ public enum Type {
     Mta("SubSvcSpec:smp_emta_pc_voip_access"),
     CWiFi("SubSvcSpec:community_wifi"),
     Backup("SubSvcSpec:backup"),
+    Mofibo("SubSvcSpec:mofibo_composed"),
     Sikkerhedspakke("SubSvcSpec:security_package");
     
     private String smp_type;
