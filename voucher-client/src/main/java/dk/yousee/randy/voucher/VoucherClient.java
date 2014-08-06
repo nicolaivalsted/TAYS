@@ -58,7 +58,7 @@ public class VoucherClient {
         try {
             return innerConsume(request);
         } catch (Exception e) {
-            return new VoucherResponse("Failed2access", e.getMessage());
+            return new VoucherResponse("Failed2access " + voucherHost, e.getMessage());
         }
     }
 
