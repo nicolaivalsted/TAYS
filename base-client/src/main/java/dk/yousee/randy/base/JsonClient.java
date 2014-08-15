@@ -11,6 +11,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -26,7 +27,7 @@ import org.apache.log4j.Logger;
  */
 public class JsonClient {
     private Logger logger;
-    private HttpPool httpPool;
+    private final HttpPool httpPool;
 
     public JsonClient(Logger logger, HttpPool httpPool) {
         this.logger = logger;
@@ -74,7 +75,7 @@ public class JsonClient {
      * @return JsonObject obtained from GETing the URI
      * @throws RestClientException
      */
-    public JsonElement postUri(URI uri, JsonObject doc) throws RestClientException{
+    public JsonElement postUri(URI uri, JsonElement doc) throws RestClientException{
         return postUri(uri, doc, 5000);
     }
 
@@ -86,7 +87,7 @@ public class JsonClient {
      * @return JsonObject obtained from GETing the URI
      * @throws RestClientException
      */
-    public JsonElement postUri(URI uri, JsonObject doc, int timeout) throws RestClientException {
+    public JsonElement postUri(URI uri, JsonElement doc, int timeout) throws RestClientException {
         HttpEntity entity = null;
         try {           
             CloseableHttpClient client = httpPool.getClient(RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout).build());
@@ -121,10 +122,11 @@ public class JsonClient {
      *
      * @param uri
      * @param doc
+     * @param timeout
      * @return JsonObject obtained from GETing the URI
      * @throws RestClientException
      */
-    public JsonElement putUri(URI uri, JsonObject doc, int timeout) throws RestClientException {
+    public JsonElement putUri(URI uri, JsonElement doc, int timeout) throws RestClientException {
         HttpEntity entity = null;
         try {
             CloseableHttpClient client = httpPool.getClient(RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout).build());            
@@ -136,6 +138,31 @@ public class JsonClient {
             putDocument = new StringEntity(s);
             put.setEntity(putDocument);
             HttpResponse response = client.execute(put);
+            entity = response.getEntity();
+            int status = response.getStatusLine().getStatusCode();
+            logger.debug("Uri: " + uri.toString() + " status: " + status);
+            if (status == HttpStatus.SC_OK)
+                return new JsonParser().parse(new InputStreamReader(entity.getContent(), Charset.forName("UTF-8")));
+            if (logger.isDebugEnabled())
+                logger.debug("error response: " + EntityUtils.toString(entity, Charset.forName("UTF-8")));
+            throw new RestClientException(status, EntityUtils.toString(entity));
+        } catch (IOException ex) {
+            logger.error(ex.getMessage(), ex);
+            throw new RestClientException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Service Down");
+        } finally {
+            EntityUtils.consumeQuietly(entity);
+        }
+    }
+    
+    public JsonElement deleteUri(URI uri, int timeout) throws RestClientException {
+        HttpEntity entity = null;
+        try {
+            CloseableHttpClient client = httpPool.getClient(RequestConfig.custom().setSocketTimeout(timeout).setConnectTimeout(timeout).build());            
+            HttpDelete delete = new HttpDelete(uri);
+            delete.setHeader("accept", "application/json");
+            delete.setHeader("Content-Type", "application/json");
+
+            HttpResponse response = client.execute(delete);
             entity = response.getEntity();
             int status = response.getStatusLine().getStatusCode();
             logger.debug("Uri: " + uri.toString() + " status: " + status);
