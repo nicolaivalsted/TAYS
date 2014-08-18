@@ -1,7 +1,6 @@
 package dk.yousee.randy.base;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -27,8 +26,16 @@ import org.apache.log4j.Logger;
  */
 public class JsonClient {
     private Logger logger;
-    private final HttpPool httpPool;
+    private HttpPool httpPool;
 
+    public void setHttpPool(HttpPool httpPool) {
+        this.httpPool = httpPool;
+    }
+    
+    public JsonClient(Logger logger) {
+        this.logger = logger;
+    }
+    
     public JsonClient(Logger logger, HttpPool httpPool) {
         this.logger = logger;
         this.httpPool = httpPool;
@@ -56,9 +63,10 @@ public class JsonClient {
             logger.debug("Uri: " + uri.toString() + " status: " + status);
             if (status == HttpStatus.SC_OK)
                 return new JsonParser().parse(new InputStreamReader(entity.getContent(), Charset.forName("UTF-8")));
+             String res =  EntityUtils.toString(entity, Charset.forName("UTF-8"));
             if (logger.isDebugEnabled())
-                logger.debug("error response: " + EntityUtils.toString(entity, Charset.forName("UTF-8")));
-            throw new RestClientException(status, EntityUtils.toString(entity));
+                logger.debug("error response: " + res);
+            throw new RestClientException(status, res);
         } catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
             throw new RestClientException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Service Down");
@@ -105,9 +113,11 @@ public class JsonClient {
             logger.debug("Uri: " + uri.toString() + " status: " + status);
             if (status == HttpStatus.SC_CREATED || status == HttpStatus.SC_OK)
                 return new JsonParser().parse(new InputStreamReader(entity.getContent(), Charset.forName("UTF-8")));
+            
+            String res =  EntityUtils.toString(entity, Charset.forName("UTF-8"));
             if (logger.isDebugEnabled())
-                logger.debug("error response: " + EntityUtils.toString(entity, Charset.forName("UTF-8")));
-            throw new RestClientException(status, EntityUtils.toString(entity));
+                logger.debug("error response: " + res);
+            throw new RestClientException(status, res);
         } catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
             throw new RestClientException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Service Down");
@@ -143,9 +153,10 @@ public class JsonClient {
             logger.debug("Uri: " + uri.toString() + " status: " + status);
             if (status == HttpStatus.SC_OK)
                 return new JsonParser().parse(new InputStreamReader(entity.getContent(), Charset.forName("UTF-8")));
+             String res =  EntityUtils.toString(entity, Charset.forName("UTF-8"));
             if (logger.isDebugEnabled())
-                logger.debug("error response: " + EntityUtils.toString(entity, Charset.forName("UTF-8")));
-            throw new RestClientException(status, EntityUtils.toString(entity));
+                logger.debug("error response: " + res);
+            throw new RestClientException(status, res);
         } catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
             throw new RestClientException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Service Down");
@@ -168,9 +179,10 @@ public class JsonClient {
             logger.debug("Uri: " + uri.toString() + " status: " + status);
             if (status == HttpStatus.SC_OK)
                 return new JsonParser().parse(new InputStreamReader(entity.getContent(), Charset.forName("UTF-8")));
+             String res =  EntityUtils.toString(entity, Charset.forName("UTF-8"));
             if (logger.isDebugEnabled())
-                logger.debug("error response: " + EntityUtils.toString(entity, Charset.forName("UTF-8")));
-            throw new RestClientException(status, EntityUtils.toString(entity));
+                logger.debug("error response: " + res);
+            throw new RestClientException(status, res);
         } catch (IOException ex) {
             logger.error(ex.getMessage(), ex);
             throw new RestClientException(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Service Down");
