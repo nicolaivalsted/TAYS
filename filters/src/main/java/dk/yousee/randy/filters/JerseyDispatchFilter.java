@@ -1,6 +1,8 @@
 package dk.yousee.randy.filters;
 
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -112,7 +114,11 @@ public class JerseyDispatchFilter implements Filter {
             req.addHeader(originHeaderName, originalContextUrl);
             req.addHeader(rewrittenUrlPrefixHeaderName, originalContextUrl + jerseyPrefix);
             log.log(Level.FINE, "JerseyFilter dispatching to {0}", jerseyTarget);
-            RequestDispatcher requestDispatcher = req.getRequestDispatcher(jerseyTarget);
+            // Tays-2240 - urls with spaces don't work. URLEncode.encode(...) didn't either, 'cause we don't want to encode "/"
+            // All other characters seem to work fine even if they have been decoded at this stage. Thus, this little hack:
+            // Re-encode spaces to %20
+            String encoded = jerseyTarget.replace(" ", "%20");
+            RequestDispatcher requestDispatcher = req.getRequestDispatcher(encoded);
             requestDispatcher.forward(req, resp);
         } else {
             log.fine("Jersey filter defaulted to default servlet");
