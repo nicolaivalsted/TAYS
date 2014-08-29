@@ -24,6 +24,7 @@
     </properties>
 
     <modules>
+        <module>tomcat-filters</module>
         <module>filters</module>
         <module>jsonlogging</module>
         <module>base-client</module>

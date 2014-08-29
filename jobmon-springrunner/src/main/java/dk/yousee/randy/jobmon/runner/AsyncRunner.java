@@ -1,18 +1,17 @@
 package dk.yousee.randy.jobmon.runner;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PreDestroy;
 import org.apache.log4j.Logger;
-
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AsyncRunner {
     private static final Logger log = Logger.getLogger(AsyncRunner.class);
-    private final List<StoppableRunnable> activeJobs = Collections.synchronizedList(new ArrayList());
+    private final List<StoppableRunnable> activeJobs = Collections.synchronizedList(new LinkedList());
 
     /**
      * Run a runnable on an Async thread.
@@ -39,13 +38,14 @@ public class AsyncRunner {
         void stop();
     }
 
-    public abstract static class Stoppable implements Runnable {
+    public abstract static class Stoppable implements StoppableRunnable {
         private volatile boolean stop = false;
 
         protected synchronized boolean isStop() {
             return stop;
         }
 
+        @Override
         public synchronized void stop() {
             stop = true;
         }
