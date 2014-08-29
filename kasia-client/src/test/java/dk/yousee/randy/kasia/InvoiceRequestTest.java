@@ -24,9 +24,9 @@ public class InvoiceRequestTest {
     }
 
     @Test
-    public void createBuyKlippekortWithPrice() throws Exception {
-        String s = InvoiceRequest.createBuyKlippekortWithPrice("612345678", InvoiceRequest.SALES_ITEM_BUY_KLIPPEKORT, "user", "system", "42.00", "buy-klippekort").printJson().toString();
-        Assert.assertEquals("{\"kundeid\":\"612345678\",\"handlinger\":[{\"handling\":\"OPRET\",\"varenr\":\"2800002\",\"pris\":\"42.00\"}],\"info\":{\"salgskanal\":\"W\",\"klient-funktion\":\"buy-klippekort\",\"klient-bruger\":\"user\",\"klient-system\":\"system\"}}", s);
+    public void createBuyClipcardWithPrice() throws Exception {
+        String s = InvoiceRequest.createBuyClipcardWithPrice("612345678", InvoiceRequest.SALES_ITEM_BUY_CLIPCARD, "user", "system", "42.00", "buy-clipcard").printJson().toString();
+        Assert.assertEquals("{\"kundeid\":\"612345678\",\"handlinger\":[{\"handling\":\"OPRET\",\"varenr\":\"2800002\",\"pris\":\"42.00\"}],\"info\":{\"salgskanal\":\"W\",\"klient-funktion\":\"buy-clipcard\",\"klient-bruger\":\"user\",\"klient-system\":\"system\"}}", s);
     }
 
 }

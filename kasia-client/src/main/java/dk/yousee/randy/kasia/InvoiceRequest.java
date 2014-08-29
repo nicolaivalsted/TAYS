@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 public class InvoiceRequest {
 
     public static final String SALES_ITEM_RENT_MOVIE = "2800001";
-    public static final String SALES_ITEM_BUY_KLIPPEKORT = "2800002";
+    public static final String SALES_ITEM_BUY_CLIPCARD = "2800002";
     public static final String SALES_ITEM_BUY_MOVIE = "2800003";
 
     private String customer;
@@ -58,7 +58,7 @@ public class InvoiceRequest {
         return new InvoiceRequest(customer, salesItem, title, user, system, vodId, price, klientFunktion, "W");
     }
 
-    public static InvoiceRequest createBuyKlippekortWithPrice(String customer, String salesItem, String user, String system, String price, String klientFunktion) {
+    public static InvoiceRequest createBuyClipcardWithPrice(String customer, String salesItem, String user, String system, String price, String klientFunktion) {
         // no "title" nor "vodk-id" for this..
         return new InvoiceRequest(customer, salesItem, null, user, system, null, price, klientFunktion, "W");
     }
@@ -72,7 +72,7 @@ public class InvoiceRequest {
         handling.addProperty("handling", "OPRET");
         handling.addProperty("varenr", salesItem);
 
-        // "title" and "vodk-id" not present on buy-klippekort
+        // "title" and "vodk-id" not present on buy-clipcard
         if (title != null && !"".equals(title)) {
             handling.addProperty("title", title);
         }
