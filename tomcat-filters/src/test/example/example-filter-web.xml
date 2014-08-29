@@ -6,89 +6,30 @@
         </session-timeout>
     </session-config>
 
-    <!-- Define and configure the dispatching filter, that filters incoming requests directing them
-         to either Jersey servlet or the default servlet. -->
     <filter>
-        <filter-name>jerseydispatcher</filter-name>
-        <filter-class>dk.yousee.randy.filters.JerseyDispatchFilter</filter-class>
-        <!-- Any url ending in a .well-known-file-extension is directed to default servlet -->
+        <filter-name>requestThrottlingFilter</filter-name>
+        <filter-class>dk.yousee.randy.filters.ThrottlingFilter</filter-class>
         <init-param>
-            <param-name>static-resource-regexp-1</param-name>
-            <param-value>.*(\.html|\.htm|\.png|\.gif|\.jpg|\.css|\.js|\.jsp)$</param-value>
+            <param-name>default-request-limit</param-name>
+            <param-value>8</param-value>
         </init-param>
-        <!-- A url starting in the /doc, /static, or /html directories goes to the default servlet -->
         <init-param>
-            <param-name>static-resource-regexp-2</param-name>
-            <param-value>^(/doc|/static|/html).*</param-value>
+            <param-name>/accessnet</param-name>
+            <param-value>16</param-value>
         </init-param>
-        <!-- Let the top-level empty url / go to the default servlet -->
         <init-param>
-            <param-name>static-resource-regexp-3</param-name>
-            <param-value>^/$</param-value>
+            <param-name>/tays</param-name>
+            <param-value>24</param-value>
         </init-param>
-        <!-- Regexp matching resoruces that should map to the jersey servlet; here: any resource -->
         <init-param>
-            <param-name>jersey-resource-regexp-1</param-name>
-            <param-value>^/.*</param-value>
-        </init-param>
-        <!-- Jersey servlet resources get this path prepended after the root context -->
-        <init-param>
-            <param-name>jersey-resource-prefix</param-name>
-            <param-value>/rest</param-value>
-        </init-param>
-        <!-- Where to store the original url -->
-        <init-param>
-            <param-name>original-url-prefix-header-name</param-name>
-            <param-value>X-Original-Url-Prefix</param-value>
-        </init-param>
-        <!-- Where to store the rewritten url -->
-        <init-param>
-            <param-name>rewritten-url-prefix-header-name</param-name>
-            <param-value>X-Rewritten-Url-Prefix</param-value>
+            <param-name>/cmts</param-name>
+            <param-value>16</param-value>
         </init-param>
     </filter>
-
-    <!-- Configure the outgoing url rewriting filter -->
-    <filter>
-        <filter-name>json-url-rewriter</filter-name>
-        <filter-class>dk.yousee.randy.filters.JSONUrlRewriter</filter-class>
-        <!-- Header that holds the original url that we should rewrite TO -->
-        <init-param>
-            <param-name>origin-url-prefix-header-name</param-name>
-            <param-value>X-Original-Url-Prefix</param-value>
-        </init-param>
-        <!-- header that holds the url that needs to be rewritten (search for) -->
-        <init-param>
-            <param-name>rewritten-url-prefix-header-name</param-name>
-            <param-value>X-Rewritten-Url-Prefix</param-value>
-        </init-param>
-    </filter>
-
-    <!-- Map the dispatching filter to all urls -->
     <filter-mapping>
-        <filter-name>jerseydispatcher</filter-name>
+        <filter-name>requestThrottlingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- Map the url rewriter to the Jersey servlet -->
-    <filter-mapping>
-        <filter-name>json-url-rewriter</filter-name>
-        <servlet-name>JerseyRest</servlet-name>
-        <dispatcher>REQUEST</dispatcher>
-        <dispatcher>FORWARD</dispatcher>
-    </filter-mapping>
-    
-    <!-- Configure the jersey servlet on /rest corresponding to the configuration in the dispatcher filter above -->
-    <servlet>
-        <servlet-name>JerseyRest</servlet-name>
-        <servlet-class>
-            com.sun.jersey.spi.container.servlet.ServletContainer
-        </servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>JerseyRest</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-    </servlet-mapping>
 
 </web-app>
