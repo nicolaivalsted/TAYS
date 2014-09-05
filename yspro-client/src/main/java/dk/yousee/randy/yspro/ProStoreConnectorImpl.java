@@ -3,7 +3,6 @@ package dk.yousee.randy.yspro;
 import dk.yousee.randy.base.HttpPool;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.params.CoreConnectionPNames;
 
 /**
  * Created with IntelliJ IDEA. User: aka Date: 09/04/12 Time: 14.46 Class that
@@ -27,7 +26,7 @@ public class ProStoreConnectorImpl {
     }
 
     private volatile String handleId;
-
+    
     public ProStoreConnectorImpl(int socketTimeout, int connTimeout) {
         req = RequestConfig.custom().setSocketTimeout(socketTimeout).setConnectTimeout(connTimeout).build();
     }

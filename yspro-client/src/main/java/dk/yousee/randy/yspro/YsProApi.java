@@ -39,6 +39,7 @@ public class YsProApi {
     }
 
     public synchronized void getNewHandleId() throws YsProException {
+        LOG.debug("Getting new handle removeing old one: " + client.getHandleId());
         client.setHandleId(null);
         ensureHandle();
     }
@@ -49,7 +50,7 @@ public class YsProApi {
             uri = new URI(String.format("%s/GetHandle.php", client.getYsProHost()));
 
         } catch (URISyntaxException ex) {
-            throw new YsProException("URI syntax in getHandle");
+            throw new YsProException("URI syntax in getHandle",ex);
         }
         HttpPost post = new HttpPost(uri);
         List<NameValuePair> params = new ArrayList<NameValuePair>();
@@ -79,6 +80,7 @@ public class YsProApi {
                 String responseString = EntityUtils.toString(entity, "UTF-8");
 
                 ProStoreResponse proStoreResponse = new ProStoreResponse(responseString);
+                LOG.debug("ProStore response: " + proStoreResponse.toString());
                 if (proStoreResponse.getStatus() == 50) {
                     if (retry) {
                         getNewHandleId();
