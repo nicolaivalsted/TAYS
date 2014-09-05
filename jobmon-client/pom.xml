@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.86-SNAPSHOT</version>
+        <version>3.86</version>
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>jobmon-client</artifactId>
