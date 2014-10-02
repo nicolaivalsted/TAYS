@@ -45,4 +45,8 @@ public class YsProProduct {
     private static boolean blank(String product) {
         return product==null || product.trim().length()==0;
     }
+
+	public void setId(String productIdYspro, String id) {
+		this.id = id;
+	}
 }
