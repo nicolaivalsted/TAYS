@@ -96,7 +96,7 @@ public class BackupCase extends AbstractCase {
 		def.yspro_pcode.setValue(lineItem.getYsproPcode());
 		
 		Integer size = lineItem.getBackupSize();
-		def.backup_disk_size.setValue(size == null ? null : size.toString());
+		def.storage_size.setValue(size == null ? null : size.toString());
 
 		return getModel().getOrder();
 	}
@@ -226,7 +226,7 @@ public class BackupCase extends AbstractCase {
 			backup.business_position.setValue(data.getBusinessPosition().getId());
 		}
 		if (data.getBackupSize() != null) {
-			backup.backup_disk_size.setValue(data.getBackupSize().toString());
+			backup.storage_size.setValue(data.getBackupSize().toString());
 		}		
 		return getModel().getOrder();
 	}

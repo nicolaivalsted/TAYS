@@ -56,8 +56,8 @@ public class Backup extends BasicUnit {
 	public static final String YSPRO_PROVISIONINGID = "yspro_provisioningid";
 	public PropHolder yspro_provisioningid = new PropHolder(this, YSPRO_PROVISIONINGID, false);
 
-	public static final String BACKUP_DISK_SIZE = "cloudbackup_size";
-	public PropHolder backup_disk_size = new PropHolder(this, BACKUP_DISK_SIZE, false);
+	public static final String BACKUP_DISK_SIZE = "storage_size";
+	public PropHolder storage_size = new PropHolder(this, BACKUP_DISK_SIZE, false);
 	
     public static final String MODEM_ID = "modem_id";
     public PropHolder modem_id = new PropHolder(this, MODEM_ID, true);
