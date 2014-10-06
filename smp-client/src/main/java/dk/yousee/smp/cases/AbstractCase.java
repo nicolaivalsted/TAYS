@@ -62,7 +62,7 @@ public class AbstractCase {
     }
 
     /**
-     * Constructor with the customer account. - from other usec ase
+     * Constructor with the customer account. - from other use case
      *
      * @param model   the model coming from another use case
      * @param service the service to use to contact sigma
