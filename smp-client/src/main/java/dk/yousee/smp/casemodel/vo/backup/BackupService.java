@@ -33,7 +33,7 @@ public class BackupService extends BasicUnit {
         return getBackup() == null ? null : getBackup().getPosition();
     }
 
-    public ModemId getModemId() {
-        return getBackup() == null ? null : getBackup().getModemId();
-    }
+//    public ModemId getModemId() {
+//        return getBackup() == null ? null : getBackup().getModemId();
+//    }
 }

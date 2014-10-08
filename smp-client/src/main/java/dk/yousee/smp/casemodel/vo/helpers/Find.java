@@ -718,36 +718,36 @@ public class Find {
      * @param modemId identifier for specific instance of the service plan
      * @return list of found services
      */
-    public List<BackupService> BackupService(ModemId modemId) {
-        List<BackupService> services = new ArrayList<BackupService>();
-
-        if (modemId == null) {
-            return services;
-        }
-
-        List<BackupService> plans = BackupService();
-        for (BackupService plan : plans) {
-            if(modemId.equals(plan.getModemId())) {
-                services.add(plan);
-            }
-        }
-
-        return services;
-    }
+//    public List<BackupService> BackupService(ModemId modemId) {
+//        List<BackupService> services = new ArrayList<BackupService>();
+//
+//        if (modemId == null) {
+//            return services;
+//        }
+//
+//        List<BackupService> plans = BackupService();
+//        for (BackupService plan : plans) {
+//            if(modemId.equals(plan.getModemId())) {
+//                services.add(plan);
+//            }
+//        }
+//
+//        return services;
+//    }
 
     /**
      *
      * @param modemId to service
      * @return list of found items
      */
-    public List<Backup> Backup(ModemId modemId) {
-        List<Backup> backups = new ArrayList<Backup>();
-        List<BackupService> parent=BackupService(modemId);
-        for (BackupService service : parent) {
-            backups.add(service.getBackup());
-        }
-        return backups;
-    }
+//    public List<Backup> Backup(ModemId modemId) {
+//        List<Backup> backups = new ArrayList<Backup>();
+//        List<BackupService> parent=BackupService(modemId);
+//        for (BackupService service : parent) {
+//            backups.add(service.getBackup());
+//        }
+//        return backups;
+//    }
 
     // ======= Sikkerhedspakke =======
 

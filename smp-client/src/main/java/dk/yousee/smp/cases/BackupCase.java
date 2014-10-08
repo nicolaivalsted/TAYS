@@ -42,7 +42,7 @@ public class BackupCase extends AbstractCase {
 		private BusinessPosition businessPosition;
 		private String ysproPcode = "4020";
 		private Integer backupSize;
-		private String modemId;
+//		private String modemId;
 
 		public BackupData(BusinessPosition businessPosition) {
 			this.businessPosition = businessPosition;
@@ -60,13 +60,13 @@ public class BackupCase extends AbstractCase {
 			return ysproPcode;
 		}
 
-		public ModemId getModemId() {
-			return ModemId.create(modemId);
-		}
-
-		public void setModemId(ModemId modemId) {
-			this.modemId = modemId == null ? null : modemId.getId();
-		}
+//		public ModemId getModemId() {
+//			return ModemId.create(modemId);
+//		}
+//
+//		public void setModemId(ModemId modemId) {
+//			this.modemId = modemId == null ? null : modemId.getId();
+//		}
 
 		public Integer getBackupSize() {
 			return backupSize;
@@ -90,10 +90,10 @@ public class BackupCase extends AbstractCase {
 
 		Backup def = getModel().alloc().Backup(lineItem.getBusinessPosition());
 
-		ModemId modemId = lineItem.getModemId();
-		def.modem_id.setValue(modemId == null ? null : modemId.getId());
+//		ModemId modemId = lineItem.getModemId();
+//		def.modem_id.setValue(modemId == null ? null : modemId.getId());
 
-		def.yspro_pcode.setValue(lineItem.getYsproPcode());
+		def.yspro_product_code.setValue(lineItem.getYsproPcode());
 		
 		Integer size = lineItem.getBackupSize();
 		def.storage_size.setValue(size == null ? null : size.toString());
@@ -205,7 +205,7 @@ public class BackupCase extends AbstractCase {
 			BackupActivationData row = new BackupActivationData(service.getPosition());
 			Backup backup = service.getBackup();
 			if (backup != null) { // should never be null
-				row.setUuid(backup.yspro_provisioningid.getValue());
+				row.setUuid(backup.yspro_uuid.getValue());
 				row.setExternalKey(backup.getExternalKey());
 			} else {
 				row.setUuid("error");

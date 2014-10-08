@@ -43,22 +43,22 @@ public class Backup extends BasicUnit {
 		return BusinessPosition.create(business_position.getValue());
 	}
 
-	public ModemId getModemId() {
-		return ModemId.create(modem_id.getValue());
-	}
+	//	public ModemId getModemId() {
+	//		return ModemId.create(modem_id.getValue());
+	//	}
 
 	public static final String PRODUCT_CODE = "product_code";
 	public PropHolder product_code = new PropHolder(this, PRODUCT_CODE, true);
 
-	public static final String YSPRO_PCODE = "yspro_pcode";
-    public PropHolder yspro_pcode = new PropHolder(this, YSPRO_PCODE, false);
+	public static final String YSPRO_PRODUCT_CODE = "yspro_product_code";
+    public PropHolder yspro_product_code = new PropHolder(this, YSPRO_PRODUCT_CODE, false);
 
-	public static final String YSPRO_PROVISIONINGID = "yspro_provisioningid";
-	public PropHolder yspro_provisioningid = new PropHolder(this, YSPRO_PROVISIONINGID, false);
+	public static final String YSPRO_PROVISIONINGID = "yspro_uuid";
+	public PropHolder yspro_uuid = new PropHolder(this, YSPRO_PROVISIONINGID, false);
 
-	public static final String BACKUP_DISK_SIZE = "storage_size";
-	public PropHolder storage_size = new PropHolder(this, BACKUP_DISK_SIZE, false);
+	public static final String STORAGE_SIZE = "storage_size";
+	public PropHolder storage_size = new PropHolder(this, STORAGE_SIZE, false);
 	
-    public static final String MODEM_ID = "modem_id";
-    public PropHolder modem_id = new PropHolder(this, MODEM_ID, true);
+//    public static final String MODEM_ID = "modem_id";
+//    public PropHolder modem_id = new PropHolder(this, MODEM_ID, true);
 }
