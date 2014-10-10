@@ -232,6 +232,9 @@ public class BackupCase extends AbstractCase {
 		if (data.getBackupSize() != null) {
 			backup.storage_size.setValue(data.getBackupSize().toString());
 		}		
+		if (data.getYsproPcode() != null) {
+			backup.yspro_product_code.setValue(data.getYsproPcode());
+		}
 		return getModel().getOrder();
 	}
 
