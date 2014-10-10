@@ -60,6 +60,10 @@ public class BackupCase extends AbstractCase {
 			return ysproPcode;
 		}
 
+		public void setYsproPcode(String ysproPcode) {
+			this.ysproPcode = ysproPcode;
+		}
+
 //		public ModemId getModemId() {
 //			return ModemId.create(modemId);
 //		}
