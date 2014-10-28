@@ -40,6 +40,15 @@ public class Order implements Serializable {
         this.apiClientId = apiClientId;
     }
 
+	private Priority priority = Priority.SYNCER_PRIORITY;
+	
+	public Priority getPriority() {
+		return priority;
+	}
+	public void setPriority(Priority p) {
+		this.priority = p;
+	}
+	
 	private String returnEventUrl;
 
     private Subscriber subscriber;

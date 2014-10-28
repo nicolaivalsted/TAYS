@@ -27,6 +27,7 @@ import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderData;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
+import dk.yousee.smp.order.model.Priority;
 import dk.yousee.smp.order.model.ServicePrefix;
 import dk.yousee.smp.order.model.SmpXml;
 import dk.yousee.smp.order.model.Subscriber;
@@ -125,7 +126,7 @@ public class ProvisioningCom extends SmpCom<Order, ExecuteOrderReply> {
             actionOrder.setLastUpdateVersionNumber(-1);
             actionOrder.setApiClientId(order.getApiClientId());
             actionOrder.setOrderKey(headMaker.createOrderKey(orderId));
-            actionOrder.setPriority(3);
+            actionOrder.setPriority(order.getPriority().asInt());
             actionOrder.xsetOrderState(headMaker.createOrderStateType());
             SubKeyType subKey = actionOrder.addNewSubKey();
             subKey.setType("SubSpec:-");
