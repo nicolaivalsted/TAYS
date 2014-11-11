@@ -59,6 +59,6 @@ public class UserInfo extends ProStoreResponse {
     
     @Override
     public boolean isExists() {
-        return super.getDataArray().size()>0;
+        return super.getDataArray() != null && super.getDataArray().size()>0;
     }
 }
