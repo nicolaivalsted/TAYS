@@ -22,6 +22,8 @@ public class InvoiceRequest {
     private String system;
     private String vodId;
     private String price;
+    private String priceNoKoda;
+    private String koda;
     private String klientFunktion;
     private String salgskanal;
 
@@ -42,7 +44,7 @@ public class InvoiceRequest {
     /**
      * Constructor which takes all properties - to be used via static named constructors for better readability.
      */
-    protected InvoiceRequest(String customer, String salesItem, String title, String user, String system, String vodId, String price, String klientFunktion, String salgskanal) {
+    protected InvoiceRequest(String customer, String salesItem, String title, String user, String system, String vodId, String price, String priceNoKoda, String koda, String klientFunktion, String salgskanal) {
         this.customer = customer;
         this.salesItem = salesItem;
         this.title = title;
@@ -50,17 +52,19 @@ public class InvoiceRequest {
         this.system = system;
         this.vodId = vodId;
         this.price = price;
+        this.priceNoKoda = priceNoKoda;
+        this.koda = koda;
         this.klientFunktion = klientFunktion;
         this.salgskanal = salgskanal;
     }
 
-    public static InvoiceRequest createMovieWithPrice(String customer, String salesItem, String title, String user, String system, String vodId, String price, String klientFunktion) {
-        return new InvoiceRequest(customer, salesItem, title, user, system, vodId, price, klientFunktion, "W");
+    public static InvoiceRequest createMovieWithPrice(String customer, String salesItem, String title, String user, String system, String vodId, String price, String priceNoKoda, String koda, String klientFunktion) {
+        return new InvoiceRequest(customer, salesItem, title, user, system, vodId, price, priceNoKoda, koda, klientFunktion, "W");
     }
 
     public static InvoiceRequest createBuyClipcardWithPrice(String customer, String salesItem, String user, String system, String price, String klientFunktion) {
         // no "title" nor "vodk-id" for this..
-        return new InvoiceRequest(customer, salesItem, null, user, system, null, price, klientFunktion, "W");
+        return new InvoiceRequest(customer, salesItem, null, user, system, null, price, null, null, klientFunktion, "W");
     }
 
     public JsonObject printJson() {
@@ -82,7 +86,20 @@ public class InvoiceRequest {
 
         // old bio orders did not include a price directly
         if (price != null && !"".equals(price)) {
-            handling.addProperty("pris", price);
+            if (priceNoKoda != null && koda != null) {
+                //
+                // Blockbuster is setting KODA and KASIA then wants price to be
+                // the price including VAT but without KODA.
+                //
+                handling.addProperty("pris", priceNoKoda);
+                handling.addProperty("koda", koda);
+            } else {
+                //
+                // When KODA hasn't been set explicitly, pass the list price on
+                // (aka: Someone else is calculating KODA, somewhere else, probably)
+                //
+                handling.addProperty("pris", price);
+            }
         }
 
         handlinger.add(handling);
