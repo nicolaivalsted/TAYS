@@ -62,9 +62,9 @@ public class InvoiceRequest {
         return new InvoiceRequest(customer, salesItem, title, user, system, vodId, price, priceNoKoda, koda, klientFunktion, "W");
     }
 
-    public static InvoiceRequest createBuyClipcardWithPrice(String customer, String salesItem, String user, String system, String price, String klientFunktion) {
+    public static InvoiceRequest createBuyClipcardWithPrice(String customer, String salesItem, String user, String system, String price, String priceNoKoda, String koda, String klientFunktion) {
         // no "title" nor "vodk-id" for this..
-        return new InvoiceRequest(customer, salesItem, null, user, system, null, price, null, null, klientFunktion, "W");
+        return new InvoiceRequest(customer, salesItem, null, user, system, null, price, priceNoKoda, koda, klientFunktion, "W");
     }
 
     public JsonObject printJson() {

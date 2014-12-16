@@ -35,8 +35,8 @@ public class InvoiceRequestTest {
 
     @Test
     public void createBuyClipcardWithPrice() throws Exception {
-        String s = InvoiceRequest.createBuyClipcardWithPrice("612345678", InvoiceRequest.SALES_ITEM_BUY_CLIPCARD, "user", "system", "42.00", "buy-clipcard").printJson().toString();
-        Assert.assertEquals("{\"kundeid\":\"612345678\",\"handlinger\":[{\"handling\":\"OPRET\",\"varenr\":\"2800002\",\"pris\":\"42.00\"}],\"info\":{\"salgskanal\":\"W\",\"klient-funktion\":\"buy-clipcard\",\"klient-bruger\":\"user\",\"klient-system\":\"system\"}}", s);
+        String s = InvoiceRequest.createBuyClipcardWithPrice("612345678", InvoiceRequest.SALES_ITEM_BUY_CLIPCARD, "user", "system", "42.00", "40.50", "1.50", "buy-clipcard").printJson().toString();
+        Assert.assertEquals("{\"kundeid\":\"612345678\",\"handlinger\":[{\"handling\":\"OPRET\",\"varenr\":\"2800002\",\"pris\":\"40.50\",\"koda\":\"1.50\"}],\"info\":{\"salgskanal\":\"W\",\"klient-funktion\":\"buy-clipcard\",\"klient-bruger\":\"user\",\"klient-system\":\"system\"}}", s);
     }
 
 }
