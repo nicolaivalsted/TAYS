@@ -84,6 +84,10 @@ public class StoreProduct {
         return errorMessage.length() == 0 ? null : errorMessage.toString();
     }
 
+    public void setTo(YsProTime to) {
+        this.to = to;
+    }
+
     public StoreProduct(@Nullable Integer pos, JsonObject json) {
         this.pos = pos;
         for (Map.Entry<String, JsonElement> one : json.entrySet()) {
