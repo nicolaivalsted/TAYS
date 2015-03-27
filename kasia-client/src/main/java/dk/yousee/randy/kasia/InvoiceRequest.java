@@ -15,6 +15,7 @@ public class InvoiceRequest {
     public static final String SALES_ITEM_BUY_CLIPCARD = "2800002";
     public static final String SALES_ITEM_BUY_MOVIE = "2800003";
 
+    private String requestId;
     private String customer;
     private String salesItem;
     private String title;
@@ -44,7 +45,8 @@ public class InvoiceRequest {
     /**
      * Constructor which takes all properties - to be used via static named constructors for better readability.
      */
-    protected InvoiceRequest(String customer, String salesItem, String title, String user, String system, String vodId, String price, String priceNoKoda, String koda, String klientFunktion, String salgskanal) {
+    protected InvoiceRequest(String requestId, String customer, String salesItem, String title, String user, String system, String vodId, String price, String priceNoKoda, String koda, String klientFunktion, String salgskanal) {
+        this.requestId = requestId;
         this.customer = customer;
         this.salesItem = salesItem;
         this.title = title;
@@ -58,13 +60,21 @@ public class InvoiceRequest {
         this.salgskanal = salgskanal;
     }
 
-    public static InvoiceRequest createMovieWithPrice(String customer, String salesItem, String title, String user, String system, String vodId, String price, String priceNoKoda, String koda, String klientFunktion) {
-        return new InvoiceRequest(customer, salesItem, title, user, system, vodId, price, priceNoKoda, koda, klientFunktion, "W");
+    public boolean hasRequestId() {
+        return requestId != null && requestId.trim().length() > 0;
     }
 
-    public static InvoiceRequest createBuyClipcardWithPrice(String customer, String salesItem, String user, String system, String price, String priceNoKoda, String koda, String klientFunktion) {
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public static InvoiceRequest createMovieWithPrice(String requestId, String customer, String salesItem, String title, String user, String system, String vodId, String price, String priceNoKoda, String koda, String klientFunktion) {
+        return new InvoiceRequest(requestId, customer, salesItem, title, user, system, vodId, price, priceNoKoda, koda, klientFunktion, "W");
+    }
+
+    public static InvoiceRequest createBuyClipcardWithPrice(String requestId, String customer, String salesItem, String user, String system, String price, String priceNoKoda, String koda, String klientFunktion) {
         // no "title" nor "vodk-id" for this..
-        return new InvoiceRequest(customer, salesItem, null, user, system, null, price, priceNoKoda, koda, klientFunktion, "W");
+        return new InvoiceRequest(requestId, customer, salesItem, null, user, system, null, price, priceNoKoda, koda, klientFunktion, "W");
     }
 
     public JsonObject printJson() {
