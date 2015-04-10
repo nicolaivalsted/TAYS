@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import org.apache.http.HttpStatus;
 
 /**
  * User: aka
@@ -16,6 +17,7 @@ public class InvoiceResponse {
     private JsonElement jsonSource;
     private String message;
     private OrderOutput orderOutput;
+    private int httpStatusCode;
 
     public InvoiceResponse(String message, String kasiaResponse) {
         this.message = message == null ? null : (message.trim().length() == 0 ? null : message);
@@ -35,6 +37,27 @@ public class InvoiceResponse {
                 this.message = String.format("Tried to parse kasia response, got syntax error, message: %s", e.getMessage());
             }
         }
+    }
+
+    public int getHttpStatusCode() {
+        return httpStatusCode;
+    }
+
+    public void setHttpStatusCode(int httpStatusCode) {
+        this.httpStatusCode = httpStatusCode;
+    }
+
+    /**
+     * See KASIATWO-2308/TAYS-2386
+     *
+     * @return true if an already existing order was identified in kasia (based on referenceId in header "x-kasia2-request-id") and returned
+     */
+    public boolean didReturnAlreadyCreatedOrder() {
+        return hasOrder() && httpStatusCode == HttpStatus.SC_CONFLICT;
+    }
+
+    private boolean hasOrder() {
+        return orderOutput != null;
     }
 
     public JsonElement getJsonSource() {

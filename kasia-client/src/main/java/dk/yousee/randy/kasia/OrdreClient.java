@@ -5,6 +5,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -13,7 +15,6 @@ import org.apache.http.util.EntityUtils;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.List;
-import org.apache.http.client.config.RequestConfig;
 
 /**
  * User: aka Date: 19/10/12 Time: 08.52 Ordre handling in kasia II.
@@ -49,10 +50,18 @@ public class OrdreClient {
             HttpPost post = new HttpPost(href.toString());
             post.setHeader(HttpHeaders.ACCEPT, mediaType);
 
+            // KASIATWO-2308/TAYS-2386: Identifies resends for kasia, to make them return existing order if they have a match (avoiding duplicate orders)
+            if (request.hasRequestId()) {
+                post.setHeader("x-kasia2-request-id", request.getRequestId());
+            }
+
             String value = request.printJson().toString();
             post.setEntity(new StringEntity(value, Charset.forName("UTF-8")));
-            entity = httpPool.getClient(req).execute(post).getEntity();
-            return new InvoiceResponse(null, EntityUtils.toString(entity));
+            CloseableHttpResponse httpResponse = httpPool.getClient(req).execute(post);
+            entity = httpResponse.getEntity();
+            InvoiceResponse invoiceResponse = new InvoiceResponse(null, EntityUtils.toString(entity));
+            invoiceResponse.setHttpStatusCode(httpResponse.getStatusLine().getStatusCode());
+            return invoiceResponse;
         } catch (Exception e) {
             String message = String.format("Tried to make Invoice, got exception: %s", e.getMessage());
             return new InvoiceResponse(message, null);
