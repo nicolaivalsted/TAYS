@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.96-SNAPSHOT</version>
+        <version>3.96</version>
     </parent>
     <artifactId>dms-client</artifactId>
     <name>${project.artifactId}</name>
