@@ -76,6 +76,8 @@ public class RandyContextLoggingAspect implements Ordered {
     // 
     private String requestBodyAnnotationName = "RequestBody";
     
+    private boolean  logInputOutputUniqueKey = false;
+    
     @Around("execution(javax.ws.rs.core.Response *(..))")
     public Object pushLoggingContext(ProceedingJoinPoint pjp) throws Throwable {
         // Take the proceedingpoint apart
@@ -157,7 +159,11 @@ public class RandyContextLoggingAspect implements Ordered {
 
         // proceed call and analyze result
         try {
-            Response r = (Response) pjp.proceed();
+            Response r = (Response) pjp.proceed();           
+            if(logInputOutputUniqueKey) {
+                requestEntityJson =  methodClassName + "." + methodName + ".requestentity";
+                responseEntityJson = methodClassName + "." + methodName + ".responseentity";
+            }
             if (r == null || r.getStatus() >= logPayloadHttpStatusMin) {
                 // prefer parsed json object - it gives nested json object in the log
                 if (payloadParsed != null) {
@@ -511,4 +517,14 @@ public class RandyContextLoggingAspect implements Ordered {
     public void setCalluidJson(String calluidJson) {
         this.callUUIDJson = calluidJson;
     }
+
+    public boolean isLogInputOutputUniqueKey() {
+        return logInputOutputUniqueKey;
+    }
+
+    public void setLogInputOutputUniqueKey(boolean logInputOutputUniqueKey) {
+        this.logInputOutputUniqueKey = logInputOutputUniqueKey;
+    }
+    
+    
 }
