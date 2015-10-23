@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2007 (http://www.altova.com) by david (sigma) -->
+<!--
+//=============================================================================
+//
+//  FILE INFO
+//    $Id: XmlSmpCommonSchema.xsd,v 1.12 2008/03/03 19:43:36 davidx Exp $
+//
+//  DESCRIPTION
+//
+//  REVISION HISTORY
+//  *  Based on CVS log
+//
+//  Copyright (c) 1993 - 2006 Sigma Systems Canada Inc. All rights reserved.
+//=============================================================================
+-->
+<xs:schema xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://java.sun.com/products/oss/xml/Common" schemaLocation="XmlCommonSchema.xsd"/>
+	<xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="http://www.w3.org/2001/xml.xsd"/>
+	<xs:annotation>
+		<xs:documentation>
+			SMP Common XML schema definitions for run-time entities and APIs.
+			These are defined as types rather than elements, as they are used later in the definitions of many different APIs and entities.
+			They are also intended to be extended, such as the entity definitions.
+		</xs:documentation>
+		<xs:documentation>
+			Common SMP XSD/XML notation conventions.
+			XSD type definitions are the equivalent of their counterpart Java class names.
+			Actual XML tags start with lower case, looking like their type definitions or corresponding Java classes. I.e. dbStatus of type DbStatus.
+			Implicitly, XSD element (local type) definitions are lower case with underscores.
+
+			List types are terminated in List/_list. Their instances (elements) are only terminated in "s". I.e. SubService -> SubServiceList and subService -> subServices.
+		</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="StringParamType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ParamType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ParamListType">
+		<xs:sequence>
+			<xs:element name="param" type="ParamType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NamedQuery">
+		<xs:annotation>
+			<xs:documentation>Query also has a definition and a response. The request may be derived into specific query request, just like the response for that specific query.</xs:documentation>
+			<xs:documentation>When named queries are referenced in keys, we'll expect the query returns at most one result and the result is of the same type as the key.
+			They obviously implies that the named query implementation is specific (can't return just a list of parms, but actual key objects).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="queryName" type="xs:string"/>
+			<xs:element name="inputParamList" type="ParamListType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AuditInfoType">
+		<xs:sequence>
+			<xs:element name="createdDateTime" type="xs:dateTime"/>
+			<xs:element name="modifiedDateTime" type="xs:dateTime"/>
+			<xs:element name="createdBy" type="xs:string"/>
+			<xs:element name="modifiedBy" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GRefType">
+		<xs:sequence>
+			<xs:element name="appEnv" type="cmn:ApplicationContext" minOccurs="0"/>
+			<xs:element name="entityBriefDescription" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="entityKey" type="xs:string"/>
+		<xs:attribute name="entityClassNm" type="xs:string"/>
+		<xs:attribute name="localAppEnv" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="AppErrorType">
+		<xs:sequence>
+			<xs:element name="errorCode">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="resourceNm" type="xs:string"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="errorParamList" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="param">
+							<xs:complexType>
+								<xs:simpleContent>
+									<xs:extension base="xs:string">
+										<xs:attribute name="resourceNm" type="xs:string"/>
+									</xs:extension>
+								</xs:simpleContent>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="errorMessage">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute ref="xml:lang"/>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="gRef">
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="GRefType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AppErrorListType">
+		<xs:sequence>
+			<xs:element name="item" type="AppErrorType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>===Exception===</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="SmpIllegalStateException">
+		<xs:complexContent>
+			<xs:extension base="cmn:IllegalStateException">
+				<xs:sequence>
+					<xs:element name="applicationErrors" type="AppErrorListType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SmpObjectNotFoundException">
+		<xs:complexContent>
+			<xs:extension base="cmn:ObjectNotFoundException">
+				<xs:sequence>
+					<xs:element name="applicationErrors" type="AppErrorListType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SmpIllegalArgumentException">
+		<xs:complexContent>
+			<xs:extension base="cmn:IllegalArgumentException">
+				<xs:sequence>
+					<xs:element name="applicationErrors" type="AppErrorListType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SmpRemoteException">
+		<xs:complexContent>
+			<xs:extension base="cmn:RemoteException">
+				<xs:sequence>
+					<xs:element name="applicationErrors" type="AppErrorListType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SmpCreateException">
+		<xs:complexContent>
+			<xs:extension base="cmn:CreateException">
+				<xs:sequence>
+					<xs:element name="applicationErrors" type="AppErrorListType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:annotation>
+		<xs:documentation>====name query====</xs:documentation>
+	</xs:annotation>
+	<xs:complexType name="SmpQueryValue">
+		<xs:complexContent>
+			<xs:extension base="cmn:QueryValue">
+				<xs:sequence>
+					<xs:element name="queryName" type="xs:string"/>
+					<xs:element name="paramList" type="ParamListType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>searchable parameter list</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>
