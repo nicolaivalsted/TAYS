@@ -7,6 +7,9 @@ import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
+import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
+import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.order.model.ResponseEntity;
 
 /**
@@ -47,9 +50,17 @@ public class Parse {
 			} else if (plan.getType().equals(OTTService.TYPE)) {
 				OTTService ottService = new OTTService(model, plan.getExternalKey());
 				for(ResponseEntity child : plan.getEntities()){
-					
+					if(child.getType().equals(OTTSubscription.TYPE)){
+//						new OTTSubscription(model, child.getExternalKey(), ottService);
+					}else{
+						logger.warn("unknown ott child_service " + child.getExternalKey());
+					}
 				}
-			} else {
+			} else if(plan.getType().equals(VideoComposedService.TYPE)){
+				
+			}else if(plan.getType().equals(VideoCPEService.TYPE)){
+				
+			}else {
 				logger.warn("unknown service, type=" + plan.getType() + ", externalKey=" + plan.getExternalKey());
 			}
 		}

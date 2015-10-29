@@ -138,6 +138,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 			for (OrderData plan : order.getOrderData()) {
 				logger.debug("Service type and externalKey: " + plan.getType()
 						+ plan.getExternalKey());
+				System.out.println("entrei");
 				if (plan.getLevel() == OrderDataLevel.CONTACT) {
 					addContactToOrderItem(orderItemList, plan, order);
 				} else if (plan.getLevel() == OrderDataLevel.ADDRESS) {
@@ -166,12 +167,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 */
 		private void addServiceRequest(OrderItemList orderItemList,
 				OrderData servicePlan) {
-			if (servicePlan
-					.getType()
-					.getType()
-					.equalsIgnoreCase(
-							new OrderDataType(ServicePrefix.SubSvcSpec,
-									"samp_sub").getType())) {
+			if (servicePlan.getType().getType().equalsIgnoreCase(new OrderDataType(ServicePrefix.SubSvcSpec,"samp_sub").getType())) {
 				addServiceRequestForSampSub(orderItemList, servicePlan);
 				return;
 			}

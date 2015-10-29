@@ -27,7 +27,8 @@ public enum Type {
     CWiFi("SubSvcSpec:community_wifi"),
     Backup("SubSvcSpec:backup"),
     Mofibo("SubSvcSpec:mofibo_composed"),
-    Sikkerhedspakke("SubSvcSpec:security_package");
+    Sikkerhedspakke("SubSvcSpec:security_package"),
+    OTT("SubSvcSpec:ott_services_composed");
     
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();
