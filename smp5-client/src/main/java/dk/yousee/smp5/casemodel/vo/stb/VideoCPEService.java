@@ -1,5 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.stb;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
@@ -20,7 +21,7 @@ public class VideoCPEService extends BasicUnit {
     public static OrderDataType TYPE = new OrderDataType( ServicePrefix.SubSvcSpec,"video_cpe_equipment");
     public static NickName NAME = new NickName("video_cpe");
     
-    List<VideoCPE> videoCPEs;
+    List<VideoCPE> videoCPEs = new ArrayList<VideoCPE>();
     
 	public VideoCPEService(SubscriberModel model, String externalKey){
 		super(model,externalKey,TYPE,LEVEL,NAME,null);

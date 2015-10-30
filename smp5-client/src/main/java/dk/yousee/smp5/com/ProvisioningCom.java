@@ -275,6 +275,9 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 					parentServiceKey.setType(servicePlan.getType().toString());
 					parentServiceKey.setExternalKey(servicePlan
 							.getExternalKey());
+					
+					//sub childs
+					addServices(childService, child);
 
 					EntityParamListType paramList = EntityParamListType.Factory
 							.newInstance();

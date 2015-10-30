@@ -10,17 +10,20 @@ import dk.yousee.smp5.order.model.ServicePrefix;
 /**
  * @author m64746
  *
- *         Date: 26/10/2015 Time: 18:54:55
+ *         Date: 30/10/2015 Time: 11:34:54
  */
-public class VideoSubscription extends BasicUnit {
+public class VideoEntitlement extends BasicUnit {
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "video_subscription");
-	
-	private VideoEntitlement videoEntitlement;
 
-	public VideoSubscription(SubscriberModel model, String externalKey, VideoServicePlan parent) {
+	public VideoEntitlement(SubscriberModel model, String externalKey, VideoSubscription parent, VideoEvent parent2) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
-		parent.getVideoSubscriptions().add(this);
+		if (parent != null) {
+			parent.setVideoEntitlement(this);
+		}
+		if (parent2 != null) {
+			parent.setVideoEntitlement(this);
+		}
 	}
 
 	public PropHolder video_entitlement_id = new PropHolder(this, "video_entitlement_id", true);
@@ -31,16 +34,12 @@ public class VideoSubscription extends BasicUnit {
 	public PropHolder cable_unit = new PropHolder(this, "cabl_unit", true);
 	public PropHolder business_position = new PropHolder(this, "business_position", true);
 
-	public VideoServicePlan getParent() {
-		return (VideoServicePlan) super.getParent();
+	public VideoEvent getParent2() {
+		return (VideoEvent) super.getParent();
 	}
 
-	public VideoEntitlement getVideoEntitlement() {
-		return videoEntitlement;
+	public VideoSubscription getParent() {
+		return (VideoSubscription) super.getParent();
 	}
 
-	public void setVideoEntitlement(VideoEntitlement videoEntitlement) {
-		this.videoEntitlement = videoEntitlement;
-	}
-	
 }

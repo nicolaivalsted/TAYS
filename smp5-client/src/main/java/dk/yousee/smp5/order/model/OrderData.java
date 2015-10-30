@@ -43,6 +43,7 @@ public class OrderData implements Serializable {
 	private OrderDataType type;
 
 	private OrderData Parent;
+	
 	private List<OrderData> children = new ArrayList<OrderData>();
 
 	private List<OrderDataAssociation> associations = null;

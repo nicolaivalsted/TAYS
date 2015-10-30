@@ -7,6 +7,7 @@ import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
+import dk.yousee.smp5.casemodel.vo.ott.OTTEntitlement;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
@@ -14,6 +15,7 @@ import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.stb.CpeConditionalAccess;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -67,16 +69,25 @@ public class Add {
 		return res;
 	}
 
-	public OTTSubscription OTTSubscription(BusinessPosition position) {
-		OTTService parent = model.alloc().OTTService(position);
-		OTTSubscription res = new OTTSubscription(model, key.generateUUID(), position, parent);
+	public OTTEntitlement OTTEntitlement(String rateCode) {
+		OTTSubscription parent = model.alloc().OTTSubscription(rateCode);
+		OTTEntitlement res = new OTTEntitlement(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
 		return res;
 	}
 
-	public OTTService OTTService(BusinessPosition position) {
+	public OTTSubscription OTTSubscription() {
+		OTTService parent = model.alloc().OTTService();
+		OTTSubscription res = new OTTSubscription(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	public OTTService OTTService() {
 		OTTService res = new OTTService(model, key.generateUUID());
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -128,8 +139,8 @@ public class Add {
 		return res;
 	}
 
-	public VideoCPE VideoCPE(BusinessPosition businessPosition) {
-		VideoCPEService parent = model.alloc().VideoCPEService(businessPosition);
+	public VideoCPE VideoCPE(String macAdress) {
+		VideoCPEService parent = model.alloc().VideoCPEService();
 		VideoCPE res = new VideoCPE(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -137,8 +148,17 @@ public class Add {
 		return res;
 	}
 
-	public STBCas STBCas(BusinessPosition businessPosition) {
-		VideoCPE parent = model.alloc().VideoCPE(businessPosition);
+	public CpeConditionalAccess CpeConditionalAccess(String macAdress) {
+		STBCas parent = model.alloc().STBCas(macAdress);
+		CpeConditionalAccess res = new CpeConditionalAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	public STBCas STBCas(String macAdress) {
+		VideoCPE parent = model.alloc().VideoCPE(macAdress);
 		STBCas res = new STBCas(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -146,7 +166,7 @@ public class Add {
 		return res;
 	}
 
-	public VideoCPEService VideoCPEService(BusinessPosition businessPosition) {
+	public VideoCPEService VideoCPEService() {
 		VideoCPEService res = new VideoCPEService(model, key.generateUUID());
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();

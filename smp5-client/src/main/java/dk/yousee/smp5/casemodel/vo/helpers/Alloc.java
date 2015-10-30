@@ -2,8 +2,10 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
+import dk.yousee.smp5.casemodel.vo.ott.OTTEntitlement;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.stb.CpeConditionalAccess;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -27,15 +29,20 @@ public class Alloc {
 		add = model.add();
 	}
 
-	public OTTSubscription OTTSubscription(BusinessPosition position, String rateCode) {
-		OTTSubscription sub = find.OTTSubscription(position, rateCode);
-		return sub == null ? add.OTTSubscription(position) : sub;
+	public OTTSubscription OTTSubscription(String rateCode) {
+		OTTSubscription sub = find.OTTSubscription(rateCode);
+		return sub == null ? add.OTTSubscription() : sub;
 	}
 
-	public OTTService OTTService(BusinessPosition position) {
-		OTTService res = find.OTTService(position);
+	public OTTEntitlement OTTEntitlement(String rateCode) {
+		OTTEntitlement res = find.OTTEntitlement(rateCode);
+		return res == null ? add.OTTEntitlement(rateCode) : res;
+	}
+
+	public OTTService OTTService() {
+		OTTService res = find.OTTService();
 		if (res == null) {
-			res = add.OTTService(position);
+			res = add.OTTService();
 		}
 		return res;
 	}
@@ -68,21 +75,23 @@ public class Alloc {
 		return res == null ? add.VideoSubscription(position) : res;
 	}
 
-	public VideoCPE VideoCPE(BusinessPosition businessPosition) {
-		VideoCPE res = find.VideoCPE(businessPosition);
-		return res == null ? add.VideoCPE(businessPosition) : res;
+	public VideoCPE VideoCPE(String macAdress) {
+		VideoCPE res = find.VideoCPE(macAdress);
+		return res == null ? add.VideoCPE(macAdress) : res;
 	}
 
-	public STBCas STBCas(BusinessPosition businessPosition) {
-		STBCas res = find.STBCas(businessPosition);
-		return res == null ? add.STBCas(businessPosition) : res;
+	public STBCas STBCas(String macAdress) {
+		STBCas res = find.STBCas(macAdress);
+		return res == null ? add.STBCas(macAdress) : res;
 	}
 
-	public VideoCPEService VideoCPEService(BusinessPosition businessPosition) {
-		VideoCPEService res = find.VideoCPEService(businessPosition);
-		if (res == null) {
-			res = add.VideoCPEService(businessPosition);
-		}
-		return res;
+	public CpeConditionalAccess CpeConditionalAccess(String macAdress) {
+		CpeConditionalAccess res = find.CpeConditionalAccess(macAdress);
+		return res == null ? add.CpeConditionalAccess(macAdress) : res;
+	}
+
+	public VideoCPEService VideoCPEService() {
+		VideoCPEService res = find.VideoCPEService();
+		return res == null ? add.VideoCPEService() : res;
 	}
 }
