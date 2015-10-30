@@ -3,7 +3,6 @@
  */
 package dk.yousee.smp5.casemodel.vo.helpers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -138,11 +137,11 @@ public class Find {
 	/**
 	 * @return the VideoService the subscriber has
 	 */
-	public List<VideoComposedService> VideoComposedService() {
-		List<VideoComposedService> res = new ArrayList<VideoComposedService>();
+	public VideoComposedService VideoComposedService() {
+		VideoComposedService res = null;
 		for (BasicUnit plan : serviceLevelUnit) {
 			if (plan.getType().equals(VideoComposedService.TYPE)) {
-				res.add((VideoComposedService) plan);
+				return res;
 			}
 		}
 		return res;
@@ -157,25 +156,8 @@ public class Find {
 		return (VideoComposedService) find(VideoComposedService.TYPE, externalKey);
 	}
 
-	/**
-	 * @param position
-	 *            identifier for specific instance of the service plan
-	 * @return instance if it exists
-	 */
-	public VideoComposedService VideoComposedService(BusinessPosition position) {
-		List<VideoComposedService> plans = VideoComposedService();
-		for (VideoComposedService plan : plans) {
-			for (VideoServicePlan videoServicePlan : plan.getVideoServicePlans()) {
-				if (position.equals(videoServicePlan.getVideoServicePlanAttributes().getPosition())) {
-					return plan;
-				}
-			}
-		}
-		return null;
-	}
-
 	public VideoServicePlan VideoServicePlan(BusinessPosition position) {
-		VideoComposedService parent = VideoComposedService(position);
+		VideoComposedService parent = VideoComposedService();
 		if (parent == null) {
 			return null;
 		} else {

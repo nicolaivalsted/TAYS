@@ -29,7 +29,6 @@ public class VideoEntitlement extends BasicUnit {
 	public PropHolder video_entitlement_id = new PropHolder(this, "video_entitlement_id", true);
 	public PropHolder video_entitlement_type = new PropHolder(this, "video_entitlement_type", true);
 	public PropHolder video_entitlement_uniqueness_check = new PropHolder(this, "video_entitlement_uniqueness_check", true);
-
 	public PropHolder provider = new PropHolder(this, "provider", true);
 	public PropHolder cable_unit = new PropHolder(this, "cabl_unit", true);
 	public PropHolder business_position = new PropHolder(this, "business_position", true);

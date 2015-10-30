@@ -53,7 +53,7 @@ public class Alloc {
 	}
 
 	public VideoComposedService VideoComposedService(BusinessPosition position) {
-		VideoComposedService res = find.VideoComposedService(position);
+		VideoComposedService res = find.VideoComposedService();
 		if (res == null) {
 			res = add.VideoComposedService(position);
 		}

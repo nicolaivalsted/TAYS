@@ -28,7 +28,9 @@ public enum Type {
     Backup("SubSvcSpec:backup"),
     Mofibo("SubSvcSpec:mofibo_composed"),
     Sikkerhedspakke("SubSvcSpec:security_package"),
-    OTT("SubSvcSpec:ott_services_composed");
+    OTT("SubSvcSpec:ott_services_composed"),
+    STB("SubSvcSpec:video_cpe_equipment"),
+    Video("SubSvcSpec:video_services_composed");
     
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();

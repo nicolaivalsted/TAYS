@@ -3,7 +3,6 @@ package dk.yousee.smp5.cases;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
-import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.order.model.Acct;
@@ -26,6 +25,9 @@ public class VideoCase extends AbstractCase {
 	}
 
 	public static class VideoData {
+		private String videoEventCode;
+		private String videoSubscriptionCode;
+		private String videoSDefCode;
 		private BusinessPosition position;
 		private String videoServiceUniqueCheck;
 		private String ippvEntitled;
@@ -112,12 +114,35 @@ public class VideoCase extends AbstractCase {
 		public void setPosition(BusinessPosition position) {
 			this.position = position;
 		}
+
+		public String getVideoEventCode() {
+			return videoEventCode;
+		}
+
+		public void setVideoEventCode(String videoEventCode) {
+			this.videoEventCode = videoEventCode;
+		}
+
+		public String getVideoSubscriptionCode() {
+			return videoSubscriptionCode;
+		}
+
+		public void setVideoSubscriptionCode(String videoSubscriptionCode) {
+			this.videoSubscriptionCode = videoSubscriptionCode;
+		}
+
+		public String getVideoSDefCode() {
+			return videoSDefCode;
+		}
+
+		public void setVideoSDefCode(String videoSDefCode) {
+			this.videoSDefCode = videoSDefCode;
+		}
+
 	}
 
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
-
-		VideoServicePlan videoServicePlan = getModel().alloc().VideoServicePlan(lineItem.getPosition());
 
 		VideoEvent videoEvent = getModel().alloc().VideoEvent(lineItem.getPosition());
 		videoEvent.video_entitlement_type.setValue(lineItem.getVideoEntitlementType());
