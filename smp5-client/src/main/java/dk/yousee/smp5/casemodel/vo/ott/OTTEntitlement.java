@@ -28,7 +28,7 @@ public class OTTEntitlement extends BasicUnit {
 
 	public OTTEntitlement(SubscriberModel model, String externalKey, OTTSubscription parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
-		parent.setOttEntitlement(this);
+//		parent.setOttEntitlement(this);
 	}
 
 	public OTTSubscription getParent() {

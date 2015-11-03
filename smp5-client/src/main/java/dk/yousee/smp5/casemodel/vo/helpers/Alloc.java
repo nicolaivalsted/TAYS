@@ -2,10 +2,8 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
-import dk.yousee.smp5.casemodel.vo.ott.OTTEntitlement;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
-import dk.yousee.smp5.casemodel.vo.stb.CpeConditionalAccess;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -34,11 +32,6 @@ public class Alloc {
 		return sub == null ? add.OTTSubscription() : sub;
 	}
 
-	public OTTEntitlement OTTEntitlement(String rateCode) {
-		OTTEntitlement res = find.OTTEntitlement(rateCode);
-		return res == null ? add.OTTEntitlement(rateCode) : res;
-	}
-
 	public OTTService OTTService() {
 		OTTService res = find.OTTService();
 		if (res == null) {
@@ -49,13 +42,13 @@ public class Alloc {
 
 	public VideoServicePlan VideoServicePlan(BusinessPosition position) {
 		VideoServicePlan plan = find.VideoServicePlan(position);
-		return plan == null ? add.VideoServicePlan(position) : plan;
+		return plan == null ? add.VideoServicePlan() : plan;
 	}
 
-	public VideoComposedService VideoComposedService(BusinessPosition position) {
+	public VideoComposedService VideoComposedService() {
 		VideoComposedService res = find.VideoComposedService();
 		if (res == null) {
-			res = add.VideoComposedService(position);
+			res = add.VideoComposedService();
 		}
 		return res;
 	}
@@ -83,11 +76,6 @@ public class Alloc {
 	public STBCas STBCas(String macAdress) {
 		STBCas res = find.STBCas(macAdress);
 		return res == null ? add.STBCas(macAdress) : res;
-	}
-
-	public CpeConditionalAccess CpeConditionalAccess(String macAdress) {
-		CpeConditionalAccess res = find.CpeConditionalAccess(macAdress);
-		return res == null ? add.CpeConditionalAccess(macAdress) : res;
 	}
 
 	public VideoCPEService VideoCPEService() {

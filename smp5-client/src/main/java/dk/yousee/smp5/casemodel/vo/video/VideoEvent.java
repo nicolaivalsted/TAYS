@@ -16,29 +16,15 @@ public class VideoEvent extends BasicUnit {
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "video_event");
 
-	private VideoEntitlement videoEntitlement;
-
 	public VideoEvent(SubscriberModel model, String externalKey, VideoServicePlan parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
-		this.video_entitlement_id.setValue(externalKey);
 		parent.getVideoEvents().add(this);
 	}
 
 	public PropHolder video_entitlement_id = new PropHolder(this, "video_entitlement_id", true);
-	public PropHolder video_entitlement_type = new PropHolder(this, "video_entitlement_type", true);
-	public PropHolder video_entitlement_uniqueness_check = new PropHolder(this, "video_entitlement_uniqueness_check", true);
-	public PropHolder end_date = new PropHolder(this, "end_date", true);
 
 	public VideoServicePlan getParent() {
 		return (VideoServicePlan) super.getParent();
-	}
-
-	public VideoEntitlement getVideoEntitlement() {
-		return videoEntitlement;
-	}
-
-	public void setVideoEntitlement(VideoEntitlement videoEntitlement) {
-		this.videoEntitlement = videoEntitlement;
 	}
 
 }

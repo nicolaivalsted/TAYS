@@ -2,7 +2,7 @@ package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
-import dk.yousee.smp5.casemodel.vo.stb.CpeConditionalAccess;
+import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -92,13 +92,13 @@ public class HumaxSTBCase extends AbstractCase {
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
 
-		CpeConditionalAccess cpeConditionalAccess = getModel().alloc().CpeConditionalAccess(lineItem.macAddress);
+		STBCas stbCas = getModel().alloc().STBCas(lineItem.macAddress);
 
-		cpeConditionalAccess.acct.setValue(lineItem.getAcct());
-		cpeConditionalAccess.macAddress.setValue(lineItem.getMacAddress());
-		cpeConditionalAccess.serialNumber.setValue(lineItem.getSerialNumber());
-		cpeConditionalAccess.manufacturer.setValue(lineItem.getManufacturer());
-		cpeConditionalAccess.model.setValue(lineItem.getModel());
+		stbCas.acct.setValue(lineItem.getAcct());
+		stbCas.macAddress.setValue(lineItem.getMacAddress());
+		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
+		stbCas.manufacturer.setValue(lineItem.getManufacturer());
+		stbCas.model.setValue(lineItem.getModel());
 
 		return getModel().getOrder();
 	}

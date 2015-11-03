@@ -1,5 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.video;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
@@ -24,7 +25,7 @@ public class VideoComposedService extends BasicUnit {
 		model.getServiceLevelUnit().add(this);
 	}
 
-	List<VideoServicePlan> videoServicePlans;
+	List<VideoServicePlan> videoServicePlans = new ArrayList<VideoServicePlan>();
 
 	public List<VideoServicePlan> getVideoServicePlans() {
 		return videoServicePlans;

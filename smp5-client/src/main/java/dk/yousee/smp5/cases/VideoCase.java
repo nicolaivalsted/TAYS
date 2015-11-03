@@ -1,7 +1,10 @@
 package dk.yousee.smp5.cases;
 
+import org.apache.log4j.Logger;
+
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
+import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
@@ -11,6 +14,7 @@ import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
 
 public class VideoCase extends AbstractCase {
+	private static final Logger logger = Logger.getLogger(VideoCase.class);
 
 	public VideoCase(SubscriberModel model, OrderService service) {
 		super(model, service);
@@ -25,86 +29,23 @@ public class VideoCase extends AbstractCase {
 	}
 
 	public static class VideoData {
-		private String videoEventCode;
-		private String videoSubscriptionCode;
-		private String videoSDefCode;
+		private String videoEntitlementId;
 		private BusinessPosition position;
-		private String videoServiceUniqueCheck;
-		private String ippvEntitled;
-		private String vodEntitled;
-		private String interactiveServiceEntitled;
-		private String analogEntitled;
 		private String videoEntitlementType;
-		private String videoEntitlementUniquenessCheck;
-		private String endDate;
+		private String videoServicePlanId;
+		private String macAddress;
 
 		public VideoData(BusinessPosition position) {
 			super();
 			this.position = position;
 		}
 
-		public String getVideoServiceUniqueCheck() {
-			return videoServiceUniqueCheck;
+		public String getVideoEntitlementId() {
+			return videoEntitlementId;
 		}
 
-		public void setVideoServiceUniqueCheck(String videoServiceUniqueCheck) {
-			this.videoServiceUniqueCheck = videoServiceUniqueCheck;
-		}
-
-		public String getIppvEntitled() {
-			return ippvEntitled;
-		}
-
-		public void setIppvEntitled(String ippvEntitled) {
-			this.ippvEntitled = ippvEntitled;
-		}
-
-		public String getVodEntitled() {
-			return vodEntitled;
-		}
-
-		public void setVodEntitled(String vodEntitled) {
-			this.vodEntitled = vodEntitled;
-		}
-
-		public String getInteractiveServiceEntitled() {
-			return interactiveServiceEntitled;
-		}
-
-		public void setInteractiveServiceEntitled(String interactiveServiceEntitled) {
-			this.interactiveServiceEntitled = interactiveServiceEntitled;
-		}
-
-		public String getAnalogEntitled() {
-			return analogEntitled;
-		}
-
-		public void setAnalogEntitled(String analogEntitled) {
-			this.analogEntitled = analogEntitled;
-		}
-
-		public String getVideoEntitlementType() {
-			return videoEntitlementType;
-		}
-
-		public void setVideoEntitlementType(String videoEntitlementType) {
-			this.videoEntitlementType = videoEntitlementType;
-		}
-
-		public String getVideoEntitlementUniquenessCheck() {
-			return videoEntitlementUniquenessCheck;
-		}
-
-		public void setVideoEntitlementUniquenessCheck(String videoEntitlementUniquenessCheck) {
-			this.videoEntitlementUniquenessCheck = videoEntitlementUniquenessCheck;
-		}
-
-		public String getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(String endDate) {
-			this.endDate = endDate;
+		public void setVideoEntitlementId(String videoEntitlementId) {
+			this.videoEntitlementId = videoEntitlementId;
 		}
 
 		public BusinessPosition getPosition() {
@@ -115,28 +56,28 @@ public class VideoCase extends AbstractCase {
 			this.position = position;
 		}
 
-		public String getVideoEventCode() {
-			return videoEventCode;
+		public String getVideoEntitlementType() {
+			return videoEntitlementType;
 		}
 
-		public void setVideoEventCode(String videoEventCode) {
-			this.videoEventCode = videoEventCode;
+		public void setVideoEntitlementType(String videoEntitlementType) {
+			this.videoEntitlementType = videoEntitlementType;
 		}
 
-		public String getVideoSubscriptionCode() {
-			return videoSubscriptionCode;
+		public String getVideoServicePlanId() {
+			return videoServicePlanId;
 		}
 
-		public void setVideoSubscriptionCode(String videoSubscriptionCode) {
-			this.videoSubscriptionCode = videoSubscriptionCode;
+		public void setVideoServicePlanId(String videoServicePlanId) {
+			this.videoServicePlanId = videoServicePlanId;
 		}
 
-		public String getVideoSDefCode() {
-			return videoSDefCode;
+		public String getMacAddress() {
+			return macAddress;
 		}
 
-		public void setVideoSDefCode(String videoSDefCode) {
-			this.videoSDefCode = videoSDefCode;
+		public void setMacAddress(String macAddress) {
+			this.macAddress = macAddress;
 		}
 
 	}
@@ -144,22 +85,24 @@ public class VideoCase extends AbstractCase {
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
 
-		VideoEvent videoEvent = getModel().alloc().VideoEvent(lineItem.getPosition());
-		videoEvent.video_entitlement_type.setValue(lineItem.getVideoEntitlementType());
-		videoEvent.video_entitlement_uniqueness_check.setValue(lineItem.getVideoEntitlementUniquenessCheck());
-		videoEvent.end_date.setValue(lineItem.getEndDate());
+		if (lineItem.getVideoEntitlementType().equals("xyx")) {
+			VideoEvent videoEvent = getModel().alloc().VideoEvent(lineItem.getPosition());
+			videoEvent.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
+		} else if (lineItem.getVideoEntitlementType().equals("xxx")) {
+			VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(lineItem.getPosition());
+			videoSubscription.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
+		}
 
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(lineItem.getPosition());
-		videoServicePlanAttributes.analog_entitled.setValue(lineItem.getAnalogEntitled());
-		videoServicePlanAttributes.interactive_service_entitled.setValue(lineItem.getInteractiveServiceEntitled());
-		videoServicePlanAttributes.ippv_entitled.setValue(lineItem.getIppvEntitled());
-		videoServicePlanAttributes.vod_entitled.setValue(lineItem.getVodEntitled());
+		videoServicePlanAttributes.video_service_plan_id.setValue(lineItem.getVideoServicePlanId());
 
-		VideoSubscription videoSubscription = null;
-
-		videoSubscription = getModel().alloc().VideoSubscription(lineItem.getPosition());
-		videoSubscription.video_entitlement_type.setValue(lineItem.getVideoEntitlementType());
-		videoSubscription.video_entitlement_uniqueness_check.setValue(lineItem.getVideoEntitlementUniquenessCheck());
+		if (lineItem.getMacAddress() != null) {
+			STBCas stbCas = getModel().find().STBCas(lineItem.getMacAddress());
+			if (stbCas != null) {
+				videoServicePlanAttributes.video_definition_has_cpe_conditional.add(stbCas);
+				logger.info("has_cpe_conditional was added for customer: " + getAcct() + " and plan: " + lineItem.videoServicePlanId);
+			}
+		}
 
 		return getModel().getOrder();
 	}

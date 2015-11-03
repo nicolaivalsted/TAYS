@@ -12,7 +12,7 @@ public class Smp5ConnectorImpl extends AbstractConnector {
 	public static final int DEFAULT_OPERATION_TIMEOUT = 100000;
 	private String url;
 	private URL url2;
-	private String smpHost;
+	private String smp5Host;
 	private String username;
 	private String password;
 
@@ -37,13 +37,13 @@ public class Smp5ConnectorImpl extends AbstractConnector {
 		}
 	}
 
-	public String getSmpHost() {
-		return smpHost;
+	public String getSmp5Host() {
+		return smp5Host;
 	}
 
-	public void setSmpHost(String smpHost) {
-		this.smpHost = smpHost;
-		setUrl(smpHost + "/SmpXmlOrderApi/xmlorder");
+	public void setSmp5Host(String smp5Host) {
+		this.smp5Host = smp5Host;
+		setUrl(smp5Host + "/SmpXmlOrderApi/xmlorder");
 	}
 
 	public String getUsername() {

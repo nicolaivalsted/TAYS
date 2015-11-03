@@ -35,7 +35,9 @@ public class Order implements Serializable {
 	/**
 	 * The client calling sigma see xml tag: orderValue/apiClientId
 	 */
-	private String apiClientId = "triple";
+//	private String apiClientId = "triple";
+	//TODO should be triple
+	private String apiClientId = "stm";
 	private String returnEventUrl;
 	private Subscriber subscriber;
 	/**

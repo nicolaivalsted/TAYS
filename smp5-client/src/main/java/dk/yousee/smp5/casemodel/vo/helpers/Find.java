@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import java.util.List;
@@ -12,10 +9,8 @@ import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
-import dk.yousee.smp5.casemodel.vo.ott.OTTEntitlement;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
-import dk.yousee.smp5.casemodel.vo.stb.CpeConditionalAccess;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -103,8 +98,7 @@ public class Find {
 			// a OTTSubscription devioa ter informação dos seus filhos para ver
 			// se é aquela
 			for (OTTSubscription ottSubscription : parent.getOttSubscriptions()) {
-				if (ottSubscription.getOttEntitlement() != null
-						&& ottSubscription.getOttEntitlement().rate_code.getValue().equals(rateCode)) {
+				if (ottSubscription.rate_code.getValue().equals(rateCode)) {
 					return ottSubscription;
 				}
 			}
@@ -121,15 +115,6 @@ public class Find {
 		return (OTTService) find(OTTService.TYPE, externalKey);
 	}
 
-	public OTTEntitlement OTTEntitlement(String rateCode) {
-		OTTSubscription parent = OTTSubscription(rateCode);
-		if (parent == null) {
-			return null;
-		} else {
-			return parent.getOttEntitlement();
-		}
-	}
-
 	// ========= END OTT =========
 
 	// ========= Video =========
@@ -138,13 +123,12 @@ public class Find {
 	 * @return the VideoService the subscriber has
 	 */
 	public VideoComposedService VideoComposedService() {
-		VideoComposedService res = null;
 		for (BasicUnit plan : serviceLevelUnit) {
 			if (plan.getType().equals(VideoComposedService.TYPE)) {
-				return res;
+				return (VideoComposedService) plan;
 			}
 		}
-		return res;
+		return null;
 	}
 
 	/**
@@ -228,7 +212,7 @@ public class Find {
 			return null;
 		} else {
 			for (VideoCPE videoCPE : parent.getVideoCPEs()) {
-				if (macAdress.equals(videoCPE.getStbCAS().getCpeConditionalAccess().macAddress.getValue())) {
+				if (macAdress.equals(videoCPE.getStbCAS().macAddress.getValue())) {
 					return videoCPE;
 				}
 			}
@@ -242,15 +226,6 @@ public class Find {
 			return null;
 		} else {
 			return parent.getStbCAS();
-		}
-	}
-
-	public CpeConditionalAccess CpeConditionalAccess(String macAdress) {
-		STBCas parent = STBCas(macAdress);
-		if (parent == null) {
-			return null;
-		} else {
-			return parent.getCpeConditionalAccess();
 		}
 	}
 

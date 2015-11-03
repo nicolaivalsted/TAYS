@@ -19,7 +19,7 @@ public class VideoServicePlan extends BasicUnit {
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "video_service_plan");
 
-	public VideoServicePlan(SubscriberModel model, String externalKey, BusinessPosition Position, VideoComposedService parent) {
+	public VideoServicePlan(SubscriberModel model, String externalKey, VideoComposedService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.getVideoServicePlans().add(this);
 	}

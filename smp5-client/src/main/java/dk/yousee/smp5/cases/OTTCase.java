@@ -2,8 +2,8 @@ package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
-import dk.yousee.smp5.casemodel.vo.ott.OTTEntitlement;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
+import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
@@ -92,13 +92,13 @@ public class OTTCase extends AbstractCase {
 	public Order create(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTEntitlement ottEntitlement = getModel().alloc().OTTEntitlement(lineItem.getRateCode());
+		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getRateCode());
 
-		ottEntitlement.rate_code.setValue(lineItem.getRateCode());
-		ottEntitlement.business_position.setValue(lineItem.getBusinessPosition().getId());
-		ottEntitlement.ott_product.setValue(lineItem.getOttProduct());
-		ottEntitlement.product_id.setValue(lineItem.getProductId());
-		ottEntitlement.acct.setValue(lineItem.getAcct());
+		ottSubscription.rate_code.setValue(lineItem.getRateCode());
+		ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
+		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
+		ottSubscription.product_id.setValue(lineItem.getProductId());
+		ottSubscription.acct.setValue(lineItem.getAcct());
 
 		return getModel().getOrder();
 	}
@@ -106,17 +106,17 @@ public class OTTCase extends AbstractCase {
 	public Order update(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTEntitlement ottEntitlement = getModel().alloc().OTTEntitlement(lineItem.getRateCode());
+		OTTSubscription ottSubscription = getModel().find().OTTSubscription(lineItem.getRateCode());
 
-		if (ottEntitlement == null) {
+		if (ottSubscription == null) {
 			throw new BusinessException("Update failed, OTT  service Plan was not found: for raste code: %s", lineItem.getRateCode());
 		}
 
-		ottEntitlement.business_position.setValue(lineItem.getBusinessPosition().getId());
-		ottEntitlement.product_id.setValue(lineItem.getProductId());
-		ottEntitlement.rate_code.setValue(lineItem.getRateCode());
-		ottEntitlement.ott_product.setValue(lineItem.getOttProduct());
-		ottEntitlement.acct.setValue(lineItem.getAcct());
+		ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
+		ottSubscription.product_id.setValue(lineItem.getProductId());
+		ottSubscription.rate_code.setValue(lineItem.getRateCode());
+		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
+		ottSubscription.acct.setValue(lineItem.getAcct());
 
 		return getModel().getOrder();
 	}

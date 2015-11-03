@@ -1,25 +1,20 @@
-/**
- * 
- */
 package dk.yousee.smp5.casemodel.vo.helpers;
 
+import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
-import dk.yousee.smp5.casemodel.vo.ott.OTTEntitlement;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.stb.STBCas;
+import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
+import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
-import dk.yousee.smp5.casemodel.vo.stb.CpeConditionalAccess;
-import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
-import dk.yousee.smp5.casemodel.vo.stb.STBCas;
-import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
-import dk.yousee.smp5.casemodel.SubscriberModel;
 
 /**
  * @author m64746
@@ -69,15 +64,6 @@ public class Add {
 		return res;
 	}
 
-	public OTTEntitlement OTTEntitlement(String rateCode) {
-		OTTSubscription parent = model.alloc().OTTSubscription(rateCode);
-		OTTEntitlement res = new OTTEntitlement(model, key.generateUUID(), parent);
-		if (res.getEntity() == null) {
-			res.getDefaultOrderData();
-		}
-		return res;
-	}
-
 	public OTTSubscription OTTSubscription() {
 		OTTService parent = model.alloc().OTTService();
 		OTTSubscription res = new OTTSubscription(model, key.generateUUID(), parent);
@@ -95,16 +81,16 @@ public class Add {
 		return res;
 	}
 
-	public VideoServicePlan VideoServicePlan(BusinessPosition position) {
-		VideoComposedService parent = model.alloc().VideoComposedService(position);
-		VideoServicePlan res = new VideoServicePlan(model, key.generateUUID(), position, parent);
+	public VideoServicePlan VideoServicePlan() {
+		VideoComposedService parent = model.alloc().VideoComposedService();
+		VideoServicePlan res = new VideoServicePlan(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
 		return res;
 	}
 
-	public VideoComposedService VideoComposedService(BusinessPosition postion) {
+	public VideoComposedService VideoComposedService() {
 		VideoComposedService res = new VideoComposedService(model, key.generateUUID());
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -142,15 +128,6 @@ public class Add {
 	public VideoCPE VideoCPE(String macAdress) {
 		VideoCPEService parent = model.alloc().VideoCPEService();
 		VideoCPE res = new VideoCPE(model, key.generateUUID(), parent);
-		if (res.getEntity() == null) {
-			res.getDefaultOrderData();
-		}
-		return res;
-	}
-
-	public CpeConditionalAccess CpeConditionalAccess(String macAdress) {
-		STBCas parent = model.alloc().STBCas(macAdress);
-		CpeConditionalAccess res = new CpeConditionalAccess(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

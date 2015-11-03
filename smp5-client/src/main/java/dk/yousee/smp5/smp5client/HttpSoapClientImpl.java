@@ -1,5 +1,7 @@
 package dk.yousee.smp5.smp5client;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.rmi.RemoteException;
@@ -72,6 +74,39 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements
 						+ "<xmlRequest xsi:type=\"xsd:string\">%s</xmlRequest>"
 						+ "</ns1:executeXml>" + "</soapenv:Body>"
 						+ "</soapenv:Envelope>", escapedXml);
+		FileOutputStream fop = null;
+		File file;
+		String content = body;
+		try {
+
+			file = new File("C:\\Users\\IT People\\Downloads\\smpSoap.xml");
+			fop = new FileOutputStream(file);
+
+			// if file doesnt exists, then create it
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			// get the content in bytes
+			byte[] contentInBytes = content.getBytes();
+
+			fop.write(contentInBytes);
+			fop.flush();
+			fop.close();
+
+			System.out.println("Done");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		try {
 			post.setEntity(new StringEntity(body, "text/xml", "UTF-8"));
 		} catch (Throwable e) {

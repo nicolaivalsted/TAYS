@@ -78,7 +78,8 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 
 			EntityKeyType entKey = EntityKeyType.Factory.newInstance();
 			entKey.setType("SubSpec:-");
-			entKey.setExternalKey("YouSee:user_" + acct.toString());
+			//TODO remove
+//			entKey.setExternalKey("YouSee:user_" + acct.toString());
 			entKey.setNameQuery(namedQuery);
 
 			EntityKeyListType entityKeyList = getEntityrequest
@@ -279,6 +280,8 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 	                    dataItem.setExternalKey(s.getServiceKey().getExternalKey());
 	                    dataItem.setParams(convertList2map(s.getParamList()));
 	                    dataItem.setAssociations(parseAssociations(s.getAssociationList()));
+	                    SubSvcType.ChildServiceList subChildserviceList = s.getChildServiceList();
+	                    dataItem.getEntities().addAll(parseChildServiceList(subChildserviceList));
 	                    dataList.add(dataItem);
 	                }
 	            }
