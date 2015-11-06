@@ -87,6 +87,12 @@ public class OTTCase extends AbstractCase {
 			this.acct = acct;
 		}
 
+		@Override
+		public String toString() {
+			return "OTTData [businessPosition=" + businessPosition + ", rateCode=" + rateCode + ", productId=" + productId
+					+ ", ottProduct=" + ottProduct + ", acct=" + acct + "]";
+		}
+
 	}
 
 	public Order create(OTTData lineItem) throws BusinessException {
@@ -112,11 +118,20 @@ public class OTTCase extends AbstractCase {
 			throw new BusinessException("Update failed, OTT  service Plan was not found: for raste code: %s", lineItem.getRateCode());
 		}
 
-		ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
-		ottSubscription.product_id.setValue(lineItem.getProductId());
-		ottSubscription.rate_code.setValue(lineItem.getRateCode());
-		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
-		ottSubscription.acct.setValue(lineItem.getAcct());
+		if (lineItem.getBusinessPosition() != null) {
+			ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
+		}
+
+		if (lineItem.getProductId() != null) {
+			ottSubscription.product_id.setValue(lineItem.getProductId());
+		}
+
+		if (lineItem.getRateCode() != null) {
+			ottSubscription.rate_code.setValue(lineItem.getRateCode());
+		}
+		if (lineItem.getOttProduct() != null) {
+			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
+		}
 
 		return getModel().getOrder();
 	}

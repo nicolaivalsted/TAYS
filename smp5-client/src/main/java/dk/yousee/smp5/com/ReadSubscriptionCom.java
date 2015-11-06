@@ -105,7 +105,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 
 			/* ERROR HANDLING */
 			XmlObject[] res = xmlObject
-					.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getEntityByKeyException");
+					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getEntityByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetEntityByKeyExceptionDocument.GetEntityByKeyException ex = (GetEntityByKeyExceptionDocument.GetEntityByKeyException) res[0];
@@ -118,7 +118,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 							.getMessage();
 			}
 			res = xmlObject
-					.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:getServiceByKeyException");
+					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smp:getServiceByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetServiceByKeyExceptionDocument.GetServiceByKeyException ex = (GetServiceByKeyExceptionDocument.GetServiceByKeyException) res[0];
@@ -133,7 +133,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 			}
 
 			res = xmlObject
-					.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getOrderByKeyException");
+					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getOrderByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetOrderByKeyExceptionDocument.GetOrderByKeyException ex = (GetOrderByKeyExceptionDocument.GetOrderByKeyException) res[0];
@@ -147,7 +147,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 			}
 
 			res = xmlObject
-					.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
+					.selectPath("declare namespace smp='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smp:queryOrdersException");
 			if (res.length > 0) {
 				// This is an error
 				QueryOrdersExceptionDocument.QueryOrdersException ex = (QueryOrdersExceptionDocument.QueryOrdersException) res[0];
@@ -160,7 +160,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 
 			/* PARSE RESULTS */
 			res = xmlObject
-					.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getEntityByKeyResponse");
+					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getEntityByKeyResponse");
 			logger.debug("Select getEntityByKeyResponse, res length: "
 					+ res.length);
 			// parse the

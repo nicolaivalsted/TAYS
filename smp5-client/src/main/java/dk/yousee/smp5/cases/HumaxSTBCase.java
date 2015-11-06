@@ -3,7 +3,9 @@ package dk.yousee.smp5.cases;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
+import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.order.model.Acct;
+import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
@@ -105,8 +107,32 @@ public class HumaxSTBCase extends AbstractCase {
 
 	public Order update(STBData lineItem) throws BusinessException {
 		ensureAcct();
-		// TODO
 		return getModel().getOrder();
+	}
+
+	public boolean delete(String macAdresss) throws BusinessException {
+		ensureAcct();
+		boolean res;
+		res = buildOrderFromAction(macAdresss, Action.DELETE);
+		return res;
+	}
+
+	/**
+	 * Constructs an order from action change
+	 *
+	 * @param position
+	 *            selected service plan instance (key is modemId)
+	 * @param action
+	 *            the action to send to the subscription
+	 * @return true if anything to do
+	 */
+	private boolean buildOrderFromAction(String macAdresss, Action delete) {
+		VideoCPEService videoCPEService = getModel().find().VideoCPEService();
+		if (videoCPEService != null) {
+			videoCPEService.sendAction(Action.DELETE);
+			return true;
+		}
+		return false;
 	}
 
 }

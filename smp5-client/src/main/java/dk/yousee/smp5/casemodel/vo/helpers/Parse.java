@@ -16,6 +16,7 @@ import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.order.model.ResponseAssociation;
 import dk.yousee.smp5.order.model.ResponseEntity;
 
 /**
@@ -41,7 +42,6 @@ public class Parse {
 	 *            the node containing plans
 	 */
 	public void buildSubscriberModel(ResponseEntity top) {
-		// TODO Add new services
 		if (top == null)
 			return;
 		for (ResponseEntity plan : top.getEntities()) {
@@ -57,7 +57,7 @@ public class Parse {
 				OTTService ottService = new OTTService(model, plan.getExternalKey());
 				for (ResponseEntity child : plan.getEntities()) {
 					if (child.getType().equals(OTTSubscription.TYPE)) {
-						OTTSubscription ottSubscription = new OTTSubscription(model, child.getExternalKey(), ottService);
+						new OTTSubscription(model, child.getExternalKey(), ottService);
 					} else {
 						logger.warn("unknown OTTService child_service " + child.getExternalKey());
 					}
@@ -69,11 +69,21 @@ public class Parse {
 						VideoServicePlan videoServicePlan = new VideoServicePlan(model, child.getExternalKey(), videoComposedService);
 						for (ResponseEntity subchild : child.getEntities()) {
 							if (subchild.getType().equals(VideoServicePlanAttributes.TYPE)) {
-								VideoServicePlanAttributes videoServicePlanAttributes = new VideoServicePlanAttributes(model, subchild.getExternalKey(), videoServicePlan);
+								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(), videoServicePlan);
+//								if(subchild.getAssociations().size() > 1){
+//									logger.warn("VideoServicePlanAttributes cannot have more than one association " + subchild.getExternalKey());
+//									ResponseAssociation association = subchild.getAssociations().get(0);
+//									STBCas stbCas = new STBCas(model, externalKey, parent)
+//									vvv.video_definition_has_cpe_conditional.add();
+//								}
+								ResponseAssociation association = subchild.getAssociations().get(0);
+								if(association != null){
+									System.out.println("olha eu tenho uma assoc!!!!");
+								}
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
-								VideoSubscription videoSubscription = new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
+								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
 							} else if (subchild.getType().equals(VideoEvent.TYPE)) {
-								VideoEvent videoEvent = new VideoEvent(model, subchild.getExternalKey(), videoServicePlan);
+								new VideoEvent(model, subchild.getExternalKey(), videoServicePlan);
 							} else {
 								logger.warn("unknown VideoServicePlan child_service " + child.getExternalKey());
 							}
@@ -82,8 +92,6 @@ public class Parse {
 						logger.warn("unknown VideoComposedService child_service " + child.getExternalKey());
 					}
 				}
-
-				//
 			} else if (plan.getType().equals(VideoCPEService.TYPE)) {
 				VideoCPEService videoCPEService = new VideoCPEService(model, plan.getExternalKey());
 				for (ResponseEntity child : plan.getEntities()) {
@@ -94,7 +102,7 @@ public class Parse {
 						}
 						for (ResponseEntity subChild : child.getEntities()) {
 							if (subChild.getType().equals(STBCas.TYPE)) {
-								STBCas stbCas = new STBCas(model, subChild.getExternalKey(), videoCPE);
+								new STBCas(model, subChild.getExternalKey(), videoCPE);
 							} else {
 								logger.warn("unknown VideoCPE child_service " + child.getExternalKey());
 							}

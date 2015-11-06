@@ -95,8 +95,6 @@ public class Find {
 		if (parent == null) {
 			return null;
 		} else {
-			// a OTTSubscription devioa ter informação dos seus filhos para ver
-			// se é aquela
 			for (OTTSubscription ottSubscription : parent.getOttSubscriptions()) {
 				if (ottSubscription.rate_code.getValue().equals(rateCode)) {
 					return ottSubscription;

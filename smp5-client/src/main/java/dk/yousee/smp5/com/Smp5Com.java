@@ -2,8 +2,10 @@ package dk.yousee.smp5.com;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
 
 import dk.yousee.smp5.order.model.Smp5Xml;
 
@@ -44,8 +46,8 @@ public abstract class Smp5Com<INPUT,OUTPUT> {
 		File file;
 		String content = response;
 		try {
-
-			file = new File("C:\\Users\\IT People\\Downloads\\smpResposta.xml");
+			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
+			file = new File("C:\\Users\\IT People\\Downloads\\smpResposta" + todayAsString + ".xml");
 			fop = new FileOutputStream(file);
 
 			// if file doesnt exists, then create it

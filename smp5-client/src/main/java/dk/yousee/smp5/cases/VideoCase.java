@@ -80,6 +80,12 @@ public class VideoCase extends AbstractCase {
 			this.macAddress = macAddress;
 		}
 
+		@Override
+		public String toString() {
+			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", position=" + position + ", videoEntitlementType="
+					+ videoEntitlementType + ", videoServicePlanId=" + videoServicePlanId + ", macAddress=" + macAddress + "]";
+		}
+
 	}
 
 	public Order create(VideoData lineItem) throws BusinessException {

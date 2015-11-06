@@ -49,11 +49,9 @@ public class SigmaAction {
 	String execute(String request, Integer operationTimeout) {
 		Smp5Client proxy = getProxy();
 		try {
-			logger.debug(" * * * * * * * * * * * * REQUEST * * * * * * * * * * * * \n"
-					+ request);
+			logger.debug(" * * * * * * * * * * * * REQUEST * * * * * * * * * * * * \n" + request);
 			String xmlResponse = proxy.executeXml(request, operationTimeout);
-			logger.debug(" * * * * * * * * * * * * RESPONSE * * * * * * * * * * * * \n"
-					+ xmlResponse);
+			logger.debug(" * * * * * * * * * * * * RESPONSE * * * * * * * * * * * * \n" + xmlResponse);
 			return xmlResponse;
 		} catch (RuntimeException e) {
 			throw e;
@@ -65,13 +63,10 @@ public class SigmaAction {
 			}
 			if (msg == null)
 				msg = "none";
-			String opTo = (operationTimeout != null) ? Integer
-					.toString(operationTimeout) : String.format(
-					"defaulted to %s", proxy.getDefaultOperationTimeout());
-			throw new RuntimeException(
-					String.format(
-							"When execute soap on SMP got exception: %s, msg: %s. OperationTimeout is %s",
-							e.getClass().getSimpleName(), msg, opTo));
+			String opTo = (operationTimeout != null) ? Integer.toString(operationTimeout) : String.format("defaulted to %s",
+					proxy.getDefaultOperationTimeout());
+			throw new RuntimeException(String.format("When execute soap on SMP got exception: %s, msg: %s. OperationTimeout is %s", e
+					.getClass().getSimpleName(), msg, opTo));
 		}
 	}
 
