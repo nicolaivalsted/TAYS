@@ -31,6 +31,7 @@ public class SMPWiFi extends BasicUnit {
     public PropHolder wifi_service_product_code = new PropHolder(this, "wifi_service_product_code", true);
     public PropHolder ss_id = new PropHolder(this, "ss_id", true);
     public PropHolder psk = new PropHolder(this, "psk", true);
+    public PropHolder psk_5g = new PropHolder(this, "psk_5g", true);
     public PropHolder gw_channel_id = new PropHolder(this, "gw_channel_id", true);
     public PropHolder ss_id_5g = new PropHolder(this, "ss_id_5g", false); // readonly!
     public PropHolder gw_channel_id_5g = new PropHolder(this, "gw_channel_id_5g", false);

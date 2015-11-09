@@ -625,6 +625,37 @@ public class CableBBCase extends AbstractCase {
         }
         return smpWiFi;
     }
+    
+    // 17490 
+    
+    
+    public SMPWiFi updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, 
+            String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
+        SMPWiFi smpWiFi = getModel().find().SMPWiFi(modemId);
+        if (smpWiFi != null) {
+            if (gw_ch_id != null) {
+                logger.debug("gw_ch_id: " + gw_ch_id);
+                smpWiFi.gw_channel_id.setValue(gw_ch_id);
+            }
+            if (psk != null) {
+                smpWiFi.psk.setValue(psk);
+            }
+            if (psk_5g != null) {
+                smpWiFi.psk_5g.setValue(psk);
+            }            
+            if (ss_id != null) {
+                smpWiFi.ss_id.setValue(ss_id);
+            }
+            if (ss_id_5g != null) {
+                smpWiFi.ss_id_5g.setValue(ss_id_5g);
+            }
+            if (gw_ch_5g != null) {
+                smpWiFi.gw_channel_id_5g.setValue(gw_ch_5g);
+            }
+        }
+        return smpWiFi;
+    }
+    
 
     /**
      * Add the customer's WiFi settings as A06
