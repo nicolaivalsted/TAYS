@@ -1,14 +1,12 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
-import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
@@ -40,8 +38,8 @@ public class Alloc {
 		return res;
 	}
 
-	public VideoServicePlan VideoServicePlan(BusinessPosition position) {
-		VideoServicePlan plan = find.VideoServicePlan(position);
+	public VideoServicePlan VideoServicePlan(String servicePlanId) {
+		VideoServicePlan plan = find.VideoServicePlan(servicePlanId);
 		return plan == null ? add.VideoServicePlan() : plan;
 	}
 
@@ -53,29 +51,24 @@ public class Alloc {
 		return res;
 	}
 
-	public VideoEvent VideoEvent(BusinessPosition position) {
-		VideoEvent videoEvent = find.VideoEvent(position);
-		return videoEvent == null ? add.VideoEvent(position) : videoEvent;
+	public VideoServicePlanAttributes VideoServicePlanAttributes(String servicePlanId) {
+		VideoServicePlanAttributes res = find.VideoServicePlanAttributes(servicePlanId);
+		return res == null ? add.VideoServicePlanAttributes(servicePlanId) : res;
 	}
 
-	public VideoServicePlanAttributes VideoServicePlanAttributes(BusinessPosition position) {
-		VideoServicePlanAttributes res = find.VideoServicePlanAttributes(position);
-		return res == null ? add.VideoServicePlanAttributes(position) : res;
+	public VideoSubscription VideoSubscription(String servicePlanId) {
+		VideoSubscription res = find.VideoSubscription(servicePlanId);
+		return res == null ? add.VideoSubscription(servicePlanId) : res;
 	}
 
-	public VideoSubscription VideoSubscription(BusinessPosition position) {
-		VideoSubscription res = find.VideoSubscription(position);
-		return res == null ? add.VideoSubscription(position) : res;
+	public VideoCPE VideoCPE(String serialNumber) {
+		VideoCPE res = find.VideoCPE(serialNumber);
+		return res == null ? add.VideoCPE(serialNumber) : res;
 	}
 
-	public VideoCPE VideoCPE(String macAdress) {
-		VideoCPE res = find.VideoCPE(macAdress);
-		return res == null ? add.VideoCPE(macAdress) : res;
-	}
-
-	public STBCas STBCas(String macAdress) {
-		STBCas res = find.STBCas(macAdress);
-		return res == null ? add.STBCas(macAdress) : res;
+	public STBCas STBCas(String serialNumber) {
+		STBCas res = find.STBCas(serialNumber);
+		return res == null ? add.STBCas(serialNumber) : res;
 	}
 
 	public VideoCPEService VideoCPEService() {

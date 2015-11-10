@@ -51,18 +51,16 @@ import dk.yousee.smp5.order.model.Subscriber;
  * @author m64746
  *
  *         Date: 19/10/2015 Time: 15:35:07
- *         
+ * 
  *         Communication to provisioning
  */
 public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
-	private static final Logger logger = Logger
-			.getLogger(ProvisioningCom.class);
+	private static final Logger logger = Logger.getLogger(ProvisioningCom.class);
 
 	@Override
 	protected String convertRequest(Order order) {
 		if (order.isAsynchronous()) {
-			throw new IllegalArgumentException(
-					"Asynchronious is not implemented");
+			throw new IllegalArgumentException("Asynchronious is not implemented");
 		}
 		if (order.getType() == null) {
 			throw new IllegalArgumentException("Order has no type");
@@ -107,14 +105,11 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 *            ordernumber (always -1)
 		 * @return xml document to be processed at Sigma
 		 */
-		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order,
-				Integer orderId) {
+		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, Integer orderId) {
 			OrderValue orderValue;
 			orderValue = createForExistingCustomer(order, orderId);
-			ExecuteOrderRequestDocument execDoc = ExecuteOrderRequestDocument.Factory
-					.newInstance();
-			ExecuteOrderRequestDocument.ExecuteOrderRequest execRequest = execDoc
-					.addNewExecuteOrderRequest();
+			ExecuteOrderRequestDocument execDoc = ExecuteOrderRequestDocument.Factory.newInstance();
+			ExecuteOrderRequestDocument.ExecuteOrderRequest execRequest = execDoc.addNewExecuteOrderRequest();
 			execRequest.setOrderValue(orderValue);
 			return execDoc;
 		}
@@ -127,26 +122,20 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderId
 		 * @return the order
 		 */
-		private OrderValue createForExistingCustomer(Order order,
-				Integer orderId) {
+		private OrderValue createForExistingCustomer(Order order, Integer orderId) {
 			Subscriber subscriber = order.getSubscriber();
-			ActionOrderValue actionOrder = createActionOrderValue(order,
-					orderId);
-			ActionOrderValue.OrderItemList orderItemList = actionOrder
-					.addNewOrderItemList();
+			ActionOrderValue actionOrder = createActionOrderValue(order, orderId);
+			ActionOrderValue.OrderItemList orderItemList = actionOrder.addNewOrderItemList();
 			logger.debug("Looping through orderData");
 			for (OrderData plan : order.getOrderData()) {
-				logger.debug("Service type and externalKey: " + plan.getType()
-						+ plan.getExternalKey());
-				System.out.println("entrei");
+				logger.debug("Service type and externalKey: " + plan.getType() + plan.getExternalKey());
 				if (plan.getLevel() == OrderDataLevel.CONTACT) {
 					addContactToOrderItem(orderItemList, plan, order);
 				} else if (plan.getLevel() == OrderDataLevel.ADDRESS) {
 					addAddressToOrderItem(orderItemList, plan, order);
 				} else if (plan.getLevel() == OrderDataLevel.SUBSPEC) {
 					// todo: THIS MUST BE A BUG !!!!!!!
-					deleteSubscription(orderItemList, plan, subscriber
-							.getKundeId().toString());
+					deleteSubscription(orderItemList, plan, subscriber.getKundeId().toString());
 				} else if (plan.getLevel() == OrderDataLevel.SERVICE) {
 					addServiceRequest(orderItemList, plan);
 				} else if (plan.getLevel() == OrderDataLevel.SERVICE_HIDDEN) {
@@ -165,54 +154,40 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param plan
 		 *            client input to be converted to XML
 		 */
-		private void addServiceRequest(OrderItemList orderItemList,
-				OrderData servicePlan) {
-			if (servicePlan.getType().getType().equalsIgnoreCase(new OrderDataType(ServicePrefix.SubSvcSpec,"samp_sub").getType())) {
+		private void addServiceRequest(OrderItemList orderItemList, OrderData servicePlan) {
+			if (servicePlan.getType().getType().equalsIgnoreCase(new OrderDataType(ServicePrefix.SubSvcSpec, "samp_sub").getType())) {
 				addServiceRequestForSampSub(orderItemList, servicePlan);
 				return;
 			}
 
-			SubSvcKeyType subSvcKeyType = myMaker.initiateSubSvcKeyType(
-					servicePlan.getType(), servicePlan.getExternalKey());
+			SubSvcKeyType subSvcKeyType = myMaker.initiateSubSvcKeyType(servicePlan.getType(), servicePlan.getExternalKey());
 			OrderItemType servicePart = orderItemList.addNewOrderItem();
-			servicePart.setAction(samf.toAction(servicePlan.getAction())
-					.getValue());
+			servicePart.setAction(samf.toAction(servicePlan.getAction()).getValue());
 			servicePart.setEntityKey(subSvcKeyType);
-			logger.debug("ServiceData constains: " + "Level: "
-					+ servicePlan.getLevel() + ",Action: "
-					+ servicePlan.getAction() + ",State: "
-					+ servicePlan.getState() + ",Type: "
-					+ servicePlan.getType() + ",ExternalKey: "
+			logger.debug("ServiceData constains: " + "Level: " + servicePlan.getLevel() + ",Action: " + servicePlan.getAction()
+					+ ",State: " + servicePlan.getState() + ",Type: " + servicePlan.getType() + ",ExternalKey: "
 					+ servicePlan.getExternalKey());
 			// Add service to request
 			SubSvcType serviceEntity = SubSvcType.Factory.newInstance();
-			serviceEntity
-					.xsetServiceState(sstc.toState(servicePlan.getAction()));
+			serviceEntity.xsetServiceState(sstc.toState(servicePlan.getAction()));
 			serviceEntity.setServiceKey(subSvcKeyType);
 
 			OrderData parentServiceKey = servicePlan.getParent();
 			if (parentServiceKey != null) {
-				serviceEntity.setParentServiceKey(myMaker
-						.initiateSubSvcKeyType(
-								OrderDataType.SERVICE_TYPE_PARENT_SERVICE_KEY,
-								parentServiceKey.getExternalKey()));
+				serviceEntity.setParentServiceKey(myMaker.initiateSubSvcKeyType(OrderDataType.SERVICE_TYPE_PARENT_SERVICE_KEY,
+						parentServiceKey.getExternalKey()));
 			}
 			addServices(serviceEntity, servicePlan);
 
-			EntityParamListType paramList = EntityParamListType.Factory
-					.newInstance();
+			EntityParamListType paramList = EntityParamListType.Factory.newInstance();
 			myMaker.addParameters(paramList, servicePlan.getParams());
 			if (paramList.getParamArray().length > 0) {
 				serviceEntity.setParamList(paramList);
 			}
-			AssocListType assocList = associationMaker
-					.createAssociationsFromOrderDataAssociations(servicePlan
-							.getAssociations());
+			AssocListType assocList = associationMaker.createAssociationsFromOrderDataAssociations(servicePlan.getAssociations());
 			if (assocList.getAssociationArray().length > 0) {
-				AssocListType newAssocList = serviceEntity
-						.addNewAssociationList();
-				newAssocList.setAssociationArray(assocList
-						.getAssociationArray());
+				AssocListType newAssocList = serviceEntity.addNewAssociationList();
+				newAssocList.setAssociationArray(assocList.getAssociationArray());
 			}
 			servicePart.setEntityValue(serviceEntity);
 		}
@@ -221,18 +196,14 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderItemList
 		 * @param servicePlan
 		 */
-		private void addServiceRequestForSampSub(OrderItemList orderItemList,
-				OrderData servicePlan) {
-			SubSvcKeyType subSvcKeyType = myMaker.initiateSubSvcKeyType(
-					servicePlan.getType(), servicePlan.getExternalKey());
+		private void addServiceRequestForSampSub(OrderItemList orderItemList, OrderData servicePlan) {
+			SubSvcKeyType subSvcKeyType = myMaker.initiateSubSvcKeyType(servicePlan.getType(), servicePlan.getExternalKey());
 			OrderItemType servicePart = orderItemList.addNewOrderItem();
-			servicePart.setAction(samf.toAction(servicePlan.getAction())
-					.getValue());
+			servicePart.setAction(samf.toAction(servicePlan.getAction()).getValue());
 			servicePart.setEntityKey(subSvcKeyType);
 
 			SubSvcType serviceEntity = SubSvcType.Factory.newInstance();
-			serviceEntity
-					.xsetServiceState(sstc.toState(servicePlan.getAction()));
+			serviceEntity.xsetServiceState(sstc.toState(servicePlan.getAction()));
 			serviceEntity.setServiceKey(subSvcKeyType);
 
 			AssocListType associations = serviceEntity.addNewAssociationList();
@@ -245,42 +216,33 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 			servicePart.setEntityValue(serviceEntity);
 		}
 
-		private static void addServices(SubSvcType serviceEntity,
-				OrderData servicePlan) {
-			logger.debug("Adding child services, serviceData has "
-					+ servicePlan.getChildren().size() + " children");
+		private static void addServices(SubSvcType serviceEntity, OrderData servicePlan) {
+			logger.debug("Adding child services, serviceData has " + servicePlan.getChildren().size() + " children");
 
-			SubSvcType.ChildServiceList serviceList = serviceEntity
-					.addNewChildServiceList();
+			SubSvcType.ChildServiceList serviceList = serviceEntity.addNewChildServiceList();
 			for (OrderData child : servicePlan.getChildren()) {
 				if (OrderDataLevel.CHILD_SERVICE == child.getLevel()) {
 					SubSvcType childService;
-					logger.debug("Adding child service of type "
-							+ child.getType());
+					logger.debug("Adding child service of type " + child.getType());
 					childService = serviceList.addNewServiceValue();
-					childService.xsetServiceState(sstc.toState(child
-							.getAction()));
+					childService.xsetServiceState(sstc.toState(child.getAction()));
 					SubSvcKeyType serviceKey = childService.addNewServiceKey();
 					String serviceType = child.getType().toString();
 					if (child.getExternalKey() != null) {
 						serviceKey.setExternalKey(child.getExternalKey());
 					} else {
-						throw new IllegalArgumentException(
-								"AddServices. ExternalKey can't be null");
+						throw new IllegalArgumentException("AddServices. ExternalKey can't be null");
 					}
 					serviceKey.setType(serviceType);
 
-					SubSvcKeyType parentServiceKey = childService
-							.addNewParentServiceKey();
+					SubSvcKeyType parentServiceKey = childService.addNewParentServiceKey();
 					parentServiceKey.setType(servicePlan.getType().toString());
-					parentServiceKey.setExternalKey(servicePlan
-							.getExternalKey());
-					
-					//sub childs
+					parentServiceKey.setExternalKey(servicePlan.getExternalKey());
+
+					// sub childs
 					addServices(childService, child);
 
-					EntityParamListType paramList = EntityParamListType.Factory
-							.newInstance();
+					EntityParamListType paramList = EntityParamListType.Factory.newInstance();
 					myMaker.addParameters(paramList, child.getParams());
 					if (paramList.getParamArray().length > 0) {
 						childService.setParamList(paramList);
@@ -288,9 +250,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 					/*
 					 * Association list
 					 */
-					AssocListType assocList = associationMaker
-							.createAssociationsFromOrderDataAssociations(child
-									.getAssociations());
+					AssocListType assocList = associationMaker.createAssociationsFromOrderDataAssociations(child.getAssociations());
 					if (assocList.getAssociationArray().length > 0) {
 						childService.setAssociationList(assocList);
 					}
@@ -303,12 +263,10 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param plan
 		 * @param string
 		 */
-		private void deleteSubscription(OrderItemList orderItemList,
-				OrderData servicePlan, String kundeId) {
+		private void deleteSubscription(OrderItemList orderItemList, OrderData servicePlan, String kundeId) {
 			// TODO Ver bem isto do delete
 			OrderItemType servicePart = orderItemList.addNewOrderItem();
-			servicePart.setAction(samf.toAction(servicePlan.getAction())
-					.getValue());
+			servicePart.setAction(samf.toAction(servicePlan.getAction()).getValue());
 
 			SubType sSubType = SubType.Factory.newInstance();
 			sSubType.setServiceProvider("YouSee");
@@ -351,26 +309,21 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		}
 
 		private static SubAddressKeyType createAddressKey() {
-			SubAddressKeyType subAddressKeyType = SubAddressKeyType.Factory
-					.newInstance();
+			SubAddressKeyType subAddressKeyType = SubAddressKeyType.Factory.newInstance();
 			subAddressKeyType.setType("SubAddressSpec:-");
 			subAddressKeyType.setExternalKey("primary");
 			return subAddressKeyType;
 		}
 
-		private static SubAddressType createAddressEntityValue(
-				OrderData addressData) {
+		private static SubAddressType createAddressEntityValue(OrderData addressData) {
 			SubAddressKeyType subAddressKeyType = createAddressKey();
 			SubAddressType addressEntity = SubAddressType.Factory.newInstance();
 			addressEntity.setKey(subAddressKeyType);
-			addressEntity.setState(sstc.toSimpleState(addressData.getAction())
-					.getStringValue());
+			addressEntity.setState(sstc.toSimpleState(addressData.getAction()).getStringValue());
 			addressEntity.setAddressType("service");
 			addressEntity.setIsDefault(true);
-			EntityParamListType addressParamList = addressEntity
-					.addNewParamList();
-			myMaker.addParameters(addressParamList,
-					new HashMap<String, String>());
+			EntityParamListType addressParamList = addressEntity.addNewParamList();
+			myMaker.addParameters(addressParamList, new HashMap<String, String>());
 			return addressEntity;
 		}
 
@@ -402,17 +355,13 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 			return subKeyType;
 		}
 
-		private static SubContactType createContactEntityValue(
-				OrderData contactData) {
+		private static SubContactType createContactEntityValue(OrderData contactData) {
 			SubContactType contactType = SubContactType.Factory.newInstance();
 			SubContactKeyType subContactKey = createContactKey();
 			contactType.setKey(subContactKey);
-			contactType.setState(sstc.toSimpleState(contactData.getAction())
-					.getStringValue());
-			EntityParamListType addressParamList = contactType
-					.addNewParamList();
-			myMaker.addParameters(addressParamList,
-					new HashMap<String, String>());
+			contactType.setState(sstc.toSimpleState(contactData.getAction()).getStringValue());
+			EntityParamListType addressParamList = contactType.addNewParamList();
+			myMaker.addParameters(addressParamList, new HashMap<String, String>());
 			AssocListType associations = contactType.addNewAssociationList();
 			AssocType contactAddressAssoc = associations.addNewAssociation();
 			contactAddressAssoc.setAssociationType("contact_on_address");
@@ -424,8 +373,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		}
 
 		private static SubContactKeyType createContactKey() {
-			SubContactKeyType subContactKey = SubContactKeyType.Factory
-					.newInstance();
+			SubContactKeyType subContactKey = SubContactKeyType.Factory.newInstance();
 			subContactKey.setType("SubContactSpec:-");
 			subContactKey.setExternalKey("primary");
 			return subContactKey;
@@ -436,8 +384,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param plan
 		 * @param order
 		 */
-		private void addAddressToOrderItem(OrderItemList orderItemList,
-				OrderData plan, Order order) {
+		private void addAddressToOrderItem(OrderItemList orderItemList, OrderData plan, Order order) {
 			OrderItemType itemType = orderItemList.addNewOrderItem();
 			itemType.setAction(samf.toAction(plan.getAction()).getValue());
 			addAddress(itemType, plan);
@@ -447,12 +394,9 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 			}
 		}
 
-		private static void addAddress(OrderItemType orderItem,
-				OrderData addressData) {
-			SubAddressType addressEntity = addressMaker
-					.createAddressEntityValue(addressData);
-			SubAddressKeyType subAddressKeyType = addressMaker
-					.createAddressKey();
+		private static void addAddress(OrderItemType orderItem, OrderData addressData) {
+			SubAddressType addressEntity = addressMaker.createAddressEntityValue(addressData);
+			SubAddressKeyType subAddressKeyType = addressMaker.createAddressKey();
 			orderItem.setEntityKey(subAddressKeyType);
 			orderItem.setEntityValue(addressEntity);
 			orderItem.setItemState("open.not_running.not_started");
@@ -463,17 +407,14 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param plan
 		 * @param order
 		 */
-		private void addContactToOrderItem(OrderItemList orderItemList,
-				OrderData plan, Order order) {
+		private void addContactToOrderItem(OrderItemList orderItemList, OrderData plan, Order order) {
 			OrderItemType itemType = orderItemList.addNewOrderItem();
 			itemType.setAction(samf.toAction(plan.getAction()).getValue());
 			addContact(itemType, order.getSubscriber(), plan);
 		}
 
-		private static void addContact(OrderItemType orderItem,
-				Subscriber subscriber, OrderData contactData) {
-			SubContactType contactType = contactMaker.createContactEntityValue(
-					contactData, subscriber);
+		private static void addContact(OrderItemType orderItem, Subscriber subscriber, OrderData contactData) {
+			SubContactType contactType = contactMaker.createContactEntityValue(contactData, subscriber);
 			SubContactKeyType subContactKey = contactMaker.createContactKey();
 			orderItem.setEntityValue(contactType);
 			orderItem.setEntityKey(subContactKey);
@@ -487,10 +428,8 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderId
 		 * @return XML Element
 		 */
-		private ActionOrderValue createActionOrderValue(Order order,
-				Integer orderId) {
-			ActionOrderValue actionOrder = ActionOrderValue.Factory
-					.newInstance();
+		private ActionOrderValue createActionOrderValue(Order order, Integer orderId) {
+			ActionOrderValue actionOrder = ActionOrderValue.Factory.newInstance();
 			actionOrder.setLastUpdateVersionNumber(-1);
 			actionOrder.setApiClientId(order.getApiClientId());
 			actionOrder.setOrderKey(headMaker.createOrderKey(orderId));
@@ -499,8 +438,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 			SubKeyType subKey = actionOrder.addNewSubKey();
 			subKey.setType("SubSpec:-");
 			subKey.setExternalKey(order.getExternalKey());
-			headMaker.updateOrderParams(actionOrder.addNewOrderParamList(),
-					order);
+			headMaker.updateOrderParams(actionOrder.addNewOrderParamList(), order);
 			return actionOrder;
 		}
 
@@ -524,8 +462,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 				} else if (ex.getObjectNotFoundException() != null) {
 					errorMessage = ex.getObjectNotFoundException().getMessage();
 				} else if (ex.getIllegalArgumentException() != null) {
-					errorMessage = ex.getIllegalArgumentException()
-							.getMessage();
+					errorMessage = ex.getIllegalArgumentException().getMessage();
 				} else {
 					errorMessage = null;
 				}
@@ -541,8 +478,7 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 					ExecuteOrderReply.MadeOrder eor = parseMadeOrder(resp);
 					return new ExecuteOrderReply(eor, xml);
 				} else {
-					return new ExecuteOrderReply(
-							"Error in parsing result, no order", xml);
+					return new ExecuteOrderReply("Error in parsing result, no order", xml);
 				}
 			}
 		}

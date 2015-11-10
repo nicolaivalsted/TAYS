@@ -159,13 +159,11 @@ public class SubscriberModel implements Serializable {
 			order.setType(Order.TYPE_PROVISIONING);
 			order.setSubscriber(subscriber);
 		}
-		if (order.getExternalKey() == null && response != null
-				&& response.getSmp() != null) {
+		if (order.getExternalKey() == null && response != null && response.getSmp() != null) {
 			order.setExternalKey(response.getSmp().getExternalKey());
 		}
 		if (order.getExternalKey() == null) {
-			order.setExternalKey(key().SubscriberExternalKey(
-					subscriber.getKundeId()));
+			order.setExternalKey(key().SubscriberExternalKey(subscriber.getKundeId()));
 		}
 		return order;
 	}

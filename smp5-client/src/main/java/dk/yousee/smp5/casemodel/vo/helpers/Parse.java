@@ -12,7 +12,6 @@ import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
-import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
@@ -77,13 +76,14 @@ public class Parse {
 //									vvv.video_definition_has_cpe_conditional.add();
 //								}
 								ResponseAssociation association = subchild.getAssociations().get(0);
+								//TODO ver como se trata das assoc aqui
 								if(association != null){
 									System.out.println("olha eu tenho uma assoc!!!!");
+								}else{
+									System.out.println("olha eu NAO tenho uma assoc!!!!");
 								}
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
-							} else if (subchild.getType().equals(VideoEvent.TYPE)) {
-								new VideoEvent(model, subchild.getExternalKey(), videoServicePlan);
 							} else {
 								logger.warn("unknown VideoServicePlan child_service " + child.getExternalKey());
 							}

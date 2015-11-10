@@ -2,7 +2,6 @@ package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
-import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
@@ -37,7 +36,9 @@ public class OTTCase extends AbstractCase {
 		private String rateCode;
 		private String productId;
 		private String ottProduct;
-		private String acct;
+		private String entitlementId;
+		private String serviceName;
+		private String uniquenessCheck;
 
 		/**
 		 * @param businessPosition
@@ -79,20 +80,36 @@ public class OTTCase extends AbstractCase {
 			this.ottProduct = ottProduct;
 		}
 
-		public String getAcct() {
-			return acct;
+		public String getEntitlementId() {
+			return entitlementId;
 		}
 
-		public void setAcct(String acct) {
-			this.acct = acct;
+		public void setEntitlementId(String entitlementId) {
+			this.entitlementId = entitlementId;
+		}
+
+		public String getServiceName() {
+			return serviceName;
+		}
+
+		public void setServiceName(String serviceName) {
+			this.serviceName = serviceName;
+		}
+
+		public String getUniquenessCheck() {
+			return uniquenessCheck;
+		}
+
+		public void setUniquenessCheck(String uniquenessCheck) {
+			this.uniquenessCheck = uniquenessCheck;
 		}
 
 		@Override
 		public String toString() {
 			return "OTTData [businessPosition=" + businessPosition + ", rateCode=" + rateCode + ", productId=" + productId
-					+ ", ottProduct=" + ottProduct + ", acct=" + acct + "]";
+					+ ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName=" + serviceName
+					+ ", uniquenessCheck=" + uniquenessCheck + "]";
 		}
-
 	}
 
 	public Order create(OTTData lineItem) throws BusinessException {
@@ -104,7 +121,9 @@ public class OTTCase extends AbstractCase {
 		ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
 		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 		ottSubscription.product_id.setValue(lineItem.getProductId());
-		ottSubscription.acct.setValue(lineItem.getAcct());
+		ottSubscription.service_name.setValue(lineItem.getServiceName());
+		ottSubscription.entitlement_uniqueness_check.setValue(lineItem.getUniquenessCheck());
+		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
 
 		return getModel().getOrder();
 	}
@@ -112,7 +131,7 @@ public class OTTCase extends AbstractCase {
 	public Order update(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTSubscription ottSubscription = getModel().find().OTTSubscription(lineItem.getRateCode());
+		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getRateCode());
 
 		if (ottSubscription == null) {
 			throw new BusinessException("Update failed, OTT  service Plan was not found: for raste code: %s", lineItem.getRateCode());
@@ -132,14 +151,23 @@ public class OTTCase extends AbstractCase {
 		if (lineItem.getOttProduct() != null) {
 			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 		}
+		if (lineItem.getServiceName() != null) {
+			ottSubscription.service_name.setValue(lineItem.getServiceName());
+		}
+		if (lineItem.getEntitlementId() != null) {
+			ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+		}
+		if (lineItem.getUniquenessCheck() != null) {
+			ottSubscription.entitlement_uniqueness_check.setValue(lineItem.getUniquenessCheck());
+		}
 
 		return getModel().getOrder();
 	}
 
-	public boolean delete(BusinessPosition position) throws BusinessException {
+	public boolean delete(String rateCode) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(position, Action.DELETE);
+		res = buildOrderFromAction(rateCode, Action.DELETE);
 		return res;
 	}
 
@@ -152,10 +180,10 @@ public class OTTCase extends AbstractCase {
 	 *            the action to send to the subscription
 	 * @return true if anything to do
 	 */
-	private boolean buildOrderFromAction(BusinessPosition position, Action delete) {
-		OTTService ottService = getModel().find().OTTService();
-		if (ottService != null) {
-			ottService.sendAction(Action.DELETE);
+	private boolean buildOrderFromAction(String rateCode, Action delete) {
+		OTTSubscription ottSubscription = getModel().find().OTTSubscription(rateCode);
+		if (ottSubscription != null) {
+			ottSubscription.sendAction(Action.DELETE);
 			return true;
 		}
 		return false;

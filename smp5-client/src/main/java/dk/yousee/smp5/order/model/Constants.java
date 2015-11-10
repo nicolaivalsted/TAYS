@@ -9,9 +9,7 @@ public class Constants {
 
 	// General
 	
-//	public static final String SERVICE_PROVIDER = "YouSee";
-	//TODO remover
-	public static final String SERVICE_PROVIDER = "sigma";
+	public static final String SERVICE_PROVIDER = "YouSee";
 	public static final String SUBSCRIBER_TYPE = "residential";
 	public static final String SUBKEY_TYPE = "SubSpec:-";
 	public static final String SUB_CONTACTKEY_TYPE = "SubContactSpec:-";

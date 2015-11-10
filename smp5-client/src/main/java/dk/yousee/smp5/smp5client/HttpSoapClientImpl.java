@@ -1,14 +1,9 @@
 package dk.yousee.smp5.smp5client;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.rmi.RemoteException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -72,31 +67,6 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 						+ "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">"
 						+ "<soapenv:Body>%s </soapenv:Body>  </soapenv:Envelope>", xmlRequest);
 
-		FileOutputStream fop = null;
-		File file;
-		String content = body;
-		try {
-			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
-			file = new File("C:\\Users\\IT People\\Downloads\\smpSoap" + todayAsString + ".xml");
-			fop = new FileOutputStream(file);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			byte[] contentInBytes = content.getBytes();
-			fop.write(contentInBytes);
-			fop.flush();
-			fop.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fop != null) {
-					fop.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 		try {
 			RequestEntity requestEntity = new StringRequestEntity(body);
 			postMethod.setRequestEntity(requestEntity);
@@ -125,7 +95,6 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 				} else {
 					errorMessage = String.format("Status not handled, %s", postMethod.getStatusLine().getReasonPhrase());
 				}
-				;
 			} catch (Throwable e) {
 				String message = String.format("could not execute post, got error: %s,", e);
 				logger.fatal(message, e);

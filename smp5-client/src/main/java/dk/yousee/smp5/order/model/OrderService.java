@@ -1,8 +1,6 @@
 package dk.yousee.smp5.order.model;
 
-import dk.yousee.smp5.order.model.ExecuteOrderReply;
-import dk.yousee.smp5.order.model.Order;
-import dk.yousee.smp5.order.model.Response;
+
 
 public interface OrderService {
 	
@@ -55,5 +53,22 @@ public interface OrderService {
      * @return reply from Sigma. An order or an error message. (+ contains xml documents)
      */
 	public ExecuteOrderReply maintainPlan(Order order);
+
+    /**
+    * Find orders by subscriber ,  return all the oreders.
+    *
+     * @param subscriberID - user of net
+     */
+   public QueryOrdersBySubscriberReply queryOrdersBySubscriber(String subscriberID);
+   
+   /**
+    * Find orders by subscriber  ,only return the open orders.
+    * @param subscriberID - user of net
+    */
+   public QueryOrdersBySubscriberReply queryOpenOrdersBySubscriber(String subscriberID);
+   
+   public SearchCustomersResponse searchSubscriber(SearchCustomersRequest searchCustomersRequest);
+   
+   public QueryOrderReply queryOrderState(String orderID);
 
 }

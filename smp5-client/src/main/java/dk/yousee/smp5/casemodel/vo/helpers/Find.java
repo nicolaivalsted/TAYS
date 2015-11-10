@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
@@ -15,7 +14,6 @@ import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
-import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
@@ -138,13 +136,13 @@ public class Find {
 		return (VideoComposedService) find(VideoComposedService.TYPE, externalKey);
 	}
 
-	public VideoServicePlan VideoServicePlan(BusinessPosition position) {
+	public VideoServicePlan VideoServicePlan(String servicePlanId) {
 		VideoComposedService parent = VideoComposedService();
 		if (parent == null) {
 			return null;
 		} else {
 			for (VideoServicePlan videoServicePlan : parent.getVideoServicePlans()) {
-				if (position.equals(videoServicePlan.getVideoServicePlanAttributes().getPosition())) {
+				if (servicePlanId.equals(videoServicePlan.getVideoServicePlanAttributes().video_service_plan_id.getValue())) {
 					return videoServicePlan;
 				}
 			}
@@ -152,35 +150,21 @@ public class Find {
 		return null;
 	}
 
-	public VideoEvent VideoEvent(BusinessPosition position) {
-		VideoServicePlan parent = VideoServicePlan(position);
-		if (parent == null) {
-			return null;
-		} else {
-			for (VideoEvent videoEvent : parent.getVideoEvents()) {
-				if (position.equals(videoEvent.video_entitlement_id.getValue())) {
-					return videoEvent;
-				}
-			}
-		}
-		return null;
-	}
-
-	public VideoServicePlanAttributes VideoServicePlanAttributes(BusinessPosition position) {
-		VideoServicePlan parent = VideoServicePlan(position);
+	public VideoServicePlanAttributes VideoServicePlanAttributes(String servicePlanId) {
+		VideoServicePlan parent = VideoServicePlan(servicePlanId);
 		if (parent == null) {
 			return null;
 		}
 		return parent.getVideoServicePlanAttributes();
 	}
 
-	public VideoSubscription VideoSubscription(BusinessPosition position) {
-		VideoServicePlan parent = VideoServicePlan(position);
+	public VideoSubscription VideoSubscription(String servicePlanId) {
+		VideoServicePlan parent = VideoServicePlan(servicePlanId);
 		if (parent == null) {
 			return null;
 		} else {
 			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
-				if (position.equals(videoSubscription.video_entitlement_id.getValue())) {
+				if (servicePlanId.equals(videoSubscription.video_entitlement_id.getValue())) {
 					return videoSubscription;
 				}
 			}
@@ -204,13 +188,13 @@ public class Find {
 		return null;
 	}
 
-	public VideoCPE VideoCPE(String macAdress) {
+	public VideoCPE VideoCPE(String serialNumber) {
 		VideoCPEService parent = VideoCPEService();
 		if (parent == null) {
 			return null;
 		} else {
 			for (VideoCPE videoCPE : parent.getVideoCPEs()) {
-				if (macAdress.equals(videoCPE.getStbCAS().macAddress.getValue())) {
+				if (serialNumber.equals(videoCPE.getStbCAS().serialNumber.getValue())) {
 					return videoCPE;
 				}
 			}
@@ -218,8 +202,8 @@ public class Find {
 		return null;
 	}
 
-	public STBCas STBCas(String macAdress) {
-		VideoCPE parent = VideoCPE(macAdress);
+	public STBCas STBCas(String serialNumber) {
+		VideoCPE parent = VideoCPE(serialNumber);
 		if (parent == null) {
 			return null;
 		} else {

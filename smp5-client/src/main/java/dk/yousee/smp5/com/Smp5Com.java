@@ -1,108 +1,78 @@
 package dk.yousee.smp5.com;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Random;
-
+import dk.yousee.smp5.debugonly.SaveToFile;
 import dk.yousee.smp5.order.model.Smp5Xml;
 
 /**
  *
  *
  * <p>
- *     The idea is that it takes an input object INPUT as input.
- *     Then the specific implementation must generate a string from this.
+ * The idea is that it takes an input object INPUT as input. Then the specific
+ * implementation must generate a string from this.
  * </p>
  * <p>
- *     Same with output. A string must be converted to the required OUTPUT class
- *     And this is it.
+ * Same with output. A string must be converted to the required OUTPUT class And
+ * this is it.
  * </p>
  * <p>
- *     This abstract class takes care of:
- *     1) all communication.
- *     2) all exception handling
+ * This abstract class takes care of: 1) all communication. 2) all exception
+ * handling
  * </p>
  * <p>
- *     OUTPUT should be made immutable. (Only have a constructor, no setters) - but getters..
+ * OUTPUT should be made immutable. (Only have a constructor, no setters) - but
+ * getters..
  * </p>
  */
-public abstract class Smp5Com<INPUT,OUTPUT> {
+public abstract class Smp5Com<INPUT, OUTPUT> {
 
+	private SigmaAction con;
 
-    private SigmaAction con;
+	public Smp5Com<INPUT, OUTPUT> setCon(SigmaAction con) {
+		this.con = con;
+		return this;
+	}
 
-    public Smp5Com<INPUT,OUTPUT> setCon(SigmaAction con) {
-        this.con = con;
-        return this;
-    }
+	public OUTPUT process(INPUT input) {
+		String request = convertRequest(input);
+		String response = null;
+		response = con.execute(request, getOperationTimeout());
+		SaveToFile.saveResponse(response);
+		OUTPUT res;
+		Smp5Xml xml = new Smp5Xml(request, response);
+		res = convertResponse(xml, input);
+		return res;
+	}
 
-    public OUTPUT process(INPUT input){
-        String request=convertRequest(input);
-        String response=con.execute(request,getOperationTimeout());
-        FileOutputStream fop = null;
-		File file;
-		String content = response;
-		try {
-			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
-			file = new File("C:\\Users\\IT People\\Downloads\\smpResposta" + todayAsString + ".xml");
-			fop = new FileOutputStream(file);
+	static public Smp5Xml xml(String request, String response) {
+		return new Smp5Xml(request, response);
+	}
 
-			// if file doesnt exists, then create it
-			if (!file.exists()) {
-				file.createNewFile();
-			}
+	/**
+	 * Convert the input to xml output
+	 * 
+	 * @param input
+	 *            value object to be used for input
+	 * @return string containing the xml to send to SMP
+	 */
+	protected abstract String convertRequest(INPUT input);
 
-			// get the content in bytes
-			byte[] contentInBytes = content.getBytes();
+	/**
+	 * Parse request to output
+	 * 
+	 * @param xml
+	 *            the entire thing we talked to SMP about
+	 * @param input
+	 *            value object use for query. Placed here to enable you to add
+	 *            it to the return value
+	 * @return string containing the xml to send to SMP
+	 */
+	protected abstract OUTPUT convertResponse(Smp5Xml xml, INPUT input);
 
-			fop.write(contentInBytes);
-			fop.flush();
-			fop.close();
-
-			System.out.println("Done");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fop != null) {
-					fop.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-        OUTPUT res;
-        Smp5Xml xml=new Smp5Xml(request,response);
-        res=convertResponse(xml,input);
-        return res;
-    }
-
-    static public Smp5Xml xml(String request,String response){
-        return new Smp5Xml(request,response);
-    }
-
-    /**
-     * Convert the input to xml output
-     * @param input value object to be used for input
-     * @return string containing the xml to send to SMP
-     */
-    protected abstract String convertRequest(INPUT input);
-
-    /**
-     * Parse request to output
-     * @param xml the entire thing we talked to SMP about
-     * @param input value object use for query. Placed here to enable you to add it to the return value
-     * @return string containing the xml to send to SMP
-     */
-    protected abstract OUTPUT convertResponse(Smp5Xml xml,INPUT input);
-
-    /**
-     * How long time is the request allowed to run
-     * @return null means default (set to SmpConnector) other value will overload
-     */
-    protected abstract Integer getOperationTimeout();
+	/**
+	 * How long time is the request allowed to run
+	 * 
+	 * @return null means default (set to SmpConnector) other value will
+	 *         overload
+	 */
+	protected abstract Integer getOperationTimeout();
 }

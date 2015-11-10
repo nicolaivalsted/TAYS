@@ -31,9 +31,6 @@ public class HumaxSTBCase extends AbstractCase {
 
 	public static class STBData {
 		private BusinessPosition businessPosition;
-		private String manufacturer;
-		private String model;
-		private String macAddress;
 		private String serialNumber;
 		private String acct;
 
@@ -48,30 +45,6 @@ public class HumaxSTBCase extends AbstractCase {
 
 		public void setBusinessPosition(BusinessPosition businessPosition) {
 			this.businessPosition = businessPosition;
-		}
-
-		public String getManufacturer() {
-			return manufacturer;
-		}
-
-		public void setManufacturer(String manufacturer) {
-			this.manufacturer = manufacturer;
-		}
-
-		public String getModel() {
-			return model;
-		}
-
-		public void setModel(String model) {
-			this.model = model;
-		}
-
-		public String getMacAddress() {
-			return macAddress;
-		}
-
-		public void setMacAddress(String macAddress) {
-			this.macAddress = macAddress;
 		}
 
 		public String getSerialNumber() {
@@ -94,13 +67,10 @@ public class HumaxSTBCase extends AbstractCase {
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
 
-		STBCas stbCas = getModel().alloc().STBCas(lineItem.macAddress);
+		STBCas stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
 
 		stbCas.acct.setValue(lineItem.getAcct());
-		stbCas.macAddress.setValue(lineItem.getMacAddress());
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
-		stbCas.manufacturer.setValue(lineItem.getManufacturer());
-		stbCas.model.setValue(lineItem.getModel());
 
 		return getModel().getOrder();
 	}
@@ -110,10 +80,10 @@ public class HumaxSTBCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public boolean delete(String macAdresss) throws BusinessException {
+	public boolean delete(String serialNumber) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(macAdresss, Action.DELETE);
+		res = buildOrderFromAction(serialNumber, Action.DELETE);
 		return res;
 	}
 
@@ -126,7 +96,7 @@ public class HumaxSTBCase extends AbstractCase {
 	 *            the action to send to the subscription
 	 * @return true if anything to do
 	 */
-	private boolean buildOrderFromAction(String macAdresss, Action delete) {
+	private boolean buildOrderFromAction(String serialNumber, Action delete) {
 		VideoCPEService videoCPEService = getModel().find().VideoCPEService();
 		if (videoCPEService != null) {
 			videoCPEService.sendAction(Action.DELETE);

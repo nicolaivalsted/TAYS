@@ -188,11 +188,11 @@ public class AbstractCase {
 	 * precondition: order must be established by model updates<br/>
 	 * postcondition: OrderReply made, orderId returned
 	 *
-	 * @return order number
+	 * @return order response
 	 * @throws BusinessException
 	 *             when could not send, see the errorMessage as well
 	 */
-	public Integer send() throws BusinessException {
+	public ExecuteOrderReply send() throws BusinessException {
 		return send(model.getOrder());
 	}
 
@@ -202,11 +202,11 @@ public class AbstractCase {
 	 *
 	 * @param order2send
 	 *            the order to send. (should be taken from the model
-	 * @return order number
+	 * @return order response
 	 * @throws BusinessException
 	 *             when could not send, see the errorMessage as well
 	 */
-	public Integer send(Order order2send) throws BusinessException {
+	public ExecuteOrderReply send(Order order2send) throws BusinessException {
 		setErrorMessage(null);
 		try {
 			lastOrderReply = service.maintainPlan(order2send);
@@ -220,7 +220,7 @@ public class AbstractCase {
 			setErrorMessage(detailError);
 			throw new BusinessException("When sendng order, got exception: %s", getErrorMessage());
 		}
-		return lastOrderReply.getOrderId();
+		return lastOrderReply;
 	}
 
 	protected void ensureAcct() throws BusinessException {

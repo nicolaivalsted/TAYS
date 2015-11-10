@@ -1,7 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
@@ -11,7 +10,6 @@ import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
-import dk.yousee.smp5.casemodel.vo.video.VideoEvent;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
@@ -98,17 +96,8 @@ public class Add {
 		return res;
 	}
 
-	public VideoEvent VideoEvent(BusinessPosition position) {
-		VideoServicePlan parent = model.alloc().VideoServicePlan(position);
-		VideoEvent res = new VideoEvent(model, key.generateUUID(), parent);
-		if (res.getEntity() == null) {
-			res.getDefaultOrderData();
-		}
-		return res;
-	}
-
-	public VideoServicePlanAttributes VideoServicePlanAttributes(BusinessPosition position) {
-		VideoServicePlan parent = model.alloc().VideoServicePlan(position);
+	public VideoServicePlanAttributes VideoServicePlanAttributes(String servicePlanId) {
+		VideoServicePlan parent = model.alloc().VideoServicePlan(servicePlanId);
 		VideoServicePlanAttributes res = new VideoServicePlanAttributes(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -116,8 +105,8 @@ public class Add {
 		return res;
 	}
 
-	public VideoSubscription VideoSubscription(BusinessPosition position) {
-		VideoServicePlan parent = model.alloc().VideoServicePlan(position);
+	public VideoSubscription VideoSubscription(String servicePlanId) {
+		VideoServicePlan parent = model.alloc().VideoServicePlan(servicePlanId);
 		VideoSubscription res = new VideoSubscription(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -125,7 +114,7 @@ public class Add {
 		return res;
 	}
 
-	public VideoCPE VideoCPE(String macAdress) {
+	public VideoCPE VideoCPE(String serialNumber) {
 		VideoCPEService parent = model.alloc().VideoCPEService();
 		VideoCPE res = new VideoCPE(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
@@ -134,8 +123,8 @@ public class Add {
 		return res;
 	}
 
-	public STBCas STBCas(String macAdress) {
-		VideoCPE parent = model.alloc().VideoCPE(macAdress);
+	public STBCas STBCas(String serialNumber) {
+		VideoCPE parent = model.alloc().VideoCPE(serialNumber);
 		STBCas res = new STBCas(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();

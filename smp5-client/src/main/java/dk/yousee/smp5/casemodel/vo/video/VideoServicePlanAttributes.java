@@ -26,6 +26,9 @@ public class VideoServicePlanAttributes extends BasicUnit {
 	}
 
 	public PropHolder video_service_plan_id = new PropHolder(this, "video_service_plan_id", true);
+	public PropHolder ippv_entitled = new PropHolder(this, "ippv_entitled", true);
+	public PropHolder vod_entitled = new PropHolder(this, "vod_entitled", true);
+	public PropHolder interactive_service_entitled = new PropHolder(this, "interactive_service_entitled", true);
 
 	public BusinessPosition getPosition() {
 		return BusinessPosition.create(video_service_plan_id.getValue());

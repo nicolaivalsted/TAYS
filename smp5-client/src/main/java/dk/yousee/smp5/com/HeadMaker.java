@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.com;
 
 import java.util.Map;

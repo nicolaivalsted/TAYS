@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.order.model;
 
 import java.io.Serializable;
@@ -32,12 +29,7 @@ public class Order implements Serializable {
 	private Map<String, String> params;
 	private Date execDate = null;
 	private String externalKey = null;
-	/**
-	 * The client calling sigma see xml tag: orderValue/apiClientId
-	 */
-//	private String apiClientId = "triple";
-	//TODO should be triple
-	private String apiClientId = "stm";
+	private String apiClientId = "triple";
 	private String returnEventUrl;
 	private Subscriber subscriber;
 	/**
@@ -170,8 +162,6 @@ public class Order implements Serializable {
 		sb.append("{type='").append(type).append('\'');
 		sb.append(", externalKey='").append(externalKey).append('\'');
 		sb.append(", subscriber=").append(subscriber);
-		// sb.append(", orderData=").append(orderData);
-		// sb.append(", params=").append(params);
 		sb.append('}');
 		return sb.toString();
 	}

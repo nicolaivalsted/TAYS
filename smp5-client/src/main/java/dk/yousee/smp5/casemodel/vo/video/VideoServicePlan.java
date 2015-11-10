@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp5.order.model.OrderDataLevel;
 import dk.yousee.smp5.order.model.OrderDataType;
@@ -28,8 +27,6 @@ public class VideoServicePlan extends BasicUnit {
 
 	List<VideoSubscription> videoSubscriptions = new ArrayList<VideoSubscription>();
 
-	List<VideoEvent> videoEvents = new ArrayList<VideoEvent>();
-
 	public VideoComposedService getParent() {
 		return (VideoComposedService) super.getParent();
 	}
@@ -48,14 +45,6 @@ public class VideoServicePlan extends BasicUnit {
 
 	public void setVideoSubscriptions(List<VideoSubscription> videoSubscriptions) {
 		this.videoSubscriptions = videoSubscriptions;
-	}
-
-	public List<VideoEvent> getVideoEvents() {
-		return videoEvents;
-	}
-
-	public void setVideoEvents(List<VideoEvent> videoEvents) {
-		this.videoEvents = videoEvents;
 	}
 
 }

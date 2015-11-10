@@ -63,10 +63,8 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 	public static class Pack extends RequestPack<Acct> {
 		@Override
 		public XmlObject createXml(Acct acct) {
-			GetEntityByKeyRequestDocument queryDoc = GetEntityByKeyRequestDocument.Factory
-					.newInstance();
-			GetEntityByKeyRequestDocument.GetEntityByKeyRequest getEntityrequest = queryDoc
-					.addNewGetEntityByKeyRequest();
+			GetEntityByKeyRequestDocument queryDoc = GetEntityByKeyRequestDocument.Factory.newInstance();
+			GetEntityByKeyRequestDocument.GetEntityByKeyRequest getEntityrequest = queryDoc.addNewGetEntityByKeyRequest();
 			getEntityrequest.setCascadeLoading(true);
 
 			NamedQuery namedQuery = NamedQuery.Factory.newInstance();
@@ -78,12 +76,10 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 
 			EntityKeyType entKey = EntityKeyType.Factory.newInstance();
 			entKey.setType("SubSpec:-");
-			//TODO remove
-//			entKey.setExternalKey("YouSee:user_" + acct.toString());
+			entKey.setExternalKey("YouSee:user_" + acct.toString());
 			entKey.setNameQuery(namedQuery);
 
-			EntityKeyListType entityKeyList = getEntityrequest
-					.addNewEntityKeyLst();
+			EntityKeyListType entityKeyList = getEntityrequest.addNewEntityKeyLst();
 			entityKeyList.addNewEntityKey().set(entKey);
 			return queryDoc;
 		}
@@ -114,8 +110,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				else if (ex.getObjectNotFoundException() != null)
 					errorMessage = ex.getObjectNotFoundException().getMessage();
 				else if (ex.getIllegalArgumentException() != null)
-					errorMessage = ex.getIllegalArgumentException()
-							.getMessage();
+					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
 			res = xmlObject
 					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smp:getServiceByKeyException");
@@ -127,8 +122,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				else if (ex.getObjectNotFoundException() != null)
 					errorMessage = ex.getObjectNotFoundException().getMessage();
 				else if (ex.getIllegalArgumentException() != null)
-					errorMessage = ex.getIllegalArgumentException()
-							.getMessage();
+					errorMessage = ex.getIllegalArgumentException().getMessage();
 
 			}
 
@@ -142,8 +136,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				else if (ex.getObjectNotFoundException() != null)
 					errorMessage = ex.getObjectNotFoundException().getMessage();
 				else if (ex.getIllegalArgumentException() != null)
-					errorMessage = ex.getIllegalArgumentException()
-							.getMessage();
+					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
 
 			res = xmlObject
@@ -154,23 +147,20 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				if (ex.getRemoteException() != null)
 					errorMessage = ex.getRemoteException().getMessage();
 				else if (ex.getIllegalArgumentException() != null)
-					errorMessage = ex.getIllegalArgumentException()
-							.getMessage();
+					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
 
 			/* PARSE RESULTS */
 			res = xmlObject
 					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getEntityByKeyResponse");
-			logger.debug("Select getEntityByKeyResponse, res length: "
-					+ res.length);
+			logger.debug("Select getEntityByKeyResponse, res length: " + res.length);
 			// parse the
 			ResponseEntity smp = null;
 
 			// the response
 			if (res.length > 0) {
 				GetEntityByKeyResponseDocument doc = (GetEntityByKeyResponseDocument) xmlObject;
-				GetEntityByKeyResponseDocument.GetEntityByKeyResponse entity = doc
-						.getGetEntityByKeyResponse();
+				GetEntityByKeyResponseDocument.GetEntityByKeyResponse entity = doc.getGetEntityByKeyResponse();
 				smp = parseSmpRoot(entity);
 			}
 
@@ -195,8 +185,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 						smp.setExternalKey(subType.getKey().getExternalKey());
 						smp.setState(sstc.find(subType.getState()));
 						EntityListType entListType = subType.getEntityList();
-						for (EntityValue entityValue : entListType
-								.getEntityValueArray()) {
+						for (EntityValue entityValue : entListType.getEntityValueArray()) {
 							ResponseEntity dataChild;
 							dataChild = parseEntityValue(entityValue);
 							if (dataChild != null) {
@@ -238,91 +227,91 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				res.setExternalKey(subKey.getKey().getExternalKey());
 				res.setParams(convertList2map(entParamList));
 				res.setAssociations(parseAssociations(subKey.getAssociationList()));
-				
+
 			} else if (entityValue instanceof SubSvcType) {
 				SubSvcType subKey = (SubSvcType) entityValue;
 				res.setLevel(ResponseEntityLevel.SERVICE);
-	            res.setState(sstc.find((SubSvcStateType) subKey.xgetServiceState()));
-	            res.setValue(new OrderDataType(subKey.getServiceKey().getType()));
-                res.setExternalKey(subKey.getServiceKey().getExternalKey());
-                SubSvcKeyType parentKey = subKey.getParentServiceKey(); // link back to parent service
-                if (parentKey != null) {
-                    String parentExtKey = parentKey.getExternalKey();
-                    if (parentExtKey != null) {
-                        logger.debug("Parent service key");
-                    }
-                }
-                EntityParamListType entParamList = subKey.getParamList();
-                res.setParams(convertList2map(entParamList));
-                res.setAssociations(parseAssociations(subKey.getAssociationList()));
-                SubSvcType.ChildServiceList childserviceList = subKey.getChildServiceList();
-                res.getEntities().addAll(parseChildServiceList(childserviceList));
-                
+				res.setState(sstc.find((SubSvcStateType) subKey.xgetServiceState()));
+				res.setValue(new OrderDataType(subKey.getServiceKey().getType()));
+				res.setExternalKey(subKey.getServiceKey().getExternalKey());
+				SubSvcKeyType parentKey = subKey.getParentServiceKey();
+				if (parentKey != null) {
+					String parentExtKey = parentKey.getExternalKey();
+					if (parentExtKey != null) {
+						logger.debug("Parent service key");
+					}
+				}
+				EntityParamListType entParamList = subKey.getParamList();
+				res.setParams(convertList2map(entParamList));
+				res.setAssociations(parseAssociations(subKey.getAssociationList()));
+				SubSvcType.ChildServiceList childserviceList = subKey.getChildServiceList();
+				res.getEntities().addAll(parseChildServiceList(childserviceList));
+
 			} else {
 				logger.warn("Unknown entity value");
 			}
 			return res;
 		}
 
-	     /**
+		/**
 		 * @param childserviceList
 		 * @return
 		 */
-		 public List<ResponseEntity> parseChildServiceList(ChildServiceList childserviceList) {
-			 List<ResponseEntity> dataList = new ArrayList<ResponseEntity>();
-	            if (childserviceList != null) {
-	                for (SubSvcType s : childserviceList.getServiceValueArray()) {
-	                    ResponseEntity dataItem;
-	                    dataItem = new ResponseEntity();
-	                    dataItem.setLevel(ResponseEntityLevel.CHILD_SERVICE);
-	                    dataItem.setValue(new OrderDataType(s.getServiceKey().getType()));
-	                    dataItem.setState(sstc.find((SubSvcStateType) s.xgetServiceState()));
-	                    dataItem.setExternalKey(s.getServiceKey().getExternalKey());
-	                    dataItem.setParams(convertList2map(s.getParamList()));
-	                    dataItem.setAssociations(parseAssociations(s.getAssociationList()));
-	                    SubSvcType.ChildServiceList subChildserviceList = s.getChildServiceList();
-	                    dataItem.getEntities().addAll(parseChildServiceList(subChildserviceList));
-	                    dataList.add(dataItem);
-	                }
-	            }
-	            return dataList;
+		public List<ResponseEntity> parseChildServiceList(ChildServiceList childserviceList) {
+			List<ResponseEntity> dataList = new ArrayList<ResponseEntity>();
+			if (childserviceList != null) {
+				for (SubSvcType s : childserviceList.getServiceValueArray()) {
+					ResponseEntity dataItem;
+					dataItem = new ResponseEntity();
+					dataItem.setLevel(ResponseEntityLevel.CHILD_SERVICE);
+					dataItem.setValue(new OrderDataType(s.getServiceKey().getType()));
+					dataItem.setState(sstc.find((SubSvcStateType) s.xgetServiceState()));
+					dataItem.setExternalKey(s.getServiceKey().getExternalKey());
+					dataItem.setParams(convertList2map(s.getParamList()));
+					dataItem.setAssociations(parseAssociations(s.getAssociationList()));
+					SubSvcType.ChildServiceList subChildserviceList = s.getChildServiceList();
+					dataItem.getEntities().addAll(parseChildServiceList(subChildserviceList));
+					dataList.add(dataItem);
+				}
+			}
+			return dataList;
 		}
 
 		/**
-         * @param associationList xml element with associations
-         * @return a list of all associations, null if none
-         */
-        private List<ResponseAssociation> parseAssociations(AssocListType associationList) {
-        	 List<ResponseAssociation> res = null;
-             if (associationList != null && associationList.sizeOfAssociationArray() != 0) {
-                 res = new ArrayList<ResponseAssociation>();
-                 for (AssocType one : associationList.getAssociationArray()) {
-                     ResponseAssociation ra = new ResponseAssociation();
-                     ra.setAssociationType(one.getAssociationType());
-                     ManagedEntityKey zxx = one.getZEndKey();
-                     //TODO ver qual é o metodo para ir buscar a primaryKEy
-                     ra.setType(new OrderDataType(zxx.getType()));
-                     String oneTxt = one.toString();
-                     ra.setPrimaryKey(grepPrimaryKey(oneTxt));
-                     res.add(ra);
-                 }
-             }
-             return res;
+		 * @param associationList
+		 *            xml element with associations
+		 * @return a list of all associations, null if none
+		 */
+		private List<ResponseAssociation> parseAssociations(AssocListType associationList) {
+			List<ResponseAssociation> res = null;
+			if (associationList != null && associationList.sizeOfAssociationArray() != 0) {
+				res = new ArrayList<ResponseAssociation>();
+				for (AssocType one : associationList.getAssociationArray()) {
+					ResponseAssociation ra = new ResponseAssociation();
+					ra.setAssociationType(one.getAssociationType());
+					ManagedEntityKey zxx = one.getZEndKey();
+					ra.setType(new OrderDataType(zxx.getType()));
+					String oneTxt = one.toString();
+					ra.setPrimaryKey(grepPrimaryKey(oneTxt));
+					res.add(ra);
+				}
+			}
+			return res;
 		}
-        
-        private static String grepPrimaryKey(final String source) {
-            final String key = "primaryKey>";
-            int pos0 = source.indexOf(key);
-            if (pos0 == -1){
-            	return null;
-            }
-            pos0 = pos0 + key.length();
-            int pos1 = source.indexOf("<", pos0);
-            if (pos1 == -1) {
-            	return null;
-            }
-            return source.substring(pos0, pos1);
-        }
+
+		private static String grepPrimaryKey(final String source) {
+			final String key = "primaryKey>";
+			int pos0 = source.indexOf(key);
+			if (pos0 == -1) {
+				return null;
+			}
+			pos0 = pos0 + key.length();
+			int pos1 = source.indexOf("<", pos0);
+			if (pos1 == -1) {
+				return null;
+			}
+			return source.substring(pos0, pos1);
+		}
 
 		public Map<String, String> convertList2map(EntityParamListType paramL) {
 			Map<String, String> params = new TreeMap<String, String>();

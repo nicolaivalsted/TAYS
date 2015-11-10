@@ -1,15 +1,15 @@
 package dk.yousee.smp5.cases;
 
-import dk.yousee.smp5.order.model.Subscriber;
-import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.cases.subscriber.AddressInfo;
 import dk.yousee.smp5.cases.subscriber.ContactInfo;
 import dk.yousee.smp5.order.model.Acct;
+import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.model.Subscriber;
 
 public class SubscriberCase extends AbstractCase {
 	public boolean justCreated=false;

@@ -15,14 +15,11 @@ import dk.yousee.smp5.order.model.ServicePrefix;
  */
 public class STBCas extends BasicUnit {
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "cpe_cas");
+	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "stb_cas");
 
 	public PropHolder business_position = new PropHolder(this, Constants.BUSINESS_POSITION, true);
-	public PropHolder macAddress = new PropHolder(this, "macAddress", true);
-	public PropHolder serialNumber = new PropHolder(this, "serialNumber", true);
+	public PropHolder serialNumber = new PropHolder(this, "id1_name", true);
 	public PropHolder acct = new PropHolder(this, "acct", true);
-	public PropHolder manufacturer = new PropHolder(this, "manufacturer", true);
-	public PropHolder model = new PropHolder(this, "model", true);
 
 	public STBCas(SubscriberModel model, String externalKey, VideoCPE parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
