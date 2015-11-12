@@ -73,9 +73,7 @@ public abstract class BasicUnit {
 	 *            the service plan this unit belongs to (null means no parent,
 	 *            it could be a service plan it self)
 	 */
-	protected BasicUnit(SubscriberModel model, String externalKey,
-			OrderDataType type, OrderDataLevel level, NickName name,
-			BasicUnit parent) {
+	protected BasicUnit(SubscriberModel model, String externalKey, OrderDataType type, OrderDataLevel level, NickName name, BasicUnit parent) {
 		this.model = model;
 		this.type = type;
 		this.level = level;
@@ -105,8 +103,7 @@ public abstract class BasicUnit {
 	ResponseEntity findBelong2me(ResponseEntity entity) {
 		if (entity == null)
 			return null;
-		if (this.externalKey.equals(entity.getExternalKey())
-				&& (this.getType().equals(entity.getType())))
+		if (this.externalKey.equals(entity.getExternalKey()) && (this.getType().equals(entity.getType())))
 			return entity;
 		for (ResponseEntity child : entity.getEntities()) {
 			ResponseEntity mine = findBelong2me(child);
@@ -118,8 +115,7 @@ public abstract class BasicUnit {
 
 	protected void assignValueToKey(String key, String value) {
 		OrderData orderData = getDefaultOrderData();
-		if (getValueByKeyInResponse(key) != null
-				&& getValueByKeyInResponse(key).equals(value)) {
+		if (getValueByKeyInResponse(key) != null && getValueByKeyInResponse(key).equals(value)) {
 			// ignore
 		} else {
 			orderData.getParams().put(key, value);
@@ -133,10 +129,8 @@ public abstract class BasicUnit {
 
 	protected ResponseAssociation getAssociationByTypeInResponse(String type) {
 		if (entity != null && entity.getAssociations() != null)
-			for (ResponseAssociation responseAssociation : entity
-					.getAssociations()) {
-				if (responseAssociation.getAssociationType().equalsIgnoreCase(
-						type)) {
+			for (ResponseAssociation responseAssociation : entity.getAssociations()) {
+				if (responseAssociation.getAssociationType().equalsIgnoreCase(type)) {
 					return responseAssociation;
 				}
 			}
@@ -209,17 +203,13 @@ public abstract class BasicUnit {
 			} else {
 				// use CloneADDOrderData and Level.SERVICE_HIDDEN for the case
 				// that parent exist and we could igonore it.
-				if (od.getAction() == Action.ACTIVATE
-						&& parent.getEntity() != null) {
-					getDefaultOrderData().setParent(
-							parent.getCloneADDOrderData());
+				if (od.getAction() == Action.ACTIVATE && parent.getEntity() != null) {
+					getDefaultOrderData().setParent(parent.getCloneADDOrderData());
 					OrderData po = parent.getCloneADDOrderData();
-					parent.getCloneADDOrderData().setLevel(
-							OrderDataLevel.SERVICE_HIDDEN);
+					parent.getCloneADDOrderData().setLevel(OrderDataLevel.SERVICE_HIDDEN);
 					po.getChildren().add(od);
 				} else {
-					getDefaultOrderData().setParent(
-							parent.getDefaultOrderData());
+					getDefaultOrderData().setParent(parent.getDefaultOrderData());
 					OrderData po = parent.getDefaultOrderData();
 					po.getChildren().add(od);
 				}
@@ -239,8 +229,7 @@ public abstract class BasicUnit {
 	public void delete() {
 		// to delete , we should
 		if (parent != null) {
-			parent.getDefaultOrderData()
-					.setLevel(OrderDataLevel.SERVICE_HIDDEN);
+			parent.getDefaultOrderData().setLevel(OrderDataLevel.SERVICE_HIDDEN);
 		}
 		sendAction(Action.DELETE);
 	}
@@ -306,8 +295,7 @@ public abstract class BasicUnit {
 	 *         this state)
 	 */
 	public boolean isInProgress() {
-		ProvisionStateEnum state = getEntity() == null ? null : getEntity()
-				.getState();
+		ProvisionStateEnum state = getEntity() == null ? null : getEntity().getState();
 		return state != null && state.isProgress();
 	}
 

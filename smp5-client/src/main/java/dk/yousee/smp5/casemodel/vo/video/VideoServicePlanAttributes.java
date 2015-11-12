@@ -1,7 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.video;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.helpers.AssociationHolder;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp5.casemodel.vo.helpers.PropHolder;
@@ -29,10 +28,6 @@ public class VideoServicePlanAttributes extends BasicUnit {
 	public PropHolder ippv_entitled = new PropHolder(this, "ippv_entitled", true);
 	public PropHolder vod_entitled = new PropHolder(this, "vod_entitled", true);
 	public PropHolder interactive_service_entitled = new PropHolder(this, "interactive_service_entitled", true);
-
-	public BusinessPosition getPosition() {
-		return BusinessPosition.create(video_service_plan_id.getValue());
-	}
 
 	// Type.ASSOC
 	public AssociationHolder video_definition_has_cpe_conditional = new AssociationHolder(this, "video_definition_has_cpe_conditional",

@@ -34,17 +34,29 @@ public class OTTCase extends AbstractCase {
 	public static class OTTData {
 		private BusinessPosition businessPosition;
 		private String rateCode;
-		private String productId;
 		private String ottProduct;
 		private String entitlementId;
 		private String serviceName;
-		private String uniquenessCheck;
+		private String beginDate;
+		private String endDate;
 
-		/**
-		 * @param businessPosition
-		 */
+		public String getBeginDate() {
+			return beginDate;
+		}
+
+		public void setBeginDate(String beginDate) {
+			this.beginDate = beginDate;
+		}
+
+		public String getEndDate() {
+			return endDate;
+		}
+
+		public void setEndDate(String endDate) {
+			this.endDate = endDate;
+		}
+
 		public OTTData(BusinessPosition businessPosition) {
-			super();
 			this.businessPosition = businessPosition;
 		}
 
@@ -62,14 +74,6 @@ public class OTTCase extends AbstractCase {
 
 		public void setRateCode(String rateCode) {
 			this.rateCode = rateCode;
-		}
-
-		public String getProductId() {
-			return productId;
-		}
-
-		public void setProductId(String productId) {
-			this.productId = productId;
 		}
 
 		public String getOttProduct() {
@@ -96,34 +100,25 @@ public class OTTCase extends AbstractCase {
 			this.serviceName = serviceName;
 		}
 
-		public String getUniquenessCheck() {
-			return uniquenessCheck;
-		}
-
-		public void setUniquenessCheck(String uniquenessCheck) {
-			this.uniquenessCheck = uniquenessCheck;
-		}
-
 		@Override
 		public String toString() {
-			return "OTTData [businessPosition=" + businessPosition + ", rateCode=" + rateCode + ", productId=" + productId
-					+ ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName=" + serviceName
-					+ ", uniquenessCheck=" + uniquenessCheck + "]";
+			return "OTTData [businessPosition=" + businessPosition + ", rateCode=" + rateCode + ", ottProduct=" + ottProduct
+					+ ", entitlementId=" + entitlementId + ", serviceName=" + serviceName + "]";
 		}
 	}
 
 	public Order create(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getRateCode());
+		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getEntitlementId());
 
 		ottSubscription.rate_code.setValue(lineItem.getRateCode());
 		ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
 		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
-		ottSubscription.product_id.setValue(lineItem.getProductId());
 		ottSubscription.service_name.setValue(lineItem.getServiceName());
-		ottSubscription.entitlement_uniqueness_check.setValue(lineItem.getUniquenessCheck());
 		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+		ottSubscription.begin_date.setValue(lineItem.getBeginDate());
+		ottSubscription.end_date.setValue(lineItem.getEndDate());
 
 		return getModel().getOrder();
 	}
@@ -131,18 +126,14 @@ public class OTTCase extends AbstractCase {
 	public Order update(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getRateCode());
+		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getEntitlementId());
 
 		if (ottSubscription == null) {
-			throw new BusinessException("Update failed, OTT  service Plan was not found: for raste code: %s", lineItem.getRateCode());
+			throw new BusinessException("Update failed, OTT  service Plan was not found: for id: %s", lineItem.getEntitlementId());
 		}
 
 		if (lineItem.getBusinessPosition() != null) {
 			ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
-		}
-
-		if (lineItem.getProductId() != null) {
-			ottSubscription.product_id.setValue(lineItem.getProductId());
 		}
 
 		if (lineItem.getRateCode() != null) {
@@ -154,20 +145,26 @@ public class OTTCase extends AbstractCase {
 		if (lineItem.getServiceName() != null) {
 			ottSubscription.service_name.setValue(lineItem.getServiceName());
 		}
-		if (lineItem.getEntitlementId() != null) {
-			ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+		if (!ottSubscription.ott_entitlement_id.hasValue()) {
+			if (lineItem.getEntitlementId() != null) {
+				ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+			}
 		}
-		if (lineItem.getUniquenessCheck() != null) {
-			ottSubscription.entitlement_uniqueness_check.setValue(lineItem.getUniquenessCheck());
+		if (lineItem.getBeginDate() != null) {
+			ottSubscription.begin_date.setValue(lineItem.getBeginDate());
+		}
+
+		if (lineItem.getEndDate() != null) {
+			ottSubscription.end_date.setValue(lineItem.getEndDate());
 		}
 
 		return getModel().getOrder();
 	}
 
-	public boolean delete(String rateCode) throws BusinessException {
+	public boolean delete(String entitlement) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(rateCode, Action.DELETE);
+		res = buildOrderFromAction(entitlement, Action.DELETE);
 		return res;
 	}
 
@@ -180,10 +177,11 @@ public class OTTCase extends AbstractCase {
 	 *            the action to send to the subscription
 	 * @return true if anything to do
 	 */
-	private boolean buildOrderFromAction(String rateCode, Action delete) {
-		OTTSubscription ottSubscription = getModel().find().OTTSubscription(rateCode);
+	private boolean buildOrderFromAction(String entitlement, Action delete) {
+		OTTSubscription ottSubscription = getModel().find().OTTSubscription(entitlement);
 		if (ottSubscription != null) {
 			ottSubscription.sendAction(Action.DELETE);
+			ottSubscription.uuid.setValue("2222222222");
 			return true;
 		}
 		return false;

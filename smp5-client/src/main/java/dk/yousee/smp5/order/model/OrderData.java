@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.order.model;
 
 import java.io.Serializable;

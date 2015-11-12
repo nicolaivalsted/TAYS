@@ -22,9 +22,10 @@ public class VideoSubscription extends BasicUnit {
 	}
 
 	public PropHolder video_entitlement_id = new PropHolder(this, "video_entitlement_id", true);
+	public PropHolder packageId = new PropHolder(this, "packageId", true);
+	
 	public PropHolder begin_date = new PropHolder(this, "begin_date", true);
 	public PropHolder end_date = new PropHolder(this, "end_date", true);
-	public PropHolder packageId = new PropHolder(this, "packageId", true);
 
 	public VideoServicePlan getParent() {
 		return (VideoServicePlan) super.getParent();

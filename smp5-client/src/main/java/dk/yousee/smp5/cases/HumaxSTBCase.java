@@ -1,9 +1,9 @@
 package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
-import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
+import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
+import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
@@ -30,21 +30,16 @@ public class HumaxSTBCase extends AbstractCase {
 	}
 
 	public static class STBData {
-		private BusinessPosition businessPosition;
 		private String serialNumber;
 		private String acct;
+		private String servicePlanId;
 
-		public STBData(BusinessPosition position) {
-			super();
-			this.businessPosition = position;
+		public String getServicePlanId() {
+			return servicePlanId;
 		}
 
-		public BusinessPosition getBusinessPosition() {
-			return businessPosition;
-		}
-
-		public void setBusinessPosition(BusinessPosition businessPosition) {
-			this.businessPosition = businessPosition;
+		public void setServicePlanId(String servicePlanId) {
+			this.servicePlanId = servicePlanId;
 		}
 
 		public String getSerialNumber() {
@@ -62,6 +57,11 @@ public class HumaxSTBCase extends AbstractCase {
 		public void setAcct(String acct) {
 			this.acct = acct;
 		}
+
+		@Override
+		public String toString() {
+			return "STBData [serialNumber=" + serialNumber + ", acct=" + acct + ", servicePlanId=" + servicePlanId + "]";
+		}
 	}
 
 	public Order create(STBData lineItem) throws BusinessException {
@@ -71,6 +71,15 @@ public class HumaxSTBCase extends AbstractCase {
 
 		stbCas.acct.setValue(lineItem.getAcct());
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
+
+		if (lineItem.getServicePlanId() != null && !lineItem.getServicePlanId().equals("")) {
+
+			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes(
+					lineItem.getServicePlanId());
+			if (stbCas != null) {
+				videoServicePlanAttributes.video_definition_has_cpe_conditional.add(stbCas);
+			}
+		}
 
 		return getModel().getOrder();
 	}
@@ -97,9 +106,9 @@ public class HumaxSTBCase extends AbstractCase {
 	 * @return true if anything to do
 	 */
 	private boolean buildOrderFromAction(String serialNumber, Action delete) {
-		VideoCPEService videoCPEService = getModel().find().VideoCPEService();
-		if (videoCPEService != null) {
-			videoCPEService.sendAction(Action.DELETE);
+		VideoCPE videoCPE = getModel().find().VideoCPE(serialNumber);
+		if (videoCPE != null) {
+			videoCPE.sendAction(Action.DELETE);
 			return true;
 		}
 		return false;

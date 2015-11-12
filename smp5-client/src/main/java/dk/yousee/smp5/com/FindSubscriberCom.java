@@ -49,12 +49,7 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		QueryManagedEntitiesRequestDocument requestDocument = QueryManagedEntitiesRequestDocument.Factory.newInstance();
 		QueryManagedEntitiesRequestDocument.QueryManagedEntitiesRequest request = requestDocument.addNewQueryManagedEntitiesRequest();
 		request.setQuery(queryValue);
-		ArrayOfString arrayOfString = ArrayOfString.Factory.newInstance(); // Fields
-																			// to
-																			// get
-																			// back
-																			// as
-																			// result-set.
+		ArrayOfString arrayOfString = ArrayOfString.Factory.newInstance(); 
 		arrayOfString.addItem("acct");
 		arrayOfString.addItem(Constants.FIRST_NAME);
 		arrayOfString.addItem(Constants.LAST_NAME);

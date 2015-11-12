@@ -88,13 +88,13 @@ public class Find {
 		return null;
 	}
 
-	public OTTSubscription OTTSubscription(String rateCode) {
+	public OTTSubscription OTTSubscription(String entitlement) {
 		OTTService parent = OTTService();
 		if (parent == null) {
 			return null;
 		} else {
 			for (OTTSubscription ottSubscription : parent.getOttSubscriptions()) {
-				if (ottSubscription.rate_code.getValue().equals(rateCode)) {
+				if (ottSubscription.ott_entitlement_id.getValue().equals(entitlement)) {
 					return ottSubscription;
 				}
 			}
@@ -165,6 +165,20 @@ public class Find {
 		} else {
 			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
 				if (servicePlanId.equals(videoSubscription.video_entitlement_id.getValue())) {
+					return videoSubscription;
+				}
+			}
+		}
+		return null;
+	}
+
+	public VideoSubscription VideoSubscription(String servicePlanId, String entitlementId) {
+		VideoServicePlan parent = VideoServicePlan(servicePlanId);
+		if (parent == null) {
+			return null;
+		} else {
+			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
+				if (entitlementId.equals(videoSubscription.video_entitlement_id.getValue())) {
 					return videoSubscription;
 				}
 			}

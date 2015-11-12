@@ -44,5 +44,7 @@ public class SubAddressSpec extends BasicUnit {
 	public PropHolder country = new PropHolder(this, Constants.COUNTRY);
 
 	public PropHolder ntd_return_segment_nm = new PropHolder(this,Constants.MUNICIPALITY);
+	
+	public PropHolder cableUnit = new PropHolder(this, "region");
 
 }

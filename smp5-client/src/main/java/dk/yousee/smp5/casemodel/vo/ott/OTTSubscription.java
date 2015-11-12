@@ -24,13 +24,14 @@ public class OTTSubscription extends BasicUnit {
 
 	public PropHolder rate_code = new PropHolder(this, Constants.RATE_CODE, true);
 	public PropHolder acct = new PropHolder(this, "acct", true);
-	public PropHolder product_id = new PropHolder(this, Constants.PRODUCT_ID, true);
 	public PropHolder business_position = new PropHolder(this, Constants.BUSINESS_POSITION, true);
 	public PropHolder ott_product = new PropHolder(this, Constants.OTT_PRODUCT, true);
-	public PropHolder uuid = new PropHolder(this, Constants.UUID, false);
 	public PropHolder service_name = new PropHolder(this, Constants.SERVICE_NAME, true);
-	public PropHolder entitlement_uniqueness_check = new PropHolder(this, "ott_entitlement_uniqueness_check", true);
-	public PropHolder ott_entitlement_id = new PropHolder(this, "ott_entitlement_id", true);
+	public PropHolder ott_entitlement_id = new PropHolder(this, Constants.ENTITLEMENT_ID, true);
+	public PropHolder uuid = new PropHolder(this, Constants.ENTITLEMENT_ID, true);
+	
+	public PropHolder begin_date = new PropHolder(this, "begin_date", true);
+	public PropHolder end_date = new PropHolder(this, "end_date", true);
 
 	public OTTService getParent() {
 		return (OTTService) super.getParent();

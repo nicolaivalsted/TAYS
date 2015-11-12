@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.com;
 
 import org.apache.log4j.Logger;

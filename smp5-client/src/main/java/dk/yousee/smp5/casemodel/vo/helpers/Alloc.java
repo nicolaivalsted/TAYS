@@ -25,8 +25,8 @@ public class Alloc {
 		add = model.add();
 	}
 
-	public OTTSubscription OTTSubscription(String rateCode) {
-		OTTSubscription sub = find.OTTSubscription(rateCode);
+	public OTTSubscription OTTSubscription(String entitlement) {
+		OTTSubscription sub = find.OTTSubscription(entitlement);
 		return sub == null ? add.OTTSubscription() : sub;
 	}
 
@@ -56,8 +56,8 @@ public class Alloc {
 		return res == null ? add.VideoServicePlanAttributes(servicePlanId) : res;
 	}
 
-	public VideoSubscription VideoSubscription(String servicePlanId) {
-		VideoSubscription res = find.VideoSubscription(servicePlanId);
+	public VideoSubscription VideoSubscription(String servicePlanId, String entitlementId) {
+		VideoSubscription res = find.VideoSubscription(servicePlanId, entitlementId);
 		return res == null ? add.VideoSubscription(servicePlanId) : res;
 	}
 

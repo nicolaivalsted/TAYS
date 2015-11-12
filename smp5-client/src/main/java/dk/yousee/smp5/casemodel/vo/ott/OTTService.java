@@ -13,8 +13,7 @@ import dk.yousee.smp5.order.model.ServicePrefix;
 /**
  * @author m64746
  *
- * Date: 21/10/2015
- * Time: 11:07:24
+ *         Date: 21/10/2015 Time: 11:07:24
  */
 public class OTTService extends BasicUnit {
 	private static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
@@ -35,5 +34,5 @@ public class OTTService extends BasicUnit {
 	public void setOttSubscription(List<OTTSubscription> ottSubscriptions) {
 		this.ottSubscriptions = ottSubscriptions;
 	}
-	
+
 }

@@ -26,6 +26,15 @@ public class AddressInfo {
 	private String district;
 	private String country;
 	private String ntd_return_segment_nm;
+	private String cableUnit;
+
+	public String getCableUnit() {
+		return cableUnit;
+	}
+
+	public void setCableUnit(String cableUnit) {
+		this.cableUnit = cableUnit;
+	}
 
 	public String getZipcode() {
 		return zipcode;

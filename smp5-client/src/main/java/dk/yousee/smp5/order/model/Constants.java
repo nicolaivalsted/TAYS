@@ -39,9 +39,9 @@ public class Constants {
 	// OTT
 	public static final String SERVICE_NAME = "service_name";
 	public static final String RATE_CODE = "rate_code";
-	public static final String PRODUCT_ID = "product_id";
 	public static final String BUSINESS_POSITION = "business_position";
 	public static final String OTT_PRODUCT = "ott_product";
 	public static final String UUID = "uuid";
+	public static final String ENTITLEMENT_ID = "ott_entitlement_id";
 
 }

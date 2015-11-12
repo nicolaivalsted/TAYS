@@ -65,6 +65,7 @@ public class SubscriberCase extends AbstractCase {
 		subAddressSpec.city.setValue(address.getCity());
 		subAddressSpec.ntd_return_segment_nm.setValue(address
 				.getNtd_return_segment_nm());
+		subAddressSpec.cableUnit.setValue(address.getCableUnit());
 		return subAddressSpec;
 	}
 
@@ -165,6 +166,7 @@ public class SubscriberCase extends AbstractCase {
         ma.city.setValue(address.getCity());
         ma.country.setValue(address.getCountry());
         ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
+        ma.cableUnit.setValue(address.getCableUnit());
         return getModel().getOrder();   
 	}
 	

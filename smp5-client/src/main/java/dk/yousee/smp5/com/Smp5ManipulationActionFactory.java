@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.com;
 
 import java.util.HashMap;
@@ -20,12 +17,7 @@ public class Smp5ManipulationActionFactory {
 
     static {
         table.put(Action.ACTIVATE, Smp5ManipulationAction.ADD);
-        table.put(Action.DEACTIVATE, Smp5ManipulationAction.DELETE);
-        table.put(Action.RESUME, Smp5ManipulationAction.UPDATE);
         table.put(Action.UPDATE, Smp5ManipulationAction.UPDATE);
-        table.put(Action.SUSPEND, Smp5ManipulationAction.UPDATE);
-        table.put(Action.BLOCK, Smp5ManipulationAction.UPDATE);
-        table.put(Action.SWAP, Smp5ManipulationAction.UPDATE);
         table.put(Action.DELETE, Smp5ManipulationAction.DELETE);
     }
 
