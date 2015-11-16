@@ -103,7 +103,8 @@ public class OTTCase extends AbstractCase {
 		@Override
 		public String toString() {
 			return "OTTData [businessPosition=" + businessPosition + ", rateCode=" + rateCode + ", ottProduct=" + ottProduct
-					+ ", entitlementId=" + entitlementId + ", serviceName=" + serviceName + "]";
+					+ ", entitlementId=" + entitlementId + ", serviceName=" + serviceName + ", beginDate=" + beginDate + ", endDate="
+					+ endDate + "]";
 		}
 	}
 
@@ -176,15 +177,16 @@ public class OTTCase extends AbstractCase {
 	 * @param action
 	 *            the action to send to the subscription
 	 * @return true if anything to do
+	 * @throws BusinessException 
 	 */
-	private boolean buildOrderFromAction(String entitlement, Action delete) {
+	private boolean buildOrderFromAction(String entitlement, Action delete) throws BusinessException {
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(entitlement);
 		if (ottSubscription != null) {
 			ottSubscription.sendAction(Action.DELETE);
-			ottSubscription.uuid.setValue("2222222222");
 			return true;
+		}else{
+			throw new BusinessException("Delete failed, OTT Subscription:  entitlementId=%s  was not found", entitlement);
 		}
-		return false;
 	}
 
 }

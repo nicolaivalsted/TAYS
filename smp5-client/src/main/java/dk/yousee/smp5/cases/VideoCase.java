@@ -140,8 +140,9 @@ public class VideoCase extends AbstractCase {
 	 * @param action
 	 *            the action to send to the subscription
 	 * @return true if anything to do
+	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String servicePlanId, String entitlementId, Action delete) {
+	private boolean buildOrderFromAction(String servicePlanId, String entitlementId, Action delete) throws BusinessException {
 		VideoServicePlan videoServicePlan = getModel().find().VideoServicePlan(servicePlanId);
 		if (videoServicePlan != null && entitlementId == null) {
 			videoServicePlan.sendAction(Action.DELETE);
@@ -153,6 +154,8 @@ public class VideoCase extends AbstractCase {
 			videoSubscription.sendAction(Action.DELETE);
 			return true;
 		}
-		return false;
+		throw new BusinessException("Delete failed, VideoSubscription:  servicePlanId=%s  and entitlementId=%s was not found",
+				servicePlanId, entitlementId);
+
 	}
 }

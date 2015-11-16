@@ -76,16 +76,12 @@ public class HumaxSTBCase extends AbstractCase {
 
 			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes(
 					lineItem.getServicePlanId());
-			if (stbCas != null) {
+			if (videoServicePlanAttributes != null) {
 				videoServicePlanAttributes.video_definition_has_cpe_conditional.add(stbCas);
+			} else {
+				throw new BusinessException(" Video Service Plan: %s not dound", lineItem.getServicePlanId());
 			}
 		}
-
-		return getModel().getOrder();
-	}
-
-	public Order update(STBData lineItem) throws BusinessException {
-		ensureAcct();
 		return getModel().getOrder();
 	}
 
@@ -104,14 +100,16 @@ public class HumaxSTBCase extends AbstractCase {
 	 * @param action
 	 *            the action to send to the subscription
 	 * @return true if anything to do
+	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String serialNumber, Action delete) {
+	private boolean buildOrderFromAction(String serialNumber, Action delete) throws BusinessException {
 		VideoCPE videoCPE = getModel().find().VideoCPE(serialNumber);
 		if (videoCPE != null) {
 			videoCPE.sendAction(Action.DELETE);
 			return true;
+		} else {
+			throw new BusinessException("Delete failed, Video CPE:  serialNumber=%s  was not found", serialNumber);
 		}
-		return false;
 	}
 
 }
