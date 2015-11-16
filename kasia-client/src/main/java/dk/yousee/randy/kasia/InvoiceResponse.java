@@ -18,6 +18,7 @@ public class InvoiceResponse {
     private String message;
     private OrderOutput orderOutput;
     private int httpStatusCode;
+    private boolean didReturnAlreadyCreatedOrder;
 
     public InvoiceResponse(String message, String kasiaResponse) {
         this.message = message == null ? null : (message.trim().length() == 0 ? null : message);
@@ -32,6 +33,11 @@ public class InvoiceResponse {
                     orderOutput = new OrderOutput(element.getAsJsonObject());
                 } else {
                     this.message="Kasia response does not contain json element "+name +" k2-error: " + jsonSource.toString();
+
+                    // best guess from: {"error":"The x-kasia2-request-header is already an existing order, and therefore an order cannot be placed again with the same id."}
+                    this.didReturnAlreadyCreatedOrder
+                            = kasiaResponse.contains("x-kasia2-request-header")
+                            && kasiaResponse.contains("existing order");
                 }
             } catch (JsonSyntaxException e) {
                 this.message = String.format("Tried to parse kasia response, got syntax error, message: %s", e.getMessage());
@@ -53,7 +59,7 @@ public class InvoiceResponse {
      * @return true if an already existing order was identified in kasia (based on referenceId in header "x-kasia2-request-id") and returned
      */
     public boolean didReturnAlreadyCreatedOrder() {
-        return hasOrder() && httpStatusCode == HttpStatus.SC_CONFLICT;
+        return httpStatusCode == HttpStatus.SC_CONFLICT && didReturnAlreadyCreatedOrder;
     }
 
     private boolean hasOrder() {
