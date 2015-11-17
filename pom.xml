@@ -34,7 +34,9 @@
         <module>jobmon-springrunner</module>
         <module>kasia-client</module>
         <module>smp-xml</module>
+        <module>smp5-xml</module>
         <module>smp-client</module>
+        <module>smp5-client</module>
         <module>voucher-client</module>
         <module>yspro-client</module>
         <module>macaddress</module>

@@ -12,3 +12,4 @@ target/
 /.project
 /nb-configuration.xml
 /base-client/nb-configuration.xml
+smp5-xml/.settings/org.eclipse.wst.validation.prefs
