@@ -57,7 +57,7 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 		HttpClient httpclient = new HttpClient();
 
 		PostMethod postMethod = null;
-		postMethod = new PostMethod("http://10.233.185.40:19641/SmpXmlOrderApi/xmlorder");
+		postMethod = new PostMethod("http://10.233.185.41:19641/SmpXmlOrderApi/xmlorder");
 		postMethod.setRequestHeader("accept", "application/soap+xml, application/dime, multipart/related, text/*");
 		postMethod.setRequestHeader("SOAPAction", "");
 		postMethod.setRequestHeader("Authorization", getConnector().encodeBasic());
