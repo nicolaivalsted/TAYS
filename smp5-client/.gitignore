@@ -1,3 +1,6 @@
-/.classpath
-/.project
+.classpath
+.project
 /.settings
+/.settings/
+/.externalToolBuilders
+/target/
