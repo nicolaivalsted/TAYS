@@ -43,7 +43,7 @@ public class Smp5ConnectorImpl extends AbstractConnector {
 
 	public void setSmp5Host(String smp5Host) {
 		this.smp5Host = smp5Host;
-		setUrl(smp5Host + "/SmpXmlOrderApi/xmlorder");
+		setUrl(smp5Host + "SmpXmlOrderApi/xmlorder");
 	}
 
 	public String getUsername() {

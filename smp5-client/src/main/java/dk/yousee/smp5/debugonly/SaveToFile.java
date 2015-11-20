@@ -20,58 +20,58 @@ import org.apache.xmlbeans.XmlObject;
 public class SaveToFile {
 
 	public static void saveXmlRequest(XmlObject xmlRequest) {
-		FileOutputStream fop = null;
-		File file;
-		String content = xmlRequest.xmlText();
-		try {
-			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
-			file = new File("C:\\Users\\IT People\\Downloads\\smp" + todayAsString + ".xml");
-			fop = new FileOutputStream(file);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			byte[] contentInBytes = content.getBytes();
-			fop.write(contentInBytes);
-			fop.flush();
-			fop.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fop != null) {
-					fop.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		FileOutputStream fop = null;
+//		File file;
+//		String content = xmlRequest.xmlText();
+//		try {
+//			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
+//			file = new File("C:\\Users\\IT People\\Downloads\\smp" + todayAsString + ".xml");
+//			fop = new FileOutputStream(file);
+//			if (!file.exists()) {
+//				file.createNewFile();
+//			}
+//			byte[] contentInBytes = content.getBytes();
+//			fop.write(contentInBytes);
+//			fop.flush();
+//			fop.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if (fop != null) {
+//					fop.close();
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 	public static void saveResponse(String response) {
-		FileOutputStream fop = null;
-		File file;
-		try {
-			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
-			file = new File("C:\\Users\\IT People\\Downloads\\smpResposta" + todayAsString + ".xml");
-			fop = new FileOutputStream(file);
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			byte[] contentInBytes = response.getBytes();
-			fop.write(contentInBytes);
-			fop.flush();
-			fop.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (fop != null) {
-					fop.close();
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		FileOutputStream fop = null;
+//		File file;
+//		try {
+//			String todayAsString = new SimpleDateFormat("ddHHmm").format(new Date()) + new Random().nextInt(100);
+//			file = new File("C:\\Users\\IT People\\Downloads\\smpResposta" + todayAsString + ".xml");
+//			fop = new FileOutputStream(file);
+//			if (!file.exists()) {
+//				file.createNewFile();
+//			}
+//			byte[] contentInBytes = response.getBytes();
+//			fop.write(contentInBytes);
+//			fop.flush();
+//			fop.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		} finally {
+//			try {
+//				if (fop != null) {
+//					fop.close();
+//				}
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
 	}
 
 }
