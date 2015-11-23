@@ -264,7 +264,6 @@ public class ProvisioningCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param string
 		 */
 		private void deleteSubscription(OrderItemList orderItemList, OrderData servicePlan, String kundeId) {
-			// TODO Ver bem isto do delete
 			OrderItemType servicePart = orderItemList.addNewOrderItem();
 			servicePart.setAction(samf.toAction(servicePlan.getAction()).getValue());
 

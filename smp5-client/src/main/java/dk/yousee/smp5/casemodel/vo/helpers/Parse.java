@@ -69,19 +69,7 @@ public class Parse {
 						for (ResponseEntity subchild : child.getEntities()) {
 							if (subchild.getType().equals(VideoServicePlanAttributes.TYPE)) {
 								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(), videoServicePlan);
-//								if(subchild.getAssociations().size() > 1){
-//									logger.warn("VideoServicePlanAttributes cannot have more than one association " + subchild.getExternalKey());
-//									ResponseAssociation association = subchild.getAssociations().get(0);
-//									STBCas stbCas = new STBCas(model, externalKey, parent)
-//									vvv.video_definition_has_cpe_conditional.add();
-//								}
 								ResponseAssociation association = subchild.getAssociations().get(0);
-								//TODO ver como se trata das assoc aqui
-								if(association != null){
-									System.out.println("olha eu tenho uma assoc!!!!");
-								}else{
-									System.out.println("olha eu NAO tenho uma assoc!!!!");
-								}
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
 							} else {
