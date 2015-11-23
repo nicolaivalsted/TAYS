@@ -30,7 +30,7 @@ public class VideoServicePlanAttributes extends BasicUnit {
 	public PropHolder interactive_service_entitled = new PropHolder(this, "interactive_service_entitled", true);
 
 	// Type.ASSOC
-	public AssociationHolder video_definition_has_cpe_conditional = new AssociationHolder(this, "video_definition_has_cpe_conditional",
+	public AssociationHolder video_service_defn_has_cas = new AssociationHolder(this, "video_service_defn_has_cas",
 			STBCas.TYPE);
 
 }

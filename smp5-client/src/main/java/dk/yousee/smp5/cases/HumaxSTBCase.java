@@ -31,8 +31,10 @@ public class HumaxSTBCase extends AbstractCase {
 
 	public static class STBData {
 		private String serialNumber;
+		private String oldSerialNumber;
 		private String acct;
 		private String servicePlanId;
+		private String model;
 
 		public String getServicePlanId() {
 			return servicePlanId;
@@ -58,26 +60,48 @@ public class HumaxSTBCase extends AbstractCase {
 			this.acct = acct;
 		}
 
+		public String getModel() {
+			return model;
+		}
+
+		public void setModel(String model) {
+			this.model = model;
+		}
+
+		public String getOldSerialNumber() {
+			return oldSerialNumber;
+		}
+
+		public void setOldSerialNumber(String oldSerialNumber) {
+			this.oldSerialNumber = oldSerialNumber;
+		}
+
 		@Override
 		public String toString() {
-			return "STBData [serialNumber=" + serialNumber + ", acct=" + acct + ", servicePlanId=" + servicePlanId + "]";
+			return "STBData [serialNumber=" + serialNumber + ", oldSerialNumber=" + oldSerialNumber + ", acct=" + acct + ", servicePlanId="
+					+ servicePlanId + ", model=" + model + "]";
 		}
 	}
 
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
-
-		STBCas stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
-
+		STBCas stbCas;
+		if(lineItem.oldSerialNumber.equals("")){
+			stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
+		}else{
+			stbCas = getModel().alloc().STBCas(lineItem.oldSerialNumber);
+		}
+		
 		stbCas.acct.setValue(lineItem.getAcct());
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
+		stbCas.model.setValue(lineItem.getModel());
 
 		if (lineItem.getServicePlanId() != null && !lineItem.getServicePlanId().equals("")) {
 
 			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes(
 					lineItem.getServicePlanId());
 			if (videoServicePlanAttributes != null) {
-				videoServicePlanAttributes.video_definition_has_cpe_conditional.add(stbCas);
+				videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
 			} else {
 				throw new BusinessException(" Video Service Plan: %s not dound", lineItem.getServicePlanId());
 			}
