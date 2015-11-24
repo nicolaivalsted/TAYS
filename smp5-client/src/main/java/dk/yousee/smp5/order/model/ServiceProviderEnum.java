@@ -9,7 +9,7 @@ import java.util.Map;
  *         Date: 14/10/2015 Time: 11:42:27
  */
 public enum ServiceProviderEnum {
-	YouSee("YouSee"), Telia("Telia");
+	YouSee("YouSee");
 
 	private String provider;
 	private static final Map<String, ServiceProviderEnum> lookup = new HashMap<String, ServiceProviderEnum>();

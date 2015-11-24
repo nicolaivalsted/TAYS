@@ -65,6 +65,12 @@ public class ServiceStateTypeConverter {
             state.setStringValue(SubSvcStateType.INACTIVE.toString());
             return state;
         }
+        if (Action.REPROV == action) {
+            SubSvcStateType state = SubSvcStateType.Factory.newInstance();
+            state.setProvisionState(ProvisionStateEnum.REPROVED.getState());
+            state.setStringValue(SubSvcStateType.ACTIVE.toString());
+            return state;
+        }
         throw new IllegalArgumentException("Unknown action: " + action);
     }
 
@@ -106,6 +112,11 @@ public class ServiceStateTypeConverter {
         if (Action.DELETE.equals(action)) {
             ServiceStateType state = ServiceStateType.Factory.newInstance();
             state.setStringValue(SubSvcStateType.INACTIVE.toString());
+            return state;
+        }
+        if (Action.REPROV.equals(action)) {
+            ServiceStateType state = ServiceStateType.Factory.newInstance();
+            state.setStringValue(SubSvcStateType.ACTIVE.toString());
             return state;
         }
         throw new IllegalArgumentException("Unknown action: " + action);

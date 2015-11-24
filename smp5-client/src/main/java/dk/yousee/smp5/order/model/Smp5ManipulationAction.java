@@ -7,7 +7,8 @@ package dk.yousee.smp5.order.model;
  */
 public enum Smp5ManipulationAction {
 	ADD("add"), 
-	DELETE("delete"), 
+	DELETE("delete"),
+	REPROV("reprov"),
 	UPDATE("update");
 
 	private String value;

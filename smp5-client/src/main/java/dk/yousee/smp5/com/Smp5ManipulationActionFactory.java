@@ -19,6 +19,7 @@ public class Smp5ManipulationActionFactory {
         table.put(Action.ACTIVATE, Smp5ManipulationAction.ADD);
         table.put(Action.UPDATE, Smp5ManipulationAction.UPDATE);
         table.put(Action.DELETE, Smp5ManipulationAction.DELETE);
+        table.put(Action.REPROV, Smp5ManipulationAction.REPROV);
     }
 
 	public Smp5ManipulationAction toAction(Action action) {

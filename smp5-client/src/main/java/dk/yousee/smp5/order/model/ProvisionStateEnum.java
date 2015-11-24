@@ -16,6 +16,7 @@ import java.util.Map;
 public enum ProvisionStateEnum {
 	ACTIVE("active"),
     DELETED("deleted"),
+    REPROVED("reprov"),
     INACTIVE("inactive"),
     MSO_BLOCK("mso_block"),
     /**

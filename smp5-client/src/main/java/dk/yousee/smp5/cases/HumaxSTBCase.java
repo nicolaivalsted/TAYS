@@ -86,12 +86,12 @@ public class HumaxSTBCase extends AbstractCase {
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
 		STBCas stbCas;
-		if(lineItem.oldSerialNumber.equals("")){
+		if (lineItem.oldSerialNumber.equals("")) {
 			stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
-		}else{
+		} else {
 			stbCas = getModel().alloc().STBCas(lineItem.oldSerialNumber);
 		}
-		
+
 		stbCas.acct.setValue(lineItem.getAcct());
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
 		stbCas.model.setValue(lineItem.getModel());
@@ -109,10 +109,10 @@ public class HumaxSTBCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public boolean delete(String serialNumber) throws BusinessException {
+	public boolean sendAction(String serialNumber, Action action) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(serialNumber, Action.DELETE);
+		res = buildOrderFromAction(serialNumber, action);
 		return res;
 	}
 
@@ -126,10 +126,10 @@ public class HumaxSTBCase extends AbstractCase {
 	 * @return true if anything to do
 	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String serialNumber, Action delete) throws BusinessException {
+	private boolean buildOrderFromAction(String serialNumber, Action action) throws BusinessException {
 		VideoCPE videoCPE = getModel().find().VideoCPE(serialNumber);
 		if (videoCPE != null) {
-			videoCPE.sendAction(Action.DELETE);
+			videoCPE.sendAction(action);
 			return true;
 		} else {
 			throw new BusinessException("Delete failed, Video CPE:  serialNumber=%s  was not found", serialNumber);
