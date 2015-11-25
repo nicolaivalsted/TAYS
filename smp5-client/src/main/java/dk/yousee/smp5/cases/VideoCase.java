@@ -36,6 +36,7 @@ public class VideoCase extends AbstractCase {
 		private String packageId;
 		private String beginDate;
 		private String endDate;
+		private String modifyDate;
 
 		public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -87,10 +88,19 @@ public class VideoCase extends AbstractCase {
 			this.endDate = endDate;
 		}
 
+		public String getModifyDate() {
+			return modifyDate;
+		}
+
+		public void setModifyDate(String modifyDate) {
+			this.modifyDate = modifyDate;
+		}
+
 		@Override
 		public String toString() {
 			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", videoServicePlanId=" + videoServicePlanId + ", macAddress="
-					+ macAddress + ", packageId=" + packageId + ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
+					+ macAddress + ", packageId=" + packageId + ", beginDate=" + beginDate + ", endDate=" + endDate + ", modifyDate="
+					+ modifyDate + "]";
 		}
 
 	}
@@ -113,15 +123,6 @@ public class VideoCase extends AbstractCase {
 			videoSubscription.packageId.setValue(lineItem.getPackageId());
 		}
 
-		// if (lineItem.getMacAddress() != null &&
-		// !lineItem.getMacAddress().equals("")) {
-		// STBCas stbCas = getModel().find().STBCas(lineItem.getMacAddress());
-		// if (stbCas != null) {
-		// videoServicePlanAttributes.video_definition_has_cpe_conditional.add(stbCas);
-		// logger.info("has_cpe_conditional was added for customer: " +
-		// getAcct() + " and plan: " + lineItem.videoServicePlanId);
-		// }
-		// }
 		return getModel().getOrder();
 	}
 

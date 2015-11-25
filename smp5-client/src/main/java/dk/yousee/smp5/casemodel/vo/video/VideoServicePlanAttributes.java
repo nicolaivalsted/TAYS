@@ -20,7 +20,6 @@ public class VideoServicePlanAttributes extends BasicUnit {
 
 	public VideoServicePlanAttributes(SubscriberModel model, String externalKey, VideoServicePlan parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
-		this.video_service_plan_id.setValue(externalKey);
 		parent.setVideoServicePlanAttributes(this);
 	}
 
