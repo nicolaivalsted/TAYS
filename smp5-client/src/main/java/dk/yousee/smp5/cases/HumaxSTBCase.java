@@ -127,12 +127,12 @@ public class HumaxSTBCase extends AbstractCase {
 	 * @throws BusinessException
 	 */
 	private boolean buildOrderFromAction(String serialNumber, Action action) throws BusinessException {
-		VideoCPE videoCPE = getModel().find().VideoCPE(serialNumber);
-		if (videoCPE != null) {
-			videoCPE.sendAction(action);
+		STBCas stbCas = getModel().find().STBCas(serialNumber);
+		if (stbCas != null) {
+			stbCas.sendAction(action);
 			return true;
 		} else {
-			throw new BusinessException("Delete failed, Video CPE:  serialNumber=%s  was not found", serialNumber);
+			throw new BusinessException(action.toString() + " failed, STBCas:  serialNumber=%s  was not found", serialNumber);
 		}
 	}
 

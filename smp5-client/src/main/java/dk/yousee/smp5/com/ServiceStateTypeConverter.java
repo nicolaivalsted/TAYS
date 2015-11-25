@@ -67,7 +67,7 @@ public class ServiceStateTypeConverter {
         }
         if (Action.REPROV == action) {
             SubSvcStateType state = SubSvcStateType.Factory.newInstance();
-            state.setProvisionState(ProvisionStateEnum.REPROVED.getState());
+            state.setProvisionState(ProvisionStateEnum.ACTIVE.getState());
             state.setStringValue(SubSvcStateType.ACTIVE.toString());
             return state;
         }

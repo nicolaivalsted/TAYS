@@ -41,7 +41,7 @@ public enum Action {
 	 * Addresses are provisionied inactive on subscriber creation
 	 */
 	INACTIVE("ACTION_INACTIVE", null), 
-	REPROV("REPROV", Smp5ManipulationAction.REPROV),
+	REPROV("refresh_stb", Smp5ManipulationAction.REPROV),
 	ACTION_FIND_SERVICE("ACTION_FIND_SERVICE", null);
 
 	private String clientAction;

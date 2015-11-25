@@ -5,6 +5,7 @@ import dk.yousee.smp5.com.FindOrderCom;
 import dk.yousee.smp5.com.FindOrdersBySubscriberCom;
 import dk.yousee.smp5.com.FindSubscriberCom;
 import dk.yousee.smp5.com.ProvisioningCom;
+import dk.yousee.smp5.com.ProvisioningCom5;
 import dk.yousee.smp5.com.ReadSubscriptionCom;
 import dk.yousee.smp5.com.SigmaAction;
 import dk.yousee.smp5.order.model.Acct;
@@ -85,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	public ExecuteOrderReply maintainPlan(Order order) {
-		ProvisioningCom com = new ProvisioningCom();
+		ProvisioningCom5 com = new ProvisioningCom5();
 		com.setCon(getCon());
 		return com.process(order);
 	}
