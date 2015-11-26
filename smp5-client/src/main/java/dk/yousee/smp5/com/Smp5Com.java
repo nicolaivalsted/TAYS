@@ -1,6 +1,5 @@
 package dk.yousee.smp5.com;
 
-import dk.yousee.smp5.debugonly.SaveToFile;
 import dk.yousee.smp5.order.model.Smp5Xml;
 
 /**
@@ -36,7 +35,6 @@ public abstract class Smp5Com<INPUT, OUTPUT> {
 		String request = convertRequest(input);
 		String response = null;
 		response = con.execute(request, getOperationTimeout());
-		SaveToFile.saveResponse(response);
 		OUTPUT res;
 		Smp5Xml xml = new Smp5Xml(request, response);
 		res = convertResponse(xml, input);

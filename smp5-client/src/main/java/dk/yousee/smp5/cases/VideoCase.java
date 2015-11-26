@@ -3,7 +3,6 @@ package dk.yousee.smp5.cases;
 import java.text.SimpleDateFormat;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.order.model.Acct;
@@ -129,7 +128,7 @@ public class VideoCase extends AbstractCase {
 	public boolean delete(String servicePlanId, String entitlementId) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(null, null, Action.DELETE);
+		res = buildOrderFromAction(servicePlanId, entitlementId, Action.DELETE);
 		return res;
 	}
 
@@ -144,11 +143,12 @@ public class VideoCase extends AbstractCase {
 	 * @throws BusinessException
 	 */
 	private boolean buildOrderFromAction(String servicePlanId, String entitlementId, Action delete) throws BusinessException {
-		VideoServicePlan videoServicePlan = getModel().find().VideoServicePlan(servicePlanId);
-		if (videoServicePlan != null && entitlementId == null) {
-			videoServicePlan.sendAction(Action.DELETE);
-			return true;
-		}
+		//in this phase we can only remove subscriptions
+//		VideoServicePlan videoServicePlan = getModel().find().VideoServicePlan(servicePlanId);
+//		if (videoServicePlan != null && entitlementId == null) {
+//			videoServicePlan.sendAction(Action.DELETE);
+//			return true;
+//		}
 
 		VideoSubscription videoSubscription = getModel().find().VideoSubscription(servicePlanId, entitlementId);
 		if (videoSubscription != null) {
