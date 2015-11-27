@@ -1,6 +1,7 @@
 package dk.yousee.smp5.cases;
 
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -10,6 +11,7 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.util.OrderHelper;
 
 public class VideoCase extends AbstractCase {
 
@@ -106,28 +108,48 @@ public class VideoCase extends AbstractCase {
 
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
+		validateRequired(lineItem);
 
-		if (lineItem.getVideoServicePlanId() == null) {
-			throw new BusinessException("service plan id is required");
-		}
+		boolean update = getModel().find().VideoSubscription(lineItem.getVideoServicePlanId(), lineItem.getVideoEntitlementId()) != null;
 
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(
 				lineItem.getVideoServicePlanId());
 		videoServicePlanAttributes.video_service_plan_id.setValue(lineItem.getVideoServicePlanId());
 
-		if (lineItem.getVideoEntitlementId() != null) {
-			VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(lineItem.getVideoServicePlanId(),
-					lineItem.getVideoEntitlementId());
-			videoSubscription.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
+		VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(lineItem.getVideoServicePlanId(),
+				lineItem.getVideoEntitlementId());
+		videoSubscription.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
+
+		if (!lineItem.getPackageId().equals("")) {
 			videoSubscription.packageId.setValue(lineItem.getPackageId());
-			videoSubscription.begin_date.setValue(lineItem.getBeginDate());
-			videoSubscription.end_date.setValue(lineItem.getEndDate());
-			if(lineItem.getModifyDate() != null){
-				videoSubscription.modify_date.setValue(lineItem.getModifyDate());
-			}
+		}
+
+		if (!lineItem.getBeginDate().equals("")) {
+			videoSubscription.begin_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getBeginDate()));
+		}
+
+		if (!lineItem.getEndDate().equals("")) {
+			videoSubscription.end_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getEndDate()));
+		}
+
+		if (update) {
+			videoSubscription.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
 		}
 
 		return getModel().getOrder();
+	}
+
+	/**
+	 * @param lineItem
+	 * @throws BusinessException
+	 */
+	private void validateRequired(VideoData lineItem) throws BusinessException {
+		if (lineItem.getVideoServicePlanId() == null || lineItem.getVideoServicePlanId().equals("")) {
+			throw new BusinessException("service plan id is required");
+		}
+		if (lineItem.getVideoEntitlementId() == null || lineItem.getVideoEntitlementId().equals("")) {
+			throw new BusinessException("rate code is required");
+		}
 	}
 
 	public boolean delete(String servicePlanId, String entitlementId) throws BusinessException {
@@ -148,12 +170,13 @@ public class VideoCase extends AbstractCase {
 	 * @throws BusinessException
 	 */
 	private boolean buildOrderFromAction(String servicePlanId, String entitlementId, Action delete) throws BusinessException {
-		//in this phase we can only remove subscriptions
-//		VideoServicePlan videoServicePlan = getModel().find().VideoServicePlan(servicePlanId);
-//		if (videoServicePlan != null && entitlementId == null) {
-//			videoServicePlan.sendAction(Action.DELETE);
-//			return true;
-//		}
+		// in this phase we can only remove subscriptions
+		// VideoServicePlan videoServicePlan =
+		// getModel().find().VideoServicePlan(servicePlanId);
+		// if (videoServicePlan != null && entitlementId == null) {
+		// videoServicePlan.sendAction(Action.DELETE);
+		// return true;
+		// }
 
 		VideoSubscription videoSubscription = getModel().find().VideoSubscription(servicePlanId, entitlementId);
 		if (videoSubscription != null) {

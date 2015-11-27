@@ -2,7 +2,6 @@ package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
-import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
@@ -86,24 +85,30 @@ public class HumaxSTBCase extends AbstractCase {
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
 		STBCas stbCas;
+
 		if (lineItem.oldSerialNumber.equals("")) {
 			stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
+			if (lineItem.getServicePlanId() == null || lineItem.getServicePlanId().equals("")) {
+				throw new BusinessException("service plan id cannot be null");
+			}
 		} else {
 			stbCas = getModel().alloc().STBCas(lineItem.oldSerialNumber);
 		}
 
 		stbCas.acct.setValue(lineItem.getAcct());
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
-		stbCas.model.setValue(lineItem.getModel());
+
+		if (lineItem.getModel() != null && !lineItem.getModel().equals("")) {
+			stbCas.model.setValue(lineItem.getModel());
+		}
 
 		if (lineItem.getServicePlanId() != null && !lineItem.getServicePlanId().equals("")) {
-
 			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes(
 					lineItem.getServicePlanId());
 			if (videoServicePlanAttributes != null) {
 				videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
 			} else {
-				throw new BusinessException(" Video Service Plan: %s not dound", lineItem.getServicePlanId());
+				throw new BusinessException(" Video Service Plan: %s not found", lineItem.getServicePlanId());
 			}
 		}
 		return getModel().getOrder();

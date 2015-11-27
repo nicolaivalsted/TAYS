@@ -69,17 +69,10 @@ public class OrderHelper {
 		}
 		return dateFinal;
 	}
-	
-	public static String generateOrderModifyDateStringFromString(String stringDate) throws BusinessException {
-		String dateFinal;
-		try {
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			Date date = formatter.parse(stringDate);
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-			dateFinal = sdf.format(date);
-		} catch (ParseException e) {
-			throw new BusinessException("Invalid input data format");
-		}
+
+	public static String generateOrderModifyDateStringFromDate(Date now) throws BusinessException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		String dateFinal = sdf.format(now);
 		return dateFinal;
 	}
 
