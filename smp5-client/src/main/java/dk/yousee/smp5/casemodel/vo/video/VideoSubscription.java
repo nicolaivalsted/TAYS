@@ -26,6 +26,7 @@ public class VideoSubscription extends BasicUnit {
 	
 	public PropHolder begin_date = new PropHolder(this, "begin_date", true);
 	public PropHolder end_date = new PropHolder(this, "end_date", true);
+	public PropHolder modify_date = new PropHolder(this, "modify_date", true);
 	public PropHolder listofChannels = new PropHolder(this, "listofchannels", true);
 
 	public VideoServicePlan getParent() {

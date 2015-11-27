@@ -120,6 +120,11 @@ public class VideoCase extends AbstractCase {
 					lineItem.getVideoEntitlementId());
 			videoSubscription.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
 			videoSubscription.packageId.setValue(lineItem.getPackageId());
+			videoSubscription.begin_date.setValue(lineItem.getBeginDate());
+			videoSubscription.end_date.setValue(lineItem.getEndDate());
+			if(lineItem.getModifyDate() != null){
+				videoSubscription.modify_date.setValue(lineItem.getModifyDate());
+			}
 		}
 
 		return getModel().getOrder();

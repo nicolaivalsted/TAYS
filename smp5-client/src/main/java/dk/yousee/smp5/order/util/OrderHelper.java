@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import dk.yousee.smp5.order.model.Action;
+import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderData;
 import dk.yousee.smp5.order.model.OrderDataLevel;
@@ -56,7 +57,7 @@ public class OrderHelper {
 		return sdf.format(date);
 	}
 
-	public static String generateOrderDateStringFromString(String stringDate) {
+	public static String generateOrderDateStringFromString(String stringDate) throws BusinessException {
 		String dateFinal;
 		try {
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -64,7 +65,20 @@ public class OrderHelper {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
 			dateFinal = sdf.format(date);
 		} catch (ParseException e) {
-			return null;
+			throw new BusinessException("Invalid input data format");
+		}
+		return dateFinal;
+	}
+	
+	public static String generateOrderModifyDateStringFromString(String stringDate) throws BusinessException {
+		String dateFinal;
+		try {
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date = formatter.parse(stringDate);
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			dateFinal = sdf.format(date);
+		} catch (ParseException e) {
+			throw new BusinessException("Invalid input data format");
 		}
 		return dateFinal;
 	}
