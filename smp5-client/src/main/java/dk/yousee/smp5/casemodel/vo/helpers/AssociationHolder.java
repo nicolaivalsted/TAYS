@@ -43,20 +43,16 @@ public class AssociationHolder {
 		if (basicUnit.getType() != type) {
 			throw new IllegalArgumentException("The service 's type doesn't match with the suppoesd association service 's type.");
 		}
-		if (get() == null) {
-			OrderDataAssociation orderDataAssociation = new OrderDataAssociation();
-			orderDataAssociation.setAction(Smp5ManipulationAction.ADD);
-			orderDataAssociation.setAssociationType(associationType);
-			orderDataAssociation.setType(type);
-			if (type == SubAddressSpec.TYPE) {
-				orderDataAssociation.setExternalKey("primary");
-			} else {
-				orderDataAssociation.setExternalKey(basicUnit.getExternalKey());
-			}
-			unit.assignAssociation(orderDataAssociation);
+		OrderDataAssociation orderDataAssociation = new OrderDataAssociation();
+		orderDataAssociation.setAction(Smp5ManipulationAction.ADD);
+		orderDataAssociation.setAssociationType(associationType);
+		orderDataAssociation.setType(type);
+		if (type == SubAddressSpec.TYPE) {
+			orderDataAssociation.setExternalKey("primary");
 		} else {
-			throw new IllegalStateException("The service has Association already.We can't add more. Type: " + associationType);
+			orderDataAssociation.setExternalKey(basicUnit.getExternalKey());
 		}
+		unit.assignAssociation(orderDataAssociation);
 	}
 
 	/**

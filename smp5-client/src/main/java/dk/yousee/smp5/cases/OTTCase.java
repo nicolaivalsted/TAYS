@@ -1,7 +1,6 @@
 package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
@@ -32,41 +31,10 @@ public class OTTCase extends AbstractCase {
 	 * Inner class that holds the contract between CRM and SMP
 	 */
 	public static class OTTData {
-		private BusinessPosition businessPosition;
 		private String rateCode;
 		private String ottProduct;
 		private String entitlementId;
 		private String serviceName;
-		private String beginDate;
-		private String endDate;
-
-		public String getBeginDate() {
-			return beginDate;
-		}
-
-		public void setBeginDate(String beginDate) {
-			this.beginDate = beginDate;
-		}
-
-		public String getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(String endDate) {
-			this.endDate = endDate;
-		}
-
-		public OTTData(BusinessPosition businessPosition) {
-			this.businessPosition = businessPosition;
-		}
-
-		public BusinessPosition getBusinessPosition() {
-			return businessPosition;
-		}
-
-		public void setBusinessPosition(BusinessPosition businessPosition) {
-			this.businessPosition = businessPosition;
-		}
 
 		public String getRateCode() {
 			return rateCode;
@@ -102,9 +70,8 @@ public class OTTCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "OTTData [businessPosition=" + businessPosition + ", rateCode=" + rateCode + ", ottProduct=" + ottProduct
-					+ ", entitlementId=" + entitlementId + ", serviceName=" + serviceName + ", beginDate=" + beginDate + ", endDate="
-					+ endDate + "]";
+			return "OTTData [rateCode=" + rateCode + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName="
+					+ serviceName + "]";
 		}
 	}
 
@@ -114,50 +81,9 @@ public class OTTCase extends AbstractCase {
 		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getEntitlementId());
 
 		ottSubscription.rate_code.setValue(lineItem.getRateCode());
-		ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
 		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 		ottSubscription.service_name.setValue(lineItem.getServiceName());
 		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
-		ottSubscription.begin_date.setValue(lineItem.getBeginDate());
-		ottSubscription.end_date.setValue(lineItem.getEndDate());
-
-		return getModel().getOrder();
-	}
-
-	public Order update(OTTData lineItem) throws BusinessException {
-		ensureAcct();
-
-		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getEntitlementId());
-
-		if (ottSubscription == null) {
-			throw new BusinessException("Update failed, OTT  service Plan was not found: for id: %s", lineItem.getEntitlementId());
-		}
-
-		if (lineItem.getBusinessPosition() != null) {
-			ottSubscription.business_position.setValue(lineItem.getBusinessPosition().getId());
-		}
-
-		if (lineItem.getRateCode() != null) {
-			ottSubscription.rate_code.setValue(lineItem.getRateCode());
-		}
-		if (lineItem.getOttProduct() != null) {
-			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
-		}
-		if (lineItem.getServiceName() != null) {
-			ottSubscription.service_name.setValue(lineItem.getServiceName());
-		}
-		if (!ottSubscription.ott_entitlement_id.hasValue()) {
-			if (lineItem.getEntitlementId() != null) {
-				ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
-			}
-		}
-		if (lineItem.getBeginDate() != null) {
-			ottSubscription.begin_date.setValue(lineItem.getBeginDate());
-		}
-
-		if (lineItem.getEndDate() != null) {
-			ottSubscription.end_date.setValue(lineItem.getEndDate());
-		}
 
 		return getModel().getOrder();
 	}
@@ -177,14 +103,14 @@ public class OTTCase extends AbstractCase {
 	 * @param action
 	 *            the action to send to the subscription
 	 * @return true if anything to do
-	 * @throws BusinessException 
+	 * @throws BusinessException
 	 */
 	private boolean buildOrderFromAction(String entitlement, Action delete) throws BusinessException {
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(entitlement);
 		if (ottSubscription != null) {
 			ottSubscription.sendAction(Action.DELETE);
 			return true;
-		}else{
+		} else {
 			throw new BusinessException("Delete failed, OTT Subscription:  entitlementId=%s  was not found", entitlement);
 		}
 	}

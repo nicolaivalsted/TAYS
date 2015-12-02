@@ -25,14 +25,14 @@ public class VideoComposedService extends BasicUnit {
 		model.getServiceLevelUnit().add(this);
 	}
 
-	List<VideoServicePlan> videoServicePlans = new ArrayList<VideoServicePlan>();
+	VideoServicePlan videoServicePlan;
 
-	public List<VideoServicePlan> getVideoServicePlans() {
-		return videoServicePlans;
+	public VideoServicePlan getVideoServicePlan() {
+		return videoServicePlan;
 	}
 
-	public void setVideoServicePlans(List<VideoServicePlan> videoServicePlans) {
-		this.videoServicePlans = videoServicePlans;
+	public void setVideoServicePlan(VideoServicePlan videoServicePlan) {
+		this.videoServicePlan = videoServicePlan;
 	}
 
 }

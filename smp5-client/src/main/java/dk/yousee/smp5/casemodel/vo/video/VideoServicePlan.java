@@ -20,7 +20,7 @@ public class VideoServicePlan extends BasicUnit {
 
 	public VideoServicePlan(SubscriberModel model, String externalKey, VideoComposedService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
-		parent.getVideoServicePlans().add(this);
+		parent.setVideoServicePlan(this);
 	}
 
 	VideoServicePlanAttributes videoServicePlanAttributes;

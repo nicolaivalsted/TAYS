@@ -96,8 +96,8 @@ public class Add {
 		return res;
 	}
 
-	public VideoServicePlanAttributes VideoServicePlanAttributes(String servicePlanId) {
-		VideoServicePlan parent = model.alloc().VideoServicePlan(servicePlanId);
+	public VideoServicePlanAttributes VideoServicePlanAttributes() {
+		VideoServicePlan parent = model.alloc().VideoServicePlan();
 		VideoServicePlanAttributes res = new VideoServicePlanAttributes(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -105,8 +105,8 @@ public class Add {
 		return res;
 	}
 
-	public VideoSubscription VideoSubscription(String servicePlanId) {
-		VideoServicePlan parent = model.alloc().VideoServicePlan(servicePlanId);
+	public VideoSubscription VideoSubscription() {
+		VideoServicePlan parent = model.alloc().VideoServicePlan();
 		VideoSubscription res = new VideoSubscription(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();

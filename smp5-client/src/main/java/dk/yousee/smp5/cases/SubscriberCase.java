@@ -12,7 +12,7 @@ import dk.yousee.smp5.order.model.OrderService;
 import dk.yousee.smp5.order.model.Subscriber;
 
 public class SubscriberCase extends AbstractCase {
-	public boolean justCreated=false;
+	public boolean justCreated = false;
 
 	/**
 	 * @param service
@@ -57,14 +57,13 @@ public class SubscriberCase extends AbstractCase {
 	 */
 	public SubAddressSpec updateAddress(AddressInfo address) {
 		SubAddressSpec subAddressSpec = getModel().find().SubAddressSpec();
+		subAddressSpec.floor.setValue(address.getFloor());
+		subAddressSpec.street_name.setValue(address.getStreetName());
 		subAddressSpec.ams_id.setValue(address.getAms());
-		subAddressSpec.address1.setValue(address.getAddress1());
-		subAddressSpec.address2.setValue(address.getAddress2());
 		subAddressSpec.zipcode.setValue(zip4ch(address.getZipcode()));
 		subAddressSpec.district.setValue(address.getDistrict());
 		subAddressSpec.city.setValue(address.getCity());
-		subAddressSpec.ntd_return_segment_nm.setValue(address
-				.getNtd_return_segment_nm());
+		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		subAddressSpec.cableUnit.setValue(address.getCableUnit());
 		return subAddressSpec;
 	}
@@ -98,19 +97,19 @@ public class SubscriberCase extends AbstractCase {
 		return this.addSubscription(getModel().getOrder());
 	}
 
-    /**
-     * Adds subscription to sigma. It means that a new customer is created
-     *
-     * @param order the order to process
-     * @return the new model starting the customer's content
-     * @throws dk.yousee.smp.order.model.BusinessException
-     *          when add cannot be performed
-     */
-	public SubscriberModel addSubscription(Order order)
-			throws BusinessException {
+	/**
+	 * Adds subscription to sigma. It means that a new customer is created
+	 *
+	 * @param order
+	 *            the order to process
+	 * @return the new model starting the customer's content
+	 * @throws dk.yousee.smp.order.model.BusinessException
+	 *             when add cannot be performed
+	 */
+	public SubscriberModel addSubscription(Order order) throws BusinessException {
 		setErrorMessage(null);
 		try {
-			 setResponse(getService().addSubscription(order));
+			setResponse(getService().addSubscription(order));
 		} catch (Exception e) {
 			e.printStackTrace();
 			setErrorMessage(e.getMessage());
@@ -121,68 +120,62 @@ public class SubscriberCase extends AbstractCase {
 		}
 		setModel(new SubscriberModel(getResponse()));
 		if (getErrorMessage() != null) {
-			throw new BusinessException(
-					"could not create subscription, for customer %s, got message: %s",
-					order.getSubscriber().getKundeId(), getErrorMessage());
+			throw new BusinessException("could not create subscription, for customer %s, got message: %s", order.getSubscriber()
+					.getKundeId(), getErrorMessage());
 		}
-		justCreated=true;
-        return getModel();
+		justCreated = true;
+		return getModel();
 	}
 
-	
 	/**
 	 * @param customer
 	 * @param address
 	 * @return
 	 */
-	public Order buildAddSubscriptionOrder(ContactInfo customer,
-			AddressInfo address) {
+	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address) {
 		setModel(new SubscriberModel(getAcct()));
 
-        Order smpOrder = getModel().getOrder();
-        // Populate Subscriber object, contact and address objects
-        Subscriber subscriber = smpOrder.getSubscriber();
-        subscriber.setFornavn(customer.getFirstName());
-        subscriber.setEfternavn(customer.getLastName());
-        subscriber.setKundeId(new Acct(customer.getAcct()));
+		Order smpOrder = getModel().getOrder();
+		// Populate Subscriber object, contact and address objects
+		Subscriber subscriber = smpOrder.getSubscriber();
+		subscriber.setFornavn(customer.getFirstName());
+		subscriber.setEfternavn(customer.getLastName());
+		subscriber.setKundeId(new Acct(customer.getAcct()));
 
+		SubContactSpec mc = getModel().add().SubContactSpec();
+		mc.isp.setValue(customer.getIsp());
+		mc.phone_cell_number.setValue(customer.getMobiltlf());
+		mc.emails_home_address.setValue(customer.getEmail());
+		mc.phones_business_number.setValue(customer.getArbejdstlf());
+		mc.phones_home_number.setValue(customer.getPrivattlf());
 
-        SubContactSpec mc = getModel().add().SubContactSpec();
-        mc.isp.setValue(customer.getIsp());
-        mc.phone_cell_number.setValue(customer.getMobiltlf());
-        mc.emails_home_address.setValue(customer.getEmail());
-        mc.phones_business_number.setValue(customer.getArbejdstlf());
-        mc.phones_home_number.setValue(customer.getPrivattlf());
-
-        SubAddressSpec ma = getModel().add().SubAddressSpec();
-        ma.ams_id.setValue(address.getAms());
-        ma.zipcode.setValue(zip4ch(address.getZipcode()));
-        String address1 = address.getAddress1();
-        if (address1 == null || address1.length() == 0)
-            address1 = "-";
-        ma.address1.setValue(address1);
-        ma.address2.setValue(address.getAddress2());
-        ma.district.setValue(address.getDistrict());
-        ma.city.setValue(address.getCity());
-        ma.country.setValue(address.getCountry());
-        ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
-        ma.cableUnit.setValue(address.getCableUnit());
-        return getModel().getOrder();   
+		SubAddressSpec ma = getModel().add().SubAddressSpec();
+		ma.street_name.setValue(address.getStreetName());
+		ma.floor.setValue(address.getFloor());
+		ma.ams_id.setValue(address.getAms());
+		ma.zipcode.setValue(zip4ch(address.getZipcode()));
+		ma.district.setValue(address.getDistrict());
+		ma.city.setValue(address.getCity());
+		ma.country.setValue(address.getCountry());
+		ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
+		ma.cableUnit.setValue(address.getCableUnit());
+		return getModel().getOrder();
 	}
-	
-    /**
-     * Flow state for the subscriber
-     * <p>
-     * The situation is that WHEN a subscriber has been created (SMP add)
-     * then the subscriber engagement (model) must be read again.
-     * The creation was done as "snapshot" order, this means the creation
-     * was performed before SMP returned the creation order.
-     * In other words the processing in SMP has been performed to the end.
-     * Therefore it is possible to ask for the engagement right away.
-     * </p>
-     * @return true when subscriber has been created in this case
-     */
-    public boolean isJustCreated() {
-        return justCreated;
-    }
+
+	/**
+	 * Flow state for the subscriber
+	 * <p>
+	 * The situation is that WHEN a subscriber has been created (SMP add) then
+	 * the subscriber engagement (model) must be read again. The creation was
+	 * done as "snapshot" order, this means the creation was performed before
+	 * SMP returned the creation order. In other words the processing in SMP has
+	 * been performed to the end. Therefore it is possible to ask for the
+	 * engagement right away.
+	 * </p>
+	 * 
+	 * @return true when subscriber has been created in this case
+	 */
+	public boolean isJustCreated() {
+		return justCreated;
+	}
 }

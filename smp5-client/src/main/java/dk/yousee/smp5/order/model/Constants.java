@@ -16,20 +16,8 @@ public class Constants {
 	public static final String SUB_ADDRESSKEY_TYPE = "SubAddressSpec:-";
 	public static final String SUB_SVCKEY_TYPE_SAMP = "SubSvcSpec:samp_sub";
 
-	// SubContactSpec
-	public static final String FIRST_NAME = "first_name";
-	public static final String MIDDLE_NAME = "mittle_name";
-	public static final String LAST_NAME = "last_name";
-	public static final String PHONES_CELL_NUMBER = "phones.cell.number";
-	public static final String EMAILS_HOME_ADDRESS = "emails.home.address";
-	public static final String PHONES_BUSINESS_NUMBER = "phones.business.number";
-	public static final String PHONES_HOME_NUMBER = "phones.home.number";
-	public static final String ISP = "isp";
-
 	// SubAddressSpec
 	public static final String AMS_ID = "ams_id";
-	public static final String ADDRESS1 = "address1";
-	public static final String ADDRESS2 = "address2";
 	public static final String DISTRICT = "district";
 	public static final String ZIP_CODE = "zipcode";
 	public static final String CITY = "city";

@@ -19,14 +19,22 @@ public class AddressInfo {
 		this.ams = ams;
 	}
 
-	private String address1;
-	private String address2;
+	private String streetName;
 	private String zipcode;
 	private String city;
 	private String district;
 	private String country;
+	private String floor;
 	private String ntd_return_segment_nm;
 	private String cableUnit;
+
+	public String getStreetName() {
+		return streetName;
+	}
+
+	public void setStreetName(String streetName) {
+		this.streetName = streetName;
+	}
 
 	public String getCableUnit() {
 		return cableUnit;
@@ -42,22 +50,6 @@ public class AddressInfo {
 
 	public void setZipcode(String zipcode) {
 		this.zipcode = zipcode;
-	}
-
-	public String getAddress1() {
-		return address1;
-	}
-
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-
-	public String getAddress2() {
-		return address2;
-	}
-
-	public void setAddress2(String address2) {
-		this.address2 = address2;
 	}
 
 	public String getCity() {
@@ -86,6 +78,14 @@ public class AddressInfo {
 
 	public String getNtd_return_segment_nm() {
 		return ntd_return_segment_nm;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
 	}
 
 	public void setNtd_return_segment_nm(String ntd_return_segment_nm) {

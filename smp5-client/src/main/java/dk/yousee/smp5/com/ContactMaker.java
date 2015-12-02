@@ -34,12 +34,12 @@ public class ContactMaker extends XmlMaker {
         EntityParamListType subscriberParamList = contactType.addNewParamList();
         if (subscriber.getFornavn() != null && !subscriber.getFornavn().trim().isEmpty()) {
             ParamType firstName = subscriberParamList.addNewParam();
-            firstName.setName(Constants.FIRST_NAME);
+            firstName.setName("first_name");
             firstName.setStringValue(subscriber.getFornavn());
         }
         if (subscriber.getEfternavn() != null && !subscriber.getEfternavn().trim().isEmpty()) {
             ParamType lastName = subscriberParamList.addNewParam();
-            lastName.setName(Constants.LAST_NAME);
+            lastName.setName("last_name");
             lastName.setStringValue(subscriber.getEfternavn());
         }
         addParameters(subscriberParamList, contactData.getParams());

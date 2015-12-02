@@ -1,7 +1,8 @@
 package dk.yousee.smp5.cases;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -11,7 +12,6 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
-import dk.yousee.smp5.order.util.OrderHelper;
 
 public class VideoCase extends AbstractCase {
 
@@ -30,13 +30,8 @@ public class VideoCase extends AbstractCase {
 	public static class VideoData {
 		// video subscription
 		private String videoEntitlementId;
-		// Video Service Plan Attributes
-		private String videoServicePlanId;
 		// assoc
-		private String macAddress;
-		private String packageId;
-		private String beginDate;
-		private String endDate;
+		private String[] packageList;
 		private String modifyDate;
 
 		public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -49,44 +44,12 @@ public class VideoCase extends AbstractCase {
 			this.videoEntitlementId = videoEntitlementId;
 		}
 
-		public String getVideoServicePlanId() {
-			return videoServicePlanId;
+		public String[] getPackageList() {
+			return packageList;
 		}
 
-		public void setVideoServicePlanId(String videoServicePlanId) {
-			this.videoServicePlanId = videoServicePlanId;
-		}
-
-		public String getMacAddress() {
-			return macAddress;
-		}
-
-		public void setMacAddress(String macAddress) {
-			this.macAddress = macAddress;
-		}
-
-		public String getPackageId() {
-			return packageId;
-		}
-
-		public void setPackageId(String packageId) {
-			this.packageId = packageId;
-		}
-
-		public String getBeginDate() {
-			return beginDate;
-		}
-
-		public void setBeginDate(String beginDate) {
-			this.beginDate = beginDate;
-		}
-
-		public String getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(String endDate) {
-			this.endDate = endDate;
+		public void setPackageList(String[] packageList) {
+			this.packageList = packageList;
 		}
 
 		public String getModifyDate() {
@@ -99,9 +62,8 @@ public class VideoCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", videoServicePlanId=" + videoServicePlanId + ", macAddress="
-					+ macAddress + ", packageId=" + packageId + ", beginDate=" + beginDate + ", endDate=" + endDate + ", modifyDate="
-					+ modifyDate + "]";
+			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packageList=" + Arrays.toString(packageList)
+					+ ", modifyDate=" + modifyDate + "]";
 		}
 
 	}
@@ -109,34 +71,66 @@ public class VideoCase extends AbstractCase {
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
 		validateRequired(lineItem);
+		List<VideoSubscription> vSubs = getModel().find().VideoSubscription();
+		boolean action;
+		if (vSubs != null) {
+			for (VideoSubscription subscription : vSubs) {
+				action = findMissing(lineItem.getPackageList(), subscription);
+				if (!action) {
+					subscription.sendAction(Action.DELETE);
+				}
+			}
+		}
+		action = false;
 
-		boolean update = getModel().find().VideoSubscription(lineItem.getVideoServicePlanId(), lineItem.getVideoEntitlementId()) != null;
-
-		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(
-				lineItem.getVideoServicePlanId());
-		videoServicePlanAttributes.video_service_plan_id.setValue(lineItem.getVideoServicePlanId());
-
-		VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(lineItem.getVideoServicePlanId(),
-				lineItem.getVideoEntitlementId());
-		videoSubscription.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
-
-		if (!lineItem.getPackageId().equals("")) {
-			videoSubscription.packageId.setValue(lineItem.getPackageId());
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+		if (videoServicePlanAttributes == null) {
+//			String id = String.valueOf(new Random().nextInt(1000000));
+			String id = "53335324532453245";
+			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
+			videoServicePlanAttributes.video_service_plan_id.setValue(id);
 		}
 
-		if (!lineItem.getBeginDate().equals("")) {
-			videoSubscription.begin_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getBeginDate()));
-		}
-
-		if (!lineItem.getEndDate().equals("")) {
-			videoSubscription.end_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getEndDate()));
-		}
-
-		if (update) {
-			videoSubscription.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
+		for (String parcos : lineItem.getPackageList()) {
+			action = findActionToPerform(parcos, vSubs);
+			if (!action) {
+				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(lineItem.getVideoEntitlementId(), parcos);
+				videoSubscription.video_entitlement_id.setValue(lineItem.getVideoEntitlementId());
+				videoSubscription.packageId.setValue(parcos);
+			}
 		}
 
 		return getModel().getOrder();
+	}
+
+	/**
+	 * @param parcos
+	 * @param vSubs
+	 * @return true if nothing to do or false if is delete
+	 */
+	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs) {
+		if (vSubs != null) {
+			for (VideoSubscription subscription : vSubs) {
+				if (subscription.packageId.getValue().equals(parcos)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param strings
+	 * @param subscription2
+	 * @return true if nothing to do or false if is delete
+	 */
+	private boolean findMissing(String[] strings, VideoSubscription subscription2) {
+		for (String parcos : strings) {
+			if (parcos.equals(subscription2.packageId.getValue())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -144,18 +138,15 @@ public class VideoCase extends AbstractCase {
 	 * @throws BusinessException
 	 */
 	private void validateRequired(VideoData lineItem) throws BusinessException {
-		if (lineItem.getVideoServicePlanId() == null || lineItem.getVideoServicePlanId().equals("")) {
-			throw new BusinessException("service plan id is required");
-		}
 		if (lineItem.getVideoEntitlementId() == null || lineItem.getVideoEntitlementId().equals("")) {
 			throw new BusinessException("rate code is required");
 		}
 	}
 
-	public boolean delete(String servicePlanId, String entitlementId) throws BusinessException {
+	public boolean delete(String entitlementId) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(servicePlanId, entitlementId, Action.DELETE);
+		res = buildOrderFromAction(entitlementId, Action.DELETE);
 		return res;
 	}
 
@@ -169,22 +160,17 @@ public class VideoCase extends AbstractCase {
 	 * @return true if anything to do
 	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String servicePlanId, String entitlementId, Action delete) throws BusinessException {
-		// in this phase we can only remove subscriptions
-		// VideoServicePlan videoServicePlan =
-		// getModel().find().VideoServicePlan(servicePlanId);
-		// if (videoServicePlan != null && entitlementId == null) {
-		// videoServicePlan.sendAction(Action.DELETE);
-		// return true;
-		// }
-
-		VideoSubscription videoSubscription = getModel().find().VideoSubscription(servicePlanId, entitlementId);
-		if (videoSubscription != null) {
-			videoSubscription.sendAction(Action.DELETE);
-			return true;
+	private boolean buildOrderFromAction(String entitlementId, Action delete) throws BusinessException {
+		List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(entitlementId);
+		if (subscriptionList == null || subscriptionList.size() == 0) {
+			throw new BusinessException("Delete failed,  entitlementId=%s was not found", entitlementId);
 		}
-		throw new BusinessException("Delete failed, VideoSubscription:  servicePlanId=%s  and entitlementId=%s was not found",
-				servicePlanId, entitlementId);
-
+		for (VideoSubscription videoSubscription : subscriptionList) {
+			if (videoSubscription != null) {
+				videoSubscription.sendAction(Action.DELETE);
+			}
+		}
+		return true;
 	}
+
 }

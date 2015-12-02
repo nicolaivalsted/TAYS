@@ -103,8 +103,7 @@ public class HumaxSTBCase extends AbstractCase {
 		}
 
 		if (lineItem.getServicePlanId() != null && !lineItem.getServicePlanId().equals("")) {
-			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes(
-					lineItem.getServicePlanId());
+			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 			if (videoServicePlanAttributes != null) {
 				videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
 			} else {

@@ -1,5 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -136,44 +137,50 @@ public class Find {
 		return (VideoComposedService) find(VideoComposedService.TYPE, externalKey);
 	}
 
-	public VideoServicePlan VideoServicePlan(String servicePlanId) {
+	public VideoServicePlan VideoServicePlan() {
 		VideoComposedService parent = VideoComposedService();
 		if (parent == null) {
 			return null;
 		} else {
-			for (VideoServicePlan videoServicePlan : parent.getVideoServicePlans()) {
-				if (servicePlanId.equals(videoServicePlan.getVideoServicePlanAttributes().video_service_plan_id.getValue())) {
-					return videoServicePlan;
-				}
-			}
+			return parent.getVideoServicePlan();
 		}
-		return null;
 	}
 
-	public VideoServicePlanAttributes VideoServicePlanAttributes(String servicePlanId) {
-		VideoServicePlan parent = VideoServicePlan(servicePlanId);
+	public VideoServicePlanAttributes VideoServicePlanAttributes() {
+		VideoServicePlan parent = VideoServicePlan();
 		if (parent == null) {
 			return null;
 		}
 		return parent.getVideoServicePlanAttributes();
 	}
 
-	public VideoSubscription VideoSubscription(String servicePlanId) {
-		VideoServicePlan parent = VideoServicePlan(servicePlanId);
+	public List<VideoSubscription> VideoSubscription(String id) {
+		VideoServicePlan parent = VideoServicePlan();
+		List<VideoSubscription> subsList = new ArrayList<VideoSubscription>();
 		if (parent == null) {
 			return null;
 		} else {
 			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
-				if (servicePlanId.equals(videoSubscription.video_entitlement_id.getValue())) {
-					return videoSubscription;
+				if (id.equals(videoSubscription.video_entitlement_id.getValue())) {
+					subsList.add(videoSubscription);
 				}
 			}
+			return subsList;
 		}
-		return null;
+	}
+
+	public List<VideoSubscription> VideoSubscription() {
+		VideoServicePlan parent = VideoServicePlan();
+		if (parent == null) {
+			return null;
+		} else {
+
+			return parent.getVideoSubscriptions();
+		}
 	}
 
 	public VideoSubscription VideoSubscription(String servicePlanId, String entitlementId) {
-		VideoServicePlan parent = VideoServicePlan(servicePlanId);
+		VideoServicePlan parent = VideoServicePlan();
 		if (parent == null) {
 			return null;
 		} else {

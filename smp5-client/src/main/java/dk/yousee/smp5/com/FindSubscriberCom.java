@@ -51,8 +51,8 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		request.setQuery(queryValue);
 		ArrayOfString arrayOfString = ArrayOfString.Factory.newInstance(); 
 		arrayOfString.addItem("acct");
-		arrayOfString.addItem(Constants.FIRST_NAME);
-		arrayOfString.addItem(Constants.LAST_NAME);
+		arrayOfString.addItem("first_name");
+		arrayOfString.addItem("last_name");
 		arrayOfString.addItem("address1");
 		arrayOfString.addItem("address2");
 		arrayOfString.addItem("zipcode");
@@ -77,12 +77,12 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		}
 		if (searchCustomersRequest.getFornavn() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName(Constants.FIRST_NAME);
+			param.setName("first_name");
 			param.setStringValue(searchCustomersRequest.getFornavn());
 		}
 		if (searchCustomersRequest.getEfternavn() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName(Constants.LAST_NAME);
+			param.setName("last_name");
 			param.setStringValue(searchCustomersRequest.getEfternavn());
 		}
 		if (searchCustomersRequest.getCity() != null) {
@@ -236,9 +236,9 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 				if (key != null) {
 					if (key.equalsIgnoreCase("acct")) {
 						ci.setAcct(value);
-					} else if (key.equalsIgnoreCase(Constants.FIRST_NAME)) {
+					} else if (key.equalsIgnoreCase("first_name")) {
 						ci.setFirst_name(value);
-					} else if (key.equalsIgnoreCase(Constants.LAST_NAME)) {
+					} else if (key.equalsIgnoreCase("last_name")) {
 						ci.setLast_name(value);
 					} else if (key.equalsIgnoreCase("address1")) {
 						ci.setAddress1(value);
