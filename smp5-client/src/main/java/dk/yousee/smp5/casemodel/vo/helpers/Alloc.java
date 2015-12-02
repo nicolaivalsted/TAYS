@@ -25,8 +25,8 @@ public class Alloc {
 		add = model.add();
 	}
 
-	public OTTSubscription OTTSubscription(String entitlement) {
-		OTTSubscription sub = find.OTTSubscription(entitlement);
+	public OTTSubscription OTTSubscription(String sik) {
+		OTTSubscription sub = find.OTTSubscription(sik);
 		return sub == null ? add.OTTSubscription() : sub;
 	}
 

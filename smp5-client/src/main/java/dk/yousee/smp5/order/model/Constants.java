@@ -8,7 +8,7 @@ package dk.yousee.smp5.order.model;
 public class Constants {
 
 	// General
-	
+
 	public static final String SERVICE_PROVIDER = "YouSee";
 	public static final String SUBSCRIBER_TYPE = "residential";
 	public static final String SUBKEY_TYPE = "SubSpec:-";
@@ -26,7 +26,7 @@ public class Constants {
 
 	// OTT
 	public static final String SERVICE_NAME = "service_name";
-	public static final String RATE_CODE = "rate_code";
+	public static final String SIK = "sik";
 	public static final String BUSINESS_POSITION = "business_position";
 	public static final String OTT_PRODUCT = "ott_product";
 	public static final String UUID = "uuid";

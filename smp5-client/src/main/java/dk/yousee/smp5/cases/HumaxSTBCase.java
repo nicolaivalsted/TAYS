@@ -32,16 +32,7 @@ public class HumaxSTBCase extends AbstractCase {
 		private String serialNumber;
 		private String oldSerialNumber;
 		private String acct;
-		private String servicePlanId;
 		private String model;
-
-		public String getServicePlanId() {
-			return servicePlanId;
-		}
-
-		public void setServicePlanId(String servicePlanId) {
-			this.servicePlanId = servicePlanId;
-		}
 
 		public String getSerialNumber() {
 			return serialNumber;
@@ -77,8 +68,8 @@ public class HumaxSTBCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "STBData [serialNumber=" + serialNumber + ", oldSerialNumber=" + oldSerialNumber + ", acct=" + acct + ", servicePlanId="
-					+ servicePlanId + ", model=" + model + "]";
+			return "STBData [serialNumber=" + serialNumber + ", oldSerialNumber=" + oldSerialNumber + ", acct=" + acct + ", model=" + model
+					+ "]";
 		}
 	}
 
@@ -88,27 +79,21 @@ public class HumaxSTBCase extends AbstractCase {
 
 		if (lineItem.oldSerialNumber.equals("")) {
 			stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
-			if (lineItem.getServicePlanId() == null || lineItem.getServicePlanId().equals("")) {
-				throw new BusinessException("service plan id cannot be null");
-			}
 		} else {
 			stbCas = getModel().alloc().STBCas(lineItem.oldSerialNumber);
 		}
 
-		stbCas.acct.setValue(lineItem.getAcct());
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
 
 		if (lineItem.getModel() != null && !lineItem.getModel().equals("")) {
 			stbCas.model.setValue(lineItem.getModel());
 		}
 
-		if (lineItem.getServicePlanId() != null && !lineItem.getServicePlanId().equals("")) {
-			VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
-			if (videoServicePlanAttributes != null) {
-				videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
-			} else {
-				throw new BusinessException(" Video Service Plan: %s not found", lineItem.getServicePlanId());
-			}
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+		if (videoServicePlanAttributes != null) {
+			videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
+		} else {
+			throw new BusinessException(" Video Service Plan not found");
 		}
 		return getModel().getOrder();
 	}

@@ -31,17 +31,17 @@ public class OTTCase extends AbstractCase {
 	 * Inner class that holds the contract between CRM and SMP
 	 */
 	public static class OTTData {
-		private String rateCode;
+		private String sik;
 		private String ottProduct;
 		private String entitlementId;
 		private String serviceName;
 
-		public String getRateCode() {
-			return rateCode;
+		public String getSik() {
+			return sik;
 		}
 
-		public void setRateCode(String rateCode) {
-			this.rateCode = rateCode;
+		public void setSik(String sik) {
+			this.sik = sik;
 		}
 
 		public String getOttProduct() {
@@ -70,7 +70,7 @@ public class OTTCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "OTTData [rateCode=" + rateCode + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName="
+			return "OTTData [sik=" + sik + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName="
 					+ serviceName + "]";
 		}
 	}
@@ -78,9 +78,9 @@ public class OTTCase extends AbstractCase {
 	public Order create(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getEntitlementId());
+		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getSik());
 
-		ottSubscription.rate_code.setValue(lineItem.getRateCode());
+		ottSubscription.sik.setValue(lineItem.getSik());
 		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 		ottSubscription.service_name.setValue(lineItem.getServiceName());
 		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
@@ -88,10 +88,10 @@ public class OTTCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public boolean delete(String entitlement) throws BusinessException {
+	public boolean delete(String sik) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(entitlement, Action.DELETE);
+		res = buildOrderFromAction(sik, Action.DELETE);
 		return res;
 	}
 
@@ -105,13 +105,13 @@ public class OTTCase extends AbstractCase {
 	 * @return true if anything to do
 	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String entitlement, Action delete) throws BusinessException {
-		OTTSubscription ottSubscription = getModel().find().OTTSubscription(entitlement);
+	private boolean buildOrderFromAction(String sik, Action delete) throws BusinessException {
+		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
 		if (ottSubscription != null) {
 			ottSubscription.sendAction(Action.DELETE);
 			return true;
 		} else {
-			throw new BusinessException("Delete failed, OTT Subscription:  entitlementId=%s  was not found", entitlement);
+			throw new BusinessException("Delete failed, OTT Subscription:  sik=%s  was not found", sik);
 		}
 	}
 

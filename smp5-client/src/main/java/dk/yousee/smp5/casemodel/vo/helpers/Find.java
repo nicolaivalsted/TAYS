@@ -89,13 +89,13 @@ public class Find {
 		return null;
 	}
 
-	public OTTSubscription OTTSubscription(String entitlement) {
+	public OTTSubscription OTTSubscription(String sik) {
 		OTTService parent = OTTService();
 		if (parent == null) {
 			return null;
 		} else {
 			for (OTTSubscription ottSubscription : parent.getOttSubscriptions()) {
-				if (ottSubscription.ott_entitlement_id.getValue().equals(entitlement)) {
+				if (ottSubscription.sik.getValue().equals(sik)) {
 					return ottSubscription;
 				}
 			}
