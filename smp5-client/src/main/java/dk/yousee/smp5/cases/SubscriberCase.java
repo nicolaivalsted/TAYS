@@ -45,9 +45,7 @@ public class SubscriberCase extends AbstractCase {
 		plan.first_name.setValue(customer.getFirstName());
 		plan.last_name.setValue(customer.getLastName());
 		plan.isp.setValue(customer.getIsp());
-		plan.phone_cell_number.setValue(customer.getMobiltlf());
 		plan.emails_home_address.setValue(customer.getEmail());
-		plan.phones_business_number.setValue(customer.getArbejdstlf());
 		plan.phones_home_number.setValue(customer.getPrivattlf());
 		return plan;
 	}
@@ -63,8 +61,10 @@ public class SubscriberCase extends AbstractCase {
 		subAddressSpec.zipcode.setValue(zip4ch(address.getZipcode()));
 		subAddressSpec.district.setValue(address.getDistrict());
 		subAddressSpec.city.setValue(address.getCity());
-		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		subAddressSpec.cableUnit.setValue(address.getCableUnit());
+		subAddressSpec.geo_name.setValue(address.getGeographicName());
+		subAddressSpec.door_code.setValue(address.getDoorCode());
+		subAddressSpec.street_num.setValue(address.getStreetNumber());
 		return subAddressSpec;
 	}
 
@@ -144,9 +144,7 @@ public class SubscriberCase extends AbstractCase {
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
 		mc.isp.setValue(customer.getIsp());
-		mc.phone_cell_number.setValue(customer.getMobiltlf());
 		mc.emails_home_address.setValue(customer.getEmail());
-		mc.phones_business_number.setValue(customer.getArbejdstlf());
 		mc.phones_home_number.setValue(customer.getPrivattlf());
 
 		SubAddressSpec ma = getModel().add().SubAddressSpec();
@@ -156,9 +154,10 @@ public class SubscriberCase extends AbstractCase {
 		ma.zipcode.setValue(zip4ch(address.getZipcode()));
 		ma.district.setValue(address.getDistrict());
 		ma.city.setValue(address.getCity());
-		ma.country.setValue(address.getCountry());
-		ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		ma.cableUnit.setValue(address.getCableUnit());
+		ma.geo_name.setValue(address.getGeographicName());
+		ma.door_code.setValue(address.getDoorCode());
+		ma.street_num.setValue(address.getStreetNumber());
 		return getModel().getOrder();
 	}
 

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.cases.subscriber;
 
 /**
@@ -12,9 +9,7 @@ public class ContactInfo {
 	private String firstName;
 	private String lastName;
 	private String acct;
-	private String mobiltlf;
 	private String email;
-	private String arbejdstlf;
 	private String privattlf;
 
 	public void setFirstName(String firstName) {
@@ -44,28 +39,12 @@ public class ContactInfo {
 		return acct;
 	}
 
-	public String getMobiltlf() {
-		return mobiltlf;
-	}
-
-	public void setMobiltlf(String mobiltlf) {
-		this.mobiltlf = mobiltlf;
-	}
-
 	public String getEmail() {
 		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getArbejdstlf() {
-		return arbejdstlf;
-	}
-
-	public void setArbejdstlf(String arbejdstlf) {
-		this.arbejdstlf = arbejdstlf;
 	}
 
 	public String getPrivattlf() {

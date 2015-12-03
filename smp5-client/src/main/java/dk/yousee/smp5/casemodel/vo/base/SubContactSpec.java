@@ -12,9 +12,7 @@ public class SubContactSpec extends BasicUnit {
 	public static final String FIRST_NAME = "first_name";
 	public static final String MIDDLE_NAME = "mittle_name";
 	public static final String LAST_NAME = "last_name";
-	public static final String PHONES_CELL_NUMBER = "phones.cell.number";
 	public static final String EMAILS_HOME_ADDRESS = "emails.home.address";
-	public static final String PHONES_BUSINESS_NUMBER = "phones.business.number";
 	public static final String PHONES_HOME_NUMBER = "phones.home.number";
 	public static final String ISP = "isp";
 
@@ -34,12 +32,8 @@ public class SubContactSpec extends BasicUnit {
 
 	public PropHolder isp = new PropHolder(this, ISP);
 
-	public PropHolder phone_cell_number = new PropHolder(this, PHONES_CELL_NUMBER);
-
 	public PropHolder emails_home_address = new PropHolder(this, EMAILS_HOME_ADDRESS);
 
-	public PropHolder phones_business_number = new PropHolder(this, PHONES_BUSINESS_NUMBER);
-
 	public PropHolder phones_home_number = new PhoneNumberPropHolder(this, PHONES_HOME_NUMBER);
-	
+
 }

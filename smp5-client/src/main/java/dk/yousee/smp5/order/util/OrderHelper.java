@@ -3,6 +3,7 @@
  */
 package dk.yousee.smp5.order.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -61,6 +62,19 @@ public class OrderHelper {
 		String dateFinal = sdf.format(now);
 		return dateFinal;
 	}
+	
+	public static String generateOrderDateStringFromString(String stringDate) throws BusinessException {
+        String dateFinal;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = formatter.parse(stringDate);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            dateFinal = sdf.format(date);
+        } catch (ParseException e) {
+            throw new BusinessException("Invalid input data format");
+        }
+        return dateFinal;
+    }
 
 	public static OrderData findElementOfType(Order order, OrderDataLevel levelToFind) {
 		if (order != null) {

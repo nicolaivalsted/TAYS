@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.cases.subscriber;
 
 /**
@@ -10,6 +7,31 @@ package dk.yousee.smp5.cases.subscriber;
  */
 public class AddressInfo {
 	private String ams;
+	private String streetName;
+	private String zipcode;
+	private String city;
+	private String district;
+	private String floor;
+	private String cableUnit;
+	private String geographicName;
+	private String streetNumber;
+	private String doorCode;
+
+	public String getDoorCode() {
+		return doorCode;
+	}
+
+	public void setDoorCode(String doorCode) {
+		this.doorCode = doorCode;
+	}
+
+	public String getStreetNumber() {
+		return streetNumber;
+	}
+
+	public void setStreetNumber(String streetNumber) {
+		this.streetNumber = streetNumber;
+	}
 
 	public String getAms() {
 		return ams;
@@ -19,14 +41,13 @@ public class AddressInfo {
 		this.ams = ams;
 	}
 
-	private String streetName;
-	private String zipcode;
-	private String city;
-	private String district;
-	private String country;
-	private String floor;
-	private String ntd_return_segment_nm;
-	private String cableUnit;
+	public String getGeographicName() {
+		return geographicName;
+	}
+
+	public void setGeographicName(String geographicName) {
+		this.geographicName = geographicName;
+	}
 
 	public String getStreetName() {
 		return streetName;
@@ -68,28 +89,12 @@ public class AddressInfo {
 		this.district = district;
 	}
 
-	public String getCountry() {
-		return country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public String getNtd_return_segment_nm() {
-		return ntd_return_segment_nm;
-	}
-
 	public String getFloor() {
 		return floor;
 	}
 
 	public void setFloor(String floor) {
 		this.floor = floor;
-	}
-
-	public void setNtd_return_segment_nm(String ntd_return_segment_nm) {
-		this.ntd_return_segment_nm = ntd_return_segment_nm;
 	}
 
 }

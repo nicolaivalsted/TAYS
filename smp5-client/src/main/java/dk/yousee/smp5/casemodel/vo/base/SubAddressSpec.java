@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.casemodel.vo.base;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
@@ -37,14 +34,16 @@ public class SubAddressSpec extends BasicUnit {
 
 	public PropHolder city = new PropHolder(this, Constants.CITY);
 
-	public PropHolder country = new PropHolder(this, Constants.COUNTRY);
-
-	public PropHolder ntd_return_segment_nm = new PropHolder(this, Constants.MUNICIPALITY);
-
 	public PropHolder floor = new PropHolder(this, "floor");
 
 	public PropHolder street_name = new PropHolder(this, "street_nm");
 
 	public PropHolder cableUnit = new PropHolder(this, "region");
+	
+	public PropHolder street_num = new PropHolder(this, "street_num");
+	
+	public PropHolder door_code = new PropHolder(this, "door_code");
+	
+	public PropHolder geo_name = new PropHolder(this, "geo_name");
 
 }

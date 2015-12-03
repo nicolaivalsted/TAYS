@@ -7,6 +7,7 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.util.OrderHelper;
 
 /**
  * @author m64746
@@ -35,6 +36,24 @@ public class OTTCase extends AbstractCase {
 		private String ottProduct;
 		private String entitlementId;
 		private String serviceName;
+		private String beginDate;
+		private String endDate;
+
+		public String getBeginDate() {
+			return beginDate;
+		}
+
+		public void setBeginDate(String beginDate) {
+			this.beginDate = beginDate;
+		}
+
+		public String getEndDate() {
+			return endDate;
+		}
+
+		public void setEndDate(String endDate) {
+			this.endDate = endDate;
+		}
 
 		public String getSik() {
 			return sik;
@@ -71,7 +90,7 @@ public class OTTCase extends AbstractCase {
 		@Override
 		public String toString() {
 			return "OTTData [sik=" + sik + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName="
-					+ serviceName + "]";
+					+ serviceName + ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
 		}
 	}
 
@@ -84,6 +103,13 @@ public class OTTCase extends AbstractCase {
 		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 		ottSubscription.service_name.setValue(lineItem.getServiceName());
 		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+
+		if (!lineItem.getBeginDate().equals("")) {
+			ottSubscription.begin_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getBeginDate()));
+		}
+		if (!lineItem.getEndDate().equals("")) {
+			ottSubscription.end_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getEndDate()));
+		}
 
 		return getModel().getOrder();
 	}
