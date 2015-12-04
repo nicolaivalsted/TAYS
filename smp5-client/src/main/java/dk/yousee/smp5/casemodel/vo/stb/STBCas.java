@@ -18,6 +18,8 @@ public class STBCas extends BasicUnit {
 
 	public PropHolder serialNumber = new PropHolder(this, "id1", true);
 	public PropHolder model = new PropHolder(this, "model", true);
+	public PropHolder chipid = new PropHolder(this, "id2", true);
+	public PropHolder sik = new PropHolder(this, "sik", true);
 
 	public STBCas(SubscriberModel model, String externalKey, VideoCPE parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);

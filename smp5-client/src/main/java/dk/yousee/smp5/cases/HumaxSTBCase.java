@@ -29,10 +29,26 @@ public class HumaxSTBCase extends AbstractCase {
 	}
 
 	public static class STBData {
+		private String sik;
 		private String serialNumber;
-		private String oldSerialNumber;
-		private String acct;
 		private String model;
+		private String chipId;
+
+		public String getChipId() {
+			return chipId;
+		}
+
+		public void setChipId(String chipId) {
+			this.chipId = chipId;
+		}
+
+		public String getSik() {
+			return sik;
+		}
+
+		public void setSik(String sik) {
+			this.sik = sik;
+		}
 
 		public String getSerialNumber() {
 			return serialNumber;
@@ -40,14 +56,6 @@ public class HumaxSTBCase extends AbstractCase {
 
 		public void setSerialNumber(String serialNumber) {
 			this.serialNumber = serialNumber;
-		}
-
-		public String getAcct() {
-			return acct;
-		}
-
-		public void setAcct(String acct) {
-			this.acct = acct;
 		}
 
 		public String getModel() {
@@ -58,36 +66,19 @@ public class HumaxSTBCase extends AbstractCase {
 			this.model = model;
 		}
 
-		public String getOldSerialNumber() {
-			return oldSerialNumber;
-		}
-
-		public void setOldSerialNumber(String oldSerialNumber) {
-			this.oldSerialNumber = oldSerialNumber;
-		}
-
 		@Override
 		public String toString() {
-			return "STBData [serialNumber=" + serialNumber + ", oldSerialNumber=" + oldSerialNumber + ", acct=" + acct + ", model=" + model
-					+ "]";
+			return "STBData [sik=" + sik + ", serialNumber=" + serialNumber + ", model=" + model + ", chipId=" + chipId + "]";
 		}
 	}
 
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
-		STBCas stbCas;
-
-		if (lineItem.oldSerialNumber.equals("")) {
-			stbCas = getModel().alloc().STBCas(lineItem.serialNumber);
-		} else {
-			stbCas = getModel().alloc().STBCas(lineItem.oldSerialNumber);
-		}
+		STBCas stbCas = getModel().alloc().STBCas(lineItem.sik);
 
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
-
-		if (lineItem.getModel() != null && !lineItem.getModel().equals("")) {
-			stbCas.model.setValue(lineItem.getModel());
-		}
+		stbCas.model.setValue(lineItem.getModel());
+		stbCas.chipid.setValue(lineItem.getChipId());
 
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 		if (videoServicePlanAttributes != null) {
@@ -98,10 +89,10 @@ public class HumaxSTBCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public boolean sendAction(String serialNumber, Action action) throws BusinessException {
+	public boolean sendAction(String id, Action action) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(serialNumber, action);
+		res = buildOrderFromAction(id, action);
 		return res;
 	}
 
@@ -115,13 +106,13 @@ public class HumaxSTBCase extends AbstractCase {
 	 * @return true if anything to do
 	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String serialNumber, Action action) throws BusinessException {
-		STBCas stbCas = getModel().find().STBCas(serialNumber);
+	private boolean buildOrderFromAction(String id, Action action) throws BusinessException {
+		STBCas stbCas = getModel().find().STBCas(id);
 		if (stbCas != null) {
 			stbCas.sendAction(action);
 			return true;
 		} else {
-			throw new BusinessException(action.toString() + " failed, STBCas:  serialNumber=%s  was not found", serialNumber);
+			throw new BusinessException(action.toString() + " failed, STBCas:  id=%s  was not found", id);
 		}
 	}
 

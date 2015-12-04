@@ -161,7 +161,7 @@ public class Find {
 			return null;
 		} else {
 			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
-				if (id.equals(videoSubscription.video_entitlement_id.getValue())) {
+				if (videoSubscription.video_entitlement_id.getValue().contains(id)) {
 					subsList.add(videoSubscription);
 				}
 			}
@@ -209,13 +209,13 @@ public class Find {
 		return null;
 	}
 
-	public VideoCPE VideoCPE(String serialNumber) {
+	public VideoCPE VideoCPE(String id) {
 		VideoCPEService parent = VideoCPEService();
 		if (parent == null) {
 			return null;
 		} else {
 			for (VideoCPE videoCPE : parent.getVideoCPEs()) {
-				if (serialNumber.equals(videoCPE.getStbCAS().serialNumber.getValue())) {
+				if (id.equals(videoCPE.getStbCAS().sik.getValue())) {
 					return videoCPE;
 				}
 			}
@@ -223,8 +223,8 @@ public class Find {
 		return null;
 	}
 
-	public STBCas STBCas(String serialNumber) {
-		VideoCPE parent = VideoCPE(serialNumber);
+	public STBCas STBCas(String id) {
+		VideoCPE parent = VideoCPE(id);
 		if (parent == null) {
 			return null;
 		} else {
