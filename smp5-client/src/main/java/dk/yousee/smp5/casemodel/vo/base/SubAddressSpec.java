@@ -16,7 +16,7 @@ import dk.yousee.smp5.order.model.ServicePrefix;
  */
 public class SubAddressSpec extends BasicUnit {
 	public static final String AMS_ID = "ams_id";
-	public static final String DISTRICT = "district";
+	public static final String DISTRICT = "province_state";
 	public static final String ZIP_CODE = "zipcode";
 	public static final String CITY = "city";
 	public static OrderDataLevel LEVEL = OrderDataLevel.ADDRESS;

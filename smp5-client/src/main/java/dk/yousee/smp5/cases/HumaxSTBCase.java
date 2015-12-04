@@ -79,6 +79,7 @@ public class HumaxSTBCase extends AbstractCase {
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
 		stbCas.model.setValue(lineItem.getModel());
 		stbCas.chipid.setValue(lineItem.getChipId());
+		stbCas.sik.setValue(lineItem.getSik());
 
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 		if (videoServicePlanAttributes != null) {
