@@ -1,11 +1,14 @@
 package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
+import dk.yousee.smp5.casemodel.vo.base.SubSpec;
 import dk.yousee.smp5.cases.subscriber.AddressInfo;
 import dk.yousee.smp5.cases.subscriber.ContactInfo;
 import dk.yousee.smp5.order.model.Acct;
+import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
@@ -176,5 +179,34 @@ public class SubscriberCase extends AbstractCase {
 	 */
 	public boolean isJustCreated() {
 		return justCreated;
+	}
+
+	/**
+	 * @throws BusinessException
+	 * 
+	 */
+	public Order deleteSubscription() throws BusinessException {
+		SubscriberModel model = getModel();
+		if (getResponse().getSmp() == null)
+			setErrorMessage(getResponse().getErrorMessage());
+		if (getErrorMessage() != null) {
+			throw new BusinessException("could not create subscription, for customer %s, got message: %s", getAcct(), getErrorMessage());
+		}
+
+		SubSpec subSpec = model.add().SubSpec(model.getOrder().getExternalKey());
+		SubAddressSpec subAddressSpec = model.find().SubAddressSpec();
+		SubContactSpec subContactSpec = model.find().SubContactSpec();
+		SampSub sampSub = model.find().SampSub();
+
+		subSpec.getDefaultOrderData().addChild(subContactSpec.getDefaultOrderData());
+		subSpec.getDefaultOrderData().addChild(subAddressSpec.getDefaultOrderData());
+		subSpec.getDefaultOrderData().addChild(sampSub.getDefaultOrderData());
+
+		model.getOrder().getOrderData().remove(1);
+		model.getOrder().getOrderData().remove(1);
+		model.getOrder().getOrderData().get(1).setAction(Action.DELETE);
+
+		subSpec.delete();
+		return model.getOrder();
 	}
 }

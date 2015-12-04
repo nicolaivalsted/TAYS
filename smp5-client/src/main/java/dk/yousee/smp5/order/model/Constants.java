@@ -17,10 +17,6 @@ public class Constants {
 	public static final String SUB_SVCKEY_TYPE_SAMP = "SubSvcSpec:samp_sub";
 
 	// SubAddressSpec
-	public static final String AMS_ID = "ams_id";
-	public static final String DISTRICT = "district";
-	public static final String ZIP_CODE = "zipcode";
-	public static final String CITY = "city";
 	public static final String COUNTRY = "country";
 	public static final String MUNICIPALITY = "ntd_return_segment_nm";
 
