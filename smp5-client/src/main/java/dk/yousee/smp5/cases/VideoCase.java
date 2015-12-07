@@ -1,6 +1,7 @@
 package dk.yousee.smp5.cases;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
@@ -165,10 +166,10 @@ public class VideoCase extends AbstractCase {
 		return false;
 	}
 
-	public boolean delete(String id) throws BusinessException {
+	public boolean sendAction(String id, Action action) throws BusinessException {
 		ensureAcct();
 		boolean res;
-		res = buildOrderFromAction(id, Action.DELETE);
+		res = buildOrderFromAction(id, action);
 		return res;
 	}
 
@@ -182,17 +183,25 @@ public class VideoCase extends AbstractCase {
 	 * @return true if anything to do
 	 * @throws BusinessException
 	 */
-	private boolean buildOrderFromAction(String id, Action delete) throws BusinessException {
-		List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(id);
-		if (subscriptionList == null || subscriptionList.size() == 0) {
-			throw new BusinessException("Delete failed,  sik=%s was not found", id);
-		}
-		for (VideoSubscription videoSubscription : subscriptionList) {
-			if (videoSubscription != null) {
-				videoSubscription.sendAction(Action.DELETE);
+	private boolean buildOrderFromAction(String id, Action action) throws BusinessException {
+		if (action == Action.DELETE) {
+			List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(id);
+			if (subscriptionList == null || subscriptionList.size() == 0) {
+				throw new BusinessException("Delete failed,  sik=%s was not found", id);
+			}
+			for (VideoSubscription videoSubscription : subscriptionList) {
+				if (videoSubscription != null) {
+					videoSubscription.sendAction(Action.DELETE);
+				}
+			}
+			return true;
+		} else if (action == Action.UPDATE) {
+			VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
+			if (planAttributes != null) {
+				planAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
 			}
 		}
-		return true;
+		return false;
 	}
 
 }
