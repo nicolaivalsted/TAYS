@@ -112,6 +112,8 @@ public class VideoCase extends AbstractCase {
 			String id = "53335324532453245";
 			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
 			videoServicePlanAttributes.video_service_plan_id.setValue(id);
+		}else{
+			videoServicePlanAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
 		}
 
 		for (String parcos : lineItem.getPackageList()) {
