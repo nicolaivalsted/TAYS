@@ -112,7 +112,7 @@ public class VideoCase extends AbstractCase {
 			String id = "53335324532453245";
 			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
 			videoServicePlanAttributes.video_service_plan_id.setValue(id);
-		}else{
+		} else {
 			videoServicePlanAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
 		}
 
@@ -190,10 +190,11 @@ public class VideoCase extends AbstractCase {
 			}
 			return true;
 		} else if (action == Action.UPDATE) {
-			VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
-			if (planAttributes != null) {
-				planAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
-			}
+
+		}
+		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
+		if (planAttributes != null) {
+			planAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
 		}
 		return false;
 	}
