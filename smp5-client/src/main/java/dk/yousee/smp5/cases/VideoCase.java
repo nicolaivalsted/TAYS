@@ -109,7 +109,6 @@ public class VideoCase extends AbstractCase {
 
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 		if (videoServicePlanAttributes == null) {
-			// String id = String.valueOf(new Random().nextInt(1000000));
 			String id = "53335324532453245";
 			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
 			videoServicePlanAttributes.video_service_plan_id.setValue(id);
@@ -122,13 +121,6 @@ public class VideoCase extends AbstractCase {
 				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos);
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
-
-				if (!lineItem.getBeginDate().equals("")) {
-					videoSubscription.begin_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getBeginDate()));
-				}
-				if (!lineItem.getEndDate().equals("")) {
-					videoSubscription.end_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getEndDate()));
-				}
 
 			}
 		}
@@ -144,7 +136,7 @@ public class VideoCase extends AbstractCase {
 	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs) {
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
-				if (subscription.packageId.getValue().equals(parcos)) {
+				if (subscription.packageId.getValue().toUpperCase().equals(parcos.toUpperCase())) {
 					return true;
 				}
 			}
@@ -159,7 +151,7 @@ public class VideoCase extends AbstractCase {
 	 */
 	private boolean findMissing(String[] strings, VideoSubscription subscription2) {
 		for (String parcos : strings) {
-			if (parcos.equals(subscription2.packageId.getValue())) {
+			if (parcos.toUpperCase().equals(subscription2.packageId.getValue().toUpperCase())) {
 				return true;
 			}
 		}
