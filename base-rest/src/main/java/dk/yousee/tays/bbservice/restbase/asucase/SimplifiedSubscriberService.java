@@ -24,7 +24,7 @@ public class SimplifiedSubscriberService {
     private String productCode;
     // wifi
     private String ssid, psk, channel;
-    private String ss_id_5g, gw_channel_id_5g;
+    private String ss_id_5g, gw_channel_id_5g, psk_5g;
             // foreningsmail
     private String product;
     private String name;
@@ -74,6 +74,14 @@ public class SimplifiedSubscriberService {
 
     public void setPsk(String psk) {
         this.psk = psk;
+    }
+    
+    public String getPsk_5g() {
+        return psk_5g;
+    }
+
+    public void setPsk_5g(String psk_5g) {
+        this.psk_5g = psk_5g;
     }
 
     public String getRateCode() {
