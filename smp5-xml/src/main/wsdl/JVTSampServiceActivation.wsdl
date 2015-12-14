@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2007 (http://www.altova.com) by siarheig (HOME) -->
+<definitions xmlns:tns="http://www.sigma-systems.com/smp/31/wsdl/JVTServiceActivationSession/jsr89/v0-8/soap11" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.sigma-systems.com/smp/31/wsdl/JVTServiceActivationSession/jsr89/v0-8/soap11">
+	<types>
+		<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.sigma-systems.com/schemas/3.1/SmpXmlOrderAPI">
+		</xsd:schema>
+	</types>
+	<message name="executeXml">
+		<part name="xmlRequest" type="xs:anyType" >
+  </part>
+	</message>
+	<message name="executeXmlResponse">
+		<part name="xmlResponse" type="xs:anyType" >
+  </part>
+  </message>
+  	<message name="executeXmlException">
+		<part name="xmlResponse" type="xs:anyType">
+  </part>
+	</message>
+	<portType name="JVTServiceActivationSessionWSPort">
+		<operation name="executeXml">
+			<input name="executeXml" message="tns:executeXml">
+   </input>
+			<output name="executeXmlResponse" message="tns:executeXmlResponse">
+   </output>
+			<fault name="executeXmlException" message="tns:executeXmlException"></fault>
+		</operation>
+	</portType>
+	<binding name="JVTServiceActivationSessionWSPort" type="tns:JVTServiceActivationSessionWSPort">
+	
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="executeXml">		
+			<soap:operation soapAction="executeXml"  style="document"/>
+			<input name="executeXml">
+			</input>
+			<output name="executeXmlResponse">
+
+			</output>
+			<fault name="executeXmlException">
+				<soap:fault name="executeXmlException" use="literal"/>
+			</fault>
+		</operation>
+	</binding>
+	<service name="JVTServiceActivationSessionWebService">
+		<port name="JVTServiceActivationSessionWSPort" binding="tns:JVTServiceActivationSessionWSPort">
+			<soap:address location="http://localhost:8088/SmpXmlOrderApi/xmlorder"/>
+		</port>
+	</service>
+</definitions>

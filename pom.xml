@@ -8,7 +8,7 @@
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>clients</artifactId>
-    <version>3.99-SNAPSHOT</version>
+    <version>3.100-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>
@@ -34,7 +34,9 @@
         <module>jobmon-springrunner</module>
         <module>kasia-client</module>
         <module>smp-xml</module>
+        <module>smp5-xml</module>
         <module>smp-client</module>
+        <module>smp5-client</module>
         <module>voucher-client</module>
         <module>yspro-client</module>
         <module>macaddress</module>
