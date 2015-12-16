@@ -641,7 +641,7 @@ public class CableBBCase extends AbstractCase {
                 smpWiFi.psk.setValue(psk);
             }
             if (psk_5g != null) {
-                smpWiFi.psk_5g.setValue(psk_5g);
+                smpWiFi.psk_5g.setValue(psk);
             }            
             if (ss_id != null) {
                 smpWiFi.ss_id.setValue(ss_id);
