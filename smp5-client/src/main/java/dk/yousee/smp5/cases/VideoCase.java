@@ -14,7 +14,6 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
-import dk.yousee.smp5.order.util.OrderHelper;
 
 public class VideoCase extends AbstractCase {
 
@@ -36,6 +35,7 @@ public class VideoCase extends AbstractCase {
 		private String modifyDate;
 		private String beginDate;
 		private String endDate;
+		private String cableUnit;
 		private String sik;
 
 		public String getSik() {
@@ -85,11 +85,20 @@ public class VideoCase extends AbstractCase {
 		public void setModifyDate(String modifyDate) {
 			this.modifyDate = modifyDate;
 		}
+		
+		public String getCableUnit() {
+			return cableUnit;
+		}
+
+		public void setCableUnit(String cableUnit) {
+			this.cableUnit = cableUnit;
+		}
 
 		@Override
 		public String toString() {
 			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packageList=" + Arrays.toString(packageList)
-					+ ", modifyDate=" + modifyDate + ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
+					+ ", modifyDate=" + modifyDate + ", beginDate=" + beginDate + ", endDate=" + endDate + ", cableUnit=" + cableUnit
+					+ ", sik=" + sik + "]";
 		}
 
 	}
@@ -116,6 +125,10 @@ public class VideoCase extends AbstractCase {
 			videoServicePlanAttributes.video_service_plan_id.setValue(id);
 		} else {
 			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+		}
+		
+		if(!lineItem.getCableUnit().equals("")){
+			videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
 		}
 
 		for (String parcos : lineItem.getPackageList()) {
