@@ -57,12 +57,6 @@ public class OrderHelper {
 		return sdf.format(date);
 	}
 
-	public static String generateOrderModifyDateStringFromDate(Date now) throws BusinessException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-		String dateFinal = sdf.format(now);
-		return dateFinal;
-	}
-	
 	public static String generateOrderDateStringFromString(String stringDate) throws BusinessException {
         String dateFinal;
         try {

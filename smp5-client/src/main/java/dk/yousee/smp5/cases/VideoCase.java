@@ -1,8 +1,10 @@
 package dk.yousee.smp5.cases;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -113,7 +115,7 @@ public class VideoCase extends AbstractCase {
 			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
 			videoServicePlanAttributes.video_service_plan_id.setValue(id);
 		} else {
-			videoServicePlanAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
+			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 		}
 
 		for (String parcos : lineItem.getPackageList()) {
@@ -194,9 +196,15 @@ public class VideoCase extends AbstractCase {
 		}
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 		if (planAttributes != null) {
-			planAttributes.modify_date.setValue(OrderHelper.generateOrderModifyDateStringFromDate(new Date()));
+			planAttributes.modify_date.setValue(generateModifyDate());
 		}
 		return false;
+	}
+	
+	public static String generateModifyDate() throws BusinessException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
+		String dateFinal = sdf.format(new Date()) + " - " +  new Random().nextInt(5000);
+		return dateFinal;
 	}
 
 }
