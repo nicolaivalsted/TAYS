@@ -4,7 +4,6 @@ import dk.yousee.smp5.com.AddSubscriberCom;
 import dk.yousee.smp5.com.FindOrderCom;
 import dk.yousee.smp5.com.FindOrdersBySubscriberCom;
 import dk.yousee.smp5.com.FindSubscriberCom;
-import dk.yousee.smp5.com.ProvisioningCom;
 import dk.yousee.smp5.com.ProvisioningCom5;
 import dk.yousee.smp5.com.ReadSubscriptionCom;
 import dk.yousee.smp5.com.SigmaAction;
