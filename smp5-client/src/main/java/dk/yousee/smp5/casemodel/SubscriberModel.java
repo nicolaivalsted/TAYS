@@ -176,5 +176,8 @@ public class SubscriberModel implements Serializable {
 	public boolean hasOrder() {
 		return order != null;
 	}
+	public boolean hasData(){
+		return order.getOrderData().size() == 0 ? false : true;
+	}
 
 }

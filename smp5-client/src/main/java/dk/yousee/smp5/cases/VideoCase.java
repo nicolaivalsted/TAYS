@@ -85,7 +85,7 @@ public class VideoCase extends AbstractCase {
 		public void setModifyDate(String modifyDate) {
 			this.modifyDate = modifyDate;
 		}
-		
+
 		public String getCableUnit() {
 			return cableUnit;
 		}
@@ -108,37 +108,41 @@ public class VideoCase extends AbstractCase {
 		String entitlementId = "";
 		List<VideoSubscription> vSubs = getModel().find().VideoSubscription();
 		boolean action;
+		boolean changed = false;
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
 				action = findMissing(lineItem.getPackageList(), subscription);
 				if (!action) {
+					changed = true;
 					subscription.sendAction(Action.DELETE);
 				}
 			}
-		}
-		action = false;
-
-		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
-		if (videoServicePlanAttributes == null) {
-			String id = "53335324532453245";
-			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
-			videoServicePlanAttributes.video_service_plan_id.setValue(id);
-		} else {
-			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
-		}
-		
-		if(!lineItem.getCableUnit().equals("")){
-			videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
 		}
 
 		for (String parcos : lineItem.getPackageList()) {
 			action = findActionToPerform(parcos, vSubs);
 			if (!action) {
+				changed = true;
 				entitlementId = lineItem.getVideoEntitlementId() + "-" + parcos;
 				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos);
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
 
+			}
+		}
+
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+		if (changed) {
+			if (videoServicePlanAttributes == null) {
+				String id = "53335324532453245";
+				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
+				videoServicePlanAttributes.video_service_plan_id.setValue(id);
+			} else {
+				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+			}
+
+			if (!lineItem.getCableUnit().equals("")) {
+				videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
 			}
 		}
 
@@ -213,10 +217,10 @@ public class VideoCase extends AbstractCase {
 		}
 		return false;
 	}
-	
+
 	public static String generateModifyDate() throws BusinessException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
-		String dateFinal = sdf.format(new Date()) + " - " +  new Random().nextInt(5000);
+		String dateFinal = sdf.format(new Date()) + " - " + new Random().nextInt(5000);
 		return dateFinal;
 	}
 
