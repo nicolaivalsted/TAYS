@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.rmi.RemoteException;
+import java.util.Arrays;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -61,6 +62,7 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 		postMethod.setRequestHeader("accept", "application/soap+xml;charset=UTF-8, application/dime, multipart/related, text/*");
 		postMethod.setRequestHeader("SOAPAction", "");
 		postMethod.setRequestHeader("Authorization", getConnector().encodeBasic());
+		logger.info(Arrays.toString(postMethod.getRequestHeaders()));
 
 		String body = String
 				.format("<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
