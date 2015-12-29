@@ -13,6 +13,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -60,6 +61,7 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 		postMethod = new PostMethod(getConnector().getUrl());
 		postMethod.setRequestHeader("accept", "application/soap+xml;charset=utf-8");
 		postMethod.setRequestHeader("SOAPAction", "");
+		postMethod.setRequestHeader("Content-Type", "application/soap+xml;charset=utf-8");
 		postMethod.setRequestHeader("Authorization", getConnector().encodeBasic());
 
 		String body = String
