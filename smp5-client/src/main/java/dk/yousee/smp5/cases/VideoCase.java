@@ -33,8 +33,6 @@ public class VideoCase extends AbstractCase {
 		private String videoEntitlementId;
 		private String[] packageList;
 		private String modifyDate;
-		private String beginDate;
-		private String endDate;
 		private String cableUnit;
 		private String sik;
 
@@ -44,22 +42,6 @@ public class VideoCase extends AbstractCase {
 
 		public void setSik(String sik) {
 			this.sik = sik;
-		}
-
-		public String getBeginDate() {
-			return beginDate;
-		}
-
-		public void setBeginDate(String beginDate) {
-			this.beginDate = beginDate;
-		}
-
-		public String getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(String endDate) {
-			this.endDate = endDate;
 		}
 
 		public String getVideoEntitlementId() {
@@ -97,8 +79,7 @@ public class VideoCase extends AbstractCase {
 		@Override
 		public String toString() {
 			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packageList=" + Arrays.toString(packageList)
-					+ ", modifyDate=" + modifyDate + ", beginDate=" + beginDate + ", endDate=" + endDate + ", cableUnit=" + cableUnit
-					+ ", sik=" + sik + "]";
+					+ ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + ", sik=" + sik + "]";
 		}
 
 	}
@@ -209,7 +190,8 @@ public class VideoCase extends AbstractCase {
 			}
 			return true;
 		} else if (action == Action.UPDATE) {
-
+			//this will be used by the massive update tool
+			
 		}
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 		if (planAttributes != null) {

@@ -59,9 +59,10 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 
 		PostMethod postMethod = null;
 		postMethod = new PostMethod(getConnector().getUrl());
-		postMethod.setRequestHeader("accept", "application/soap+xml;charset=utf-8");
+//		postMethod.setRequestHeader("accept", "application/soap+xml;charset=UTF-8, application/dime, multipart/related, text/*");
 		postMethod.setRequestHeader("SOAPAction", "");
-		postMethod.setRequestHeader("Content-Type", "application/soap+xml;charset=utf-8");
+		//comment to deploy
+		postMethod.setRequestHeader("Content-Type", "application/soap+xml;charset=UTF-8");
 		postMethod.setRequestHeader("Authorization", getConnector().encodeBasic());
 
 		String body = String

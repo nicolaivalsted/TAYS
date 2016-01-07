@@ -53,6 +53,8 @@ public interface OrderService {
      * @return reply from Sigma. An order or an error message. (+ contains xml documents)
      */
 	public ExecuteOrderReply maintainPlan(Order order);
+	
+	public ExecuteOrderReply maintainPlanJMS(Order order);
 
     /**
     * Find orders by subscriber ,  return all the oreders.

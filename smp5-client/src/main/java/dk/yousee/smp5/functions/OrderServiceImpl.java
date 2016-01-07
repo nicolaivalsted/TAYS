@@ -89,6 +89,12 @@ public class OrderServiceImpl implements OrderService {
 		com.setCon(getCon());
 		return com.process(order);
 	}
+	
+	public ExecuteOrderReply maintainPlanJMS(Order order) {
+		ProvisioningCom5 com = new ProvisioningCom5();
+		com.setCon(getCon());
+		return com.processJMS(order);
+	}
 
 	/**
 	 * Find orders by subscriber , return all the orders.
