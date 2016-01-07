@@ -1,14 +1,17 @@
 package dk.yousee.smp5.smp5client;
 
-import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
+import java.util.Properties;
+
 import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.MessageProducer;
 import javax.jms.Queue;
+import javax.jms.QueueConnection;
+import javax.jms.QueueConnectionFactory;
+import javax.jms.QueueSender;
 import javax.jms.QueueSession;
 import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import org.apache.log4j.Logger;
@@ -27,38 +30,61 @@ public class JMSClientImpl extends AbstractClient<Smp5ConnectorImpl> implements 
 	public JMSClientImpl(Smp5ConnectorImpl connector) {
 		setConnector(connector);
 	}
-
-	@Override
+	
 	public Integer getDefaultOperationTimeout() {
-		// TODO Auto-generated method stub
-		return null;
+		return getConnector().getOperationTimeout();
 	}
 
-	@Override
-	public String executeXml(String xmlRequest, Integer operationTimeout) {
-		Connection connection = null ;
-		Context context;
+	public String executeXml(String xmlRequest, Integer operationTimeout)throws Exception {
+		Context jndiContext = null;
+		QueueConnectionFactory queueConnectionFactory = null;
+		QueueConnection queueConnection = null;
+		QueueSession queueSession = null;
+		Queue queue = null;
+		QueueSender queueSender = null;
+		TextMessage message = null;
+		Properties props = new Properties();
+		// props.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+		// "org.jboss.naming.remote.client.InitialContextFactory");
+
 		try {
-			context = ContextUtil.getInitialContext();
-			ConnectionFactory connectionFactory = (ConnectionFactory) context.lookup("ConnectionFactory");
-			connection = connectionFactory.createConnection();
-			Session session = connection.createSession(false, QueueSession.AUTO_ACKNOWLEDGE);
-			Queue queue = (Queue) context.lookup("/queue/HelloWorldQueue");
-			connection.start();
-			MessageProducer producer = session.createProducer(queue);
-			Message hellowWorldText = session.createTextMessage("Hello World!");
-			producer.send(hellowWorldText);
-			connection.close();
+			props.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.jnp.interfaces.NamingContextFactory");
+			props.setProperty(Context.PROVIDER_URL, "remote://provisioning-qa.yousee.dk");
+			props.setProperty(Context.SECURITY_PRINCIPAL, "system");
+			props.setProperty(Context.SECURITY_CREDENTIALS, "demoadmin");
+
+			jndiContext = new InitialContext(props);
 		} catch (NamingException e) {
-			logger.fatal("Error while sending the request to the queue", e);
-		} catch (JMSException e) {
-			logger.fatal("Error while sending the request to the queue", e);
-		} finally {
-			if (connection != null) {
-//				connection.close();
-			}
+			logger.error("Could not create JNDI API " + "context: " + e.toString());
 		}
-		return null;
+		try {
+			queueConnectionFactory = (QueueConnectionFactory) jndiContext.lookup("SigmaQueueConnectionFactory");
+			queue = (Queue) jndiContext.lookup("JSR264XmlRequestQueue");
+		} catch (NamingException e) {
+			logger.error("JNDI API lookup failed: " + e.toString());
+		}
+		try {
+			queueConnection = queueConnectionFactory.createQueueConnection();
+			queueSession = queueConnection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
+			queueSender = queueSession.createSender(queue);
+			message = queueSession.createTextMessage();
+
+			message.setText(xmlRequest);
+			queueSender.send(message);
+		} catch (JMSException e) {
+			logger.error("Exception occurred: " + e.toString());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		} finally {
+			if (queueConnection != null) {
+				try {
+					queueConnection.close();
+				} catch (JMSException e) {
+				}
+			}
+			System.exit(0);
+		}
+		return "OK";
 	}
 
 }

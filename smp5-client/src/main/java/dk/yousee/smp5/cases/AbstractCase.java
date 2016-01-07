@@ -230,7 +230,7 @@ public class AbstractCase {
 	public ExecuteOrderReply sendJMS(Order order2send) throws BusinessException {
 		setErrorMessage(null);
 		try {
-			lastOrderReply = service.maintainPlan(order2send);
+			lastOrderReply = service.maintainPlanJMS(order2send);
 		} catch (Exception e) {
 			setErrorMessage(e.getMessage());
 			throw new RuntimeException(e.getMessage(), e);
