@@ -202,7 +202,7 @@ public class VideoCase extends AbstractCase {
 
 	public static String generateModifyDate() throws BusinessException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
-		String dateFinal = sdf.format(new Date()) + " - " + new Random().nextInt(5000);
+		String dateFinal = sdf.format(new Date()) + "-" + new Random().nextInt(5000);
 		return dateFinal;
 	}
 

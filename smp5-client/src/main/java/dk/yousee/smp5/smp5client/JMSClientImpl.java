@@ -50,7 +50,7 @@ public class JMSClientImpl extends AbstractClient<Smp5ConnectorImpl> implements 
 			props.put(Context.PROVIDER_URL, "remote://provisioning-qa.yousee.dk");
 			props.put(Context.SECURITY_PRINCIPAL, "system");
 			props.put(Context.SECURITY_CREDENTIALS, "dem0@dmin");
-			props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+//			props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
 
 			jndiContext = new InitialContext(props);
 		} catch (NamingException e) {
