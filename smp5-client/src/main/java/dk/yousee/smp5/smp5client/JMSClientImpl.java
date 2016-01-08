@@ -51,14 +51,17 @@ public class JMSClientImpl extends AbstractClient<Smp5ConnectorImpl> implements 
 			props.put(Context.SECURITY_PRINCIPAL, "system");
 			props.put(Context.SECURITY_CREDENTIALS, "dem0@dmin");
 //			props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
-
+			logger.info("properties created");
 			jndiContext = new InitialContext(props);
+			logger.info("initial context created");
+			
 		} catch (NamingException e) {
 			logger.error("Could not create JNDI API " + "context: " + e.toString());
 			return "FAIL";
 		}
 		try {
 			queueConnectionFactory = (QueueConnectionFactory) jndiContext.lookup("QueueConnectionFactory");
+			logger.info("queueConnectionFactory created");
 			queue = (Queue) jndiContext.lookup("JSR264XmlRequestQueue");
 		} catch (NamingException e) {
 			logger.error("JNDI API lookup failed: " + e.toString());
