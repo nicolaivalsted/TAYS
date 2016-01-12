@@ -34,15 +34,6 @@ public class VideoCase extends AbstractCase {
 		private String[] packageList;
 		private String modifyDate;
 		private String cableUnit;
-		private String sik;
-
-		public String getSik() {
-			return sik;
-		}
-
-		public void setSik(String sik) {
-			this.sik = sik;
-		}
 
 		public String getVideoEntitlementId() {
 			return videoEntitlementId;
@@ -79,7 +70,7 @@ public class VideoCase extends AbstractCase {
 		@Override
 		public String toString() {
 			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packageList=" + Arrays.toString(packageList)
-					+ ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + ", sik=" + sik + "]";
+					+ ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + "]";
 		}
 
 	}
@@ -87,9 +78,11 @@ public class VideoCase extends AbstractCase {
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
 		String entitlementId = "";
-		List<VideoSubscription> vSubs = getModel().find().VideoSubscription();
+		List<VideoSubscription> vSubs = getModel().find().VideoSubscription(lineItem.getVideoEntitlementId());
 		boolean action;
 		boolean changed = false;
+
+		// handle packages to delete
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
 				action = findMissing(lineItem.getPackageList(), subscription);
@@ -100,6 +93,7 @@ public class VideoCase extends AbstractCase {
 			}
 		}
 
+		// handle packages to add/nothing
 		for (String parcos : lineItem.getPackageList()) {
 			action = findActionToPerform(parcos, vSubs);
 			if (!action) {
@@ -133,7 +127,7 @@ public class VideoCase extends AbstractCase {
 	/**
 	 * @param parcos
 	 * @param vSubs
-	 * @return true if nothing to do or false if is delete
+	 * @return true if nothing to do or false if is add
 	 */
 	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs) {
 		if (vSubs != null) {
@@ -181,17 +175,14 @@ public class VideoCase extends AbstractCase {
 		if (action == Action.DELETE) {
 			List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(id);
 			if (subscriptionList == null || subscriptionList.size() == 0) {
-				throw new BusinessException("Delete failed,  sik=%s was not found", id);
+				throw new BusinessException("Delete failed,  sik = %s was not found", id);
 			}
 			for (VideoSubscription videoSubscription : subscriptionList) {
-				if (videoSubscription != null) {
-					videoSubscription.sendAction(Action.DELETE);
-				}
+				videoSubscription.sendAction(Action.DELETE);
 			}
-		} else if (action == Action.UPDATE) {
-			//this will be used by the massive update tool
-			
 		}
+
+		// IF UPDATE OR DELETE
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 		if (planAttributes != null) {
 			planAttributes.modify_date.setValue(generateModifyDate());

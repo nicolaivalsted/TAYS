@@ -174,7 +174,6 @@ public class Find {
 		if (parent == null) {
 			return null;
 		} else {
-
 			return parent.getVideoSubscriptions();
 		}
 	}
@@ -192,7 +191,7 @@ public class Find {
 		}
 		return null;
 	}
-	
+
 	// ========= END VIDEO =========
 
 	// ========= Video CPE =========
