@@ -188,7 +188,6 @@ public class VideoCase extends AbstractCase {
 					videoSubscription.sendAction(Action.DELETE);
 				}
 			}
-			return true;
 		} else if (action == Action.UPDATE) {
 			//this will be used by the massive update tool
 			
@@ -197,7 +196,7 @@ public class VideoCase extends AbstractCase {
 		if (planAttributes != null) {
 			planAttributes.modify_date.setValue(generateModifyDate());
 		}
-		return false;
+		return true;
 	}
 
 	public static String generateModifyDate() throws BusinessException {
