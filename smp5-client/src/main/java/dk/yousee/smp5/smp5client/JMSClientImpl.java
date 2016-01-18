@@ -47,10 +47,11 @@ public class JMSClientImpl extends AbstractClient<Smp5ConnectorImpl> implements 
 
 		try {
 			props.put(Context.INITIAL_CONTEXT_FACTORY, "org.jboss.naming.remote.client.InitialContextFactory");
-			props.put(Context.PROVIDER_URL, "remote://provisioning-qa.yousee.dk");
-			props.put(Context.SECURITY_PRINCIPAL, "system");
-			props.put(Context.SECURITY_CREDENTIALS, "dem0@dmin");
-//			props.put(Context.URL_PKG_PREFIXES, "org.jboss.ejb.client.naming");
+			props.put(Context.URL_PKG_PREFIXES, "jboss.ejb.client.naming");
+			props.put(Context.PROVIDER_URL, "remote://10.233.185.40:19623");//port 4447, 19602,1099
+			props.put(Context.SECURITY_PRINCIPAL, "samp.csra1");
+			props.put(Context.SECURITY_CREDENTIALS, "pwcsra1");
+			
 			logger.error("properties created");
 			jndiContext = new InitialContext(props);
 			logger.error("initial context created");
@@ -60,15 +61,15 @@ public class JMSClientImpl extends AbstractClient<Smp5ConnectorImpl> implements 
 			return "FAIL";
 		}
 		try {
-			queueConnectionFactory = (QueueConnectionFactory) jndiContext.lookup("QueueConnectionFactory");
+			queueConnectionFactory = (QueueConnectionFactory) jndiContext.lookup("System/Sigma/ApplicationType/OrderManagement/Application/4-3;1-0;SMP/Comp/QueueConnectionFactory");
 			logger.error("queueConnectionFactory created");
-			queue = (Queue) jndiContext.lookup("JSR264XmlRequestQueue");
+			queue = (Queue) jndiContext.lookup("System/Sigma/ApplicationType/OrderManagement/Application/4-3;1-0;SMP/Comp/XmlRequestQueue");
 		} catch (NamingException e) {
 			logger.error("JNDI API lookup failed: " + e.toString());
 			return "FAIL";
 		}
 		try {
-			queueConnection = queueConnectionFactory.createQueueConnection();
+			queueConnection = (QueueConnection) queueConnectionFactory.createConnection();
 			queueSession = queueConnection.createQueueSession(false, Session.AUTO_ACKNOWLEDGE);
 			queueSender = queueSession.createSender(queue);
 			message = queueSession.createTextMessage();
