@@ -118,6 +118,8 @@ public class VideoCase extends AbstractCase {
 
 			if (!lineItem.getCableUnit().equals("")) {
 				videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
+			}else{
+				videoServicePlanAttributes.cableUnit.setValue("9999");
 			}
 		}
 
