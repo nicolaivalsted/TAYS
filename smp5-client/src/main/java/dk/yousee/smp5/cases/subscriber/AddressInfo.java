@@ -12,7 +12,6 @@ public class AddressInfo {
 	private String city;
 	private String district;
 	private String floor;
-	private String cableUnit;
 	private String geographicName;
 	private String streetNumber;
 	private String doorCode;
@@ -55,14 +54,6 @@ public class AddressInfo {
 
 	public void setStreetName(String streetName) {
 		this.streetName = streetName;
-	}
-
-	public String getCableUnit() {
-		return cableUnit;
-	}
-
-	public void setCableUnit(String cableUnit) {
-		this.cableUnit = cableUnit;
 	}
 
 	public String getZipcode() {

@@ -82,11 +82,7 @@ public class HumaxSTBCase extends AbstractCase {
 		stbCas.sik.setValue(lineItem.getSik());
 
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
-		if (videoServicePlanAttributes != null) {
-			videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
-		} else {
-			throw new BusinessException(" Video Service Plan not found");
-		}
+		videoServicePlanAttributes.video_service_defn_has_cas.add(stbCas);
 		return getModel().getOrder();
 	}
 

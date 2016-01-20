@@ -64,7 +64,6 @@ public class SubscriberCase extends AbstractCase {
 		subAddressSpec.zipcode.setValue(zip4ch(address.getZipcode()));
 		subAddressSpec.district.setValue(address.getDistrict());
 		subAddressSpec.city.setValue(address.getCity());
-		subAddressSpec.cableUnit.setValue(address.getCableUnit());
 		subAddressSpec.geo_name.setValue(address.getGeographicName());
 		subAddressSpec.door_code.setValue(address.getDoorCode());
 		subAddressSpec.street_num.setValue(address.getStreetNumber());
@@ -157,7 +156,6 @@ public class SubscriberCase extends AbstractCase {
 		ma.zipcode.setValue(zip4ch(address.getZipcode()));
 		ma.district.setValue(address.getDistrict());
 		ma.city.setValue(address.getCity());
-		ma.cableUnit.setValue(address.getCableUnit());
 		ma.geo_name.setValue(address.getGeographicName());
 		ma.door_code.setValue(address.getDoorCode());
 		ma.street_num.setValue(address.getStreetNumber());

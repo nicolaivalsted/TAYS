@@ -25,6 +25,7 @@ public class VideoServicePlanAttributes extends BasicUnit {
 
 	public PropHolder video_service_plan_id = new PropHolder(this, "video_service_plan_id", true);
 	public PropHolder modify_date = new PropHolder(this, "modify_date", true);
+	public PropHolder cableUnit = new PropHolder(this, "cable_unit");
 	
 
 	// Type.ASSOC

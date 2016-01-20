@@ -1,8 +1,5 @@
 package dk.yousee.smp5.casemodel.vo.video;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp5.order.model.NickName;

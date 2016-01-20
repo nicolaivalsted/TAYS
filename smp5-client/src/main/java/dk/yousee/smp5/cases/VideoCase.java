@@ -14,7 +14,6 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
-import dk.yousee.smp5.order.util.OrderHelper;
 
 public class VideoCase extends AbstractCase {
 
@@ -34,33 +33,7 @@ public class VideoCase extends AbstractCase {
 		private String videoEntitlementId;
 		private String[] packageList;
 		private String modifyDate;
-		private String beginDate;
-		private String endDate;
-		private String sik;
-
-		public String getSik() {
-			return sik;
-		}
-
-		public void setSik(String sik) {
-			this.sik = sik;
-		}
-
-		public String getBeginDate() {
-			return beginDate;
-		}
-
-		public void setBeginDate(String beginDate) {
-			this.beginDate = beginDate;
-		}
-
-		public String getEndDate() {
-			return endDate;
-		}
-
-		public void setEndDate(String endDate) {
-			this.endDate = endDate;
-		}
+		private String cableUnit;
 
 		public String getVideoEntitlementId() {
 			return videoEntitlementId;
@@ -86,10 +59,18 @@ public class VideoCase extends AbstractCase {
 			this.modifyDate = modifyDate;
 		}
 
+		public String getCableUnit() {
+			return cableUnit;
+		}
+
+		public void setCableUnit(String cableUnit) {
+			this.cableUnit = cableUnit;
+		}
+
 		@Override
 		public String toString() {
 			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packageList=" + Arrays.toString(packageList)
-					+ ", modifyDate=" + modifyDate + ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
+					+ ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + "]";
 		}
 
 	}
@@ -97,35 +78,51 @@ public class VideoCase extends AbstractCase {
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
 		String entitlementId = "";
-		List<VideoSubscription> vSubs = getModel().find().VideoSubscription();
+		List<VideoSubscription> vSubs = getModel().find().VideoSubscription(lineItem.getVideoEntitlementId());
 		boolean action;
+		boolean changed = false;
+
+		// handle packages to delete
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
 				action = findMissing(lineItem.getPackageList(), subscription);
 				if (!action) {
+					changed = true;
 					subscription.sendAction(Action.DELETE);
 				}
 			}
 		}
-		action = false;
 
-		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
-		if (videoServicePlanAttributes == null) {
-			String id = "53335324532453245";
-			videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
-			videoServicePlanAttributes.video_service_plan_id.setValue(id);
-		} else {
-			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
-		}
-
+		// handle packages to add/nothing
 		for (String parcos : lineItem.getPackageList()) {
 			action = findActionToPerform(parcos, vSubs);
 			if (!action) {
+				changed = true;
 				entitlementId = lineItem.getVideoEntitlementId() + "-" + parcos;
 				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos);
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
 
+			}
+		}
+
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+		if (changed) {
+			if (videoServicePlanAttributes == null) {
+				String id = "53335324532453245";
+				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
+				videoServicePlanAttributes.video_service_plan_id.setValue(id);
+			} else {
+				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+			}
+
+			if (videoServicePlanAttributes.cableUnit.getValue() == null || videoServicePlanAttributes.cableUnit.getValue().equals("")) {
+				String cableFinal = lineItem.getCableUnit().equals("") ? "999147" : lineItem.getCableUnit();
+				videoServicePlanAttributes.cableUnit.setValue(cableFinal);
+			} else {
+				if (!lineItem.getCableUnit().equals("")) {
+					videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
+				}
 			}
 		}
 
@@ -135,7 +132,7 @@ public class VideoCase extends AbstractCase {
 	/**
 	 * @param parcos
 	 * @param vSubs
-	 * @return true if nothing to do or false if is delete
+	 * @return true if nothing to do or false if is add
 	 */
 	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs) {
 		if (vSubs != null) {
@@ -183,27 +180,24 @@ public class VideoCase extends AbstractCase {
 		if (action == Action.DELETE) {
 			List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(id);
 			if (subscriptionList == null || subscriptionList.size() == 0) {
-				throw new BusinessException("Delete failed,  sik=%s was not found", id);
+				throw new BusinessException("Delete failed,  sik = %s was not found", id);
 			}
 			for (VideoSubscription videoSubscription : subscriptionList) {
-				if (videoSubscription != null) {
-					videoSubscription.sendAction(Action.DELETE);
-				}
+				videoSubscription.sendAction(Action.DELETE);
 			}
-			return true;
-		} else if (action == Action.UPDATE) {
-
 		}
+
+		// IF UPDATE OR DELETE
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 		if (planAttributes != null) {
 			planAttributes.modify_date.setValue(generateModifyDate());
 		}
-		return false;
+		return true;
 	}
-	
+
 	public static String generateModifyDate() throws BusinessException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
-		String dateFinal = sdf.format(new Date()) + " - " +  new Random().nextInt(5000);
+		String dateFinal = sdf.format(new Date()) + "-" + new Random().nextInt(5000);
 		return dateFinal;
 	}
 

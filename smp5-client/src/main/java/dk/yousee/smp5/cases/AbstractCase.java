@@ -195,6 +195,10 @@ public class AbstractCase {
 	public ExecuteOrderReply send() throws BusinessException {
 		return send(model.getOrder());
 	}
+	
+	public ExecuteOrderReply sendJMS() throws BusinessException {
+		return sendJMS(model.getOrder());
+	}
 
 	/**
 	 * commit the changes to SMP.<br/>
@@ -210,6 +214,23 @@ public class AbstractCase {
 		setErrorMessage(null);
 		try {
 			lastOrderReply = service.maintainPlan(order2send);
+		} catch (Exception e) {
+			setErrorMessage(e.getMessage());
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		if (lastOrderReply.getErrorMessage() != null) {
+			String detailError = lastOrderReply.getXml().getResponse();
+			detailError = errorMessageHandler(lastOrderReply.getErrorMessage(), detailError);
+			setErrorMessage(detailError);
+			throw new BusinessException("When sendng order, got exception: %s", getErrorMessage());
+		}
+		return lastOrderReply;
+	}
+	
+	public ExecuteOrderReply sendJMS(Order order2send) throws BusinessException {
+		setErrorMessage(null);
+		try {
+			lastOrderReply = service.maintainPlanJMS(order2send);
 		} catch (Exception e) {
 			setErrorMessage(e.getMessage());
 			throw new RuntimeException(e.getMessage(), e);

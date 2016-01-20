@@ -20,31 +20,22 @@ import com.sigmaSystems.schemas.x31.smpCBEServiceSchema.SubSvcKeyType;
 import com.sigmaSystems.schemas.x31.smpCBEServiceSchema.SubSvcType;
 import com.sigmaSystems.schemas.x31.smpCommonValues.ParamType;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ActionOrderValue;
+import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ActionOrderValue.OrderItemList;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderExceptionDocument;
+import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderRequestDocument;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderResponseDocument;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.OrderItemType;
-import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ActionOrderValue.OrderItemList;
-import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderRequestDocument;
 import com.sun.java.products.oss.xml.cbe.core.EntityValue;
 import com.sun.java.products.oss.xml.serviceActivation.OrderValue;
 
-import dk.yousee.smp5.order.model.Smp5Xml;
-import dk.yousee.smp5.order.model.OrderDataType;
-import dk.yousee.smp5.order.model.ServicePrefix;
 import dk.yousee.smp5.order.model.Action;
-import dk.yousee.smp5.com.ProvisioningCom5;
-import dk.yousee.smp5.order.model.OrderData;
-import dk.yousee.smp5.order.model.OrderDataLevel;
-import dk.yousee.smp5.com.AssociationMaker;
-import dk.yousee.smp5.com.Smp5ManipulationActionFactory;
-import dk.yousee.smp5.com.ServiceStateTypeConverter;
-import dk.yousee.smp5.com.XmlMaker;
-import dk.yousee.smp5.com.AddressMaker;
-import dk.yousee.smp5.com.ContactMaker;
-import dk.yousee.smp5.com.HeadMaker;
-import dk.yousee.smp5.com.Smp5Com;
 import dk.yousee.smp5.order.model.ExecuteOrderReply;
 import dk.yousee.smp5.order.model.Order;
+import dk.yousee.smp5.order.model.OrderData;
+import dk.yousee.smp5.order.model.OrderDataLevel;
+import dk.yousee.smp5.order.model.OrderDataType;
+import dk.yousee.smp5.order.model.ServicePrefix;
+import dk.yousee.smp5.order.model.Smp5Xml;
 import dk.yousee.smp5.order.model.Subscriber;
 
 /**
@@ -197,7 +188,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 				newAssocList.setAssociationArray(assocList.getAssociationArray());
 			}
 			servicePart.setEntityValue(serviceEntity);
-
+			
 			for (OrderData plan : servicePlan.getChildren()) {
 				addServiceRequest(orderItemList, plan);
 			}

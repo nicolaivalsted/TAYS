@@ -41,8 +41,6 @@ public class SubAddressSpec extends BasicUnit {
 
 	public PropHolder street_name = new PropHolder(this, "street_nm");
 
-	public PropHolder cableUnit = new PropHolder(this, "cable_unit");
-
 	public PropHolder street_num = new PropHolder(this, "street_num");
 
 	public PropHolder door_code = new PropHolder(this, "door_code");
