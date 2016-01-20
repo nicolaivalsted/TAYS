@@ -116,10 +116,13 @@ public class VideoCase extends AbstractCase {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
 
-			if (!lineItem.getCableUnit().equals("")) {
-				videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
-			}else{
-				videoServicePlanAttributes.cableUnit.setValue("9999");
+			if (videoServicePlanAttributes.cableUnit.getValue() == null || videoServicePlanAttributes.cableUnit.getValue().equals("")) {
+				String cableFinal = lineItem.getCableUnit().equals("") ? "999147" : lineItem.getCableUnit();
+				videoServicePlanAttributes.cableUnit.setValue(cableFinal);
+			} else {
+				if (!lineItem.getCableUnit().equals("")) {
+					videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
+				}
 			}
 		}
 
