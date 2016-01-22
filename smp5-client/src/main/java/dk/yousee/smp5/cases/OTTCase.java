@@ -32,7 +32,7 @@ public class OTTCase extends AbstractCase {
 	 * Inner class that holds the contract between CRM and SMP
 	 */
 	public static class OTTData {
-		private String sik;
+		private String id;
 		private String ottProduct;
 		private String entitlementId;
 		private String serviceName;
@@ -53,14 +53,6 @@ public class OTTCase extends AbstractCase {
 
 		public void setEndDate(String endDate) {
 			this.endDate = endDate;
-		}
-
-		public String getSik() {
-			return sik;
-		}
-
-		public void setSik(String sik) {
-			this.sik = sik;
 		}
 
 		public String getOttProduct() {
@@ -87,31 +79,43 @@ public class OTTCase extends AbstractCase {
 			this.serviceName = serviceName;
 		}
 
+		public String getId() {
+			return id;
+		}
+
+		public void setId(String id) {
+			this.id = id;
+		}
+
 		@Override
 		public String toString() {
-			return "OTTData [sik=" + sik + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName="
-					+ serviceName + ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
+			return "OTTData [id=" + id + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName=" + serviceName
+					+ ", beginDate=" + beginDate + ", endDate=" + endDate + "]";
 		}
 	}
 
 	public Order create(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(lineItem.getSik());
+		String sik = lineItem.getId() + "-" + lineItem.getOttProduct();
+		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
+		if (ottSubscription == null) {
+			ottSubscription = getModel().alloc().OTTSubscription(sik);
+			ottSubscription.sik.setValue(sik);
+			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
+			ottSubscription.service_name.setValue(lineItem.getServiceName());
+			ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
 
-		ottSubscription.sik.setValue(lineItem.getSik());
-		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
-		ottSubscription.service_name.setValue(lineItem.getServiceName());
-		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+			if (!lineItem.getBeginDate().equals("")) {
+				ottSubscription.begin_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getBeginDate()));
+			}
+			if (!lineItem.getEndDate().equals("")) {
+				ottSubscription.end_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getEndDate()));
+			}
 
-		if (!lineItem.getBeginDate().equals("")) {
-			ottSubscription.begin_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getBeginDate()));
+			return getModel().getOrder();
 		}
-		if (!lineItem.getEndDate().equals("")) {
-			ottSubscription.end_date.setValue(OrderHelper.generateOrderDateStringFromString(lineItem.getEndDate()));
-		}
-
-		return getModel().getOrder();
+		return null;
 	}
 
 	public boolean delete(String sik) throws BusinessException {
@@ -135,8 +139,9 @@ public class OTTCase extends AbstractCase {
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
 		if (ottSubscription != null) {
 			ottSubscription.sendAction(Action.DELETE);
+			return true;
 		}
-		return true;
+		return false;
 	}
 
 }
