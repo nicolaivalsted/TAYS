@@ -177,20 +177,27 @@ public class VideoCase extends AbstractCase {
 	 * @throws BusinessException
 	 */
 	private boolean buildOrderFromAction(String id, Action action) throws BusinessException {
+		boolean changed = false;
 		if (action == Action.DELETE) {
 			List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(id);
-			if (subscriptionList == null || subscriptionList.size() == 0) {
-				throw new BusinessException("Delete failed,  sik = %s was not found", id);
-			}
-			for (VideoSubscription videoSubscription : subscriptionList) {
-				videoSubscription.sendAction(Action.DELETE);
+			if (subscriptionList != null) {
+				for (VideoSubscription videoSubscription : subscriptionList) {
+					videoSubscription.sendAction(Action.DELETE);
+					changed = true;
+				}
 			}
 		}
 
-		// IF UPDATE OR DELETE
-		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
-		if (planAttributes != null) {
-			planAttributes.modify_date.setValue(generateModifyDate());
+		if (action == Action.UPDATE) {
+			changed = true;
+		}
+
+		if (changed) {
+			// IF UPDATE OR DELETE (changed)
+			VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
+			if (planAttributes != null) {
+				planAttributes.modify_date.setValue(generateModifyDate());
+			}
 		}
 		return true;
 	}

@@ -135,10 +135,8 @@ public class OTTCase extends AbstractCase {
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
 		if (ottSubscription != null) {
 			ottSubscription.sendAction(Action.DELETE);
-			return true;
-		} else {
-			throw new BusinessException("Delete failed, OTT Subscription:  sik=%s  was not found", sik);
 		}
+		return true;
 	}
 
 }

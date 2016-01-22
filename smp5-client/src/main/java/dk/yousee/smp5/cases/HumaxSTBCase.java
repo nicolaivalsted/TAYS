@@ -107,10 +107,8 @@ public class HumaxSTBCase extends AbstractCase {
 		STBCas stbCas = getModel().find().STBCas(id);
 		if (stbCas != null) {
 			stbCas.sendAction(action);
-			return true;
-		} else {
-			throw new BusinessException(action.toString() + " failed, STBCas:  id=%s  was not found", id);
 		}
+		return true;
 	}
 
 }
