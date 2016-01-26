@@ -1,10 +1,10 @@
 package dk.yousee.smp5.cases;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -31,7 +31,7 @@ public class VideoCase extends AbstractCase {
 
 	public static class VideoData {
 		private String videoEntitlementId;
-		private String[] packageList;
+		private Set<String> packages;
 		private String modifyDate;
 		private String cableUnit;
 
@@ -41,14 +41,6 @@ public class VideoCase extends AbstractCase {
 
 		public void setVideoEntitlementId(String videoEntitlementId) {
 			this.videoEntitlementId = videoEntitlementId;
-		}
-
-		public String[] getPackageList() {
-			return packageList;
-		}
-
-		public void setPackageList(String[] packageList) {
-			this.packageList = packageList;
 		}
 
 		public String getModifyDate() {
@@ -69,8 +61,15 @@ public class VideoCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packageList=" + Arrays.toString(packageList)
-					+ ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + "]";
+			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + "]";
+		}
+
+		public Set<String> getPackages() {
+			return packages;
+		}
+
+		public void setPackages(Set<String> packages) {
+			this.packages = packages;
 		}
 
 	}
@@ -85,7 +84,7 @@ public class VideoCase extends AbstractCase {
 		// handle packages to delete
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
-				action = findMissing(lineItem.getPackageList(), subscription);
+				action = findMissing(lineItem.getPackages(), subscription);
 				if (!action) {
 					changed = true;
 					subscription.sendAction(Action.DELETE);
@@ -94,7 +93,7 @@ public class VideoCase extends AbstractCase {
 		}
 
 		// handle packages to add/nothing
-		for (String parcos : lineItem.getPackageList()) {
+		for (String parcos : lineItem.getPackages()) {
 			action = findActionToPerform(parcos, vSubs);
 			if (!action) {
 				changed = true;
@@ -150,7 +149,7 @@ public class VideoCase extends AbstractCase {
 	 * @param subscription2
 	 * @return true if nothing to do or false if is delete
 	 */
-	private boolean findMissing(String[] strings, VideoSubscription subscription2) {
+	private boolean findMissing(Set<String> strings, VideoSubscription subscription2) {
 		for (String parcos : strings) {
 			if (parcos.toUpperCase().equals(subscription2.packageId.getValue().toUpperCase())) {
 				return true;
