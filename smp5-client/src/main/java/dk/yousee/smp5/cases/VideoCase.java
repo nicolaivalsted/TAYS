@@ -81,17 +81,6 @@ public class VideoCase extends AbstractCase {
 		boolean action;
 		boolean changed = false;
 
-		// handle packages to delete
-		if (vSubs != null) {
-			for (VideoSubscription subscription : vSubs) {
-				action = findMissing(lineItem.getPackages(), subscription);
-				if (!action) {
-					changed = true;
-					subscription.sendAction(Action.DELETE);
-				}
-			}
-		}
-
 		// handle packages to add/nothing
 		for (String parcos : lineItem.getPackages()) {
 			action = findActionToPerform(parcos, vSubs);
