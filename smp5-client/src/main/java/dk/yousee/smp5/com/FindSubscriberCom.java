@@ -20,7 +20,6 @@ import com.sun.java.products.oss.xml.common.QueryManagedEntitiesResponseDocument
 import com.sun.java.products.oss.xml.serviceActivation.GetOrderByKeyExceptionDocument;
 import com.sun.java.products.oss.xml.serviceActivation.QueryOrdersExceptionDocument;
 
-import dk.yousee.smp5.order.model.Constants;
 import dk.yousee.smp5.order.model.CustomerInfo;
 import dk.yousee.smp5.order.model.SearchCustomersRequest;
 import dk.yousee.smp5.order.model.SearchCustomersResponse;
@@ -49,18 +48,18 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		QueryManagedEntitiesRequestDocument requestDocument = QueryManagedEntitiesRequestDocument.Factory.newInstance();
 		QueryManagedEntitiesRequestDocument.QueryManagedEntitiesRequest request = requestDocument.addNewQueryManagedEntitiesRequest();
 		request.setQuery(queryValue);
-		ArrayOfString arrayOfString = ArrayOfString.Factory.newInstance(); 
+		ArrayOfString arrayOfString = ArrayOfString.Factory.newInstance();
+
 		arrayOfString.addItem("acct");
 		arrayOfString.addItem("first_name");
 		arrayOfString.addItem("last_name");
-		arrayOfString.addItem("address1");
-		arrayOfString.addItem("address2");
-		arrayOfString.addItem("zipcode");
-		arrayOfString.addItem("country");
+		arrayOfString.addItem("emails_home_address");
+		arrayOfString.addItem("phones_home_number");
+		arrayOfString.addItem("ams_id");
 		arrayOfString.addItem("district");
-		arrayOfString.addItem("ntd_return_segment");
+		arrayOfString.addItem("zipcode");
 		arrayOfString.addItem("city");
-		arrayOfString.addItem("status");
+		arrayOfString.addItem("geo_name");
 		request.setAttrNames(arrayOfString);
 		return requestDocument;
 	}
@@ -85,30 +84,55 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			param.setName("last_name");
 			param.setStringValue(searchCustomersRequest.getEfternavn());
 		}
-		if (searchCustomersRequest.getCity() != null) {
+		if (searchCustomersRequest.getBynavn() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("city");
-			param.setStringValue(searchCustomersRequest.getCity());
+			param.setStringValue(searchCustomersRequest.getBynavn());
 		}
-		if (searchCustomersRequest.getZipcode() != null) {
+		if (searchCustomersRequest.getPostnr() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("zipcode");
-			param.setStringValue(searchCustomersRequest.getZipcode());
+			param.setStringValue(searchCustomersRequest.getPostnr());
 		}
-		if (searchCustomersRequest.getAddress1() != null) {
+		if (searchCustomersRequest.getEmail() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName("address1");
-			param.setStringValue(searchCustomersRequest.getAddress1());
+			param.setName("emails_home_address");
+			param.setStringValue(searchCustomersRequest.getEmail());
 		}
-		if (searchCustomersRequest.getAddress2() != null) {
+		if (searchCustomersRequest.getPrivattelefon() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName("address2");
-			param.setStringValue(searchCustomersRequest.getAddress2());
+			param.setName("phones_home_number");
+			param.setStringValue(searchCustomersRequest.getPrivattelefon());
 		}
-		if (searchCustomersRequest.getDistrict() != null) {
+		if (searchCustomersRequest.getKommune() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("district");
-			param.setStringValue(searchCustomersRequest.getDistrict());
+			param.setStringValue(searchCustomersRequest.getKommune());
+		}
+		if (searchCustomersRequest.getStednavn() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("geo_name");
+			param.setStringValue(searchCustomersRequest.getStednavn());
+		}
+		if (searchCustomersRequest.getAmsid() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("ams_id");
+			param.setStringValue(searchCustomersRequest.getAmsid());
+		}
+		if (searchCustomersRequest.getChipid() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("id2");
+			param.setStringValue(searchCustomersRequest.getChipid());
+		}
+		if (searchCustomersRequest.getSerialNumber() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("id1");
+			param.setStringValue(searchCustomersRequest.getSerialNumber());
+		}
+		if (searchCustomersRequest.getCableUnit() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("cable_unit");
+			param.setStringValue(searchCustomersRequest.getCableUnit());
 		}
 		return queryValue;
 	}

@@ -15,6 +15,20 @@ public class SearchCustomersRequest implements Serializable {
 	private static final long serialVersionUID = -8811963453205534141L;
 	private Acct kundeId;
 
+	private String subscriber;
+	private String fornavn;
+	private String efternavn;
+	private String privattelefon;
+	private String email;
+	private String postnr;
+	private String kommune;
+	private String bynavn;
+	private String stednavn;
+	private String amsid;
+	private String chipid;
+	private String serialNumber;
+	private String cableUnit;
+
 	/**
 	 * @return the 9 digit customer key
 	 */
@@ -32,61 +46,12 @@ public class SearchCustomersRequest implements Serializable {
 		this.kundeId = kundeId;
 	}
 
-	private String internId;
-	private String fornavn;
-	private String efternavn;
-	private String city;
-	private String zipcode;
-	private String address1;
-	private String address2;
-	private String district;
-
-	public String getCity() {
-		return city;
+	public String getSubscriber() {
+		return subscriber;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public String getZipcode() {
-		return zipcode;
-	}
-
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
-	}
-
-	public String getAddress1() {
-		return address1;
-	}
-
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-
-	public String getAddress2() {
-		return address2;
-	}
-
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-
-	public String getDistrict() {
-		return district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public void setInternId(String id) {
-		this.internId = id;
-	}
-
-	public String getInternId() {
-		return this.internId;
+	public void setSubscriber(String subscriber) {
+		this.subscriber = subscriber;
 	}
 
 	public String getFornavn() {
@@ -105,26 +70,92 @@ public class SearchCustomersRequest implements Serializable {
 		this.efternavn = efternavn;
 	}
 
+	public String getPrivattelefon() {
+		return privattelefon;
+	}
+
+	public void setPrivattelefon(String privattelefon) {
+		this.privattelefon = privattelefon;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPostnr() {
+		return postnr;
+	}
+
+	public void setPostnr(String postnr) {
+		this.postnr = postnr;
+	}
+
+	public String getKommune() {
+		return kommune;
+	}
+
+	public void setKommune(String kommune) {
+		this.kommune = kommune;
+	}
+
+	public String getStednavn() {
+		return stednavn;
+	}
+
+	public void setStednavn(String stednavn) {
+		this.stednavn = stednavn;
+	}
+
+	public String getAmsid() {
+		return amsid;
+	}
+
+	public void setAmsid(String amsid) {
+		this.amsid = amsid;
+	}
+
+	public String getBynavn() {
+		return bynavn;
+	}
+
+	public void setBynavn(String bynavn) {
+		this.bynavn = bynavn;
+	}
+
+	public String getChipid() {
+		return chipid;
+	}
+
+	public void setChipid(String chipid) {
+		this.chipid = chipid;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
+	}
+
+	public String getCableUnit() {
+		return cableUnit;
+	}
+
+	public void setCableUnit(String cableUnit) {
+		this.cableUnit = cableUnit;
+	}
+
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append("\"internId\":\"").append(kundeId == null ? "not specified" : getInternId()).append('"');
-		if (fornavn != null)
-			sb.append(", \"fornavn\":\"").append(getFornavn()).append('"');
-		if (efternavn != null)
-			sb.append(", \"efternavn\":\"").append(getEfternavn()).append('"');
-		if (address1 != null)
-			sb.append(", \"address1\":\"").append(getAddress1()).append('"');
-		if (address2 != null)
-			sb.append(", \"address2\":\"").append(getAddress2()).append('"');
-		if (city != null)
-			sb.append(", \"city\":\"").append(getCity()).append('"');
-		if (zipcode != null)
-			sb.append(", \"zipcode\":\"").append(getZipcode()).append('"');
-		if (district != null)
-			sb.append(", \"district\":\"").append(getDistrict()).append('"');
-		sb.append('}');
-		return sb.toString();
+		return "SearchCustomersRequest [kundeId=" + kundeId + ", subscriber=" + subscriber + ", fornavn=" + fornavn + ", efternavn="
+				+ efternavn + ", privattelefon=" + privattelefon + ", email=" + email + ", postnr=" + postnr + ", kommune=" + kommune
+				+ ", bynavn=" + bynavn + ", stednavn=" + stednavn + ", amsid=" + amsid + ", chipid=" + chipid + ", serialNumber="
+				+ serialNumber + ", cableUnit=" + cableUnit + "]";
 	}
+
 }
