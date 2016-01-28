@@ -121,12 +121,12 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		}
 		if (searchCustomersRequest.getChipid() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName("id2");
+			param.setName("chip_id");
 			param.setStringValue(searchCustomersRequest.getChipid());
 		}
 		if (searchCustomersRequest.getSerialNumber() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName("id1");
+			param.setName("serial_number");
 			param.setStringValue(searchCustomersRequest.getSerialNumber());
 		}
 		if (searchCustomersRequest.getCableUnit() != null) {
