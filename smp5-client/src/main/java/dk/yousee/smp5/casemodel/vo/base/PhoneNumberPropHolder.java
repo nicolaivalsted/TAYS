@@ -19,27 +19,7 @@ public class PhoneNumberPropHolder extends PropHolder {
 
 	@Override
 	public void setValue(String value) {
-		super.setValue(filterPhoneNumber(value));
-	}
-
-	/**
-	 * Phonenumbers must be 8 chars or start with +45 and be 11 in length
-	 * 
-	 * @param pho
-	 *            input phone number
-	 * @return resulting number to be send to sigma. blank if not matching
-	 *         criteria
-	 */
-	public String filterPhoneNumber(String pho) {
-		String res;
-		if (pho != null
-				&& (pho.length() == 8 || pho.startsWith("+45")
-						&& pho.length() == 11)) {
-			res = pho;
-		} else {
-			res = "";
-		}
-		return res;
+		super.setValue(value);
 	}
 
 }
