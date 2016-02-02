@@ -10,9 +10,9 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 /**
  * @author m64746
  *
- *         Date: 14/10/2015 Time: 13:27:28 
- *         Generate external keys to service plans TAYS External Keys 
- *         name space registry.doc 4. Service definition
+ *         Date: 14/10/2015 Time: 13:27:28 Generate external keys to service
+ *         plans TAYS External Keys name space registry.doc 4. Service
+ *         definition
  */
 public class Key {
 	private SubscriberModel model;
@@ -50,6 +50,31 @@ public class Key {
 	 */
 	public String generateUUID() {
 		return UUIDGenerater.generateKey();
+	}
+
+	/**
+	 * <p>
+	 * Get a unique key to become key in sigma at various places
+	 * </p>
+	 * <p>
+	 * This was created to inprove the massive update of subscriber video channels
+	 * </p>
+	 * 
+	 * @return generated Key
+	 */
+	public String geenerateKeyVideo(String acct, String type) {
+		StringBuilder str = new StringBuilder();
+		if (type.equals("video_services_composed")) {
+			str.append("VSC-");
+		} else if (type.equals("video_service_plan")) {
+			str.append("VSP-");
+		} else if (type.equals("video_access")) {
+			str.append("VA-");
+		} else if (type.equals("video_subscription")) {
+			str.append("VS-");
+		}
+		str.append(acct);
+		return str.toString();
 	}
 
 }

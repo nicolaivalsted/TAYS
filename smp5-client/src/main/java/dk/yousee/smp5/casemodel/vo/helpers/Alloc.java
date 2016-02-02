@@ -38,27 +38,27 @@ public class Alloc {
 		return res;
 	}
 
-	public VideoServicePlan VideoServicePlan() {
+	public VideoServicePlan VideoServicePlan(String acct) {
 		VideoServicePlan plan = find.VideoServicePlan();
-		return plan == null ? add.VideoServicePlan() : plan;
+		return plan == null ? add.VideoServicePlan(acct) : plan;
 	}
 
-	public VideoComposedService VideoComposedService() {
+	public VideoComposedService VideoComposedService(String acct) {
 		VideoComposedService res = find.VideoComposedService();
 		if (res == null) {
-			res = add.VideoComposedService();
+			res = add.VideoComposedService(acct);
 		}
 		return res;
 	}
 
-	public VideoServicePlanAttributes VideoServicePlanAttributes() {
+	public VideoServicePlanAttributes VideoServicePlanAttributes(String acct) {
 		VideoServicePlanAttributes res = find.VideoServicePlanAttributes();
-		return res == null ? add.VideoServicePlanAttributes() : res;
+		return res == null ? add.VideoServicePlanAttributes(acct) : res;
 	}
 
-	public VideoSubscription VideoSubscription(String entitlementId, String parcos) {
+	public VideoSubscription VideoSubscription(String entitlementId, String parcos,String acct) {
 		VideoSubscription res = find.VideoSubscription(entitlementId, parcos);
-		return res == null ? add.VideoSubscription() : res;
+		return res == null ? add.VideoSubscription(acct) : res;
 	}
 
 	public VideoCPE VideoCPE(String serialNumber) {

@@ -79,34 +79,34 @@ public class Add {
 		return res;
 	}
 
-	public VideoServicePlan VideoServicePlan() {
-		VideoComposedService parent = model.alloc().VideoComposedService();
-		VideoServicePlan res = new VideoServicePlan(model, key.generateUUID(), parent);
+	public VideoServicePlan VideoServicePlan(String acct) {
+		VideoComposedService parent = model.alloc().VideoComposedService(acct);
+		VideoServicePlan res = new VideoServicePlan(model, key.geenerateKeyVideo(acct, "video_service_plan"),parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
 		return res;
 	}
 
-	public VideoComposedService VideoComposedService() {
-		VideoComposedService res = new VideoComposedService(model, key.generateUUID());
+	public VideoComposedService VideoComposedService(String acct) {
+		VideoComposedService res = new VideoComposedService(model, key.geenerateKeyVideo(acct, "video_services_composed"));
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
 		return res;
 	}
 
-	public VideoServicePlanAttributes VideoServicePlanAttributes() {
-		VideoServicePlan parent = model.alloc().VideoServicePlan();
-		VideoServicePlanAttributes res = new VideoServicePlanAttributes(model, key.generateUUID(), parent);
+	public VideoServicePlanAttributes VideoServicePlanAttributes(String acct) {
+		VideoServicePlan parent = model.alloc().VideoServicePlan(acct);
+		VideoServicePlanAttributes res = new VideoServicePlanAttributes(model, key.geenerateKeyVideo(acct, "video_access"), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
 		return res;
 	}
 
-	public VideoSubscription VideoSubscription() {
-		VideoServicePlan parent = model.alloc().VideoServicePlan();
+	public VideoSubscription VideoSubscription(String acct) {
+		VideoServicePlan parent = model.alloc().VideoServicePlan(acct);
 		VideoSubscription res = new VideoSubscription(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();

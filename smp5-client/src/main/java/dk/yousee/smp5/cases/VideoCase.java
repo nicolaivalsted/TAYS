@@ -87,7 +87,7 @@ public class VideoCase extends AbstractCase {
 			if (!action) {
 				changed = true;
 				entitlementId = lineItem.getVideoEntitlementId() + "-" + parcos;
-				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos);
+				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos,getAcct().toString());
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
 
@@ -98,7 +98,7 @@ public class VideoCase extends AbstractCase {
 		if (changed) {
 			if (videoServicePlanAttributes == null) {
 				String id = "53335324532453245";
-				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes();
+				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
 				videoServicePlanAttributes.video_service_plan_id.setValue(id);
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
@@ -128,20 +128,6 @@ public class VideoCase extends AbstractCase {
 				if (subscription.packageId.getValue().toUpperCase().equals(parcos.toUpperCase())) {
 					return true;
 				}
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @param strings
-	 * @param subscription2
-	 * @return true if nothing to do or false if is delete
-	 */
-	private boolean findMissing(Set<String> strings, VideoSubscription subscription2) {
-		for (String parcos : strings) {
-			if (parcos.toUpperCase().equals(subscription2.packageId.getValue().toUpperCase())) {
-				return true;
 			}
 		}
 		return false;
