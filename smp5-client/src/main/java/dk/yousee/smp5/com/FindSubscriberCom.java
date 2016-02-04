@@ -53,10 +53,10 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		arrayOfString.addItem("acct");
 		arrayOfString.addItem("first_name");
 		arrayOfString.addItem("last_name");
-		arrayOfString.addItem("email_home_address");
-		arrayOfString.addItem("phone_home_number");
+		arrayOfString.addItem("emails.home.address");
+		arrayOfString.addItem("phones.home.number");
 		arrayOfString.addItem("ams_id");
-		arrayOfString.addItem("province_state");
+		arrayOfString.addItem("district");
 		arrayOfString.addItem("zipcode");
 		arrayOfString.addItem("city");
 		arrayOfString.addItem("geo_name");
@@ -96,7 +96,7 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		}
 		if (searchCustomersRequest.getEmail() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName("email.home.address");
+			param.setName("emails.home.address");
 			param.setStringValue(searchCustomersRequest.getEmail());
 		}
 		if (searchCustomersRequest.getPrivattelefon() != null) {
