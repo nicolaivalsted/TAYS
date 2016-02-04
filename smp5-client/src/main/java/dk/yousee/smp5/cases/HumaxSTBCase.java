@@ -74,7 +74,7 @@ public class HumaxSTBCase extends AbstractCase {
 
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
-		STBCas stbCas = getModel().alloc().STBCas(lineItem.sik);
+		STBCas stbCas = getModel().alloc().STBCas(lineItem.getSik());
 
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
 		stbCas.model.setValue(lineItem.getModel());
