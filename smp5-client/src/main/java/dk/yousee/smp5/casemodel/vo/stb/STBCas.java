@@ -17,7 +17,7 @@ public class STBCas extends BasicUnit {
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "stb_cas");
 
 	public PropHolder serialNumber = new PropHolder(this, "id1", true);
-	public PropHolder model = new PropHolder(this, "model", true);
+	public PropHolder manufacturer = new PropHolder(this, "manufacturer", true);
 	public PropHolder chipid = new PropHolder(this, "id2", true);
 	public PropHolder sik = new PropHolder(this, "sik", true);
 

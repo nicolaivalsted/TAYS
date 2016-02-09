@@ -31,7 +31,7 @@ public class HumaxSTBCase extends AbstractCase {
 	public static class STBData {
 		private String sik;
 		private String serialNumber;
-		private String model;
+		private String manufacturer;
 		private String chipId;
 
 		public String getChipId() {
@@ -58,17 +58,17 @@ public class HumaxSTBCase extends AbstractCase {
 			this.serialNumber = serialNumber;
 		}
 
-		public String getModel() {
-			return model;
+		public String getManufacturer() {
+			return manufacturer;
 		}
 
-		public void setModel(String model) {
-			this.model = model;
+		public void setManufacturer(String manufacturer) {
+			this.manufacturer = manufacturer;
 		}
 
 		@Override
 		public String toString() {
-			return "STBData [sik=" + sik + ", serialNumber=" + serialNumber + ", model=" + model + ", chipId=" + chipId + "]";
+			return "STBData [sik=" + sik + ", serialNumber=" + serialNumber + ", manufacturer=" + manufacturer + ", chipId=" + chipId + "]";
 		}
 	}
 
@@ -77,7 +77,7 @@ public class HumaxSTBCase extends AbstractCase {
 		STBCas stbCas = getModel().alloc().STBCas(lineItem.getSik());
 
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
-		stbCas.model.setValue(lineItem.getModel());
+		stbCas.manufacturer.setValue(lineItem.getManufacturer());
 		stbCas.chipid.setValue(lineItem.getChipId());
 		stbCas.sik.setValue(lineItem.getSik());
 
