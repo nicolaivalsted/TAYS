@@ -54,8 +54,6 @@ public interface OrderService {
      */
 	public ExecuteOrderReply maintainPlan(Order order);
 	
-	public ExecuteOrderReply maintainPlanJMS(Order order);
-
     /**
     * Find orders by subscriber ,  return all the oreders.
     *

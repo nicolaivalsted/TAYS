@@ -7,8 +7,4 @@ public class Smp5ClientFactory {
         return new HttpSoapClientImpl(connector);
     }
 	
-	public static Smp5Client createJMS(Smp5ConnectorImpl connector) {
-        return new JMSClientImpl(connector);
-    }
-
 }

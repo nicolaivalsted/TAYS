@@ -41,16 +41,6 @@ public abstract class Smp5Com<INPUT, OUTPUT> {
 		return res;
 	}
 	
-	public OUTPUT processJMS(INPUT input) {
-		String request = convertRequest(input);
-		String response = null;
-		response = con.executeJMS(request, getOperationTimeout());
-		OUTPUT res;
-		Smp5Xml xml = new Smp5Xml(request, response);
-		res = convertResponse(xml, input);
-		return res;
-	}
-
 	static public Smp5Xml xml(String request, String response) {
 		return new Smp5Xml(request, response);
 	}
