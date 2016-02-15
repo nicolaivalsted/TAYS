@@ -3,7 +3,6 @@ package dk.yousee.smp.casemodel.vo.helpers;
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
-import dk.yousee.smp.casemodel.vo.backup.Backup;
 import dk.yousee.smp.casemodel.vo.cbp.BSA;
 import dk.yousee.smp.casemodel.vo.cbp.CableBBService;
 import dk.yousee.smp.casemodel.vo.cbp.InetAccess;
@@ -17,7 +16,6 @@ import dk.yousee.smp.casemodel.vo.cpee.VoipAccess;
 import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
-import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
@@ -339,24 +337,6 @@ public class Alloc {
     public Play Play(BusinessPosition position) {
         Play sub=find.Play(position);
         return sub==null?add.Play(position):sub;
-    }
-
-    /**
-     * @param position to service
-     * @return new instance
-     */
-    public CommunityWifi CommunityWifi(BusinessPosition position) {
-        CommunityWifi sub=find.CommunityWifi(position);
-        return sub==null?add.CommunityWifi(position):sub;
-    }
-
-    /**
-     * @param position to service
-     * @return new instance
-     */
-    public Backup Backup(BusinessPosition position) {
-        Backup sub=find.Backup(position);
-        return sub==null?add.Backup(position):sub;
     }
 
     /**

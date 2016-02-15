@@ -49,14 +49,6 @@ public class Key {
         return getProvider() + ":cbb_" + modemId;
     }
 
-    /**
-     * @param modemId to modem
-     * @return external Key
-     */
-    public String CommunityWifiService(ModemId modemId) {            //"cable_broadband_"    cbb_
-        return getProvider() + ":cwifi_" + modemId;
-    }
-
     
      /**
      * @param cmOwnership to modem

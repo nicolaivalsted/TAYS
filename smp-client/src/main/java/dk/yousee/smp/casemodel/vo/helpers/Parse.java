@@ -3,8 +3,6 @@ package dk.yousee.smp.casemodel.vo.helpers;
 import org.apache.log4j.Logger;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
-import dk.yousee.smp.casemodel.vo.backup.Backup;
-import dk.yousee.smp.casemodel.vo.backup.BackupService;
 import dk.yousee.smp.casemodel.vo.base.SampSub;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
@@ -23,8 +21,6 @@ import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
-import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
-import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifiService;
 import dk.yousee.smp.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
@@ -167,25 +163,11 @@ public class Parse {
                         new TdcMailResource(model, child.getExternalKey(), service);
                     }
                 }                           
-            } else if (plan.getType().equals(CommunityWifiService.TYPE)) {
-            	CommunityWifiService service = new CommunityWifiService(model, plan.getExternalKey());
-                for(ResponseEntity child : plan.getEntities()) {
-                    if(child.getType().equals(CommunityWifi.TYPE)) {
-                        new CommunityWifi(model, child.getExternalKey(), service);
-                    }
-                }                           
-            } else if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
+            }  else if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
             	SikkerhedspakkeService service = new SikkerhedspakkeService(model, plan.getExternalKey());
                 for(ResponseEntity child : plan.getEntities()) {
                     if(child.getType().equals(Sikkerhedspakke.TYPE)) {
                         new Sikkerhedspakke(model, child.getExternalKey(), service);
-                    }
-                }
-            } else if (plan.getType().equals(BackupService.TYPE)) {
-                BackupService service = new BackupService(model, plan.getExternalKey());
-                for(ResponseEntity child : plan.getEntities()) {
-                    if(child.getType().equals(Backup.TYPE)) {
-                        new Backup(model, child.getExternalKey(), service);
                     }
                 }
             } else if (plan.getType().equals(MofiboService.TYPE)) {
