@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>dk.yousee.randy</groupId>
 		<artifactId>clients</artifactId>
-		<version>3.104</version>
+		<version>3.105-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>smp5-client</artifactId>
