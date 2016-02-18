@@ -57,7 +57,8 @@ public class Key {
 	 * Get a unique key to become key in sigma at various places
 	 * </p>
 	 * <p>
-	 * This was created to inprove the massive update of subscriber video channels
+	 * This was created to inprove the massive update of subscriber video
+	 * channels
 	 * </p>
 	 * 
 	 * @return generated Key
@@ -75,6 +76,14 @@ public class Key {
 		}
 		str.append(acct);
 		return str.toString();
+	}
+
+	public String generateKeySmartCardComposed(String acct) {
+		return "SmartCardComposedService-" + acct;
+	}
+
+	public String generateKeySmartCard(String acct) {
+		return "SmartCard-" + acct;
 	}
 
 }

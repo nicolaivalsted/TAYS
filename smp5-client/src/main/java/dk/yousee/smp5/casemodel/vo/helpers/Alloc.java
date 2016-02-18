@@ -3,6 +3,8 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -56,7 +58,7 @@ public class Alloc {
 		return res == null ? add.VideoServicePlanAttributes(acct) : res;
 	}
 
-	public VideoSubscription VideoSubscription(String entitlementId, String parcos,String acct) {
+	public VideoSubscription VideoSubscription(String entitlementId, String parcos, String acct) {
 		VideoSubscription res = find.VideoSubscription(entitlementId, parcos);
 		return res == null ? add.VideoSubscription(acct) : res;
 	}
@@ -74,5 +76,15 @@ public class Alloc {
 	public VideoCPEService VideoCPEService() {
 		VideoCPEService res = find.VideoCPEService();
 		return res == null ? add.VideoCPEService() : res;
+	}
+
+	public SmartCard SmartCard(String acct, String sik) {
+		SmartCard res = find.SmartCard(sik);
+		return res == null ? add.SmartCard(acct) : res;
+	}
+
+	public SmartCardService SmartCardService(String acct) {
+		SmartCardService res = find.SmartCardService();
+		return res == null ? add.SmartCardService(acct) : res;
 	}
 }

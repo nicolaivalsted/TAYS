@@ -6,6 +6,8 @@ import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -81,7 +83,7 @@ public class Add {
 
 	public VideoServicePlan VideoServicePlan(String acct) {
 		VideoComposedService parent = model.alloc().VideoComposedService(acct);
-		VideoServicePlan res = new VideoServicePlan(model, key.geenerateKeyVideo(acct, "video_service_plan"),parent);
+		VideoServicePlan res = new VideoServicePlan(model, key.geenerateKeyVideo(acct, "video_service_plan"), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
@@ -134,6 +136,23 @@ public class Add {
 
 	public VideoCPEService VideoCPEService() {
 		VideoCPEService res = new VideoCPEService(model, key.generateUUID());
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	public SmartCardService SmartCardService(String acct) {
+		SmartCardService res = new SmartCardService(model, key.generateKeySmartCardComposed(acct));
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	public SmartCard SmartCard(String acct) {
+		SmartCardService parent = model.alloc().SmartCardService(acct);
+		SmartCard res = new SmartCard(model, key.generateKeySmartCard(acct), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

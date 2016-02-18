@@ -3,14 +3,14 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -26,7 +26,6 @@ import dk.yousee.smp5.order.model.OrderDataType;
  *         Date: 14/10/2015 Time: 13:37:25
  */
 public class Find {
-	private static final Logger logger = Logger.getLogger(Find.class);
 
 	private List<BasicUnit> serviceLevelUnit;
 	private Key key;
@@ -75,8 +74,6 @@ public class Find {
 		return (SubAddressSpec) find(SubAddressSpec.TYPE);
 	}
 
-	// ========= OTT =========
-
 	/**
 	 * @return the OTTService the subscriber has
 	 */
@@ -111,10 +108,6 @@ public class Find {
 	protected OTTService OTTService(String externalKey) {
 		return (OTTService) find(OTTService.TYPE, externalKey);
 	}
-
-	// ========= END OTT =========
-
-	// ========= Video =========
 
 	/**
 	 * @return the VideoService the subscriber has
@@ -192,10 +185,6 @@ public class Find {
 		return null;
 	}
 
-	// ========= END VIDEO =========
-
-	// ========= Video CPE =========
-
 	/**
 	 * @return the VideoCPEService the subscriber has
 	 */
@@ -231,6 +220,27 @@ public class Find {
 		}
 	}
 
-	// ========= END Video CPE =========
+	/**
+	 * @return the Smartcard Composed Service
+	 */
+	public SmartCardService SmartCardService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(SmartCardService.TYPE)) {
+				return (SmartCardService) plan;
+			}
+		}
+		return null;
+	}
 
+	public SmartCard SmartCard(String sik) {
+		SmartCardService parent = SmartCardService();
+		if (parent == null) {
+			return null;
+		} else {
+			for (SmartCard smartCard : parent.getSmartCards()) {
+				return smartCard;
+			}
+			return null;
+		}
+	}
 }
