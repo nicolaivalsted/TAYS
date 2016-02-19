@@ -83,7 +83,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		public XmlObject createXml(Order order) {
 			Integer orderId = -1;
 			ExecuteOrderRequestDocument execDoc;
-			execDoc = createXmlOrderDoc(order, orderId);
+			execDoc = createXmlOrderDoc(order, order.getDebugId(), orderId);
 			return execDoc;
 		}
 
@@ -96,9 +96,9 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		 *            ordernumber (always -1)
 		 * @return xml document to be processed at Sigma
 		 */
-		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, Integer orderId) {
+		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, String debugId, Integer orderId) {
 			OrderValue orderValue;
-			orderValue = createForExistingCustomer(order, orderId);
+			orderValue = createForExistingCustomer(order, debugId, orderId);
 			ExecuteOrderRequestDocument execDoc = ExecuteOrderRequestDocument.Factory.newInstance();
 			ExecuteOrderRequestDocument.ExecuteOrderRequest execRequest = execDoc.addNewExecuteOrderRequest();
 			execRequest.setOrderValue(orderValue);
@@ -113,9 +113,9 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderId
 		 * @return the order
 		 */
-		private OrderValue createForExistingCustomer(Order order, Integer orderId) {
+		private OrderValue createForExistingCustomer(Order order, String debugId, Integer orderId) {
 			Subscriber subscriber = order.getSubscriber();
-			ActionOrderValue actionOrder = createActionOrderValue(order, orderId);
+			ActionOrderValue actionOrder = createActionOrderValue(order, debugId, orderId);
 			ActionOrderValue.OrderItemList orderItemList = actionOrder.addNewOrderItemList();
 			logger.debug("Looping through orderData");
 			for (OrderData plan : order.getOrderData()) {
@@ -387,11 +387,12 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderId
 		 * @return XML Element
 		 */
-		private ActionOrderValue createActionOrderValue(Order order, Integer orderId) {
+		private ActionOrderValue createActionOrderValue(Order order, String debugId, Integer orderId) {
 			ActionOrderValue actionOrder = ActionOrderValue.Factory.newInstance();
 			actionOrder.setLastUpdateVersionNumber(-1);
 			actionOrder.setApiClientId(order.getApiClientId());
 			actionOrder.setOrderKey(headMaker.createOrderKey(orderId));
+			actionOrder.setDescription(debugId);
 			actionOrder.setPriority(order.getPriority().asInt());
 			actionOrder.xsetOrderState(headMaker.createOrderStateType());
 			SubKeyType subKey = actionOrder.addNewSubKey();

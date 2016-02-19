@@ -32,6 +32,7 @@ public class Order implements Serializable {
 	private String apiClientId = "triple";
 	private String returnEventUrl;
 	private Subscriber subscriber;
+	private String debugId;
 	/**
 	 * list of greater ServicePlans (Level=SERVICE, ADDRESS, CONTACT...)
 	 */
@@ -154,6 +155,14 @@ public class Order implements Serializable {
 
 	public void setParams(Map<String, String> params) {
 		this.params = params;
+	}
+	
+	public String getDebugId() {
+		return debugId;
+	}
+
+	public void setDebugId(String debugId) {
+		this.debugId = debugId;
 	}
 
 	@Override
