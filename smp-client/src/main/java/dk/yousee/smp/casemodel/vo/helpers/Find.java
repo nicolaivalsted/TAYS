@@ -9,8 +9,6 @@ import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.casemodel.vo.PhoneNumber;
-import dk.yousee.smp.casemodel.vo.backup.Backup;
-import dk.yousee.smp.casemodel.vo.backup.BackupService;
 import dk.yousee.smp.casemodel.vo.base.SampSub;
 import dk.yousee.smp.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp.casemodel.vo.base.SubContactSpec;
@@ -29,8 +27,6 @@ import dk.yousee.smp.casemodel.vo.cvp.CableVoiceService;
 import dk.yousee.smp.casemodel.vo.cvp.DialToneAccess;
 import dk.yousee.smp.casemodel.vo.cvp.SwitchFeature;
 import dk.yousee.smp.casemodel.vo.cvp.VoiceMail;
-import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifi;
-import dk.yousee.smp.casemodel.vo.cwifi.CommunityWifiService;
 import dk.yousee.smp.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp.casemodel.vo.mail.Mail;
 import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
@@ -638,116 +634,6 @@ public class Find {
         PlayService parent=PlayService(position);
         return parent==null?null:parent.getPlay();
     }
-
-    // ======= CommunityWifi =======
-
-    /**
-     * @return the MobileBBService the subscriber has
-     */
-    public List<CommunityWifiService> CommunityWifiService() {
-        List<CommunityWifiService> res = new ArrayList<CommunityWifiService>();
-        for (BasicUnit plan : serviceLevelUnit) {
-            if (plan.getType().equals(CommunityWifiService.TYPE)) {
-                res.add((CommunityWifiService) plan);
-            }
-        }
-        return res;
-    }
-
-    /**
-     * @param position identifier for specific instance of the service plan
-     * @return instance if it exists
-     */
-    public CommunityWifiService CommunityWifiService(BusinessPosition position) {
-        List<CommunityWifiService> plans = CommunityWifiService();
-        for (CommunityWifiService plan : plans) {
-            if(position.equals(plan.getPosition())) {
-                return plan;
-            }
-        }
-        return null;
-    }
-    /**
-     * @param position to service
-     * @return new instance
-     */
-    public CommunityWifi CommunityWifi(BusinessPosition position) {
-        CommunityWifiService parent=CommunityWifiService(position);
-        return parent==null?null:parent.getCommunityWifi();
-    }
-
-    // ======= Backup =======
-
-    /**
-     * @return the MobileBBService the subscriber has
-     */
-    public List<BackupService> BackupService() {
-        List<BackupService> res = new ArrayList<BackupService>();
-        for (BasicUnit plan : serviceLevelUnit) {
-            if (plan.getType().equals(BackupService.TYPE)) {
-                res.add((BackupService) plan);
-            }
-        }
-        return res;
-    }
-
-    /**
-     * @param position identifier for specific instance of the service plan
-     * @return instance if it exists
-     */
-    public BackupService BackupService(BusinessPosition position) {
-        List<BackupService> plans = BackupService();
-        for (BackupService plan : plans) {
-            if(position.equals(plan.getPosition())) {
-                return plan;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * @param position to service
-     * @return new instance
-     */
-    public Backup Backup(BusinessPosition position) {
-        BackupService parent=BackupService(position);
-        return parent==null?null:parent.getBackup();
-    }
-
-    /**
-     * @param modemId identifier for specific instance of the service plan
-     * @return list of found services
-     */
-//    public List<BackupService> BackupService(ModemId modemId) {
-//        List<BackupService> services = new ArrayList<BackupService>();
-//
-//        if (modemId == null) {
-//            return services;
-//        }
-//
-//        List<BackupService> plans = BackupService();
-//        for (BackupService plan : plans) {
-//            if(modemId.equals(plan.getModemId())) {
-//                services.add(plan);
-//            }
-//        }
-//
-//        return services;
-//    }
-
-    /**
-     *
-     * @param modemId to service
-     * @return list of found items
-     */
-//    public List<Backup> Backup(ModemId modemId) {
-//        List<Backup> backups = new ArrayList<Backup>();
-//        List<BackupService> parent=BackupService(modemId);
-//        for (BackupService service : parent) {
-//            backups.add(service.getBackup());
-//        }
-//        return backups;
-//    }
 
     // ======= Sikkerhedspakke =======
 
