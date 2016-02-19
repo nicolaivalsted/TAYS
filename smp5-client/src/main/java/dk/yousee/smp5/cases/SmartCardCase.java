@@ -165,15 +165,18 @@ public class SmartCardCase extends AbstractCase {
 			smartCard.pacos.setValue(lineItem.getPacos());
 		}
 
-		if (!lineItem.getPinCode().equals("") && !lineItem.getPinCode().equals(smartCard.pinCode.getValue())) {
-			smartCard.pinCode.setValue(lineItem.getPinCode());
+		if (lineItem.getViAction().equals("VIAPIN")) {
+			smartCard.parentalPin.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
+		} else {
+			if (!lineItem.getPinCode().equals("") && !lineItem.getPinCode().equals(smartCard.pinCode.getValue())) {
+				smartCard.pinCode.setValue(lineItem.getPinCode());
+			}
 		}
-
 		if (!lineItem.getSerialNumber().equals("") && !lineItem.getSerialNumber().equals(smartCard.serialNumber.getValue())) {
 			smartCard.serialNumber.setValue(lineItem.getPinCode());
 		}
 
-		if (!lineItem.getViAction().equals("") && !lineItem.getViAction().equals(smartCard.viAction.getValue())) {
+		if (!lineItem.getViAction().equals(smartCard.viAction.getValue())) {
 			smartCard.viAction.setValue(lineItem.getViAction());
 		}
 
