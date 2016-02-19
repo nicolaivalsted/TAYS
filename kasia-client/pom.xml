@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.106</version>
+        <version>3.107-SNAPSHOT</version>
     </parent>
     <artifactId>kasia-client</artifactId>
     <name>${project.artifactId}</name>
