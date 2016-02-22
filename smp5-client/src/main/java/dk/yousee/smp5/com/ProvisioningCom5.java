@@ -392,7 +392,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			actionOrder.setLastUpdateVersionNumber(-1);
 			actionOrder.setApiClientId(order.getApiClientId());
 			actionOrder.setOrderKey(headMaker.createOrderKey(orderId));
-			actionOrder.setDescription(debugId);
+			actionOrder.setDescription("TAYS DebugId - " + debugId);
 			actionOrder.setPriority(order.getPriority().asInt());
 			actionOrder.xsetOrderState(headMaker.createOrderStateType());
 			SubKeyType subKey = actionOrder.addNewSubKey();
