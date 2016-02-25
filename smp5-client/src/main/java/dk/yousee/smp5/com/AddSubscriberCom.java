@@ -229,7 +229,7 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 			ssOrderValue.setApiClientId(order.getApiClientId());
 			ssOrderValue.setOrderKey(headMaker.createOrderKey(orderId));
 			ssOrderValue.setPriority(3);
-			ssOrderValue.setDescription(order.getDebugId());
+			ssOrderValue.setDescription("TAYS DebugId - " + order.getDebugId());
 			ssOrderValue.xsetOrderState(headMaker.createOrderStateType());
 			headMaker.updateOrderParams(ssOrderValue.addNewOrderParamList(),
 					order);
