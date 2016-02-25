@@ -8,6 +8,8 @@ import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
+import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
@@ -68,7 +70,8 @@ public class Parse {
 						VideoServicePlan videoServicePlan = new VideoServicePlan(model, child.getExternalKey(), videoComposedService);
 						for (ResponseEntity subchild : child.getEntities()) {
 							if (subchild.getType().equals(VideoServicePlanAttributes.TYPE)) {
-								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(), videoServicePlan);
+								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(),
+										videoServicePlan);
 								ResponseAssociation association = subchild.getAssociations().get(0);
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
@@ -97,6 +100,15 @@ public class Parse {
 						}
 					} else {
 						logger.warn("unknown VideoCPEService child_service " + child.getExternalKey());
+					}
+				}
+			} else if (plan.getType().equals(SmartCardService.TYPE)) {
+				SmartCardService smartCardService = new SmartCardService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(SmartCard.TYPE)) {
+						new SmartCard(model, child.getExternalKey(), smartCardService);
+					} else {
+						logger.warn("unknown SmartCardService child_service " + child.getExternalKey());
 					}
 				}
 			} else {

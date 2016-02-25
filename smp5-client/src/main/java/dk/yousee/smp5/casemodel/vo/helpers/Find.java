@@ -238,7 +238,9 @@ public class Find {
 			return null;
 		} else {
 			for (SmartCard smartCard : parent.getSmartCards()) {
-				return smartCard;
+				if (smartCard.sik.getValue().equalsIgnoreCase(sik)) {
+					return smartCard;
+				}
 			}
 			return null;
 		}

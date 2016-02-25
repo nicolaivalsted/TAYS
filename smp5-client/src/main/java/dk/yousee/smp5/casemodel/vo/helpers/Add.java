@@ -152,7 +152,7 @@ public class Add {
 
 	public SmartCard SmartCard(String acct) {
 		SmartCardService parent = model.alloc().SmartCardService(acct);
-		SmartCard res = new SmartCard(model, key.generateKeySmartCard(acct), parent);
+		SmartCard res = new SmartCard(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
