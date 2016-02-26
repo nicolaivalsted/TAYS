@@ -183,6 +183,7 @@ public class SmartCardCase extends AbstractCase {
 		smartCard.sendAction(Action.UPDATE);
 
 		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPacos().equals("")) {
+			smartCard.pacos.setValue("");
 			smartCard.sendAction(Action.DELETE);
 		}
 
