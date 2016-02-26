@@ -130,23 +130,15 @@ public class SmartCardCase extends AbstractCase {
 	}
 
 	public Order create(SmartCardData lineItem) throws BusinessException {
+		validateInput(lineItem);
+		
 		SmartCard smartCard = getModel().add().SmartCard(getAcct().toString());
-
-		if (lineItem.getSerialNumber().equals("")) {
-			throw new BusinessException("Serial Number is required for add SmartCards");
-		}
-		if (lineItem.getViAction().equals("")) {
-			throw new BusinessException("viCommand is required for SmartCard");
-		}
 
 		if (!lineItem.getPacos().equals("")) {
 			smartCard.pacos.setValue(lineItem.getPacos());
 		}
 
-		if (!lineItem.getPinCode().equals("")) {
-			smartCard.pinCode.setValue(lineItem.getPinCode());
-		}
-
+		smartCard.pinCode.setValue(lineItem.getPinCode());
 		smartCard.serialNumber.setValue(lineItem.getSerialNumber());
 		smartCard.sik.setValue(lineItem.getSik());
 		smartCard.viAction.setValue(lineItem.getViAction());
@@ -155,12 +147,10 @@ public class SmartCardCase extends AbstractCase {
 	}
 
 	public Order update(SmartCardData lineItem) throws BusinessException {
+		validateInput(lineItem);
+		
 		SmartCard smartCard = getModel().find().SmartCard(lineItem.getSik());
-
-		if (lineItem.getViAction().equals("")) {
-			throw new BusinessException("viCommand is required for SmartCard");
-		}
-
+		
 		if (!lineItem.getPacos().equals("") && !lineItem.getPacos().equals(smartCard.pacos.getValue())) {
 			smartCard.pacos.setValue(lineItem.getPacos());
 		}
@@ -172,16 +162,12 @@ public class SmartCardCase extends AbstractCase {
 				smartCard.pinCode.setValue(lineItem.getPinCode());
 			}
 		}
-		if (!lineItem.getSerialNumber().equals("") && !lineItem.getSerialNumber().equals(smartCard.serialNumber.getValue())) {
+		if (!lineItem.getSerialNumber().equals(smartCard.serialNumber.getValue())) {
 			smartCard.serialNumber.setValue(lineItem.getPinCode());
 		}
 
-		if (!lineItem.getViAction().equals(smartCard.viAction.getValue())) {
-			smartCard.viAction.setValue(lineItem.getViAction());
-		}
-
+		smartCard.viAction.setValue(lineItem.getViAction());
 		smartCard.modifyDate.setValue(generateModifyDate());
-
 		smartCard.sendAction(Action.UPDATE);
 		return getModel().getOrder();
 	}
@@ -190,6 +176,27 @@ public class SmartCardCase extends AbstractCase {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
 		String dateFinal = sdf.format(new Date()) + "-" + new Random().nextInt(5000);
 		return dateFinal;
+	}
+
+	/**
+	 * @param lineItem
+	 * @throws BusinessException
+	 */
+	private void validateInput(SmartCardData lineItem) throws BusinessException {
+		if (lineItem.getViAction().equals("")) {
+			throw new BusinessException("viCommand is required for SmartCard");
+		}
+
+		// all cases
+		if (lineItem.getSerialNumber().equals("")) {
+			throw new BusinessException("Serial Number is required for SmartCards");
+		}
+
+		// add or update
+		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPinCode().equals("")) {
+			throw new BusinessException("Pin Code is required for VIAUPD");
+		}
+
 	}
 
 }

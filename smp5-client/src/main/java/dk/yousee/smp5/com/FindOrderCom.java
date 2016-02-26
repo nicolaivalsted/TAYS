@@ -121,39 +121,4 @@ public class FindOrderCom extends Smp5Com<String, QueryOrderReply> {
 		}
 
 	}
-
-	/**
-	 * What would be relevant to return back from this .... todo: Make this
-	 * content..
-	 */
-	public static class OrderContent {
-		private Integer orderId;
-		private Date completion;
-		private String state;
-		private List<OrderParam> params;
-		private List<OrderItem> items;
-	}
-
-	public static class OrderParam {
-		private String name;
-		private String value;
-	}
-
-	/**
-	 * Each item should describe what the order item did.
-	 */
-	public static class OrderItem {
-		private String type;
-		private String action;
-		private boolean hasImpact;
-		private String itemState;
-		private List<Param> params;
-	}
-
-	public static class Param {
-		private String name;
-		private String newValue;
-		private String oldValue;
-	}
-
 }
