@@ -131,14 +131,25 @@ public class SmartCardCase extends AbstractCase {
 
 	public Order create(SmartCardData lineItem) throws BusinessException {
 		validateInput(lineItem);
-		
+
+		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPacos().equals("")) {
+			throw new BusinessException("Channels cannot be empty while adding a new smartcard with VIAUPD");
+		}
+
 		SmartCard smartCard = getModel().add().SmartCard(getAcct().toString());
 
 		if (!lineItem.getPacos().equals("")) {
 			smartCard.pacos.setValue(lineItem.getPacos());
 		}
 
-		smartCard.pinCode.setValue(lineItem.getPinCode());
+		if (lineItem.getViAction().equals("VIAPIN")) {
+			smartCard.parentalPin.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
+		} else {
+			if (!lineItem.getPinCode().equals("") && !lineItem.getPinCode().equals(smartCard.pinCode.getValue())) {
+				smartCard.pinCode.setValue(lineItem.getPinCode());
+			}
+		}
+
 		smartCard.serialNumber.setValue(lineItem.getSerialNumber());
 		smartCard.sik.setValue(lineItem.getSik());
 		smartCard.viAction.setValue(lineItem.getViAction());
@@ -148,9 +159,9 @@ public class SmartCardCase extends AbstractCase {
 
 	public Order update(SmartCardData lineItem) throws BusinessException {
 		validateInput(lineItem);
-		
+
 		SmartCard smartCard = getModel().find().SmartCard(lineItem.getSik());
-		
+
 		if (!lineItem.getPacos().equals("") && !lineItem.getPacos().equals(smartCard.pacos.getValue())) {
 			smartCard.pacos.setValue(lineItem.getPacos());
 		}
@@ -162,6 +173,7 @@ public class SmartCardCase extends AbstractCase {
 				smartCard.pinCode.setValue(lineItem.getPinCode());
 			}
 		}
+
 		if (!lineItem.getSerialNumber().equals(smartCard.serialNumber.getValue())) {
 			smartCard.serialNumber.setValue(lineItem.getPinCode());
 		}
@@ -169,6 +181,11 @@ public class SmartCardCase extends AbstractCase {
 		smartCard.viAction.setValue(lineItem.getViAction());
 		smartCard.modifyDate.setValue(generateModifyDate());
 		smartCard.sendAction(Action.UPDATE);
+
+		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPacos().equals("")) {
+			smartCard.sendAction(Action.DELETE);
+		}
+
 		return getModel().getOrder();
 	}
 
@@ -196,7 +213,6 @@ public class SmartCardCase extends AbstractCase {
 		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPinCode().equals("")) {
 			throw new BusinessException("Pin Code is required for VIAUPD");
 		}
-
 	}
 
 }
