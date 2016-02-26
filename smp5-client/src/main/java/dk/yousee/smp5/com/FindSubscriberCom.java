@@ -134,6 +134,11 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			param.setName("cable_unit");
 			param.setStringValue(searchCustomersRequest.getCableUnit());
 		}
+		if (searchCustomersRequest.getSmartcardSerial() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("smartcard_serial");
+			param.setStringValue(searchCustomersRequest.getSmartcardSerial());
+		}
 		return queryValue;
 	}
 

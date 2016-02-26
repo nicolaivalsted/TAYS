@@ -28,6 +28,7 @@ public class SearchCustomersRequest implements Serializable {
 	private String chipid;
 	private String serialNumber;
 	private String cableUnit;
+	private String smartcardSerial;
 
 	/**
 	 * @return the 9 digit customer key
@@ -149,13 +150,21 @@ public class SearchCustomersRequest implements Serializable {
 	public void setCableUnit(String cableUnit) {
 		this.cableUnit = cableUnit;
 	}
+	
+	public String getSmartcardSerial() {
+		return smartcardSerial;
+	}
+
+	public void setSmartcardSerial(String smartcardSerial) {
+		this.smartcardSerial = smartcardSerial;
+	}
 
 	@Override
 	public String toString() {
 		return "SearchCustomersRequest [kundeId=" + kundeId + ", subscriber=" + subscriber + ", fornavn=" + fornavn + ", efternavn="
 				+ efternavn + ", privattelefon=" + privattelefon + ", email=" + email + ", postnr=" + postnr + ", kommune=" + kommune
 				+ ", bynavn=" + bynavn + ", stednavn=" + stednavn + ", amsid=" + amsid + ", chipid=" + chipid + ", serialNumber="
-				+ serialNumber + ", cableUnit=" + cableUnit + "]";
+				+ serialNumber + ", cableUnit=" + cableUnit + ", smartcardSerial=" + smartcardSerial + "]";
 	}
 
 }
