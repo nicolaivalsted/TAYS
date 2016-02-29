@@ -173,7 +173,7 @@ public class VideoCase extends AbstractCase {
 				planAttributes.modify_date.setValue(generateModifyDate());
 			}
 		}
-		return true;
+		return changed;
 	}
 
 	public static String generateModifyDate() throws BusinessException {
