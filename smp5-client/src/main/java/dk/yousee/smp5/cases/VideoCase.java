@@ -87,7 +87,7 @@ public class VideoCase extends AbstractCase {
 			if (!action) {
 				changed = true;
 				entitlementId = lineItem.getVideoEntitlementId() + "-" + parcos;
-				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos,getAcct().toString());
+				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos, getAcct().toString());
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
 
@@ -109,7 +109,8 @@ public class VideoCase extends AbstractCase {
 				videoServicePlanAttributes.cableUnit.setValue(cableFinal);
 			} else {
 				if (!lineItem.getCableUnit().equals("")) {
-					videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
+					String cable = lineItem.getCableUnit().replaceFirst("^0+(?!$)", "");
+					videoServicePlanAttributes.cableUnit.setValue(cable);
 				}
 			}
 		}
