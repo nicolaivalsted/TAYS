@@ -132,10 +132,6 @@ public class SmartCardCase extends AbstractCase {
 	public Order create(SmartCardData lineItem) throws BusinessException {
 		validateInput(lineItem);
 
-		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPacos().equals("")) {
-			throw new BusinessException("Channels cannot be empty while adding a new smartcard with VIAUPD");
-		}
-
 		SmartCard smartCard = getModel().add().SmartCard(getAcct().toString());
 
 		if (!lineItem.getPacos().equals("")) {
@@ -181,11 +177,6 @@ public class SmartCardCase extends AbstractCase {
 		smartCard.viAction.setValue(lineItem.getViAction());
 		smartCard.modifyDate.setValue(generateModifyDate());
 		smartCard.sendAction(Action.UPDATE);
-
-		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPacos().equals("")) {
-			smartCard.pacos.setValue("");
-			smartCard.sendAction(Action.DELETE);
-		}
 
 		return getModel().getOrder();
 	}
