@@ -105,7 +105,7 @@ public class VideoCase extends AbstractCase {
 			}
 
 			if (videoServicePlanAttributes.cableUnit.getValue() == null || videoServicePlanAttributes.cableUnit.getValue().equals("")) {
-				String cableFinal = lineItem.getCableUnit().equals("") ? "999147" : lineItem.getCableUnit();
+				String cableFinal = lineItem.getCableUnit().equals("") ? "999147" : lineItem.getCableUnit().replaceFirst("^0+(?!$)", "");
 				videoServicePlanAttributes.cableUnit.setValue(cableFinal);
 			} else {
 				if (!lineItem.getCableUnit().equals("")) {
