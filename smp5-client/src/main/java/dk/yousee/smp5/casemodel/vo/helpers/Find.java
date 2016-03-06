@@ -92,7 +92,7 @@ public class Find {
 			return null;
 		} else {
 			for (OTTSubscription ottSubscription : parent.getOttSubscriptions()) {
-				if (ottSubscription.sik.getValue().equals(sik)) {
+				if (ottSubscription.sik.getValue().equalsIgnoreCase(sik)) {
 					return ottSubscription;
 				}
 			}
@@ -203,7 +203,7 @@ public class Find {
 			return null;
 		} else {
 			for (VideoCPE videoCPE : parent.getVideoCPEs()) {
-				if (id.equals(videoCPE.getStbCAS().sik.getValue())) {
+				if (id.equalsIgnoreCase(videoCPE.getStbCAS().sik.getValue())) {
 					return videoCPE;
 				}
 			}
