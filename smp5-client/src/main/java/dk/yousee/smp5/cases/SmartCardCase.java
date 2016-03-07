@@ -141,9 +141,7 @@ public class SmartCardCase extends AbstractCase {
 		if (lineItem.getViAction().equals("VIAPIN")) {
 			smartCard.parentalPin.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
 		} else {
-			if (!lineItem.getPinCode().equals("") && !lineItem.getPinCode().equals(smartCard.pinCode.getValue())) {
-				smartCard.pinCode.setValue(lineItem.getPinCode());
-			}
+			smartCard.pinCode.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
 		}
 
 		smartCard.serialNumber.setValue(lineItem.getSerialNumber());
@@ -157,17 +155,13 @@ public class SmartCardCase extends AbstractCase {
 		validateInput(lineItem);
 
 		SmartCard smartCard = getModel().find().SmartCard(lineItem.getSik());
-
-		if (!lineItem.getPacos().equals("") && !lineItem.getPacos().equals(smartCard.pacos.getValue())) {
-			smartCard.pacos.setValue(lineItem.getPacos());
-		}
-
+		
+		smartCard.pacos.setValue(lineItem.getPacos());
+		
 		if (lineItem.getViAction().equals("VIAPIN")) {
 			smartCard.parentalPin.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
 		} else {
-			if (!lineItem.getPinCode().equals("") && !lineItem.getPinCode().equals(smartCard.pinCode.getValue())) {
-				smartCard.pinCode.setValue(lineItem.getPinCode());
-			}
+			smartCard.pinCode.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
 		}
 
 		if (!lineItem.getSerialNumber().equals(smartCard.serialNumber.getValue())) {
@@ -196,14 +190,8 @@ public class SmartCardCase extends AbstractCase {
 			throw new BusinessException("viCommand is required for SmartCard");
 		}
 
-		// all cases
 		if (lineItem.getSerialNumber().equals("")) {
 			throw new BusinessException("Serial Number is required for SmartCards");
-		}
-
-		// add or update
-		if (lineItem.getViAction().equals("VIAUPD") && lineItem.getPinCode().equals("")) {
-			throw new BusinessException("Pin Code is required for VIAUPD");
 		}
 	}
 
