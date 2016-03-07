@@ -175,7 +175,7 @@ public class SmartCardCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public static String generateModifyDate() throws BusinessException {
+	public static String generateModifyDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
 		String dateFinal = sdf.format(new Date()) + "-" + new Random().nextInt(5000);
 		return dateFinal;
