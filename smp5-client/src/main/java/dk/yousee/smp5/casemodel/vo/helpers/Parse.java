@@ -72,7 +72,7 @@ public class Parse {
 							if (subchild.getType().equals(VideoServicePlanAttributes.TYPE)) {
 								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(),
 										videoServicePlan);
-								ResponseAssociation association = subchild.getAssociations().get(0);
+//								ResponseAssociation association = subchild.getAssociations().get(0);
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
 							} else {

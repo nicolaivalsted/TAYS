@@ -34,6 +34,15 @@ public class VideoCase extends AbstractCase {
 		private Set<String> packages;
 		private String modifyDate;
 		private String cableUnit;
+		private String acct;
+
+		public String getAcct() {
+			return acct;
+		}
+
+		public void setAcct(String acct) {
+			this.acct = acct;
+		}
 
 		public String getVideoEntitlementId() {
 			return videoEntitlementId;
@@ -61,7 +70,8 @@ public class VideoCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit + "]";
+			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packages=" + packages + ", modifyDate=" + modifyDate
+					+ ", cableUnit=" + cableUnit + ", acct=" + acct + "]";
 		}
 
 		public Set<String> getPackages() {
@@ -77,7 +87,7 @@ public class VideoCase extends AbstractCase {
 	public Order create(VideoData lineItem) throws BusinessException {
 		ensureAcct();
 		String entitlementId = "";
-		List<VideoSubscription> vSubs = getModel().find().VideoSubscription(lineItem.getVideoEntitlementId());
+		List<VideoSubscription> vSubs = getModel().find().VideoSubscriptionBP(lineItem.getVideoEntitlementId());
 		boolean action;
 		boolean changed = false;
 
@@ -86,7 +96,7 @@ public class VideoCase extends AbstractCase {
 			action = findActionToPerform(parcos, vSubs);
 			if (!action) {
 				changed = true;
-				entitlementId = lineItem.getVideoEntitlementId() + "-" + parcos;
+				entitlementId = lineItem.getAcct() + "-" + lineItem.getVideoEntitlementId() + "-" + parcos;
 				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos, getAcct().toString());
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
@@ -150,7 +160,7 @@ public class VideoCase extends AbstractCase {
 	private boolean buildOrderFromAction(String id, Action action) throws BusinessException {
 		boolean changed = false;
 		if (action == Action.DELETE) {
-			List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription(id);
+			List<VideoSubscription> subscriptionList = getModel().find().VideoSubscriptionBP(id);
 			if (subscriptionList != null) {
 				for (VideoSubscription videoSubscription : subscriptionList) {
 					videoSubscription.sendAction(Action.DELETE);

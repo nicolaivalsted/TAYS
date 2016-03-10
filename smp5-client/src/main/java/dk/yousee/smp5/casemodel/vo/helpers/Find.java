@@ -147,7 +147,7 @@ public class Find {
 		return parent.getVideoServicePlanAttributes();
 	}
 
-	public List<VideoSubscription> VideoSubscription(String id) {
+	public List<VideoSubscription> VideoSubscriptionBP(String id) {
 		VideoServicePlan parent = VideoServicePlan();
 		List<VideoSubscription> subsList = new ArrayList<VideoSubscription>();
 		if (parent == null) {
@@ -171,13 +171,13 @@ public class Find {
 		}
 	}
 
-	public VideoSubscription VideoSubscription(String servicePlanId, String entitlementId) {
+	public VideoSubscription VideoSubscription(String entitlementId) {
 		VideoServicePlan parent = VideoServicePlan();
 		if (parent == null) {
 			return null;
 		} else {
 			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
-				if (entitlementId.equals(videoSubscription.video_entitlement_id.getValue())) {
+				if (entitlementId.equalsIgnoreCase(videoSubscription.video_entitlement_id.getValue())) {
 					return videoSubscription;
 				}
 			}

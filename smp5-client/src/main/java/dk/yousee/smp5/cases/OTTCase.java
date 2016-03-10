@@ -35,6 +35,15 @@ public class OTTCase extends AbstractCase {
 		private String ottProduct;
 		private String entitlementId;
 		private String serviceName;
+		private String acct;
+
+		public String getAcct() {
+			return acct;
+		}
+
+		public void setAcct(String acct) {
+			this.acct = acct;
+		}
 
 		public String getOttProduct() {
 			return ottProduct;
@@ -71,14 +80,14 @@ public class OTTCase extends AbstractCase {
 		@Override
 		public String toString() {
 			return "OTTData [id=" + id + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName=" + serviceName
-					+ "]";
+					+ ", acct=" + acct + "]";
 		}
 	}
 
 	public Order create(OTTData lineItem) throws BusinessException {
 		ensureAcct();
 
-		String sik = lineItem.getId() + "-" + lineItem.getOttProduct();
+		String sik = lineItem.getAcct() + "-" + lineItem.getId() + "-" + lineItem.getOttProduct();
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
 		if (ottSubscription == null) {
 			ottSubscription = getModel().alloc().OTTSubscription(sik);
