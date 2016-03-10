@@ -59,7 +59,7 @@ public class Alloc {
 	}
 
 	public VideoSubscription VideoSubscription(String entitlementId, String parcos, String acct) {
-		VideoSubscription res = find.VideoSubscription(entitlementId, parcos);
+		VideoSubscription res = find.VideoSubscription(entitlementId);
 		return res == null ? add.VideoSubscription(acct) : res;
 	}
 
