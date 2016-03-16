@@ -153,8 +153,9 @@ public class Find {
 		if (parent == null) {
 			return null;
 		} else {
+			String idTemp = "-" + id + "-";
 			for (VideoSubscription videoSubscription : parent.getVideoSubscriptions()) {
-				if (videoSubscription.video_entitlement_id.getValue().contains(id)) {
+				if (videoSubscription.video_entitlement_id.getValue().contains(idTemp)) {
 					subsList.add(videoSubscription);
 				}
 			}
