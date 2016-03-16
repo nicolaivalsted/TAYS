@@ -16,6 +16,7 @@ import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
 
 public class VideoCase extends AbstractCase {
+	public static final String VIDEO_SERVICE_ID = "53335324532453245";
 
 	public VideoCase(SubscriberModel model, OrderService service) {
 		super(model, service);
@@ -107,9 +108,8 @@ public class VideoCase extends AbstractCase {
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 		if (changed) {
 			if (videoServicePlanAttributes == null) {
-				String id = "53335324532453245";
 				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
-				videoServicePlanAttributes.video_service_plan_id.setValue(id);
+				videoServicePlanAttributes.video_service_plan_id.setValue(VIDEO_SERVICE_ID);
 				cableUnit = cableUnit.equals("") ? "999147" : cableUnit;
 				videoServicePlanAttributes.cableUnit.setValue(cableUnit);
 			} else {

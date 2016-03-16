@@ -299,6 +299,10 @@ public abstract class BasicUnit {
 		return state != null && state.isProgress();
 	}
 
+	public boolean isDelete() {
+		return (orderDatas.size() == 0 || orderDatas == null ) ? false : orderDatas.get(0).getAction() == Action.DELETE;
+	}
+	
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
