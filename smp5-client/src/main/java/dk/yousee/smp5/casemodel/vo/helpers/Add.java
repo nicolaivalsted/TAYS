@@ -4,6 +4,7 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
+import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
@@ -157,6 +158,15 @@ public class Add {
 			res.getDefaultOrderData();
 		}
 		return res;
+	}
+
+	/**
+	 * @param position
+	 *            to service
+	 * @return new instance
+	 */
+	public Mail ForeningsMail(String position) {
+		return new Mail(model);
 	}
 
 }

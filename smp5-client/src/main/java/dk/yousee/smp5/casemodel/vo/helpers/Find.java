@@ -7,6 +7,8 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
+import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
+import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
@@ -245,5 +247,40 @@ public class Find {
 			}
 			return null;
 		}
+	}
+
+	public List<ForeningsMailService> ForeningsMailService() {
+		List<ForeningsMailService> res = new ArrayList<ForeningsMailService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(ForeningsMailService.TYPE)) {
+				res.add((ForeningsMailService) plan);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            identifier for specific instance of the service plan
+	 * @return instance if it exists
+	 */
+	public ForeningsMailService ForeningsMailService(String sik) {
+		List<ForeningsMailService> plans = ForeningsMailService();
+		for (dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService plan : plans) {
+			if (sik.equals(plan.getMail().sik.getValue())) {
+				return plan;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param sik
+	 *            to service
+	 * @return new instance
+	 */
+	public Mail ForeningsMail(String sik) {
+		ForeningsMailService parent = ForeningsMailService(sik);
+		return parent == null ? null : parent.getMail();
 	}
 }

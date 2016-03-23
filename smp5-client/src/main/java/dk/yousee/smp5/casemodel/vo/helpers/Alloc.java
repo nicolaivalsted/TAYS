@@ -1,6 +1,7 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
@@ -86,5 +87,15 @@ public class Alloc {
 	public SmartCardService SmartCardService(String acct) {
 		SmartCardService res = find.SmartCardService();
 		return res == null ? add.SmartCardService(acct) : res;
+	}
+
+	/**
+	 * @param sik
+	 *            to service
+	 * @return new instance
+	 */
+	public Mail ForeningsMail(String sik) {
+		Mail sub = find.ForeningsMail(sik);
+		return sub == null ? add.ForeningsMail(sik) : sub;
 	}
 }
