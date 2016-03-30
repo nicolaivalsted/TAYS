@@ -4,6 +4,7 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
@@ -97,5 +98,15 @@ public class Alloc {
 	public Mail ForeningsMail(String sik) {
 		Mail sub = find.ForeningsMail(sik);
 		return sub == null ? add.ForeningsMail(sik) : sub;
+	}
+
+	/**
+	 * @param position
+	 *            to service
+	 * @return new instance
+	 */
+	public Sikkerhedspakke Sikkerhedspakke(String sik) {
+		Sikkerhedspakke sub = find.Sikkerhedspakke(sik);
+		return sub == null ? add.Sikkerhedspakke() : sub;
 	}
 }

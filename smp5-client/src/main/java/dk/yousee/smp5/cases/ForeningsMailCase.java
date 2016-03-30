@@ -38,11 +38,18 @@ public class ForeningsMailCase extends AbstractCase {
 	 * Inner class that holds the contract between CRM and SMP
 	 */
 	public static class ForeningsData {
-		/**
-		 * Key to forenings mail - mandatory field
-		 */
 		private String product;
 		private String sik;
+		private String name;
+		private String customerId;
+
+		public String getCustomerId() {
+			return customerId;
+		}
+
+		public void setCustomerId(String customerId) {
+			this.customerId = customerId;
+		}
 
 		public String getSik() {
 			return sik;
@@ -60,11 +67,6 @@ public class ForeningsMailCase extends AbstractCase {
 			this.product = product;
 		}
 
-		/**
-		 * Description of forenings mail
-		 */
-		private String name;
-
 		public String getName() {
 			return name;
 		}
@@ -75,7 +77,7 @@ public class ForeningsMailCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "ForeningsData [product=" + product + ", sik=" + sik + ", name=" + name + "]";
+			return "ForeningsData [product=" + product + ", sik=" + sik + ", name=" + name + ", customerId=" + customerId + "]";
 		}
 
 	}
@@ -98,6 +100,9 @@ public class ForeningsMailCase extends AbstractCase {
 
 		def.product_code.setValue(lineItem.getProduct());
 		def.product_name.setValue(lineItem.getName());
+		if (!lineItem.getCustomerId().equals("") && !lineItem.getCustomerId().equals(def.customer_id.getValue())) {
+			def.customer_id.setValue(lineItem.getCustomerId());
+		}
 		def.sik.setValue(lineItem.getSik());
 		return getModel().getOrder();
 	}

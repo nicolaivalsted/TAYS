@@ -7,6 +7,7 @@ import dk.yousee.smp5.casemodel.vo.base.SubSpec;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
@@ -167,6 +168,10 @@ public class Add {
 	 */
 	public Mail ForeningsMail(String position) {
 		return new Mail(model);
+	}
+
+	public Sikkerhedspakke Sikkerhedspakke() {
+		return new Sikkerhedspakke(model);
 	}
 
 }

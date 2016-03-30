@@ -11,6 +11,8 @@ import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.sikpakke.Sikkerhedspakke;
+import dk.yousee.smp5.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
@@ -283,4 +285,44 @@ public class Find {
 		ForeningsMailService parent = ForeningsMailService(sik);
 		return parent == null ? null : parent.getMail();
 	}
+
+	public List<SikkerhedspakkeService> SikkerhedspakkeService() {
+		List<SikkerhedspakkeService> res = new ArrayList<SikkerhedspakkeService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
+				res.add((SikkerhedspakkeService) plan);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * @param position
+	 *            identifier for specific instance of the service plan
+	 * @return instance if it exists
+	 */
+	public SikkerhedspakkeService SikkerhedspakkeService(String sik) {
+		if (sik == null || sik.equals("")) {
+			return null;
+		}
+		List<SikkerhedspakkeService> plans = SikkerhedspakkeService();
+		for (SikkerhedspakkeService plan : plans) {
+			if (sik.equals(plan.getSikkerhedspakke().sik.getValue())) {
+				return plan;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 *
+	 * @param position
+	 *            to service
+	 * @return new instance
+	 */
+	public Sikkerhedspakke Sikkerhedspakke(String sik) {
+		SikkerhedspakkeService parent = SikkerhedspakkeService(sik);
+		return parent == null ? null : parent.getSikkerhedspakke();
+	}
+
 }

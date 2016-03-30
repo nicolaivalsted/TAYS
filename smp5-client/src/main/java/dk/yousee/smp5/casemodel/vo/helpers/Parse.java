@@ -6,8 +6,12 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
+import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
+import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
+import dk.yousee.smp5.casemodel.vo.sikpakke.Sikkerhedspakke;
+import dk.yousee.smp5.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
@@ -17,7 +21,6 @@ import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
-import dk.yousee.smp5.order.model.ResponseAssociation;
 import dk.yousee.smp5.order.model.ResponseEntity;
 
 /**
@@ -72,7 +75,6 @@ public class Parse {
 							if (subchild.getType().equals(VideoServicePlanAttributes.TYPE)) {
 								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(),
 										videoServicePlan);
-//								ResponseAssociation association = subchild.getAssociations().get(0);
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
 							} else {
@@ -109,6 +111,22 @@ public class Parse {
 						new SmartCard(model, child.getExternalKey(), smartCardService);
 					} else {
 						logger.warn("unknown SmartCardService child_service " + child.getExternalKey());
+					}
+				}
+			} else if (plan.getType().equals(ForeningsMailService.TYPE)) {
+				ForeningsMailService service = new ForeningsMailService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(Mail.TYPE)) {
+						new Mail(model, child.getExternalKey(), service);
+					} else {
+						logger.warn("unknown forenings mail child_service " + child.getExternalKey());
+					}
+				}
+			} else if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
+				SikkerhedspakkeService service = new SikkerhedspakkeService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(Sikkerhedspakke.TYPE)) {
+						new Sikkerhedspakke(model, child.getExternalKey(), service);
 					}
 				}
 			} else {
