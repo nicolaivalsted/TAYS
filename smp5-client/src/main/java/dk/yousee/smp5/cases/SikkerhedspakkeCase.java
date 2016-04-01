@@ -202,22 +202,19 @@ public class SikkerhedspakkeCase extends AbstractCase {
 		return res;
 	}
 
-	public Order update(String sik, SikkerhedspakkeData data) throws BusinessException {
+	public boolean update(String sik, SikkerhedspakkeData data) throws BusinessException {
 		ensureAcct();
-
+		boolean changed = false;
 		Sikkerhedspakke sikkerhedspakke = getModel().find().Sikkerhedspakke(sik);
 		if (sikkerhedspakke == null) {
 			throw new BusinessException("Update failed, Sikkerhedspakke service Plan was not found: for sik: %s", sik);
 		}
 
-		if (data.getSik() != null) {
-			sikkerhedspakke.sik.setValue(data.getSik());
-		}
-
-		if (data.getLicenseType() != null) {
+		if (!data.getLicenseType().equals("") && !data.getLicenseType().equals(sikkerhedspakke.license_type.getValue())) {
 			sikkerhedspakke.license_type.setValue(data.getLicenseType());
+			changed = true;
 		}
-
-		return getModel().getOrder();
+		getModel().getOrder();
+		return changed;
 	}
 }

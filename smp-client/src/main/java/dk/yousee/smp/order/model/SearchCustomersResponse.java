@@ -1,6 +1,7 @@
 package dk.yousee.smp.order.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -27,7 +28,13 @@ public class SearchCustomersResponse  {
         setXml(xml);
     }
 
-    private ArrayList<CustomerInfo> customersList = new ArrayList<CustomerInfo>();
+    /**
+	 * 
+	 */
+	public SearchCustomersResponse() {
+	}
+
+	private ArrayList<CustomerInfo> customersList = new ArrayList<CustomerInfo>();
 
     private String errorMessage;
 
@@ -40,7 +47,11 @@ public class SearchCustomersResponse  {
         return customersList;
     }
 
-    private void setXml(SmpXml xml) {
+    public void setCustomersList(List<CustomerInfo> customersList) {
+		this.customersList = (ArrayList<CustomerInfo>) customersList;
+	}
+
+	private void setXml(SmpXml xml) {
         this.xmlRequest = xml.getRequest();
         this.xmlResponse = xml.getResponse();
     }
