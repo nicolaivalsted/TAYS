@@ -107,19 +107,6 @@ public class ForeningsMailCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public ForeningsData readProvisioning(String sik) throws BusinessException {
-		ForeningsMailService mailService = getModel().find().ForeningsMailService(sik);
-		ForeningsData res;
-		if (mailService == null) {
-			res = null;
-		} else {
-			res = new ForeningsData();
-			res.setProduct(mailService.getMail().product_code.getValue());
-			res.setName(mailService.getMail().product_name.getValue());
-		}
-		return res;
-	}
-
 	/**
 	 * Delete function
 	 *

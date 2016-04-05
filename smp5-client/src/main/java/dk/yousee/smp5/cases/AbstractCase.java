@@ -12,12 +12,13 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import dk.yousee.smp5.order.model.ExecuteOrderReply;
-import dk.yousee.smp5.order.model.BusinessException;
-import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.order.model.Acct;
+import dk.yousee.smp5.order.model.BusinessException;
+import dk.yousee.smp5.order.model.ExecuteOrderReply;
+import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.model.Priority;
 import dk.yousee.smp5.order.model.Response;
 import dk.yousee.smp5.order.model.SystemException;
 
@@ -195,7 +196,24 @@ public class AbstractCase {
 	public ExecuteOrderReply send() throws BusinessException {
 		return send(model.getOrder());
 	}
-	
+
+	/**
+	 * commit the changes to SMP, the order is the order generated in the model.<br/>
+	 * precondition: order must be established by model updates<br/>
+	 * postcondition: OrderReply made, orderId returned
+	 *
+	 * @param p
+	 *            the priority to use
+	 * @return order number
+	 * @throws BusinessException
+	 *             when could not send, see the errorMessage as well
+	 */
+	public Integer send(Priority p) throws BusinessException {
+		Order o = model.getOrder();
+		o.setPriority(p);
+		return send(o).getOrderId();
+	}
+
 	/**
 	 * commit the changes to SMP.<br/>
 	 * postcondition: OrderReply made, orderId returned
@@ -222,7 +240,7 @@ public class AbstractCase {
 		}
 		return lastOrderReply;
 	}
-	
+
 	protected void ensureAcct() throws BusinessException {
 		if (!getModel().customerExists()) {
 			throw new BusinessException("Operation failed,  Cannot create/update/delete when the customer does not exist. Acct: %s",
