@@ -17,6 +17,8 @@ import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
+import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -73,8 +75,7 @@ public class Parse {
 						VideoServicePlan videoServicePlan = new VideoServicePlan(model, child.getExternalKey(), videoComposedService);
 						for (ResponseEntity subchild : child.getEntities()) {
 							if (subchild.getType().equals(VideoServicePlanAttributes.TYPE)) {
-								VideoServicePlanAttributes vvv = new VideoServicePlanAttributes(model, subchild.getExternalKey(),
-										videoServicePlan);
+								new VideoServicePlanAttributes(model, subchild.getExternalKey(), videoServicePlan);
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
 							} else {
@@ -127,6 +128,13 @@ public class Parse {
 				for (ResponseEntity child : plan.getEntities()) {
 					if (child.getType().equals(Sikkerhedspakke.TYPE)) {
 						new Sikkerhedspakke(model, child.getExternalKey(), service);
+					}
+				}
+			} else if (plan.getType().equals(TdcMailService.TYPE)) {
+				TdcMailService service = new TdcMailService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(TdcMail.TYPE)) {
+						new TdcMail(model, child.getExternalKey(), service);
 					}
 				}
 			} else {

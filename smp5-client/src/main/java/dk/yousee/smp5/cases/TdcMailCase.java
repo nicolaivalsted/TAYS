@@ -65,44 +65,44 @@ public class TdcMailCase extends AbstractCase {
 
 		return getModel().getOrder();
 	}
+//
+//	public Order createResource(BusinessPosition businessPosition, TdcMailData lineItem) throws BusinessException {
+//		TdcMailService service = getModel().find().tdcMailService(businessPosition);
+//		if (service != null) {
+//			TdcMailResource resource = getModel().alloc().tdcMailResource(service);
+//			resource.kpm_number.setValue(lineItem.getKpmNumber());
+//		} else {
+//			throw new BusinessException("Could not find service on BusinessPosition");
+//		}
+//
+//		return getModel().getOrder();
+//	}
 
-	public Order createResource(BusinessPosition businessPosition, TdcMailData lineItem) throws BusinessException {
-		TdcMailService service = getModel().find().tdcMailService(businessPosition);
-		if (service != null) {
-			TdcMailResource resource = getModel().alloc().tdcMailResource(service);
-			resource.kpm_number.setValue(lineItem.getKpmNumber());
-		} else {
-			throw new BusinessException("Could not find service on BusinessPosition");
-		}
-
-		return getModel().getOrder();
-	}
-
-	public Order updateResource(BusinessPosition businessPosition, String newKpm) throws BusinessException {
-		ensureAcct();
-
-		TdcMailService service = getModel().find().tdcMailService(businessPosition);
-		if (service != null) {
-			TdcMailResource resource = service.getTdcMailResource();
-			if (resource != null) {
-				resource.kpm_number.setValue(newKpm);
-				resource.cascadeSendAction(Action.UPDATE);
-			} else { // not really an update
-				TdcMailData data = new TdcMailData();
-				data.setKpmNumber(newKpm);
-				return createResource(businessPosition, data);
-			}
-		} else {
-			throw new BusinessException("No tdcmail service to update in SMP");
-		}
-
-		return getModel().getOrder();
-	}
-
-	public TdcMail readProvisioning(BusinessPosition businessPosition) throws BusinessException {
-		TdcMailService service = getModel().find().tdcMailService(businessPosition);
-		return service != null ? service.getTdcMail() : null;
-	}
+//	public Order updateResource(BusinessPosition businessPosition, String newKpm) throws BusinessException {
+//		ensureAcct();
+//
+//		TdcMailService service = getModel().find().tdcMailService(businessPosition);
+//		if (service != null) {
+//			TdcMailResource resource = service.getTdcMailResource();
+//			if (resource != null) {
+//				resource.kpm_number.setValue(newKpm);
+//				resource.cascadeSendAction(Action.UPDATE);
+//			} else { // not really an update
+//				TdcMailData data = new TdcMailData();
+//				data.setKpmNumber(newKpm);
+//				return createResource(businessPosition, data);
+//			}
+//		} else {
+//			throw new BusinessException("No tdcmail service to update in SMP");
+//		}
+//
+//		return getModel().getOrder();
+//	}
+//
+//	public TdcMail readProvisioning(BusinessPosition businessPosition) throws BusinessException {
+//		TdcMailService service = getModel().find().tdcMailService(businessPosition);
+//		return service != null ? service.getTdcMail() : null;
+//	}
 
 	public boolean delete(String sik) throws BusinessException {
 		ensureAcct();
