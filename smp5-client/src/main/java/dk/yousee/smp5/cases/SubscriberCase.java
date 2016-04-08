@@ -60,7 +60,15 @@ public class SubscriberCase extends AbstractCase {
 		SubAddressSpec subAddressSpec = getModel().find().SubAddressSpec();
 		subAddressSpec.floor.setValue(address.getFloor());
 		subAddressSpec.street_name.setValue(address.getStreetName());
-		subAddressSpec.ams_id.setValue(address.getAms());
+		String ams_id = address.getAms();
+		if (address.getAms().equals("")) {
+			if (subAddressSpec.ams_id.getValue().equals("")) {
+				ams_id = "0000";
+			} else {
+				ams_id = subAddressSpec.ams_id.getValue();
+			}
+		}
+		subAddressSpec.ams_id.setValue(ams_id);
 		subAddressSpec.zipcode.setValue(zip4ch(address.getZipcode()));
 		subAddressSpec.district.setValue(address.getDistrict());
 		subAddressSpec.city.setValue(address.getCity());
