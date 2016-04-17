@@ -1,6 +1,9 @@
 package dk.yousee.smp5.smp5client;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.rmi.RemoteException;
@@ -13,7 +16,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
@@ -59,9 +61,9 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 
 		PostMethod postMethod = null;
 		postMethod = new PostMethod(getConnector().getUrl());
-//		postMethod.setRequestHeader("accept", "application/soap+xml;charset=UTF-8, application/dime, multipart/related, text/*");
+//		 postMethod.setRequestHeader("accept","application/soap+xml;charset=UTF-8, application/dime, multipart/related, text/*");
 		postMethod.setRequestHeader("SOAPAction", "");
-		//comment to deploy
+		// comment to deploy
 		postMethod.setRequestHeader("Content-Type", "application/soap+xml;charset=UTF-8");
 		postMethod.setRequestHeader("Authorization", getConnector().encodeBasic());
 
@@ -105,7 +107,8 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 			if (errorMessage != null) {
 				throw new Exception(String.format("status:%s ,phrase:%s", httpStatus, errorMessage));
 			}
-			String res = postMethod.getResponseBodyAsString();
+			InputStream responseStream = postMethod.getResponseBodyAsStream();
+			String res = getStringFromInputStream(responseStream);
 			String toReturn;
 			try {
 				toReturn = parseInputStream(res);
@@ -189,6 +192,29 @@ class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Sm
 			throw new RuntimeException(String.format("'executeXmlResponse' is expected to contain xmlResponse: %s", executeXmlResponse));
 		}
 		return xml;
+	}
+
+	private static String getStringFromInputStream(InputStream is) {
+		BufferedReader br = null;
+		StringBuilder sb = new StringBuilder();
+		String line;
+		try {
+			br = new BufferedReader(new InputStreamReader(is));
+			while ((line = br.readLine()) != null) {
+				sb.append(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return sb.toString();
 	}
 
 }
