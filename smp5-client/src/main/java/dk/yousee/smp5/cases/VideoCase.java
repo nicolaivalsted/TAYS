@@ -103,23 +103,29 @@ public class VideoCase extends AbstractCase {
 				videoSubscription.packageId.setValue(parcos);
 			}
 		}
-		boolean present = !lineItem.getCableUnit().equals("");
-		String cableUnit = lineItem.getCableUnit().replaceFirst("^0+(?!$)", "");
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 		if (changed) {
 			if (videoServicePlanAttributes == null) {
 				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
 				videoServicePlanAttributes.video_service_plan_id.setValue(VIDEO_SERVICE_ID);
-				cableUnit = cableUnit.equals("") ? "999147" : cableUnit;
-				videoServicePlanAttributes.cableUnit.setValue(cableUnit);
+				videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
 		}
 
-		if (!cableUnit.equals(videoServicePlanAttributes.cableUnit.getValue()) && present) {
-			videoServicePlanAttributes.cableUnit.setValue(cableUnit);
+		if (!lineItem.getCableUnit().equals(videoServicePlanAttributes.cableUnit.getValue())) {
+			videoServicePlanAttributes.cableUnit.setValue(lineItem.getCableUnit());
 		}
+
+		return getModel().getOrder();
+	}
+
+	public Order createVideoPlanSTB(String cableUnit) throws BusinessException {
+		ensureAcct();
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
+		videoServicePlanAttributes.video_service_plan_id.setValue(VIDEO_SERVICE_ID);
+		videoServicePlanAttributes.cableUnit.setValue(cableUnit);
 
 		return getModel().getOrder();
 	}
