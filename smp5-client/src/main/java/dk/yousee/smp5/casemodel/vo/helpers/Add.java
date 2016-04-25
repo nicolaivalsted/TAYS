@@ -13,6 +13,7 @@ import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
+import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -174,4 +175,7 @@ public class Add {
 		return new Sikkerhedspakke(model);
 	}
 
+	public TdcMail tdcMail(String sik) {
+		return new TdcMail(model, sik);
+	}
 }

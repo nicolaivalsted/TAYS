@@ -18,6 +18,8 @@ import dk.yousee.smp5.casemodel.vo.smartcard.SmartCardService;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
+import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -323,6 +325,32 @@ public class Find {
 	public Sikkerhedspakke Sikkerhedspakke(String sik) {
 		SikkerhedspakkeService parent = SikkerhedspakkeService(sik);
 		return parent == null ? null : parent.getSikkerhedspakke();
+	}
+
+	public List<TdcMailService> tdcMailServices() {
+		List<TdcMailService> res = new ArrayList<TdcMailService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(TdcMailService.TYPE)) {
+				res.add((TdcMailService) plan);
+			}
+		}
+
+		return res;
+	}
+
+	public TdcMailService tdcMailService(String sik) {
+		List<TdcMailService> plans = tdcMailServices();
+		for (TdcMailService plan : plans) {
+			if (sik.equals(plan.getSik())) {
+				return plan;
+			}
+		}
+		return null;
+	}
+
+	public TdcMail tdcMail(String sik) {
+		TdcMailService parent = tdcMailService(sik);
+		return parent != null ? parent.getTdcMail() : null;
 	}
 
 }

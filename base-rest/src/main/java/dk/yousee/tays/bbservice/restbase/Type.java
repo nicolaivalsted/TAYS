@@ -33,7 +33,8 @@ public enum Type {
     Video("SubSvcSpec:video_services_composed"),
     SmartCard("SubSvcSpec:smartcard_services_composed"),
     SecurityPackage("SubSvcSpec:security_package_composed"),
-    ForenMail("SubSvcSpec:foreningsmail_composed");
+    ForenMail("SubSvcSpec:foreningsmail_composed"),
+    TdcEmail("SubSvcSpec:tdcmail_composed");
     
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();
