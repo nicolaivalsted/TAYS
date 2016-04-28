@@ -20,6 +20,7 @@ public class SmartCard extends BasicUnit {
 	public PropHolder pacos = new PropHolder(this, "pacos", true);
 	public PropHolder serialNumber = new PropHolder(this, "serialNumber", true);
 	public PropHolder pinCode = new PropHolder(this, "pinCode", true);
+	public PropHolder vodPayee =  new PropHolder(this, "vodPayee", true);
 	public PropHolder modifyDate = new PropHolder(this, "modifyDate", true);
 	public PropHolder parentalPin = new PropHolder(this, "parentalPin", true);
 	public PropHolder viAction = new PropHolder(this, "viAction", true);

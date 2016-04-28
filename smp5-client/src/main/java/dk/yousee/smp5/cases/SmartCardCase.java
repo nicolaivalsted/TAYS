@@ -37,6 +37,7 @@ public class SmartCardCase extends AbstractCase {
 		private String serialNumber;
 		private String pinCode;
 		private String modifyDate;
+		private String vodPayee;
 		private String parentalPin;
 		private String viAction;
 
@@ -96,10 +97,19 @@ public class SmartCardCase extends AbstractCase {
 			this.viAction = viAction;
 		}
 
+		public String getVodPayee() {
+			return vodPayee;
+		}
+
+		public void setVodPayee(String vodPayee) {
+			this.vodPayee = vodPayee;
+		}
+
 		@Override
 		public String toString() {
 			return "SmartCardData [sik=" + sik + ", pacos=" + pacos + ", serialNumber=" + serialNumber + ", pinCode=" + pinCode
-					+ ", modifyDate=" + modifyDate + ", parentalPin=" + parentalPin + ", viAction=" + viAction + "]";
+					+ ", modifyDate=" + modifyDate + ", vodPayee=" + vodPayee + ", parentalPin=" + parentalPin + ", viAction=" + viAction
+					+ "]";
 		}
 	}
 
@@ -145,6 +155,7 @@ public class SmartCardCase extends AbstractCase {
 		}
 
 		smartCard.serialNumber.setValue(lineItem.getSerialNumber());
+		smartCard.vodPayee.setValue(lineItem.getVodPayee());
 		smartCard.sik.setValue(lineItem.getSik());
 		smartCard.viAction.setValue(lineItem.getViAction());
 
@@ -155,9 +166,9 @@ public class SmartCardCase extends AbstractCase {
 		validateInput(lineItem);
 
 		SmartCard smartCard = getModel().find().SmartCard(lineItem.getSik());
-		
+
 		smartCard.pacos.setValue(lineItem.getPacos());
-		
+
 		if (lineItem.getViAction().equals("VIAPIN")) {
 			smartCard.parentalPin.setValue(lineItem.getPinCode().equals("") ? "" : lineItem.getPinCode());
 		} else {
@@ -166,6 +177,10 @@ public class SmartCardCase extends AbstractCase {
 
 		if (!lineItem.getSerialNumber().equals(smartCard.serialNumber.getValue())) {
 			smartCard.serialNumber.setValue(lineItem.getPinCode());
+		}
+
+		if (!lineItem.getVodPayee().equals(smartCard.vodPayee.getValue())) {
+			smartCard.vodPayee.setValue(lineItem.getVodPayee());
 		}
 
 		smartCard.viAction.setValue(lineItem.getViAction());
