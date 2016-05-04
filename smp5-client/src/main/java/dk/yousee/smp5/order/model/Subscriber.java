@@ -8,6 +8,7 @@ public final class Subscriber implements Serializable {
 
 	private Acct kundeId;
 	private String internId;
+	private String lid;
 	private String fornavn;
 	private String efternavn;
 	private boolean eksisterendeKunde = true;
@@ -30,6 +31,14 @@ public final class Subscriber implements Serializable {
 
 	public String getFornavn() {
 		return fornavn;
+	}
+	
+	public String getLid() {
+		return lid;
+	}
+
+	public void setLid(String lid) {
+		this.lid = lid;
 	}
 
 	/**

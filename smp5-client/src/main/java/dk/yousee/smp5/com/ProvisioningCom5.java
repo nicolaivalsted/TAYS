@@ -18,6 +18,7 @@ import com.sigmaSystems.schemas.x31.smpCBECoreSchema.SubKeyType;
 import com.sigmaSystems.schemas.x31.smpCBECoreSchema.SubType;
 import com.sigmaSystems.schemas.x31.smpCBEServiceSchema.SubSvcKeyType;
 import com.sigmaSystems.schemas.x31.smpCBEServiceSchema.SubSvcType;
+import com.sigmaSystems.schemas.x31.smpCommonValues.ParamListType;
 import com.sigmaSystems.schemas.x31.smpCommonValues.ParamType;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ActionOrderValue;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ActionOrderValue.OrderItemList;
@@ -396,6 +397,10 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			actionOrder.setPriority(order.getPriority().asInt());
 			actionOrder.xsetOrderState(headMaker.createOrderStateType());
 			SubKeyType subKey = actionOrder.addNewSubKey();
+			ParamListType parmList = ParamListType.Factory.newInstance();
+			ParamType lidParm =  parmList.addNewParam();
+			lidParm.setName("lid");
+			lidParm.setStringValue(order.getSubscriber().getLid());
 			subKey.setType("SubSpec:-");
 			subKey.setExternalKey(order.getExternalKey());
 			headMaker.updateOrderParams(actionOrder.addNewOrderParamList(), order);

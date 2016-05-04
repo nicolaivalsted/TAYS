@@ -180,4 +180,12 @@ public class SubscriberModel implements Serializable {
 		return order.getOrderData().size() == 0 ? false : true;
 	}
 
+	public Subscriber getSubscriber() {
+		return subscriber;
+	}
+
+	public void setSubscriber(Subscriber subscriber) {
+		this.subscriber = subscriber;
+	}
+	
 }

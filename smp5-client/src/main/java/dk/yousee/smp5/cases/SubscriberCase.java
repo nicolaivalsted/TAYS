@@ -54,6 +54,17 @@ public class SubscriberCase extends AbstractCase {
 	}
 
 	/**
+	 * @param Subscriber
+	 */
+	public Subscriber updateSusbcriber(String lid) {
+		Subscriber sub = getModel().getSubscriber();
+		if (!sub.getLid().equals(lid)) {
+			sub.setLid(lid);
+		}
+		return sub;
+	}
+
+	/**
 	 * @param address
 	 */
 	public SubAddressSpec updateAddress(AddressInfo address) {
@@ -142,7 +153,7 @@ public class SubscriberCase extends AbstractCase {
 	 * @param address
 	 * @return
 	 */
-	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address) {
+	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address, String lid) {
 		setModel(new SubscriberModel(getAcct()));
 
 		Order smpOrder = getModel().getOrder();
@@ -151,6 +162,7 @@ public class SubscriberCase extends AbstractCase {
 		subscriber.setFornavn(customer.getFirstName());
 		subscriber.setEfternavn(customer.getLastName());
 		subscriber.setKundeId(new Acct(customer.getAcct()));
+		subscriber.setLid(lid);
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
 		mc.isp.setValue(customer.getIsp());

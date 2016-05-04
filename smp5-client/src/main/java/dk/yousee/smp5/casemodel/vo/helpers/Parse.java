@@ -50,6 +50,9 @@ public class Parse {
 	public void buildSubscriberModel(ResponseEntity top) {
 		if (top == null)
 			return;
+		if(top.getLid() != null){
+			model.getSubscriber().setLid(top.getLid());
+		}
 		for (ResponseEntity plan : top.getEntities()) {
 			logger.debug("Type" + plan.getType());
 			logger.debug("Entity size: " + plan.getEntities().size());

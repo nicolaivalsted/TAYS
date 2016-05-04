@@ -184,6 +184,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 						SubType subType = (SubType) value;
 						smp.setExternalKey(subType.getKey().getExternalKey());
 						smp.setState(sstc.find(subType.getState()));
+						smp.setLid(getParmByName(subType.getParamList(), "lid"));
 						EntityListType entListType = subType.getEntityList();
 						for (EntityValue entityValue : entListType.getEntityValueArray()) {
 							ResponseEntity dataChild;
@@ -323,6 +324,19 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				}
 			}
 			return params;
+		}
+
+		public String getParmByName(EntityParamListType paramL, String name) {
+			if (paramL != null) {
+				for (ParamType param : paramL.getParamArray()) {
+					if (param.getStringValue() != null) {
+						if (param.getName().equals(name)) {
+							return param.getStringValue();
+						}
+					}
+				}
+			}
+			return null;
 		}
 
 	}

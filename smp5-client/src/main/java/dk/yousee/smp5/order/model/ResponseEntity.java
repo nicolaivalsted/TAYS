@@ -18,6 +18,7 @@ public class ResponseEntity implements Serializable {
 	private static final long serialVersionUID = -7030868904308285833L;
 	private ResponseEntityLevel level;
 	private ProvisionStateEnum state;
+	private String lid;
 	private String externalKey;
 	private OrderDataType type;
 	private List<ResponseAssociation> associations = null;
@@ -94,6 +95,14 @@ public class ResponseEntity implements Serializable {
 
 	public void setAssociations(List<ResponseAssociation> associations) {
 		this.associations = associations;
+	}
+
+	public String getLid() {
+		return lid;
+	}
+
+	public void setLid(String lid) {
+		this.lid = lid;
 	}
 
 }

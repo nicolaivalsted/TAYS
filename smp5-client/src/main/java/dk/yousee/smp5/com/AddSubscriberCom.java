@@ -135,7 +135,7 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		public XmlObject createXmlOrder(Order order, Integer orderId) {
 			Subscriber subscriber = order.getSubscriber();
 			SnapshotOrderValue ssOrderValue = createSnapshotOrderValue(order, orderId);
-			SubType sSubType = addSubscriber(ssOrderValue,subscriber.getKundeId(), order.getExternalKey());
+			SubType sSubType = addSubscriber(ssOrderValue,subscriber.getKundeId(), order.getExternalKey(), subscriber.getLid());
 			
 			OrderData addressData = OrderHelper.findElementOfType(order, OrderDataLevel.ADDRESS);
 			OrderData contactData = OrderHelper.findElementOfType(order, OrderDataLevel.CONTACT);
@@ -198,7 +198,7 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @return
 		 */
 		private SubType addSubscriber(SnapshotOrderValue ssOrderValue,
-				Acct acct, String externalKey) {
+				Acct acct, String externalKey, String lid) {
 			SubType sSubType = ssOrderValue.addNewSubscriber();
 			sSubType.setServiceProvider(Constants.SERVICE_PROVIDER);
 			sSubType.setSubscriberType(Constants.SUBSCRIBER_TYPE);
@@ -213,6 +213,9 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 			ParamType parameter = eParamList.addNewParam();
 			parameter.setName("acct");
 			parameter.setStringValue(acct.toString());
+			ParamType lidParm = eParamList.addNewParam();
+			lidParm.setName("lid");
+			lidParm.setStringValue(lid);
 			return sSubType;
 		}
 
