@@ -26,6 +26,7 @@ import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderExcep
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderRequestDocument;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderResponseDocument;
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.OrderItemType;
+import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.SubSvcStateType;
 import com.sun.java.products.oss.xml.cbe.core.EntityValue;
 import com.sun.java.products.oss.xml.serviceActivation.OrderValue;
 
@@ -84,7 +85,8 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		public XmlObject createXml(Order order) {
 			Integer orderId = -1;
 			ExecuteOrderRequestDocument execDoc;
-			execDoc = createXmlOrderDoc(order, order.getDebugId(), orderId);
+			
+			execDoc = createXmlOrderDoc(order, order.getDebugId(), orderId,order.getOnlySub());
 			return execDoc;
 		}
 
@@ -97,9 +99,9 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		 *            ordernumber (always -1)
 		 * @return xml document to be processed at Sigma
 		 */
-		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, String debugId, Integer orderId) {
+		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, String debugId, Integer orderId,boolean subscriber) {
 			OrderValue orderValue;
-			orderValue = createForExistingCustomer(order, debugId, orderId);
+			orderValue = createForExistingCustomer(order, debugId, orderId,subscriber);
 			ExecuteOrderRequestDocument execDoc = ExecuteOrderRequestDocument.Factory.newInstance();
 			ExecuteOrderRequestDocument.ExecuteOrderRequest execRequest = execDoc.addNewExecuteOrderRequest();
 			execRequest.setOrderValue(orderValue);
@@ -114,11 +116,14 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderId
 		 * @return the order
 		 */
-		private OrderValue createForExistingCustomer(Order order, String debugId, Integer orderId) {
+		private OrderValue createForExistingCustomer(Order order, String debugId, Integer orderId, boolean susbcriber) {
 			Subscriber subscriber = order.getSubscriber();
 			ActionOrderValue actionOrder = createActionOrderValue(order, debugId, orderId);
 			ActionOrderValue.OrderItemList orderItemList = actionOrder.addNewOrderItemList();
 			logger.debug("Looping through orderData");
+			if (susbcriber) {
+				addSubscription(orderItemList, order, subscriber.getKundeId().toString(), subscriber);
+			}
 			for (OrderData plan : order.getOrderData()) {
 				logger.debug("Service type and externalKey: " + plan.getType() + plan.getExternalKey());
 				if (plan.getLevel() == OrderDataLevel.CONTACT) {
@@ -189,7 +194,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 				newAssocList.setAssociationArray(assocList.getAssociationArray());
 			}
 			servicePart.setEntityValue(serviceEntity);
-			
+
 			for (OrderData plan : servicePlan.getChildren()) {
 				addServiceRequest(orderItemList, plan);
 			}
@@ -265,6 +270,33 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 					entVal.set(createSampSubEntityValue(kundeId));
 				}
 			}
+			servicePart.setEntityValue(sSubType);
+		}
+
+		private void addSubscription(OrderItemList orderItemList, Order servicePlan, String kundeId, Subscriber subscriber) {
+			OrderItemType servicePart = orderItemList.addNewOrderItem();
+			servicePart.setAction("update");
+
+			SubType sSubType = SubType.Factory.newInstance();
+			sSubType.setServiceProvider("YouSee");
+			sSubType.setSubscriberType("residential");
+			sSubType.setLocale("en_US");
+			EntityKeyType entityKey = sSubType.addNewKey();
+
+			SubKeyType entKey = SubKeyType.Factory.newInstance();
+			entKey.setExternalKey(servicePlan.getExternalKey());
+			entKey.setType("SubSpec:-");
+			entityKey.set(entKey);
+			sSubType.setState(SubSvcStateType.ACTIVE.toString());
+			EntityParamListType eParamList = sSubType.addNewParamList();
+			ParamType parameter = eParamList.addNewParam();
+			parameter.setName("lid");
+			parameter.setStringValue(subscriber.getLid());
+			ParamType parameter2 = eParamList.addNewParam();
+			parameter2.setName("acct");
+			parameter2.setStringValue(kundeId);
+			servicePart.setEntityKey(entKey);
+			// Add service to request
 			servicePart.setEntityValue(sSubType);
 		}
 
@@ -398,7 +430,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			actionOrder.xsetOrderState(headMaker.createOrderStateType());
 			SubKeyType subKey = actionOrder.addNewSubKey();
 			ParamListType parmList = ParamListType.Factory.newInstance();
-			ParamType lidParm =  parmList.addNewParam();
+			ParamType lidParm = parmList.addNewParam();
 			lidParm.setName("lid");
 			lidParm.setStringValue(order.getSubscriber().getLid());
 			subKey.setType("SubSpec:-");

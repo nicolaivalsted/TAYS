@@ -60,6 +60,7 @@ public class SubscriberCase extends AbstractCase {
 		Subscriber sub = getModel().getSubscriber();
 		if (!sub.getLid().equals(lid)) {
 			sub.setLid(lid);
+			getModel().getOrder().setOnlySub(true);
 		}
 		return sub;
 	}

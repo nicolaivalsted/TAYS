@@ -33,6 +33,7 @@ public class Order implements Serializable {
 	private String returnEventUrl;
 	private Subscriber subscriber;
 	private String debugId;
+	private boolean onlySub;
 	/**
 	 * list of greater ServicePlans (Level=SERVICE, ADDRESS, CONTACT...)
 	 */
@@ -114,6 +115,14 @@ public class Order implements Serializable {
 
 	public void setOrderData(List<OrderData> orderData) {
 		this.orderData = orderData;
+	}
+	
+	public boolean getOnlySub() {
+		return onlySub;
+	}
+
+	public void setOnlySub(boolean onlySub) {
+		this.onlySub = onlySub;
 	}
 
 	/**
