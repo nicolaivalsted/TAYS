@@ -69,12 +69,9 @@ public class OnboardAliveServiceImpl implements AliveService {
         HttpEntity entity=null;
         try {
 
-//TODO: Respect connection timeout current set in getClient() above
-//            client.getParams().setParameter(CoreConnectionPNames.CONNECTION_TIMEOUT, getConnectionTimeout());
 
             HttpHost target = getConnector().extractHttpHost();
             HttpGet req = new HttpGet(getConnector().extractUri() + "?WSDL"); // was "/"
-//            logger.debug("executing request to " + target + " via " + proxy);
             HttpResponse rsp = client.execute(target, req);
             StatusLine statusLine = rsp.getStatusLine();
             if (statusLine.getStatusCode() == HttpStatus.SC_OK) {

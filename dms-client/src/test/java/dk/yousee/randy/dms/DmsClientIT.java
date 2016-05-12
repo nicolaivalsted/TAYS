@@ -66,6 +66,6 @@ public class DmsClientIT {
         logger.info("URL: " + client.generateEventUrl(customer));
         EventResponse response = client.postEvent(customer);
         Assert.assertNotNull(response);
-        Assert.assertTrue(response.isSuccess()); // TODO HERE I WOULD LIKE A FALSE ???
+        Assert.assertTrue(response.isSuccess());
     }
 }

@@ -41,7 +41,7 @@ public class AssociationMaker extends XmlMaker {
 
             logger.debug("Assoc value is: " + one.getType());
 
-            if (one.getAction() != null) {    // TODO: remove the if statement
+            if (one.getAction() != null) {
                 logger.debug("Adding change action tag with action: " + one.getAction());
                 assocType.setChangeAction(toChangeAction(one.getAction()));
             } else {

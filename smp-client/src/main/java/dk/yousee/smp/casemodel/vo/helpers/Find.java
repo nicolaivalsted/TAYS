@@ -391,7 +391,6 @@ public class Find {
     /**
      * @param modemId to the modem
      * @return instance if it exists
-     * TODO: use telephone number to identify
      */
     public CableVoiceService CableVoiceService(ModemId modemId) {
 		List<CableVoiceService> services = CableVoiceService();
@@ -407,7 +406,7 @@ public class Find {
     /**
      * @param modemId to the modem
      * @return instance if it exists
-     * TODO: use telephone number to identify
+     * 
      */
     public CableVoiceService CableVoiceService(BusinessPosition position) {
 		List<CableVoiceService> services = CableVoiceService();
