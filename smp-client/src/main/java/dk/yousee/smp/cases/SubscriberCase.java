@@ -47,7 +47,7 @@ public class SubscriberCase extends AbstractCase {
 
 	public Subscriber updateSusbcriber(String lid) {
 		Subscriber sub = getModel().getSubscriber();
-		if (!sub.getLid().equals(lid)) {
+		if (sub.getLid() == null || !sub.getLid().equals(lid)) {
 			sub.setLid(lid);
 			getModel().getOrder().setOnlySub(true);
 		}
