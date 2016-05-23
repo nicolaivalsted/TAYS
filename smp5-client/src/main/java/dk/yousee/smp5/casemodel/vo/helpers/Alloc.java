@@ -2,6 +2,10 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
+import dk.yousee.smp5.casemodel.vo.ModemId;
+import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
+import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
+import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -167,6 +171,49 @@ public class Alloc {
 		VoiceMail res = parent.getVoiceMail();
 		if (res == null) {
 			res = add.VoiceMail(position);
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public CableBBService CableBBService(ModemId modemId) {
+		CableBBService res = find.CableBBService(modemId);
+		if (res == null) {
+			res = add.CableBBService(modemId);
+		}
+		return res;
+
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public InetAccess InetAccess(ModemId modemId) {
+		InetAccess res = find.InetAccess(modemId);
+		if (res == null) {
+			res = add.InetAccess(modemId);
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public SMPStaticIP SMPStaticIP(ModemId modemId) {
+		SMPStaticIP res = find.SMPStaticIP(modemId);
+		if (res == null) {
+			return add.SMPStaticIP(modemId);
 		}
 		return res;
 	}

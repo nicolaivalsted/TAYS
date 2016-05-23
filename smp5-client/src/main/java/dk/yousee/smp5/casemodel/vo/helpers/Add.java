@@ -4,9 +4,13 @@ import java.util.UUID;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
+import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
+import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
+import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
+import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -239,4 +243,55 @@ public class Add {
 		}
 		return res;
 	}
+
+	// /**
+	// * @param modemId to modem
+	// * @return new instance
+	// */
+	// public CableBBService CableBBService(ModemId modemId) {
+	// return CableBBService(key.CableBBService(modemId));
+	// }
+
+	/**
+	 * @param modemId
+	 *            the key composed from modem id
+	 * @return new instance
+	 */
+	public CableBBService CableBBService(ModemId modemId) {
+		CableBBService res = new CableBBService(model, modemId);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public InetAccess InetAccess(ModemId modemId) {
+		// return InetAccess(key.CableBBService(modemId));
+		CableBBService parent = model.alloc().CableBBService(modemId);
+		InetAccess res = new InetAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public SMPStaticIP SMPStaticIP(ModemId modemId) {
+		CableBBService parent = model.alloc().CableBBService(modemId);
+		SMPStaticIP res = new SMPStaticIP(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
 }

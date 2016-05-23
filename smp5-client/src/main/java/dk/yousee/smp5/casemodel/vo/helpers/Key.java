@@ -3,9 +3,9 @@
  */
 package dk.yousee.smp5.casemodel.vo.helpers;
 
-import dk.yousee.smp5.casemodel.vo.helpers.UUIDGenerater;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.ModemId;
+import dk.yousee.smp5.order.model.Acct;
 
 /**
  * @author m64746
@@ -94,5 +94,23 @@ public class Key {
 	public String VoiceService(String uuid) { // voice_
 		return getProvider() + ":voice_" + uuid;
 	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return external Key
+	 */
+	public String CableBBService(ModemId modemId) { // "cable_broadband_" cbb_
+		return getProvider() + ":cbb_" + modemId;
+	}
+	
+    
+    /**
+    * @param cmOwnership to modem
+    * @return external Key
+    */
+   public String MTAService(ModemId cmOwnership) {    //"MTAService"       cpe_
+       return getProvider() + ":cpe_" + cmOwnership;
+   }
 
 }

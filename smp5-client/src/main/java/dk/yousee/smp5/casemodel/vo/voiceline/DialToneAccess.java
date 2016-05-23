@@ -3,6 +3,7 @@ package dk.yousee.smp5.casemodel.vo.voiceline;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
+import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.helpers.AssociationHolder;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp5.casemodel.vo.helpers.PropHolder;
