@@ -86,4 +86,13 @@ public class Key {
 		return "SmartCard-" + acct;
 	}
 
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return external Key
+	 */
+	public String VoiceService(String uuid) { // voice_
+		return getProvider() + ":voice_" + uuid;
+	}
+
 }

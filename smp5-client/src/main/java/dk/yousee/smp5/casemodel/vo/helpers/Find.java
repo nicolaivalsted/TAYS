@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.BusinessPosition;
+import dk.yousee.smp5.casemodel.vo.ModemId;
+import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
@@ -24,6 +27,10 @@ import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.OrderDataType;
 
 /**
@@ -351,6 +358,115 @@ public class Find {
 	public TdcMail tdcMail(String sik) {
 		TdcMailService parent = tdcMailService(sik);
 		return parent != null ? parent.getTdcMail() : null;
+	}
+
+	/**
+	 * @return the VoiceService the subscriber has
+	 */
+	public List<VoiceService> VoiceService() {
+		List<VoiceService> res = new ArrayList<VoiceService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(VoiceService.TYPE)) {
+				res.add((VoiceService) plan);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * @param phoneNumber
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public VoiceService VoiceService(PhoneNumber phoneNumber) {
+		List<VoiceService> services = VoiceService();
+		for (VoiceService service : services) {
+			if (phoneNumber.equals(service.getPhoneNumber())) {
+				return service;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public VoiceService VoiceService(ModemId modemId) {
+		List<VoiceService> services = VoiceService();
+		for (VoiceService service : services) {
+			if (modemId.equals(service.getModemId())) {
+				return service;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 * 
+	 */
+	public VoiceService VoiceService(BusinessPosition position) {
+		List<VoiceService> services = VoiceService();
+		for (VoiceService service : services) {
+			if (position.equals(service.getPosition())) {
+				return service;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param BusinessPosition
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public DialToneAccess DialToneAccess(BusinessPosition position) {
+		VoiceService parent = VoiceService(position);
+		if (parent == null)
+			return null;
+		return parent.getDialToneAccess();
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public DialToneAccess DialToneAccess(ModemId modemId) {
+		VoiceService parent = VoiceService(modemId);
+		if (parent == null)
+			return null;
+		return parent.getDialToneAccess();
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance list if it exists
+	 */
+	public List<SwitchFeature> SwitchFeature(BusinessPosition position) {
+		VoiceService parent = VoiceService(position);
+		if (parent == null)
+			return null;
+		return parent.getSwitchFeatureList();
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public VoiceMail VoiceMail(BusinessPosition position) {
+		VoiceService parent = VoiceService(position);
+		if (parent == null)
+			return null;
+		return parent.getVoiceMail();
 	}
 
 }

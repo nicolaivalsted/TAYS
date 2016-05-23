@@ -1,6 +1,7 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -15,6 +16,9 @@ import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 
 /**
  * @author m64746
@@ -114,6 +118,57 @@ public class Alloc {
 	public TdcMail tdcMail(String sik) {
 		TdcMail mail = find.tdcMail(sik);
 		return mail == null ? add.tdcMail(sik) : mail;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public VoiceService VoiceService() {
+		return add.VoiceService();
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public VoiceService VoiceService(BusinessPosition position) {
+		VoiceService res = find.VoiceService(position);
+
+		if (res == null) {
+			res = add.VoiceService();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public DialToneAccess DialToneAccess(BusinessPosition position) {
+		DialToneAccess res = add.DialToneAccess();
+		res.setPosition(position);
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public VoiceMail VoiceMail(BusinessPosition position, VoiceService parent) {
+		VoiceMail res = parent.getVoiceMail();
+		if (res == null) {
+			res = add.VoiceMail(position);
+		}
+		return res;
 	}
 
 }

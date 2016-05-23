@@ -1,6 +1,9 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
+import java.util.UUID;
+
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
@@ -18,6 +21,10 @@ import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 
 /**
  * @author m64746
@@ -177,5 +184,59 @@ public class Add {
 
 	public TdcMail tdcMail(String sik) {
 		return new TdcMail(model, sik);
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public VoiceService VoiceService() {
+		VoiceService res = new VoiceService(model, key.VoiceService(UUID.randomUUID().toString()));
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public DialToneAccess DialToneAccess() {
+		VoiceService parent = model.alloc().VoiceService();
+		DialToneAccess res = new DialToneAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public SwitchFeature SwitchFeature(BusinessPosition position, VoiceService parent) {
+		SwitchFeature res = new SwitchFeature(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public VoiceMail VoiceMail(BusinessPosition position) {
+		VoiceService parent = model.alloc().VoiceService(position);
+		VoiceMail res = new VoiceMail(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
 	}
 }
