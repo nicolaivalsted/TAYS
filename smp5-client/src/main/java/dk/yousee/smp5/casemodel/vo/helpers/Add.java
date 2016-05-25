@@ -11,6 +11,12 @@ import dk.yousee.smp5.casemodel.vo.base.SubSpec;
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
 import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
+import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
+import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
+import dk.yousee.smp5.casemodel.vo.emta.MTAService;
+import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
+import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -244,14 +250,6 @@ public class Add {
 		return res;
 	}
 
-	// /**
-	// * @param modemId to modem
-	// * @return new instance
-	// */
-	// public CableBBService CableBBService(ModemId modemId) {
-	// return CableBBService(key.CableBBService(modemId));
-	// }
-
 	/**
 	 * @param modemId
 	 *            the key composed from modem id
@@ -288,6 +286,89 @@ public class Add {
 	public SMPStaticIP SMPStaticIP(ModemId modemId) {
 		CableBBService parent = model.alloc().CableBBService(modemId);
 		SMPStaticIP res = new SMPStaticIP(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            to the modem
+	 * @return new instance
+	 */
+	public MTAService MTAService(ModemId cmOwnership) {
+		MTAService res = new MTAService(model, cmOwnership);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return new instance
+	 */
+	public StdCpe StdCpe(ModemId modemId) {
+		MTAService parent = model.alloc().MTAService(modemId);
+		StdCpe res = new StdCpe(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public AddnCpe AddnCpe(ModemId modemId) {
+		MTAService parent = model.alloc().MTAService(modemId);
+		AddnCpe res = new AddnCpe(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return new instance
+	 */
+	public HsdAccess HsdAccess(ModemId modemId) {
+		MTAService parent = model.alloc().MTAService(modemId);
+		HsdAccess res = new HsdAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return new instance
+	 */
+	public VoipAccess VoipAccess(ModemId modemId) {
+		MTAService parent = model.alloc().MTAService(modemId);
+		VoipAccess res = new VoipAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return new instance
+	 */
+	public DeviceControl DeviceControl(ModemId modemId) {
+		MTAService parent = model.alloc().MTAService(modemId);
+		DeviceControl res = new DeviceControl(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

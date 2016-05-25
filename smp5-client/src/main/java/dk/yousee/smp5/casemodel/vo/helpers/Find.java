@@ -14,6 +14,7 @@ import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
 import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
 import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
@@ -342,7 +343,7 @@ public class Find {
 		return parent == null ? null : parent.getSikkerhedspakke();
 	}
 
-	public List<TdcMailService> tdcMailServices() {
+	public List<TdcMailService> TdcMailService() {
 		List<TdcMailService> res = new ArrayList<TdcMailService>();
 		for (BasicUnit plan : serviceLevelUnit) {
 			if (plan.getType().equals(TdcMailService.TYPE)) {
@@ -353,8 +354,8 @@ public class Find {
 		return res;
 	}
 
-	public TdcMailService tdcMailService(String sik) {
-		List<TdcMailService> plans = tdcMailServices();
+	public TdcMailService TdcMailService(String sik) {
+		List<TdcMailService> plans = TdcMailService();
 		for (TdcMailService plan : plans) {
 			if (sik.equals(plan.getSik())) {
 				return plan;
@@ -364,7 +365,7 @@ public class Find {
 	}
 
 	public TdcMail tdcMail(String sik) {
-		TdcMailService parent = tdcMailService(sik);
+		TdcMailService parent = TdcMailService(sik);
 		return parent != null ? parent.getTdcMail() : null;
 	}
 
@@ -609,6 +610,18 @@ public class Find {
 		if (parent == null)
 			return null;
 		return parent.getHsdAccess();
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            key to the composed service (currently modem id)
+	 * @return instance if it exists
+	 */
+	public DeviceControl DeviceControl(ModemId cmOwnership) {
+		MTAService parent = MTAService(cmOwnership);
+		if (parent == null)
+			return null;
+		return parent.getDeviceControl();
 	}
 
 	/**

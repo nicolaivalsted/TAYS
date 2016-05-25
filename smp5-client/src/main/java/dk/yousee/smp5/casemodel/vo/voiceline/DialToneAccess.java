@@ -25,7 +25,7 @@ public class DialToneAccess extends BasicUnit {
 		parent.setDialToneAccess(this);
 	}
 
-	protected PropHolder business_position = new PropHolder(this, "business_position");
+	protected PropHolder sik = new PropHolder(this, "sik");
 	public PropHolder modem_id = new PropHolder(this, "modem_id");
 	private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
 	public PropHolder mta_voice_port = new PropHolder(this, "mta_voice_port", true);

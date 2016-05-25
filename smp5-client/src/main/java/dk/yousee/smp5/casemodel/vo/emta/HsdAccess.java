@@ -26,16 +26,18 @@ public class HsdAccess extends BasicUnit {
 		cm_service_id.updateValue(externalKey);
 	}
 
-	// Type.FEATURE property_value all_ip_mapping
 	public PropHolder cm_service_id = new PropHolder(this, "cm_service_id", true);
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac", true);
 	public PropHolder docsis_3_capable = new PropHolder(this, "docsis_3_capable", true);
-
-	/**
-	 * Key to customers equipment seen from an activation activity step (NOT
-	 * from CRM level - because CRM does not manage modem identity)
-	 */
+	public PropHolder wifi_capable = new PropHolder(this, "wifi_capable");
+	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
+	public PropHolder max_num_cpe = new PropHolder(this, "max_num_cpe");
+	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
 	private PropHolder cm_ownership = new PropHolder(this, "cm_ownership", true);
+	public PropHolder cm_manufacturer = new PropHolder(this, "cm_manufacturer");
+	public PropHolder cm_serial_number = new PropHolder(this, "cm_serial_number");
+	public PropHolder cm_model = new PropHolder(this, "cm_model");
+	public PropHolder class_of_service = new PropHolder(this, "class_of_service", false);
 
 	public ModemId getCmOwnership() {
 		return ModemId.create(cm_ownership.getValue());
@@ -46,19 +48,6 @@ public class HsdAccess extends BasicUnit {
 			throw new IllegalArgumentException("cm ownsership can never be null in Hsd-access");
 		cm_ownership.setValue(cmOwnership.getId());
 	}
-
-	public PropHolder wifi_capable = new PropHolder(this, "wifi_capable");
-	public PropHolder gi_address = new PropHolder(this, "gi_address");
-	public PropHolder svc_provider_nm = new PropHolder(this, "svc_provider_nm");
-	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
-	public PropHolder max_num_cpe = new PropHolder(this, "max_num_cpe");
-	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
-
-	// M5 new asu can read this from bacc now
-	public PropHolder cm_manufacturer = new PropHolder(this, "cm_manufacturer");
-	public PropHolder cm_serial_number = new PropHolder(this, "cm_serial_number");
-	public PropHolder cm_model = new PropHolder(this, "cm_model");
-	public PropHolder class_of_service = new PropHolder(this, "class_of_service", false);
 
 	// Type.ASSOC
 	public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE);

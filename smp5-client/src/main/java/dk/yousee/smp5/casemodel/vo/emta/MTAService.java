@@ -56,6 +56,7 @@ public class MTAService extends BasicUnit {
 	private VoipAccess voipAccess;
 	private AddnCpe addnCpe;
 	private StdCpe stdCpe;
+	private DeviceControl deviceControl;
 
 	/**
 	 * Get activation key to this modem
@@ -100,6 +101,14 @@ public class MTAService extends BasicUnit {
 
 	public void setStdCpe(StdCpe stdCpe) {
 		this.stdCpe = stdCpe;
+	}
+
+	public DeviceControl getDeviceControl() {
+		return deviceControl;
+	}
+
+	public void setDeviceControl(DeviceControl deviceControl) {
+		this.deviceControl = deviceControl;
 	}
 
 }
