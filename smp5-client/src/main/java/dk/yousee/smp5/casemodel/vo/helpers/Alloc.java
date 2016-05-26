@@ -161,8 +161,10 @@ public class Alloc {
 	 *         ready for fill in data
 	 */
 	public DialToneAccess DialToneAccess(BusinessPosition position) {
-		DialToneAccess res = add.DialToneAccess();
-		res.setPosition(position);
+		DialToneAccess res = find.DialToneAccess(position);
+		if (res == null) {
+			res = add.DialToneAccess();
+		}
 		return res;
 	}
 

@@ -663,6 +663,21 @@ public class Find {
 	}
 
 	/**
+	 * @param modemId
+	 *            to the modem
+	 * @param childKey
+	 *            what is this ???
+	 * @return instance list if it exists
+	 * @deprecated - it is next to unusable. Additional CPE's are identificed by
+	 *             different MAC addresses. Therefore the correct behaviour is
+	 *             to collect all AddnCpe's for a modem and for each of these to
+	 *             find the correct MAC address and run from there.
+	 */
+	public AddnCpe AddnCpe(ModemId modemId, String childKey) {
+		return AddnCpeAndChildKey(modemId, childKey);
+	}
+
+	/**
 	 * @param parentKey
 	 *            to the CableBBService
 	 * @param childKey
