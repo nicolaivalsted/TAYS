@@ -13,6 +13,7 @@ import dk.yousee.smp5.casemodel.vo.cablebb.SuspendHelper.SuspendReasonAbuse;
 import dk.yousee.smp5.casemodel.vo.cablebb.SuspendHelper.SuspendReasonBilling;
 import dk.yousee.smp5.casemodel.vo.cablebb.SuspendStatus;
 import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
@@ -109,6 +110,7 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.isUsingStdCpe()) { // not make standard cpe or other
 										// additional cpe's for M5 customers
 			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());

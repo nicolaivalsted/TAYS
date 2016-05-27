@@ -1,8 +1,5 @@
 package dk.yousee.smp5.casemodel.vo.cablebb;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
@@ -22,7 +19,7 @@ import dk.yousee.smp5.order.model.ServicePrefix;
  */
 public class CableBBService extends BasicUnit {
     public static OrderDataLevel LEVEL = OrderDataLevel.SERVICE;
-    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"cable_broadband");
+    public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec,"internet");
     public static NickName NAME = new NickName("broadband");
 
     /**
