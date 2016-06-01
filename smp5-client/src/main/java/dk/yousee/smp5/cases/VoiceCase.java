@@ -1,12 +1,11 @@
 package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
-import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
@@ -52,7 +51,7 @@ public class VoiceCase extends AbstractCase {
 	}
 
 	public static class VoiceData {
-		private BusinessPosition businessPosition;
+		private String sik;
 		private PhoneNumber phoneNumber;
 		private String mta_voice_port;
 		private String rate_codes;
@@ -61,12 +60,12 @@ public class VoiceCase extends AbstractCase {
 		private String cnam;
 		private String modemActivationCode;
 
-		public BusinessPosition getBusinessPosition() {
-			return businessPosition;
+		public String getSik() {
+			return sik;
 		}
 
-		public void setBusinessPosition(BusinessPosition businessPosition) {
-			this.businessPosition = businessPosition;
+		public void setSik(String sik) {
+			this.sik = sik;
 		}
 
 		public String getCnam() {
@@ -131,9 +130,10 @@ public class VoiceCase extends AbstractCase {
 		return getModel().find().VoiceService(phoneNumber);
 	}
 
-	Order createVoiceMail(BusinessPosition position, PhoneNumber phoneNumber, VoiceService parent) throws BusinessException {
+	Order createVoiceMail(String sik, PhoneNumber phoneNumber) throws BusinessException {
 		ensureAcct();
-		VoiceMail voiceMail = getModel().alloc().VoiceMail(position, parent);
+
+		MailBox voiceMail = getModel().alloc().MailBox(sik);
 		voiceMail.setPhoneNumber(phoneNumber);
 		return getModel().getOrder();
 	}
@@ -141,11 +141,11 @@ public class VoiceCase extends AbstractCase {
 	public Order createVoice(ModemId modemId, VoiceData voiceData) throws BusinessException {
 		ensureAcct();
 
-		DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(voiceData.getBusinessPosition());
+		DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(voiceData.getSik());
 
 		if (modemId != null)
 			dialToneAccess.modem_id.setValue(modemId.getId());
-
+		dialToneAccess.sik.setValue(voiceData.getSik());
 		dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
 		dialToneAccess.mta_voice_port.setValue(voiceData.getMta_voice_port());
 		dialToneAccess.rate_codes.setValue(voiceData.getRate_codes());
@@ -161,21 +161,21 @@ public class VoiceCase extends AbstractCase {
 			}
 		}
 
-		getModel().add().SwitchFeature(voiceData.getBusinessPosition(), dialToneAccess.getParent());
+		getModel().add().SwitchFeature(dialToneAccess.getParent());
 
-		createVoiceMail(voiceData.getBusinessPosition(), voiceData.getPhoneNumber(), dialToneAccess.getParent());
+		createVoiceMail(voiceData.getSik(), voiceData.getPhoneNumber());
 		return getModel().getOrder();
 	}
 
-	public Order updateDialToneAccess(BusinessPosition position, VoiceData voiceData) throws BusinessException {
+	public Order updateDialToneAccess(String sik, VoiceData voiceData) throws BusinessException {
 		ensureAcct();
 
-		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(position);
+		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess == null) {
-			throw new BusinessException("Update failed,  Voice service Plan was not found: for position: %s", position);
+			throw new BusinessException("Update failed,  Voice service Plan was not found: for position: %s", sik);
 		}
-		if (voiceData.getBusinessPosition() != null) {
-			dialToneAccess.setPosition(voiceData.getBusinessPosition());
+		if (voiceData.getSik() != null) {
+			dialToneAccess.sik.setValue(voiceData.getSik());
 		}
 		if (voiceData.getPhoneNumber() != null) {
 			dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
@@ -212,9 +212,9 @@ public class VoiceCase extends AbstractCase {
 	 *             when <br/>
 	 *             1) The customer does not exist<br/>
 	 */
-	public boolean deleteVoice(BusinessPosition position) throws BusinessException {
+	public boolean deleteVoice(String sik) throws BusinessException {
 		ensureAcct();
-		return buildOrderFromAction(position, Action.DELETE);
+		return buildOrderFromAction(sik, Action.DELETE);
 	}
 
 	/**
@@ -230,9 +230,9 @@ public class VoiceCase extends AbstractCase {
 	 *             when <br/>
 	 *             1) The customer does not exist<br/>
 	 */
-	public boolean suspendVoice(BusinessPosition position) throws BusinessException {
+	public boolean suspendVoice(String sik) throws BusinessException {
 		ensureAcct();
-		return buildOrderFromAction(position, Action.SUSPEND);
+		return buildOrderFromAction(sik, Action.SUSPEND);
 	}
 
 	/**
@@ -248,9 +248,9 @@ public class VoiceCase extends AbstractCase {
 	 *             when <br/>
 	 *             1) The customer does not exist<br/>
 	 */
-	public boolean resumeVoice(BusinessPosition position) throws BusinessException {
+	public boolean resumeVoice(String sik) throws BusinessException {
 		ensureAcct();
-		return buildOrderFromAction(position, Action.RESUME);
+		return buildOrderFromAction(sik, Action.RESUME);
 	}
 
 	/**
@@ -262,10 +262,10 @@ public class VoiceCase extends AbstractCase {
 	 *            the action to send to the subscription
 	 * @return true if anything to do
 	 */
-	private boolean buildOrderFromAction(BusinessPosition position, Action action) {
+	private boolean buildOrderFromAction(String sik, Action action) {
 		boolean doAnything = false;
 
-		VoiceService service = getModel().find().VoiceService(position);
+		VoiceService service = getModel().find().VoiceService(sik);
 
 		if (service != null) {
 			doAnything = true;
@@ -293,7 +293,10 @@ public class VoiceCase extends AbstractCase {
 	public void updateVoiceMailRandyState(PhoneNumber pn, String state) throws BusinessException {
 		ensureAcct();
 
-		VoiceMail voiceMail = getModel().find().VoiceService(pn).getVoiceMail();
-		voiceMail.randy_status.setValue(state);
+		VoiceService voiceService = getModel().find().VoiceService(pn);
+		if (voiceService != null && voiceService.getVoiceMail() != null) {
+			MailBox mailBox = voiceService.getVoiceMail().getMailBox();
+			mailBox.randy_status.setValue(state);
+		}
 	}
 }

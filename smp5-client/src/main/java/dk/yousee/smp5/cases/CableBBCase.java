@@ -92,31 +92,31 @@ public class CableBBCase extends AbstractCase {
 
 		InetAccess inetAccess = getModel().alloc().InetAccess(modemId);
 		inetAccess.setModemId(modemId);
-		inetAccess.business_position.setValue(lineItem.getPosition());
+		inetAccess.sik.setValue(lineItem.getSik());
 		inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
 		if (lineItem.getVrf() != null) {
 			inetAccess.vrf.setValue(lineItem.getVrf());
 		}
 
-		if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
-			HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
-			if (hsdAccess != null) {
-				logger.info("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for modemId:" + modemId);
-				inetAccess.internet_access_has_emta_cm.add(hsdAccess);
-			}
-		}
+//		if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
+//			HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
+//			if (hsdAccess != null) {
+//				logger.info("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for modemId:" + modemId);
+//				inetAccess.internet_access_has_emta_cm.add(hsdAccess);
+//			}
+//		}
 
 		if (lineItem.isUsingStdCpe()) { // not make standard cpe or other
 										// additional cpe's for M5 customers
-			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
-			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+//			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+//			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
-				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
-					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
-				}
+//				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
+//					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
+//				}
 			}
 		}
 
@@ -137,7 +137,7 @@ public class CableBBCase extends AbstractCase {
 		ensureAcct();
 
 		InetAccess inetAccess = getModel().alloc().InetAccess(modemId);
-		inetAccess.business_position.setValue(lineItem.getPosition());
+		inetAccess.sik.setValue(lineItem.getSik());
 		if (lineItem.getRateCodes() != null) {
 			inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		}
@@ -241,14 +241,14 @@ public class CableBBCase extends AbstractCase {
 	 * Casper/ Stallone and Sigma
 	 */
 	public static class AbonData {
-		private String position;
+		private String sik;
 
-		public String getPosition() {
-			return position;
+		public String getSik() {
+			return sik;
 		}
 
-		public void setPosition(String position) {
-			this.position = position;
+		public void setSik(String sik) {
+			this.sik = sik;
 		}
 
 		private String rateCodes;
@@ -363,7 +363,7 @@ public class CableBBCase extends AbstractCase {
 
 		VoiceService voiceService = this.getModel().find().VoiceService(modemId);
 		VoiceCase vc = new VoiceCase(this.getModel(), this.getService());
-		boolean r1 = voiceService != null ? vc.deleteVoice(voiceService.getPosition()) : false;
+		boolean r1 = voiceService != null ? vc.deleteVoice(voiceService.getSik()) : false;
 		boolean r2 = buildOrderFromAction(modemId, Action.DELETE);
 		return r2 || r1;
 	}

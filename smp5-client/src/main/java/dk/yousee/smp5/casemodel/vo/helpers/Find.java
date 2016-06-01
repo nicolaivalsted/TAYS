@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
@@ -38,6 +37,7 @@ import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.OrderDataType;
@@ -419,10 +419,10 @@ public class Find {
 	 * @return instance if it exists
 	 * 
 	 */
-	public VoiceService VoiceService(BusinessPosition position) {
+	public VoiceService VoiceService(String sik) {
 		List<VoiceService> services = VoiceService();
 		for (VoiceService service : services) {
-			if (position.equals(service.getPosition())) {
+			if (sik.equalsIgnoreCase(service.getSik())) {
 				return service;
 			}
 		}
@@ -435,8 +435,8 @@ public class Find {
 	 *            to the modem
 	 * @return instance if it exists
 	 */
-	public DialToneAccess DialToneAccess(BusinessPosition position) {
-		VoiceService parent = VoiceService(position);
+	public DialToneAccess DialToneAccess(String sik) {
+		VoiceService parent = VoiceService(sik);
 		if (parent == null)
 			return null;
 		return parent.getDialToneAccess();
@@ -459,11 +459,11 @@ public class Find {
 	 *            to the modem
 	 * @return instance list if it exists
 	 */
-	public List<SwitchFeature> SwitchFeature(BusinessPosition position) {
-		VoiceService parent = VoiceService(position);
+	public SwitchFeature SwitchFeature(String sik) {
+		VoiceService parent = VoiceService(sik);
 		if (parent == null)
 			return null;
-		return parent.getSwitchFeatureList();
+		return parent.getSwitchFeature();
 	}
 
 	/**
@@ -471,8 +471,15 @@ public class Find {
 	 *            to the modem
 	 * @return instance if it exists
 	 */
-	public VoiceMail VoiceMail(BusinessPosition position) {
-		VoiceService parent = VoiceService(position);
+	public MailBox MailBox(String sik) {
+		VoiceMail parent = VoiceMail(sik);
+		if (parent == null)
+			return null;
+		return parent.getMailBox();
+	}
+
+	public VoiceMail VoiceMail(String sik) {
+		VoiceService parent = VoiceService(sik);
 		if (parent == null)
 			return null;
 		return parent.getVoiceMail();

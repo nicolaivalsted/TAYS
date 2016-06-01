@@ -34,6 +34,7 @@ import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.ResponseEntity;
@@ -190,7 +191,14 @@ public class Parse {
 					} else if (child.getType().equals(DialToneAccess.TYPE)) {
 						new DialToneAccess(model, child.getExternalKey(), voiceService);
 					} else if (child.getType().equals(VoiceMail.TYPE)) {
-						new VoiceMail(model, child.getExternalKey(), voiceService);
+						VoiceMail voiceMail = new VoiceMail(model, child.getExternalKey(), voiceService);
+						for (ResponseEntity secondchild : child.getEntities()) {
+							if (secondchild.getType().equals(MailBox.TYPE)) {
+								new MailBox(model, secondchild.getExternalKey(), voiceMail);
+							} else {
+								logger.warn("unknown VoiceMail child_service " + child.getExternalKey());
+							}
+						}
 					} else {
 						logger.warn("unknown VoiceService child_service " + child.getExternalKey());
 					}

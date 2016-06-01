@@ -1,7 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
@@ -26,6 +25,7 @@ import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 
@@ -145,8 +145,8 @@ public class Alloc {
 	 * @return instance either an existing plan or a new plan ready for fill in
 	 *         data
 	 */
-	public VoiceService VoiceService(BusinessPosition position) {
-		VoiceService res = find.VoiceService(position);
+	public VoiceService VoiceService(String sik) {
+		VoiceService res = find.VoiceService(sik);
 
 		if (res == null) {
 			res = add.VoiceService();
@@ -160,8 +160,8 @@ public class Alloc {
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public DialToneAccess DialToneAccess(BusinessPosition position) {
-		DialToneAccess res = find.DialToneAccess(position);
+	public DialToneAccess DialToneAccess(String sik) {
+		DialToneAccess res = find.DialToneAccess(sik);
 		if (res == null) {
 			res = add.DialToneAccess();
 		}
@@ -174,10 +174,18 @@ public class Alloc {
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public VoiceMail VoiceMail(BusinessPosition position, VoiceService parent) {
-		VoiceMail res = parent.getVoiceMail();
+	public MailBox MailBox(String sik) {
+		MailBox res = find.MailBox(sik);
 		if (res == null) {
-			res = add.VoiceMail(position);
+			res = add.MailBox(sik);
+		}
+		return res;
+	}
+
+	public VoiceMail VoiceMail(String sik) {
+		VoiceMail res = find.VoiceMail(sik);
+		if (res == null) {
+			res = add.VoiceMail(sik);
 		}
 		return res;
 	}

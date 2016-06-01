@@ -17,7 +17,7 @@ public class SwitchFeature extends BasicUnit {
 
 	public SwitchFeature(SubscriberModel model, String externalKey, VoiceService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
-		parent.getSwitchFeatureList().add(this);
+		parent.setSwitchFeature(this);
 	}
 
 }

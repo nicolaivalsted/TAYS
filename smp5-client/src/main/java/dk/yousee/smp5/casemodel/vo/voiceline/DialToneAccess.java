@@ -1,7 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.voiceline;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.helpers.AssociationHolder;
@@ -25,7 +24,7 @@ public class DialToneAccess extends BasicUnit {
 		parent.setDialToneAccess(this);
 	}
 
-	protected PropHolder business_position = new PropHolder(this, "business_position");
+	public PropHolder sik = new PropHolder(this, "sik");
 	public PropHolder modem_id = new PropHolder(this, "modem_id");
 	private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
 	public PropHolder mta_voice_port = new PropHolder(this, "mta_voice_port", true);
@@ -36,18 +35,6 @@ public class DialToneAccess extends BasicUnit {
 	public PropHolder mta_mac = new PropHolder(this, "mta_mac");
 
 	public AssociationHolder dt_has_access = new AssociationHolder(this, "dt_has_access", VoipAccess.TYPE);
-
-	public BusinessPosition getPosition() {
-		return BusinessPosition.create(business_position.getValue());
-	}
-
-	public void setPosition(BusinessPosition businessPosition) {
-		if (businessPosition == null) {
-			business_position.clearValue();
-		} else {
-			business_position.setValue(businessPosition.toString());
-		}
-	}
 
 	@Override
 	public VoiceService getParent() {

@@ -16,7 +16,7 @@ import dk.yousee.smp5.order.model.ServicePrefix;
  */
 public class SMPStaticIP extends BasicUnit {
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "static_ip_cpe");
+	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "static_ip");
 
 	public SMPStaticIP(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);

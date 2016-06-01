@@ -3,7 +3,6 @@ package dk.yousee.smp5.casemodel.vo.cablebb;
 import java.util.Random;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.helpers.AssociationHolder;
@@ -13,18 +12,11 @@ import dk.yousee.smp5.order.model.OrderDataLevel;
 import dk.yousee.smp5.order.model.OrderDataType;
 import dk.yousee.smp5.order.model.ServicePrefix;
 
-/**
- * Created by IntelliJ IDEA. User: m14857 Date: Oct 12, 2010 Time: 3:49:28 PM
- * Value object for Internet Access Data structure reference to YouSee Data
- * Migration Requirements: 5.5.1 Internet Access
- */
 public class InetAccess extends BasicUnit {
-
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "internet_access");
 
-	public static final String RATE_CODES = "rate_codes";
-	public PropHolder rate_codes = new PropHolder(this, RATE_CODES, true);
+	public PropHolder rate_codes = new PropHolder(this, "rate_codes", true);
 	public PropHolder broadband_service_id = new PropHolder(this, "broadband_service_id", true);
 	public PropHolder svc_provider_nm = new PropHolder(this, "svc_provider_nm");
 	public PropHolder upstream_speed = new PropHolder(this, "upstream_speed");
@@ -44,26 +36,9 @@ public class InetAccess extends BasicUnit {
 	public PropHolder downstream = new PropHolder(this, "downstream_speed");
 	public PropHolder upstream = new PropHolder(this, "upstream_speed");
 
-	/**
-	 * Identifier for BACC account, and reference for VOICE media gateway
-	 * Request for better name !!!!
-	 */
 	private PropHolder modem_id = new PropHolder(this, "modem_id");
-	/**
-	 * Pin code that customer must enter to activate modem. For YouSee this is
-	 * the old classic "modem_id". For whole sale this value is generated in
-	 * Gaia.
-	 */
 	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
-	/**
-	 * identifier that identify the subscribers modem among all the modems the
-	 * subscriber has. Field value can be "1", "2" etc. It is only required to
-	 * be unique for the subscriber. So two different subscribers can both have
-	 * position called "1" The objective is to manage relation to CRM
-	 * subscription. This is an instance key to service plan. It is normally
-	 * never modified. YouSee will fill in modem_id / aftale Nr / ... tbd.
-	 */
-	public PropHolder business_position = new PropHolder(this, "business_position");
+	public PropHolder sik = new PropHolder(this, "sik");
 
 	public AssociationHolder internet_access_has_emta_cm = new AssociationHolder(this, "internet_access_has_emta_cm", HsdAccess.TYPE);
 
@@ -89,10 +64,6 @@ public class InetAccess extends BasicUnit {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setInetAccess(this);
 		broadband_service_id.updateValue(externalKey);
-	}
-
-	public BusinessPosition getPosition() {
-		return BusinessPosition.create(business_position.getValue());
 	}
 
 	/**

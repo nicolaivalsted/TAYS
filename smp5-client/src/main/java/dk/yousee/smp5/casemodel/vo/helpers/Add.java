@@ -3,7 +3,6 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 import java.util.UUID;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
@@ -32,6 +31,7 @@ import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
 import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
@@ -228,7 +228,7 @@ public class Add {
 	 *            to the modem
 	 * @return new instance
 	 */
-	public SwitchFeature SwitchFeature(BusinessPosition position, VoiceService parent) {
+	public SwitchFeature SwitchFeature(VoiceService parent) {
 		SwitchFeature res = new SwitchFeature(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -241,8 +241,17 @@ public class Add {
 	 *            to the modem
 	 * @return new instance
 	 */
-	public VoiceMail VoiceMail(BusinessPosition position) {
-		VoiceService parent = model.alloc().VoiceService(position);
+	public MailBox MailBox(String sik) {
+		VoiceMail parent = model.alloc().VoiceMail(sik);
+		MailBox res = new MailBox(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	public VoiceMail VoiceMail(String sik) {
+		VoiceService parent = model.alloc().VoiceService(sik);
 		VoiceMail res = new VoiceMail(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();

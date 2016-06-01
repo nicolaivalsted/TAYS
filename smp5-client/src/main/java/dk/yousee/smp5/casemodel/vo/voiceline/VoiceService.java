@@ -1,10 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.voiceline;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
@@ -25,7 +21,7 @@ public class VoiceService extends BasicUnit {
 	}
 
 	private DialToneAccess dialToneAccess;
-	private List<SwitchFeature> switchFeatureList = new ArrayList<SwitchFeature>();
+	private SwitchFeature switchFeature;
 	private VoiceMail voiceMail;
 
 	public DialToneAccess getDialToneAccess() {
@@ -36,8 +32,12 @@ public class VoiceService extends BasicUnit {
 		this.dialToneAccess = dialToneAccess;
 	}
 
-	public List<SwitchFeature> getSwitchFeatureList() {
-		return switchFeatureList;
+	public SwitchFeature getSwitchFeature() {
+		return switchFeature;
+	}
+
+	public void setSwitchFeature(SwitchFeature switchFeature) {
+		this.switchFeature = switchFeature;
 	}
 
 	public VoiceMail getVoiceMail() {
@@ -70,26 +70,26 @@ public class VoiceService extends BasicUnit {
 	 * 
 	 * @return the best fitting business position
 	 */
-	public BusinessPosition getPosition() {
-		BusinessPosition bp;
+	public String getSik() {
+		String sik;
 		ModemId m = getModemId();
 		if (getDialToneAccess() == null) {
 			if (m == null) {
-				bp = null;
+				sik = null;
 			} else {
-				bp = BusinessPosition.create(m.getId());
+				sik = m.getId();
 			}
 		} else {
-			bp = getDialToneAccess().getPosition();
-			if (bp == null) {
+			sik = getDialToneAccess().sik.getValue();
+			if (sik == null) {
 				if (m == null) {
-					bp = null;
+					sik = null;
 				} else {
-					bp = BusinessPosition.create(m.getId());
+					sik = m.getId();
 				}
 			}
 		}
-		return bp;
+		return sik;
 	}
 
 }
