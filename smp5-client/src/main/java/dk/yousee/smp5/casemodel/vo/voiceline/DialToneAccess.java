@@ -33,6 +33,7 @@ public class DialToneAccess extends BasicUnit {
 	public PropHolder Cos_restrict_id = new PropHolder(this, "cos_restrict_id", true);
 	public PropHolder cnam = new PropHolder(this, "cnam", true);
 	public PropHolder mta_mac = new PropHolder(this, "mta_mac");
+	public PropHolder lnp_porting_status = new PropHolder(this, "lnp_porting_status", true);
 
 	public AssociationHolder dt_has_access = new AssociationHolder(this, "dt_has_access", VoipAccess.TYPE);
 

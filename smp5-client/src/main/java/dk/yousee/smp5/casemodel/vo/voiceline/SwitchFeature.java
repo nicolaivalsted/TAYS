@@ -2,6 +2,7 @@ package dk.yousee.smp5.casemodel.vo.voiceline;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
+import dk.yousee.smp5.casemodel.vo.helpers.PropHolder;
 import dk.yousee.smp5.order.model.OrderDataLevel;
 import dk.yousee.smp5.order.model.OrderDataType;
 import dk.yousee.smp5.order.model.ServicePrefix;
@@ -19,5 +20,8 @@ public class SwitchFeature extends BasicUnit {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setSwitchFeature(this);
 	}
-
+	
+	//default value error
+	public PropHolder sw_cos = new PropHolder(this, "sw_cos", true);
+	public PropHolder sw_ocb = new PropHolder(this, "sw_ocb", true);
 }

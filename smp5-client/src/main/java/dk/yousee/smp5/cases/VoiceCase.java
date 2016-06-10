@@ -6,6 +6,7 @@ import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
+import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
@@ -152,6 +153,7 @@ public class VoiceCase extends AbstractCase {
 		dialToneAccess.Privacy.setValue(voiceData.getPrivacy());
 		dialToneAccess.Cos_restrict_id.setValue(voiceData.getCos_restrict_id());
 		dialToneAccess.cnam.setValue(voiceData.getCnam());
+		dialToneAccess.lnp_porting_status.setValue("Not Ported");
 
 		// create ASSOC if mta exist
 		if (modemId != null) {
@@ -161,7 +163,10 @@ public class VoiceCase extends AbstractCase {
 			}
 		}
 
-		getModel().add().SwitchFeature(dialToneAccess.getParent());
+		SwitchFeature switchFeature =  getModel().add().SwitchFeature(dialToneAccess.getParent());
+		//default error in smp should be changed
+		switchFeature.sw_cos.setValue("y");
+		switchFeature.sw_ocb.setValue("y");
 
 		createVoiceMail(voiceData.getSik(), voiceData.getPhoneNumber());
 		return getModel().getOrder();
