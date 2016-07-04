@@ -463,7 +463,7 @@ public class MacAddressCase extends AbstractCase {
 	 */
 	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(modemId);
-		if (inetAccess != null && inetAccess.wifi_service_id != null) {
+		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_id);
 			}
@@ -484,7 +484,7 @@ public class MacAddressCase extends AbstractCase {
 	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String Psk_5g,
 			String Ss_id_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(modemId);
-		if (inetAccess != null && inetAccess.wifi_service_id != null) {
+		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_id);
 			}

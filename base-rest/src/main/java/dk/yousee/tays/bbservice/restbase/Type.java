@@ -34,7 +34,8 @@ public enum Type {
     SmartCard("SubSvcSpec:smartcard_services_composed"),
     SecurityPackage("SubSvcSpec:security_package_composed"),
     ForenMail("SubSvcSpec:foreningsmail_composed"),
-    TdcEmail("SubSvcSpec:tdcmail_composed");
+    TdcEmail("SubSvcSpec:tdcmail_composed"),
+    DialTone("SubSvcSpec:smp_switch_dial_tone_access");
     
     private String smp_type;
     private static final Map<String, Type> lookup = new HashMap<String, Type>();

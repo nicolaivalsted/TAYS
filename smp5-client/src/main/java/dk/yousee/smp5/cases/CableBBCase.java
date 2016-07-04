@@ -126,7 +126,6 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.email_server_unblock_product_code.setValue(lineItem.getEmailServerUnblockProductCode());
 		}
 		if (lineItem.getWifiServiceProductCode() != null) {
-			inetAccess.wifi_service_product_code.setValue(lineItem.getWifiServiceProductCode());
 
 			inetAccess.ss_id.setValue(InetAccess.generateSsid());
 			inetAccess.psk.setValue(InetAccess.generatePsk());
@@ -178,10 +177,9 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.email_server_unblock_product_code.setValue(lineItem.getEmailServerUnblockProductCode());
 		}
 		if (lineItem.getWifiServiceProductCode() != null) {
-			String old = inetAccess.wifi_service_id.getValue();
-			inetAccess.wifi_service_product_code.setValue(lineItem.getWifiServiceProductCode());
-			if (old == null) { // this means it is created now, then generate
-								// and fill in values
+			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("false");
+			if (!exists) { // this means it is created now, then generate
+							// and fill in values
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
 				inetAccess.psk.setValue(InetAccess.generatePsk());
 				inetAccess.gw_channel_id.setValue("0");
