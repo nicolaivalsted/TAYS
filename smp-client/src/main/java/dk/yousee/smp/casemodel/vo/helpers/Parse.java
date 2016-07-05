@@ -29,8 +29,6 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
 import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
-import dk.yousee.smp.casemodel.vo.play.Play;
-import dk.yousee.smp.casemodel.vo.play.PlayService;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
@@ -147,13 +145,6 @@ public class Parse {
 						new Mail(model, child.getExternalKey(), service);
 					} else {
 						logger.warn("unknown forenings mail child_service " + child.getExternalKey());
-					}
-				}
-			} else if (plan.getType().equals(PlayService.TYPE)) {
-				PlayService service = new PlayService(model, plan.getExternalKey());
-				for (ResponseEntity child : plan.getEntities()) {
-					if (child.getType().equals(Play.TYPE)) {
-						new Play(model, child.getExternalKey(), service);
 					}
 				}
 			} else if (plan.getType().equals(TdcMailService.TYPE)) {

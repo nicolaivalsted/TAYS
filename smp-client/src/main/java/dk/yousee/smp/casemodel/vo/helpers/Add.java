@@ -29,7 +29,6 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
-import dk.yousee.smp.casemodel.vo.play.Play;
 import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
@@ -416,15 +415,6 @@ public class Add {
      */
     public Mail ForeningsMail(BusinessPosition position) {
         return new Mail(model,position);
-    }
-
-/** PlayService add ***************************************************************************************************/
-    /**
-     * @param position to service
-     * @return new instance
-     */
-    public Play Play(BusinessPosition position) {
-        return new Play(model,position);
     }
 
     public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {

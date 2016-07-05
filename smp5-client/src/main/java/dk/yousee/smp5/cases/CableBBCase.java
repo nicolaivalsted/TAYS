@@ -13,7 +13,6 @@ import dk.yousee.smp5.casemodel.vo.cablebb.SuspendHelper.SuspendReasonAbuse;
 import dk.yousee.smp5.casemodel.vo.cablebb.SuspendHelper.SuspendReasonBilling;
 import dk.yousee.smp5.casemodel.vo.cablebb.SuspendStatus;
 import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
-import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
@@ -108,15 +107,17 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.isUsingStdCpe()) {
-			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
-			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+			//this was moved into ASU Cse
+//			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+//			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
 
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
-				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
-					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
-				}
+				//this was moved into ASU Cse
+//				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
+//					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
+//				}
 			}
 		}
 
