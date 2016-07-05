@@ -13,6 +13,7 @@ import dk.yousee.smp5.casemodel.vo.cablebb.SuspendHelper.SuspendReasonAbuse;
 import dk.yousee.smp5.casemodel.vo.cablebb.SuspendHelper.SuspendReasonBilling;
 import dk.yousee.smp5.casemodel.vo.cablebb.SuspendStatus;
 import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
@@ -98,27 +99,24 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.vrf.setValue(lineItem.getVrf());
 		}
 
-		// if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
-		// HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
-		// if (hsdAccess != null) {
-		// logger.info("Standard CPE HsdAccess was added for customer: " +
-		// getAcct() + ", for modemId:" + modemId);
-		// inetAccess.internet_access_has_emta_cm.add(hsdAccess);
-		// }
-		// }
+		if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
+			HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
+			if (hsdAccess != null) {
+				logger.info("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for modemId:" + modemId);
+				inetAccess.internet_access_has_emta_cm.add(hsdAccess);
+			}
+		}
 
-		if (lineItem.isUsingStdCpe()) { // not make standard cpe or other
-										// additional cpe's for M5 customers
-										// StdCpe stdCpe =
-										// getModel().alloc().StdCpe(modemId);
-			// DeviceControl deviceControl =
-			// getModel().alloc().DeviceControl(modemId);
+		if (lineItem.isUsingStdCpe()) {
+			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
-				// if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
-				// smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
-				// }
+				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
+					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
+				}
 			}
 		}
 
@@ -197,24 +195,17 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() == null) {
-			String smpEmail = inetAccess.email_server_unblock_service_id.getValue();
-			if (smpEmail != null) {
-				// delete services
-				inetAccess.email_server_unblock_service_id.clearValue();
-				inetAccess.email_server_unblock_product_code.clearValue();
-			}
+			inetAccess.email_server_unblock_product_code.clearValue();
 		}
 
 		if (lineItem.getWifiServiceProductCode() == null) {
-			String smpWiFi = inetAccess.wifi_security_disabled.getValue();
-			if (smpWiFi != null && smpWiFi.equals("false")) {
-				inetAccess.ss_id.clearValue();
-				inetAccess.psk.clearValue();
-				inetAccess.psk_5g.clearValue();
-				inetAccess.gw_channel_id.clearValue();
-				inetAccess.ss_id_5g.clearValue();
-				inetAccess.gw_channel_id_5g.clearValue();
-			}
+			inetAccess.wifi_security_disabled.setValue("true");
+			inetAccess.ss_id.clearValue();
+			inetAccess.psk.clearValue();
+			inetAccess.psk_5g.clearValue();
+			inetAccess.gw_channel_id.clearValue();
+			inetAccess.ss_id_5g.clearValue();
+			inetAccess.gw_channel_id_5g.clearValue();
 		}
 
 		if (lineItem.getStaticIpProductCode() == null) {

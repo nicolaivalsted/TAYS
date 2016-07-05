@@ -17,7 +17,6 @@ public class InetAccess extends BasicUnit {
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "internet_access");
 
 	public PropHolder rate_codes = new PropHolder(this, "rate_codes", true);
-	public PropHolder broadband_service_id = new PropHolder(this, "broadband_service_id", true);
 	public PropHolder svc_provider_nm = new PropHolder(this, "svc_provider_nm");
 	public PropHolder upstream_speed = new PropHolder(this, "upstream_speed");
 	public PropHolder config_file_override = new PropHolder(this, "config_file_override");
@@ -47,7 +46,6 @@ public class InetAccess extends BasicUnit {
 	public PropHolder isp_name = new PropHolder(this, "isp_name", false);
 
 	// email server unblock
-	public PropHolder email_server_unblock_service_id = new PropHolder(this, "email_server_unblock_service_id", true);
 	public PropHolder email_server_unblock_product_code = new PropHolder(this, "email_server_unblock_product_code", true);
 
 	// wifi
@@ -62,7 +60,6 @@ public class InetAccess extends BasicUnit {
 	public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setInetAccess(this);
-		broadband_service_id.updateValue(externalKey);
 	}
 
 	/**
