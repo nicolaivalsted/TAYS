@@ -80,8 +80,6 @@ public class MacAddressCase extends AbstractCase {
 			ha.equipment_type.setValue(hsdAccessData.getEquipment_type());
 			ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe());
-			ha.cm_manufacturer.setValue(hsdAccessData.getCm_manufacturer());
-			ha.cm_model.setValue(hsdAccessData.getCm_model());
 			ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
 
 			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
@@ -331,8 +329,6 @@ public class MacAddressCase extends AbstractCase {
 		ha.cm_technology.setValue(hsdAccessData.getCm_technology()); // "DOCSIS VERSION 1.1"
 		ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 
-		ha.cm_manufacturer.setValue(hsdAccessData.getCm_manufacturer());
-		ha.cm_model.setValue(hsdAccessData.getCm_model());
 		ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
 
 		DeviceControl dControl = getModel().add().DeviceControl(modemId);

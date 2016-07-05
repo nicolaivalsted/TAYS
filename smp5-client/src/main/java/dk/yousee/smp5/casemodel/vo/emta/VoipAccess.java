@@ -26,7 +26,6 @@ public class VoipAccess extends BasicUnit {
 	public PropHolder mta_service_id = new PropHolder(this, "mta_service_id", true);
 	public PropHolder mta_mac = new PropHolder(this, "mta_mac", true);
 	public PropHolder mta_id = new PropHolder(this, "mta_id", true);
-	public PropHolder mta_fqdn = new PropHolder(this, "mta_fqdn", false);
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac", false);
 	public PropHolder cmts = new PropHolder(this, "cmts", false);
 

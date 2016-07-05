@@ -18,7 +18,6 @@ public enum Type {
     AddCpe("SubSvcSpec:additional_cpe"),
     CableModem("SubSvcSpec:smp_emta_cm_hsd_access"),
     VoiceMail("SubSvcSpec:primary_voicemail_box"),
-    Play("SubSvcSpec:play_composed"),
     TdcMail("SubSvcSpec:tdcmail_composed"),
     EmailUnblock("SubSvcSpec:email_server_unblock"),
     Mobb("SubSvcSpec:mobile_broadband"),

@@ -34,9 +34,7 @@ public class HsdAccess extends BasicUnit {
 	public PropHolder max_num_cpe = new PropHolder(this, "max_num_cpe");
 	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
 	private PropHolder cm_ownership = new PropHolder(this, "cm_ownership", true);
-	public PropHolder cm_manufacturer = new PropHolder(this, "cm_manufacturer");
 	public PropHolder cm_serial_number = new PropHolder(this, "cm_serial_number");
-	public PropHolder cm_model = new PropHolder(this, "cm_model");
 	public PropHolder class_of_service = new PropHolder(this, "class_of_service", false);
 
 	public ModemId getCmOwnership() {
