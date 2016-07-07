@@ -21,11 +21,9 @@ public class SMPStaticIP extends BasicUnit {
 	public SMPStaticIP(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setSmpStaticIP(this);
-		staticip_service_id.updateValue(externalKey);
 	}
 
 	// Type.FEATURE
-	public PropHolder staticip_service_id = new PropHolder(this, "staticip_service_id", true);
 	public PropHolder static_ip_address = new PropHolder(this, "static_ip", true);
 	public PropHolder staticip_product_code = new PropHolder(this, "staticip_product_code", true);
 	public PropHolder staticip_cpe_mac = new PropHolder(this, "cpe_mac");

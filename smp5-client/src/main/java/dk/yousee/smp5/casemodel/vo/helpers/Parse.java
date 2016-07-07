@@ -158,9 +158,9 @@ public class Parse {
 			if (plan.getType().equals(CableBBService.TYPE)) {
 				CableBBService cableBBService = new CableBBService(model, plan.getExternalKey());
 				for (ResponseEntity child : plan.getEntities()) {
-					if (child.getType().equals(SwitchFeature.TYPE)) {
+					if (child.getType().equals(SMPStaticIP.TYPE)) {
 						new SMPStaticIP(model, child.getExternalKey(), cableBBService);
-					} else if (child.getType().equals(DialToneAccess.TYPE)) {
+					} else if (child.getType().equals(InetAccess.TYPE)) {
 						new InetAccess(model, child.getExternalKey(), cableBBService);
 					} else {
 						logger.warn("unknown CableBBService child_service " + child.getExternalKey());
@@ -169,15 +169,15 @@ public class Parse {
 			} else if (plan.getType().equals(MTAService.TYPE)) {
 				MTAService mtaService = new MTAService(model, plan.getExternalKey());
 				for (ResponseEntity child : plan.getEntities()) {
-					if (child.getType().equals(SwitchFeature.TYPE)) {
+					if (child.getType().equals(HsdAccess.TYPE)) {
 						new HsdAccess(model, child.getExternalKey(), mtaService);
-					} else if (child.getType().equals(DialToneAccess.TYPE)) {
+					} else if (child.getType().equals(DeviceControl.TYPE)) {
 						new DeviceControl(model, child.getExternalKey(), mtaService);
-					} else if (child.getType().equals(DialToneAccess.TYPE)) {
+					} else if (child.getType().equals(StdCpe.TYPE)) {
 						new StdCpe(model, child.getExternalKey(), mtaService);
-					} else if (child.getType().equals(DialToneAccess.TYPE)) {
+					} else if (child.getType().equals(VoipAccess.TYPE)) {
 						new VoipAccess(model, child.getExternalKey(), mtaService);
-					} else if (child.getType().equals(DialToneAccess.TYPE)) {
+					} else if (child.getType().equals(AddnCpe.TYPE)) {
 						new AddnCpe(model, child.getExternalKey(), mtaService);
 					} else {
 						logger.warn("unknown MTAService child_service " + child.getExternalKey());
