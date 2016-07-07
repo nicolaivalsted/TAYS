@@ -326,7 +326,9 @@ public class MacAddressCase extends AbstractCase {
 
 		ha.setCmOwnership(modemId); // "1024102022" ** unique
 		ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
-		ha.cm_technology.setValue(hsdAccessData.getCm_technology()); // "DOCSIS VERSION 1.1"
+		ha.cm_technology.setValue(hsdAccessData.getCm_technology()); // "DOCSIS
+																		// VERSION
+																		// 1.1"
 		ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 
 		ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
@@ -335,6 +337,15 @@ public class MacAddressCase extends AbstractCase {
 		dControl.gi_address.setValue(hsdAccessData.getGi_address()); // "10.50.0.1"
 
 		return ha;
+	}
+
+	public DeviceControl addDeviceControl(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
+		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
+		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
+		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		deviceControl.sik.setValue(modemId.getId());
+		return deviceControl;
 	}
 
 	public static class HsdAccessData {
