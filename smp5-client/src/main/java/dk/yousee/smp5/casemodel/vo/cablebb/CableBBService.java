@@ -1,7 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.cablebb;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.BusinessPosition;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp5.order.model.NickName;

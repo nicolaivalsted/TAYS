@@ -47,4 +47,6 @@ public class SubAddressSpec extends BasicUnit {
 
 	public PropHolder geo_name = new PropHolder(this, "geo_name");
 
+	public PropHolder ntd_return_segment_nm = new PropHolder(this, "ntd_return_segment_nm");
+
 }

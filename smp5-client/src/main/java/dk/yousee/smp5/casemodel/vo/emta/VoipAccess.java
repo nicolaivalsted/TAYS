@@ -20,13 +20,13 @@ public class VoipAccess extends BasicUnit {
 	public VoipAccess(SubscriberModel model, String externalKey, MTAService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setVoipAccess(this);
-		mta_service_id.updateValue(externalKey);
 	}
 
-	public PropHolder mta_service_id = new PropHolder(this, "mta_service_id", true);
 	public PropHolder mta_mac = new PropHolder(this, "mta_mac", true);
 	public PropHolder mta_id = new PropHolder(this, "mta_id", true);
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac", false);
-	public PropHolder cmts = new PropHolder(this, "cmts", false);
+	public PropHolder mta_max_port_num = new PropHolder(this, "mta_max_port_num", true);
+	public PropHolder mta_dhcp_rules = new PropHolder(this, "mta_dhcp_rules", true);
+	public PropHolder port_number = new PropHolder(this, "port_number", true);
 
 }

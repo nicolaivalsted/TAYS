@@ -87,6 +87,7 @@ public class SubscriberCase extends AbstractCase {
 		subAddressSpec.geo_name.setValue(address.getGeographicName());
 		subAddressSpec.door_code.setValue(address.getDoorCode());
 		subAddressSpec.street_num.setValue(address.getStreetNumber());
+		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		return subAddressSpec;
 	}
 

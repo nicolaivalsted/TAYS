@@ -300,6 +300,9 @@ public class MacAddressCase extends AbstractCase {
 		VoipAccess voipAccess = getModel().add().VoipAccess(modemId);
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_mac.setValue(mta_mac); // "33885aa32503" ** unique
+		voipAccess.mta_dhcp_rules.setValue("captive");//TODO fix but to remove in prd
+		voipAccess.mta_max_port_num.setValue("1");
+		voipAccess.port_number.setValue("1");
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
 		if (dialToneAccess != null && dialToneAccess.dt_has_access.get() == null) {
 			dialToneAccess.dt_has_access.add(voipAccess);
@@ -333,14 +336,11 @@ public class MacAddressCase extends AbstractCase {
 
 		ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
 
-		DeviceControl dControl = getModel().add().DeviceControl(modemId);
-		dControl.gi_address.setValue(hsdAccessData.getGi_address()); // "10.50.0.1"
-
 		return ha;
 	}
 
 	public DeviceControl addDeviceControl(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
-		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
