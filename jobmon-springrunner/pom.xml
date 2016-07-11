@@ -6,7 +6,6 @@
         <artifactId>clients</artifactId>
         <version>3.118-SNAPSHOT</version>
     </parent>
-    <groupId>dk.yousee.randy</groupId>
     <artifactId>jobmon-springrunner</artifactId>
     <name>jobmon-springrunner</name>
     <url>http://maven.apache.org</url>

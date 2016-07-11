@@ -1,14 +1,14 @@
 package dk.yousee.smp.cases;
 
-import dk.yousee.smp.casemodel.vo.ModemId;
-import dk.yousee.smp.functions.OrderServiceImpl;
-import dk.yousee.smp.order.model.Acct;
-import dk.yousee.smp.order.model.BusinessException;
-import dk.yousee.smp.smpclient.SmpConnectorImpl;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import dk.yousee.smp.functions.OrderServiceImpl;
+import dk.yousee.smp.order.model.Acct;
+import dk.yousee.smp.order.model.BusinessException;
+import dk.yousee.smp.smpclient.SmpConnectorImpl;
 
 /**
  * Created by IntelliJ IDEA.

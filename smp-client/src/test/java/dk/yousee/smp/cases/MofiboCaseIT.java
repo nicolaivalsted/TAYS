@@ -1,5 +1,11 @@
 package dk.yousee.smp.cases;
 
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.Test;
+
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
@@ -9,11 +15,7 @@ import dk.yousee.smp.order.model.BusinessException;
 import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderService;
 import dk.yousee.smp.smpclient.SmpConnectorImpl;
-import java.util.List;
 import junit.framework.Assert;
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  *

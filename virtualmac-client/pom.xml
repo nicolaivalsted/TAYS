@@ -7,7 +7,6 @@
         <artifactId>clients</artifactId>
         <version>3.118-SNAPSHOT</version>
     </parent>
-    <groupId>dk.yousee.randy</groupId>
     <artifactId>virtualmac-client</artifactId>
     <name>virtualmac-client</name>
     <url>http://maven.apache.org</url>

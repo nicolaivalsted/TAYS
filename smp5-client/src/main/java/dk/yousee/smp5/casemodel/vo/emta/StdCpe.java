@@ -20,11 +20,9 @@ public class StdCpe extends BasicUnit {
 	public StdCpe(SubscriberModel model, String externalKey, MTAService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setStdCpe(this);
-		cpe_service_id.updateValue(externalKey);
 	}
 
 	// Type.FEATURE
-	public PropHolder cpe_service_id = new PropHolder(this, "cpe_service_id", true);
 	public PropHolder cpe_mac = new PropHolder(this, "cpe_mac", true);
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac", true);
 	/**

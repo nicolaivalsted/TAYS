@@ -1,8 +1,5 @@
 package dk.yousee.smp5.com;
 
-import java.util.Date;
-import java.util.List;
-
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 
