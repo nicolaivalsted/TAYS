@@ -163,8 +163,8 @@ public class MacAddressCase extends AbstractCase {
 		VoipAccess voipAccess = getModel().alloc().VoipAccess(modemId);
 		voipAccess.mta_mac.setValue(macAddress);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
-		if (dialToneAccess != null && dialToneAccess.dt_has_access.get() == null) {
-			dialToneAccess.dt_has_access.add(voipAccess);
+		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
+			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
 		return voipAccess;
 	}
@@ -311,8 +311,8 @@ public class MacAddressCase extends AbstractCase {
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
-		if (dialToneAccess != null && dialToneAccess.dt_has_access.get() == null) {
-			dialToneAccess.dt_has_access.add(voipAccess);
+		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
+			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
 		return voipAccess;
 	}
