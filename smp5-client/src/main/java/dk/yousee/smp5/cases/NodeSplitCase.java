@@ -21,9 +21,7 @@ public class NodeSplitCase extends AbstractCase {
 
 	public HsdAccess updateForNodeSplit(ModemId modemId, String gi_address, String cm_mac, String modemModel, String vendor, String serial) {
 		HsdAccess ha = getModel().alloc().HsdAccess(modemId);
-		ha.cm_mac.setValue(cm_mac);
-		if (serial != null)
-			ha.cm_serial_number.setValue(serial);
+		ha.data_port_id.setValue(cm_mac);
 		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
 		deviceControl.gi_address.setValue(gi_address);
 		return ha;
