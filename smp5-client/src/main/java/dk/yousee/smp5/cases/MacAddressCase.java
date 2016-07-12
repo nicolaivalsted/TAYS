@@ -73,7 +73,6 @@ public class MacAddressCase extends AbstractCase {
 		}
 		ha.data_port_id.setValue(macAddress);
 		if (hsdAccessData != null) {
-			ha.setCmOwnership(modemId); // "1024102022" ** unique
 			ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 			ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
 			ha.gi_address.setValue(hsdAccessData.getGi_address());
@@ -330,7 +329,6 @@ public class MacAddressCase extends AbstractCase {
 	public HsdAccess addHsdAccess(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
 		HsdAccess ha = getModel().add().HsdAccess(modemId);
 		ha.data_port_id.setValue(hsdAccessData.getCm_mac());
-		ha.setCmOwnership(modemId); // "1024102022" ** unique
 		ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 		ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
 		ha.gi_address.setValue(hsdAccessData.getGi_address());

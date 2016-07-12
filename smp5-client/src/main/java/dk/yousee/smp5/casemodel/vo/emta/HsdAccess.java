@@ -42,21 +42,7 @@ public class HsdAccess extends BasicUnit {
 		return ModemId.create(cm_ownership.getValue());
 	}
 
-	public void setCmOwnership(ModemId cmOwnership) {
-		if (cmOwnership == null)
-			throw new IllegalArgumentException("cm ownsership can never be null in Hsd-access");
-		cm_ownership.setValue(cmOwnership.getId());
-	}
-
 	// Type.ASSOC
 	public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE);
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(" cm_ownership=").append(getCmOwnership());
-		sb.append('}');
-		return sb.toString();
-	}
 }
