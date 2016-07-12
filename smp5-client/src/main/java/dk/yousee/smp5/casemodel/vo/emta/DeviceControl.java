@@ -29,5 +29,7 @@ public class DeviceControl extends BasicUnit {
 	public PropHolder voip_protocol = new PropHolder(this, "voip_protocol", true);
 	public PropHolder gi_address = new PropHolder(this, "gi_address", true);
 	public PropHolder sik = new PropHolder(this, "sik", true);
+	public PropHolder model = new PropHolder(this, "model", true);
+	public PropHolder manufacturer = new PropHolder(this, "manufacturer", true);
 
 }

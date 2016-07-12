@@ -35,12 +35,8 @@ public class TestVirtualMac {
 
     @Before
     public void setUp() {
-//        vMacSvc = new VirtualMacClient("http://194.239.10.173/virtual-mac");
         vMacSvc = new VirtualMacClient("http://localhost:47538/virtual-mac");
     }
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
 
     @Test
     public void pingTest() {

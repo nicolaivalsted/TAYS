@@ -24,7 +24,7 @@ public class VirtualMacClient {
      * In the underlying database the mac addresses are registered to the supplied subscriber, enabling
      * an automatic cleaning/release periodic cycle to run.
      * <p>
-     * TODO: This method does not do any html quoting or other security checks on the supplied parameter
+     * This method does not do any html quoting or other security checks on the supplied parameter
      * for subscriber&mdash;this should be fixed to avoid potential security risks.
      * @param subscriber the subscriber to whom these mac addresses will be used
      * @param n number of mac addresses to allocate

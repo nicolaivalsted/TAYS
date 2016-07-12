@@ -88,6 +88,8 @@ public class MacAddressCase extends AbstractCase {
 			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 			deviceControl.sik.setValue(modemId.getId());
+			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+			deviceControl.model.setValue(hsdAccessData.getCm_model());
 		}
 
 		return ha;
@@ -340,12 +342,26 @@ public class MacAddressCase extends AbstractCase {
 	}
 
 	public DeviceControl addDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
-		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
 		deviceControl.mta_mac.setValue(mtaMac);
 		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+		deviceControl.model.setValue(hsdAccessData.getCm_model());
+		return deviceControl;
+	}
+	
+	public DeviceControl updateDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
+		deviceControl.mta_mac.setValue(mtaMac);
+		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
+		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+		deviceControl.model.setValue(hsdAccessData.getCm_model());
 		return deviceControl;
 	}
 

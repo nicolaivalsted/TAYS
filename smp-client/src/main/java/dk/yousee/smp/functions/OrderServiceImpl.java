@@ -138,7 +138,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param order to create the subscriber
      * @return Response as the sum of create and lookup (request/response/order from create, data from lookup)
-     * TODO: let it only add, and make read from the cases !!!!
+     * Let it only add, and make read from the cases !!!!
      */
     public Response addSubscription(Order order) {
 
