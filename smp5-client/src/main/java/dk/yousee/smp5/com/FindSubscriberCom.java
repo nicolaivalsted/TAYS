@@ -139,6 +139,16 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			param.setName("smartcard_serial");
 			param.setStringValue(searchCustomersRequest.getSmartcardSerial());
 		}
+		if (searchCustomersRequest.getCpe_mac() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("cpe_mac");
+			param.setStringValue(searchCustomersRequest.getCpe_mac());
+		}
+		if (searchCustomersRequest.getCm_mac() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("cm_mac");
+			param.setStringValue(searchCustomersRequest.getCm_mac());
+		}
 		return queryValue;
 	}
 
@@ -175,8 +185,8 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 					errorMessage = ex.getIllegalArgumentException().getMessage();
 
 			}
-			res = xmlObject
-					.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:getServiceByKeyException");
+			res = xmlObject.selectPath(
+					"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:getServiceByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetServiceByKeyExceptionDocument.GetServiceByKeyException ex = (GetServiceByKeyExceptionDocument.GetServiceByKeyException) res[0];
@@ -202,8 +212,7 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
 
-			res = xmlObject
-					.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
+			res = xmlObject.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
 			if (res.length > 0) {
 				// This is an error
 				QueryOrdersExceptionDocument.QueryOrdersException ex = (QueryOrdersExceptionDocument.QueryOrdersException) res[0];
@@ -217,15 +226,13 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			} else {
 
 				/* PARSE RESULTS */
-				res = xmlObject
-						.selectPath("declare namespace cmn='http://java.sun.com/products/oss/xml/Common'; $this//cmn:queryManagedEntitiesResponse");
+				res = xmlObject.selectPath("declare namespace cmn='http://java.sun.com/products/oss/xml/Common'; $this//cmn:queryManagedEntitiesResponse");
 				logger.debug("Select queryManagedEntitiesResponse, res length: " + res.length);
 				// parse the
 				if (res.length > 0) {
 					ArrayList<CustomerInfo> list = new ArrayList<CustomerInfo>();
 					QueryManagedEntitiesResponseDocument responseDocument = (QueryManagedEntitiesResponseDocument) xmlObject;
-					QueryManagedEntitiesResponseDocument.QueryManagedEntitiesResponse entity = responseDocument
-							.getQueryManagedEntitiesResponse();
+					QueryManagedEntitiesResponseDocument.QueryManagedEntitiesResponse entity = responseDocument.getQueryManagedEntitiesResponse();
 					if (entity != null) {
 						ArrayOfManagedEntityValue arrayOfManagedEntityValue = entity.getValue();
 						if (arrayOfManagedEntityValue != null) {

@@ -305,8 +305,6 @@ public class MacAddressCase extends AbstractCase {
 		VoipAccess voipAccess = getModel().add().VoipAccess(modemId);
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_mac.setValue(mta_mac); // "33885aa32503" ** unique
-		voipAccess.mta_dhcp_rules.setValue("captive");// TODO fix but to remove
-														// in prd
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);

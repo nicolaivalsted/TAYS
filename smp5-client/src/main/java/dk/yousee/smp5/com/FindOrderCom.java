@@ -62,7 +62,6 @@ public class FindOrderCom extends Smp5Com<String, QueryOrderReply> {
 			XmlObject xmlObject = parseResponse(response);
 
 			/* ERROR HANDLING */
-			// for queryOrdersByOrderNumber errors
 			XmlObject[] res = xmlObject
 					.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getOrderByKeyException");
 			if (res.length > 0) {
@@ -81,9 +80,7 @@ public class FindOrderCom extends Smp5Com<String, QueryOrderReply> {
 				return new QueryOrderReply(errorMessage, xml);
 			} else {
 				/* PARSE RESULTS */
-				// for queryOrdersByOrderNumber
-				res = xmlObject
-						.selectPath("declare namespace sa='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//sa:getOrderByKeyResponse");
+				res = xmlObject.selectPath("declare namespace sa='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//sa:getOrderByKeyResponse");
 				logger.debug("Select getOrderByKeyResponse res length: " + res.length);
 				if (res.length > 0) {
 					GetOrderByKeyResponseDocument.GetOrderByKeyResponse entity = (GetOrderByKeyResponseDocument.GetOrderByKeyResponse) res[0];
@@ -103,18 +100,6 @@ public class FindOrderCom extends Smp5Com<String, QueryOrderReply> {
 			} else {
 				return null;
 			}
-		}
-
-		private static String grepPrimaryKey(final String source) {
-			final String key = "primaryKey>";
-			int pos0 = source.indexOf(key);
-			if (pos0 == -1)
-				return null;
-			pos0 = pos0 + key.length();
-			int pos1 = source.indexOf("<", pos0);
-			if (pos1 == -1)
-				return null;
-			return source.substring(pos0, pos1);
 		}
 
 	}
