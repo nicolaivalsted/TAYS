@@ -139,6 +139,7 @@ public class ProvisioningCom extends SmpCom<Order, ExecuteOrderReply> {
 			actionOrder.setOrderKey(headMaker.createOrderKey(orderId));
 			actionOrder.setPriority(order.getPriority().asInt());
 			actionOrder.xsetOrderState(headMaker.createOrderStateType());
+			actionOrder.setDescription("TAYS DebugID - " + order.getDebugId());
 			SubKeyType subKey = actionOrder.addNewSubKey();
 			subKey.setType("SubSpec:-");
 			subKey.setExternalKey(order.getExternalKey());

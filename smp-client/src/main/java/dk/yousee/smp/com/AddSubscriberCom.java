@@ -126,6 +126,7 @@ public class AddSubscriberCom extends SmpCom<Order, ExecuteOrderReply> {
 			ssOrderValue.setApiClientId(order.getApiClientId());
 			ssOrderValue.setOrderKey(headMaker.createOrderKey(orderId));
 			ssOrderValue.setPriority(3);
+			ssOrderValue.setDescription("TAYS DebugID - " + order.getDebugId());
 			ssOrderValue.xsetOrderState(headMaker.createOrderStateType());
 			headMaker.updateOrderParams(ssOrderValue.addNewOrderParamList(), order);
 			return ssOrderValue;
