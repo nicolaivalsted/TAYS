@@ -17,6 +17,7 @@ public class Order implements Serializable {
 	private String type;
 	private boolean asynchronous = false;
 	private boolean onlySub;
+	private String debugId;
 
 	public boolean getOnlySub() {
 		return onlySub;
@@ -163,6 +164,14 @@ public class Order implements Serializable {
 
 	public void setParams(Map<String, String> params) {
 		this.params = params;
+	}
+	
+	public String getDebugId() {
+		return debugId;
+	}
+
+	public void setDebugId(String debugId) {
+		this.debugId = debugId;
 	}
 
 	@Override
