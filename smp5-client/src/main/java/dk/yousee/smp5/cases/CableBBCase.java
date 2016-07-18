@@ -107,18 +107,21 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.isUsingStdCpe()) {
-			//this was moved into ASU Cse
-//			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
-//			StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+			// this was moved into ASU Cse
+			// DeviceControl deviceControl =
+			// getModel().alloc().DeviceControl(modemId);
+			// StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
 
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
-				//this was moved into ASU Cse
-//				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
-//					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
-//				}
+				// this was moved into ASU Cse
+				// if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
+				// smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
+				// }
 			}
+		} else {
+			inetAccess.allowed_cpe.setValue("0");
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
@@ -170,6 +173,8 @@ public class CableBBCase extends AbstractCase {
 					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
 				}
 			}
+		} else {
+			inetAccess.allowed_cpe.setValue("0");
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
@@ -184,15 +189,8 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.gw_channel_id.setValue("0");
 			}
 		}
-		if (lineItem.getAddnCPEProductCode() != null) {
-			AddnCpe addnCpe = getModel().find().theAddnCpe(modemId);
-			if (addnCpe == null) {
-				addnCpe = getModel().add().AddnCpe(modemId);
-				addnCpe.cpe_product_code.setValue(lineItem.getAddnCPEProductCode());
-				addnCpe.cpe_service_id.setValue(addnCpe.getExternalKey());
-			} else {
-				addnCpe.cpe_product_code.setValue(lineItem.getAddnCPEProductCode());
-			}
+		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
+			inetAccess.allowed_cpe.setValue("2");
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() == null) {
@@ -220,6 +218,9 @@ public class CableBBCase extends AbstractCase {
 			AddnCpe addnCpe = getModel().find().theAddnCpe(modemId);
 			if (addnCpe != null) {
 				addnCpe.delete();
+			}
+			if (!inetAccess.allowed_cpe.getValue().equals("1")) {
+				inetAccess.allowed_cpe.setValue("1");
 			}
 		}
 
@@ -424,7 +425,8 @@ public class CableBBCase extends AbstractCase {
 
 	/**
 	 * Resume BB seen from service / abuse handling <br/>
-	 * The suspend abuse will always be set to blank - or better called removed <br/>
+	 * The suspend abuse will always be set to blank - or better called removed
+	 * <br/>
 	 * The subservices - on the other hand will be RESUMED or SUSPENDED -
 	 * dependent on billing status.
 	 *
@@ -627,8 +629,7 @@ public class CableBBCase extends AbstractCase {
 		return inetAccess;
 	}
 
-	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g,
-			String ss_id_5g) {
+	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(modemId);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {

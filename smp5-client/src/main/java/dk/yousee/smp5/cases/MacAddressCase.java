@@ -194,38 +194,15 @@ public class MacAddressCase extends AbstractCase {
 	 *            modem used
 	 * @param child_id
 	 *            , externalkey for AddnCpe
-	 * @param cm_mac
-	 *            , cm_mac for AddnCpe
-	 * @return model instance
-	 * @throws dk.yousee.smp.order.model.BusinessException
-	 *             when relation not exists
-	 */
-	public AddnCpe updateCm_macForAddnCpe(ModemId modemId, String child_id, String cm_mac) throws BusinessException {
-		AddnCpe addnCpe = getModel().find().AddnCpe(modemId, child_id);
-		addnCpe.cm_mac.setValue(cm_mac);
-		return addnCpe;
-	}
-
-	/**
-	 * update mac for AddnCpe
-	 *
-	 * @param modemId
-	 *            modem used
-	 * @param child_id
-	 *            , externalkey for AddnCpe
 	 * @param cpe_mac
 	 *            , cpe_mac for AddnCpe
 	 * @return model instance
 	 * @throws dk.yousee.smp.order.model.BusinessException
 	 *             when relation not exists
 	 */
-	public AddnCpe updateCpe_macForAddnCpe(ModemId modemId, String child_id, String cpe_mac) throws BusinessException {
+	public AddnCpe updateCpe_macForAddnCpe(ModemId modemId, String cpe_mac) throws BusinessException {
 		AddnCpe addnCpe = null;
-		if (child_id == null || child_id.length() == 0) {
-			addnCpe = getModel().find().AddnCpe(modemId);
-		} else {
-			addnCpe = getModel().find().AddnCpe(modemId, child_id);
-		}
+		addnCpe = getModel().find().AddnCpe(modemId);
 		if (addnCpe != null) {
 			addnCpe.cpe_mac.setValue(cpe_mac);
 		}
@@ -248,25 +225,7 @@ public class MacAddressCase extends AbstractCase {
 	public AddnCpe addAddnCpe(ModemId modemId, String cpe_mac, String product_code, String cm_mac) {
 		AddnCpe addnCpe = getModel().add().AddnCpe(modemId);
 		addnCpe.cpe_mac.setValue(cpe_mac);
-		addnCpe.cpe_product_code.setValue(product_code);
-		addnCpe.cpe_service_id.setValue(addnCpe.getExternalKey());
 		addnCpe.cm_mac.setValue(cm_mac);
-		return addnCpe;
-	}
-
-	/**
-	 * delete childservice 'AddnCpe'
-	 *
-	 * @param modemId
-	 *            modem used
-	 * @param child_id
-	 *            in
-	 * @return model instance
-	 */
-	public AddnCpe deleteAddnCpe(ModemId modemId, String child_id) {
-		AddnCpe addnCpe = getModel().find().AddnCpe(modemId, child_id);
-		addnCpe.getDefaultOrderData().getParams().clear();
-		addnCpe.delete();
 		return addnCpe;
 	}
 
@@ -348,7 +307,7 @@ public class MacAddressCase extends AbstractCase {
 		deviceControl.model.setValue(hsdAccessData.getCm_model());
 		return deviceControl;
 	}
-	
+
 	public DeviceControl updateDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
 		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());

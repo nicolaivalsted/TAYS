@@ -34,6 +34,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder cisco_sm_package_id = new PropHolder(this, "cisco_sm_package_id");
 	public PropHolder downstream = new PropHolder(this, "downstream_speed");
 	public PropHolder upstream = new PropHolder(this, "upstream_speed");
+	public PropHolder allowed_cpe = new PropHolder(this, "allowed_cpe");
 
 	private PropHolder modem_id = new PropHolder(this, "modem_id");
 	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
