@@ -125,7 +125,7 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
-			inetAccess.email_server_disabled.setValue("false");
+			inetAccess.email_server_enabled.setValue("true");
 		}
 		if (lineItem.getWifiServiceProductCode() != null) {
 
@@ -160,6 +160,9 @@ public class CableBBCase extends AbstractCase {
 
 		if (lineItem.isUsingStdCpe()) { // not make standard cpe or other
 										// additional cpe's for M5 customers
+			if (inetAccess.allowed_cpe.getValue().equals("0")) {
+				inetAccess.allowed_cpe.setValue("1");
+			}
 			StdCpe stdCpe = getModel().find().StdCpe(modemId);
 			if (stdCpe != null) {
 				if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
@@ -178,7 +181,7 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
-			inetAccess.email_server_disabled.setValue("false");
+			inetAccess.email_server_enabled.setValue("true");
 		}
 		if (lineItem.getWifiServiceProductCode() != null) {
 			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("false");
@@ -194,7 +197,7 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() == null) {
-			inetAccess.email_server_disabled.setValue("true");
+			inetAccess.email_server_enabled.setValue("false");
 		}
 
 		if (lineItem.getWifiServiceProductCode() == null) {
