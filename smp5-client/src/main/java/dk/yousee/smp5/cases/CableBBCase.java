@@ -125,7 +125,7 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
-			inetAccess.email_server_unblock_product_code.setValue(lineItem.getEmailServerUnblockProductCode());
+			inetAccess.email_server_disabled.setValue("false");
 		}
 		if (lineItem.getWifiServiceProductCode() != null) {
 
@@ -178,7 +178,7 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
-			inetAccess.email_server_unblock_product_code.setValue(lineItem.getEmailServerUnblockProductCode());
+			inetAccess.email_server_disabled.setValue("false");
 		}
 		if (lineItem.getWifiServiceProductCode() != null) {
 			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("false");
@@ -194,7 +194,7 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.getEmailServerUnblockProductCode() == null) {
-			inetAccess.email_server_unblock_product_code.clearValue();
+			inetAccess.email_server_disabled.setValue("true");
 		}
 
 		if (lineItem.getWifiServiceProductCode() == null) {

@@ -47,7 +47,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder isp_name = new PropHolder(this, "isp_name", false);
 
 	// email server unblock
-	public PropHolder email_server_unblock_product_code = new PropHolder(this, "email_server_unblock_product_code", true);
+	public PropHolder email_server_disabled = new PropHolder(this, "email_server_disabled", true);
 
 	// wifi
 	public PropHolder ss_id = new PropHolder(this, "ss_id", true);
