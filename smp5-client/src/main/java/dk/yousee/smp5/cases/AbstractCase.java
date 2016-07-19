@@ -185,7 +185,8 @@ public class AbstractCase {
 	}
 
 	/**
-	 * commit the changes to SMP, the order is the order generated in the model.<br/>
+	 * commit the changes to SMP, the order is the order generated in the
+	 * model.<br/>
 	 * precondition: order must be established by model updates<br/>
 	 * postcondition: OrderReply made, orderId returned
 	 *
@@ -198,7 +199,8 @@ public class AbstractCase {
 	}
 
 	/**
-	 * commit the changes to SMP, the order is the order generated in the model.<br/>
+	 * commit the changes to SMP, the order is the order generated in the
+	 * model.<br/>
 	 * precondition: order must be established by model updates<br/>
 	 * postcondition: OrderReply made, orderId returned
 	 *
@@ -243,8 +245,7 @@ public class AbstractCase {
 
 	protected void ensureAcct() throws BusinessException {
 		if (!getModel().customerExists()) {
-			throw new BusinessException("Operation failed,  Cannot create/update/delete when the customer does not exist. Acct: %s",
-					getAcct());
+			throw new BusinessException("Operation failed,  Cannot create/update/delete when the customer does not exist. Acct: %s", getAcct());
 		}
 	}
 

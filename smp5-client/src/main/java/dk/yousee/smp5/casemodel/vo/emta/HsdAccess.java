@@ -31,7 +31,6 @@ public class HsdAccess extends BasicUnit {
 	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
 	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
 	public PropHolder cm_service_id = new PropHolder(this, "cm_service_id", true);
-	public PropHolder gi_address = new PropHolder(this, "gi_address", true);
 	public PropHolder wifi_capable = new PropHolder(this, "wifi_capable");
 	public PropHolder class_of_service = new PropHolder(this, "class_of_service", false);
 	public PropHolder max_num_cpe = new PropHolder(this, "max_num_cpe");

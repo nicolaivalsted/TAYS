@@ -75,7 +75,6 @@ public class MacAddressCase extends AbstractCase {
 		if (hsdAccessData != null) {
 			ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 			ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
-			ha.gi_address.setValue(hsdAccessData.getGi_address());
 			ha.wifi_capable.setValue(hsdAccessData.getWifi_capable()); // "N"
 			ha.class_of_service.setValue(hsdAccessData.getClassOfService());
 			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
@@ -288,7 +287,6 @@ public class MacAddressCase extends AbstractCase {
 		ha.data_port_id.setValue(hsdAccessData.getCm_mac());
 		ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 		ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
-		ha.gi_address.setValue(hsdAccessData.getGi_address());
 		ha.wifi_capable.setValue(hsdAccessData.getWifi_capable()); // "N"
 		ha.class_of_service.setValue(hsdAccessData.getClassOfService());
 		ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"

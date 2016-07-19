@@ -31,6 +31,7 @@ public class SearchCustomersRequest implements Serializable {
 	private String smartcardSerial;
 	private String cm_mac;
 	private String cpe_mac;
+	private String voipPhoneNumber;
 
 	/**
 	 * @return the 9 digit customer key
@@ -175,6 +176,14 @@ public class SearchCustomersRequest implements Serializable {
 
 	public void setCpe_mac(String cpe_mac) {
 		this.cpe_mac = cpe_mac;
+	}
+
+	public String getVoipPhoneNumber() {
+		return voipPhoneNumber;
+	}
+
+	public void setVoipPhoneNumber(String voipPhoneNumber) {
+		this.voipPhoneNumber = voipPhoneNumber;
 	}
 
 	@Override
