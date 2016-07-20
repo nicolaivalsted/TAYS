@@ -154,8 +154,7 @@ public class Parse {
 						new TdcMail(model, child.getExternalKey(), service);
 					}
 				}
-			}
-			if (plan.getType().equals(CableBBService.TYPE)) {
+			} else if (plan.getType().equals(CableBBService.TYPE)) {
 				CableBBService cableBBService = new CableBBService(model, plan.getExternalKey());
 				for (ResponseEntity child : plan.getEntities()) {
 					if (child.getType().equals(SMPStaticIP.TYPE)) {
