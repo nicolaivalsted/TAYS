@@ -56,6 +56,8 @@ public class FindOrdersBySubscriberCom extends Smp5Com<Acct, QueryOrdersBySubscr
 	}
 
 	private static final Set closedSet = new HashSet<OrderStateEnum>() {
+		private static final long serialVersionUID = 2760836951133747710L;
+
 		{
 			add(OrderStateEnum.CLOSED);
 			add(OrderStateEnum.CLOSED_ABORTED);
@@ -113,8 +115,7 @@ public class FindOrdersBySubscriberCom extends Smp5Com<Acct, QueryOrdersBySubscr
 			/* ERROR HANDLING */
 			XmlObject[] res;
 			// for queryOrdersBySubscriber errors
-			res = xmlObject
-					.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
+			res = xmlObject.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
 
 			if (res.length > 0) {
 				String errorMessage;
@@ -131,8 +132,7 @@ public class FindOrdersBySubscriberCom extends Smp5Com<Acct, QueryOrdersBySubscr
 			} else {
 				/* PARSE RESULTS */
 				// for queryOrdersBySubscriber
-				res = xmlObject
-						.selectPath("declare namespace sa='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//sa:queryOrdersResponse");
+				res = xmlObject.selectPath("declare namespace sa='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//sa:queryOrdersResponse");
 				logger.debug("Select queryOrdersResponse res length: " + res.length);
 				if (res.length > 0) {
 					QueryOrdersResponseDocument.QueryOrdersResponse entity = (QueryOrdersResponseDocument.QueryOrdersResponse) res[0];
@@ -144,8 +144,7 @@ public class FindOrdersBySubscriberCom extends Smp5Com<Acct, QueryOrdersBySubscr
 			}
 		}
 
-		public List<OrderInfo> parseQueryOrdersBySubscriber(QueryOrdersResponseDocument.QueryOrdersResponse queryOrdersResponse,
-				boolean open) {
+		public List<OrderInfo> parseQueryOrdersBySubscriber(QueryOrdersResponseDocument.QueryOrdersResponse queryOrdersResponse, boolean open) {
 
 			List<OrderInfo> orderInfos = new ArrayList<OrderInfo>();
 			ArrayOfOrderValue arrayOfOrderValue = queryOrdersResponse.getOrderValue();

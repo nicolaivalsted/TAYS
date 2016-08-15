@@ -82,7 +82,6 @@ public class UrlRewriterTest {
         System.out.println("init");
         UrlRewriter instance = new UrlRewriter();
         instance.init(filterConfig);
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**
@@ -94,7 +93,6 @@ public class UrlRewriterTest {
         UrlRewriter instance = new UrlRewriter();
         instance.init(filterConfig);
         instance.destroy();
-        // TODO review the generated test code and remove the default call to fail.
     }
 
     /**

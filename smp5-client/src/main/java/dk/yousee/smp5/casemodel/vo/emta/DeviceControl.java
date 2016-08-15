@@ -17,6 +17,7 @@ public class DeviceControl extends BasicUnit {
 		parent.setDeviceControl(this);
 	}
 
+	public PropHolder equipment_type = new PropHolder(this, "equipment_type", true);
 	public PropHolder cm_mac = new PropHolder(this, "device_id", true);
 	public PropHolder mta_mac = new PropHolder(this, "device_id2", true);
 	public PropHolder serial_number = new PropHolder(this, "serial_number", true);
@@ -28,5 +29,7 @@ public class DeviceControl extends BasicUnit {
 	public PropHolder voip_protocol = new PropHolder(this, "voip_protocol", true);
 	public PropHolder gi_address = new PropHolder(this, "gi_address", true);
 	public PropHolder sik = new PropHolder(this, "sik", true);
+	public PropHolder model = new PropHolder(this, "model", true);
+	public PropHolder manufacturer = new PropHolder(this, "manufacturer", true);
 
 }

@@ -21,7 +21,6 @@ public class VoiceService extends BasicUnit {
 	}
 
 	private DialToneAccess dialToneAccess;
-	private SwitchFeature switchFeature;
 	private VoiceMail voiceMail;
 
 	public DialToneAccess getDialToneAccess() {
@@ -30,14 +29,6 @@ public class VoiceService extends BasicUnit {
 
 	public void setDialToneAccess(DialToneAccess dialToneAccess) {
 		this.dialToneAccess = dialToneAccess;
-	}
-
-	public SwitchFeature getSwitchFeature() {
-		return switchFeature;
-	}
-
-	public void setSwitchFeature(SwitchFeature switchFeature) {
-		this.switchFeature = switchFeature;
 	}
 
 	public VoiceMail getVoiceMail() {

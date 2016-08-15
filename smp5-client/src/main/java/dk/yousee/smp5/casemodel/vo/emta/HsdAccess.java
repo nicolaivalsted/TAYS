@@ -26,36 +26,22 @@ public class HsdAccess extends BasicUnit {
 		cm_service_id.updateValue(externalKey);
 	}
 
-	public PropHolder cm_service_id = new PropHolder(this, "cm_service_id", true);
-	public PropHolder cm_mac = new PropHolder(this, "cm_mac", true);
-	public PropHolder docsis_3_capable = new PropHolder(this, "docsis_3_capable", true);
-	public PropHolder wifi_capable = new PropHolder(this, "wifi_capable");
-	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
-	public PropHolder max_num_cpe = new PropHolder(this, "max_num_cpe");
-	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
+	public PropHolder data_port_id = new PropHolder(this, "data_port_id", true);//cm_mac
 	private PropHolder cm_ownership = new PropHolder(this, "cm_ownership", true);
-	public PropHolder cm_serial_number = new PropHolder(this, "cm_serial_number");
+	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
+	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
+	public PropHolder cm_service_id = new PropHolder(this, "cm_service_id", true);
+	public PropHolder wifi_capable = new PropHolder(this, "wifi_capable");
 	public PropHolder class_of_service = new PropHolder(this, "class_of_service", false);
+	public PropHolder max_num_cpe = new PropHolder(this, "max_num_cpe");
+	public PropHolder docsis_3_capable = new PropHolder(this, "docsis_3_capable", true);
+	public PropHolder network_type = new PropHolder(this, "network_type", true);
 
 	public ModemId getCmOwnership() {
 		return ModemId.create(cm_ownership.getValue());
 	}
 
-	public void setCmOwnership(ModemId cmOwnership) {
-		if (cmOwnership == null)
-			throw new IllegalArgumentException("cm ownsership can never be null in Hsd-access");
-		cm_ownership.setValue(cmOwnership.getId());
-	}
-
 	// Type.ASSOC
 	public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE);
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("{");
-		sb.append(" cm_ownership=").append(getCmOwnership());
-		sb.append('}');
-		return sb.toString();
-	}
 }

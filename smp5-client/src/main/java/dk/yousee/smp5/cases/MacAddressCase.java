@@ -66,24 +66,28 @@ public class MacAddressCase extends AbstractCase {
 	 * @return model instance
 	 * @throws BusinessException
 	 */
-	public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, ModemId modemId)
-			throws BusinessException {
+	public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, ModemId modemId, String mtaMac) throws BusinessException {
 		HsdAccess ha = getModel().alloc().HsdAccess(modemId);
 		if (ha.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 			ha.sendAction(Action.SUSPEND);
 		}
-		ha.cm_mac.setValue(macAddress);
+		ha.data_port_id.setValue(macAddress);
 		if (hsdAccessData != null) {
-			ha.wifi_capable.setValue(hsdAccessData.getWifi_capable());
-			ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable());
-			ha.setCmOwnership(modemId);
-			ha.equipment_type.setValue(hsdAccessData.getEquipment_type());
 			ha.cm_technology.setValue(hsdAccessData.getCm_technology());
-			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe());
-			ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
+			ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
+			ha.wifi_capable.setValue(hsdAccessData.getWifi_capable()); // "N"
+			ha.class_of_service.setValue(hsdAccessData.getClassOfService());
+			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
+			ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
 
 			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+			deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
+			deviceControl.mta_mac.setValue(mtaMac);
+			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
+			deviceControl.sik.setValue(modemId.getId());
+			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+			deviceControl.model.setValue(hsdAccessData.getCm_model());
 		}
 
 		return ha;
@@ -155,10 +159,11 @@ public class MacAddressCase extends AbstractCase {
 	 */
 	public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, ModemId modemId) {
 		VoipAccess voipAccess = getModel().alloc().VoipAccess(modemId);
-		voipAccess.mta_mac.setValue(macAddress);
+		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+		deviceControl.mta_mac.setValue(macAddress);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
-		if (dialToneAccess != null && dialToneAccess.dt_has_access.get() == null) {
-			dialToneAccess.dt_has_access.add(voipAccess);
+		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
+			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
 		return voipAccess;
 	}
@@ -189,38 +194,15 @@ public class MacAddressCase extends AbstractCase {
 	 *            modem used
 	 * @param child_id
 	 *            , externalkey for AddnCpe
-	 * @param cm_mac
-	 *            , cm_mac for AddnCpe
-	 * @return model instance
-	 * @throws dk.yousee.smp.order.model.BusinessException
-	 *             when relation not exists
-	 */
-	public AddnCpe updateCm_macForAddnCpe(ModemId modemId, String child_id, String cm_mac) throws BusinessException {
-		AddnCpe addnCpe = getModel().find().AddnCpe(modemId, child_id);
-		addnCpe.cm_mac.setValue(cm_mac);
-		return addnCpe;
-	}
-
-	/**
-	 * update mac for AddnCpe
-	 *
-	 * @param modemId
-	 *            modem used
-	 * @param child_id
-	 *            , externalkey for AddnCpe
 	 * @param cpe_mac
 	 *            , cpe_mac for AddnCpe
 	 * @return model instance
 	 * @throws dk.yousee.smp.order.model.BusinessException
 	 *             when relation not exists
 	 */
-	public AddnCpe updateCpe_macForAddnCpe(ModemId modemId, String child_id, String cpe_mac) throws BusinessException {
+	public AddnCpe updateCpe_macForAddnCpe(ModemId modemId, String cpe_mac) throws BusinessException {
 		AddnCpe addnCpe = null;
-		if (child_id == null || child_id.length() == 0) {
-			addnCpe = getModel().find().AddnCpe(modemId);
-		} else {
-			addnCpe = getModel().find().AddnCpe(modemId, child_id);
-		}
+		addnCpe = getModel().find().AddnCpe(modemId);
 		if (addnCpe != null) {
 			addnCpe.cpe_mac.setValue(cpe_mac);
 		}
@@ -243,25 +225,7 @@ public class MacAddressCase extends AbstractCase {
 	public AddnCpe addAddnCpe(ModemId modemId, String cpe_mac, String product_code, String cm_mac) {
 		AddnCpe addnCpe = getModel().add().AddnCpe(modemId);
 		addnCpe.cpe_mac.setValue(cpe_mac);
-		addnCpe.cpe_product_code.setValue(product_code);
-		addnCpe.cpe_service_id.setValue(addnCpe.getExternalKey());
 		addnCpe.cm_mac.setValue(cm_mac);
-		return addnCpe;
-	}
-
-	/**
-	 * delete childservice 'AddnCpe'
-	 *
-	 * @param modemId
-	 *            modem used
-	 * @param child_id
-	 *            in
-	 * @return model instance
-	 */
-	public AddnCpe deleteAddnCpe(ModemId modemId, String child_id) {
-		AddnCpe addnCpe = getModel().find().AddnCpe(modemId, child_id);
-		addnCpe.getDefaultOrderData().getParams().clear();
-		addnCpe.delete();
 		return addnCpe;
 	}
 
@@ -299,13 +263,13 @@ public class MacAddressCase extends AbstractCase {
 	public VoipAccess addVoipAccess(ModemId modemId, String mta_id, String mta_mac) {
 		VoipAccess voipAccess = getModel().add().VoipAccess(modemId);
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
-		voipAccess.mta_mac.setValue(mta_mac); // "33885aa32503" ** unique
-		voipAccess.mta_dhcp_rules.setValue("captive");//TODO fix but to remove in prd
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
+		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+		deviceControl.mta_mac.setValue(mta_mac);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
-		if (dialToneAccess != null && dialToneAccess.dt_has_access.get() == null) {
-			dialToneAccess.dt_has_access.add(voipAccess);
+		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
+			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
 		return voipAccess;
 	}
@@ -322,29 +286,37 @@ public class MacAddressCase extends AbstractCase {
 	 */
 	public HsdAccess addHsdAccess(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
 		HsdAccess ha = getModel().add().HsdAccess(modemId);
-		ha.cm_mac.setValue(hsdAccessData.getCm_mac()); // "134345464578" **
-														// unique
-		ha.wifi_capable.setValue(hsdAccessData.getWifi_capable()); // "N"
-		ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
-
-		ha.setCmOwnership(modemId); // "1024102022" ** unique
+		ha.data_port_id.setValue(hsdAccessData.getCm_mac());
+		ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 		ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
-		ha.cm_technology.setValue(hsdAccessData.getCm_technology()); // "DOCSIS
-																		// VERSION
-																		// 1.1"
+		ha.wifi_capable.setValue(hsdAccessData.getWifi_capable()); // "N"
+		ha.class_of_service.setValue(hsdAccessData.getClassOfService());
 		ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
-
-		ha.cm_serial_number.setValue(hsdAccessData.getCm_serial_number());
-
+		ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
 		return ha;
 	}
 
-	public DeviceControl addDeviceControl(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
-		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+	public DeviceControl addDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
+		deviceControl.mta_mac.setValue(mtaMac);
 		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+		deviceControl.model.setValue(hsdAccessData.getCm_model());
+		return deviceControl;
+	}
+
+	public DeviceControl updateDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
+		deviceControl.mta_mac.setValue(mtaMac);
+		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
+		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+		deviceControl.model.setValue(hsdAccessData.getCm_model());
 		return deviceControl;
 	}
 
@@ -360,6 +332,7 @@ public class MacAddressCase extends AbstractCase {
 		private String cm_manufacturer;
 		private String cm_serial_number;
 		private String cm_model;
+		private String classOfService;
 
 		public String getCm_mac() {
 			return cm_mac;
@@ -448,6 +421,15 @@ public class MacAddressCase extends AbstractCase {
 		public void setCm_serial_number(String cm_serial_number) {
 			this.cm_serial_number = cm_serial_number;
 		}
+
+		public String getClassOfService() {
+			return classOfService;
+		}
+
+		public void setClassOfService(String classOfService) {
+			this.classOfService = classOfService;
+		}
+
 	}
 
 	/**
@@ -488,8 +470,7 @@ public class MacAddressCase extends AbstractCase {
 	}
 
 	// 17490
-	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String Psk_5g,
-			String Ss_id_5g) {
+	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String Psk_5g, String Ss_id_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(modemId);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {

@@ -34,6 +34,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder cisco_sm_package_id = new PropHolder(this, "cisco_sm_package_id");
 	public PropHolder downstream = new PropHolder(this, "downstream_speed");
 	public PropHolder upstream = new PropHolder(this, "upstream_speed");
+	public PropHolder allowed_cpe = new PropHolder(this, "allowed_cpe");
 
 	private PropHolder modem_id = new PropHolder(this, "modem_id");
 	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
@@ -46,7 +47,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder isp_name = new PropHolder(this, "isp_name", false);
 
 	// email server unblock
-	public PropHolder email_server_unblock_product_code = new PropHolder(this, "email_server_unblock_product_code", true);
+	public PropHolder email_server_enable = new PropHolder(this, "email_server_enable", true);
 
 	// wifi
 	public PropHolder ss_id = new PropHolder(this, "ss_id", true);

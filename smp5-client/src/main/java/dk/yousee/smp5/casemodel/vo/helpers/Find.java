@@ -36,7 +36,6 @@ import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
-import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
 import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
@@ -457,18 +456,6 @@ public class Find {
 	/**
 	 * @param modemId
 	 *            to the modem
-	 * @return instance list if it exists
-	 */
-	public SwitchFeature SwitchFeature(String sik) {
-		VoiceService parent = VoiceService(sik);
-		if (parent == null)
-			return null;
-		return parent.getSwitchFeature();
-	}
-
-	/**
-	 * @param modemId
-	 *            to the modem
 	 * @return instance if it exists
 	 */
 	public MailBox MailBox(String sik) {
@@ -667,21 +654,6 @@ public class Find {
 		if (parent == null)
 			return null;
 		return parent.getAddnCpe();
-	}
-
-	/**
-	 * @param modemId
-	 *            to the modem
-	 * @param childKey
-	 *            what is this ???
-	 * @return instance list if it exists
-	 * @deprecated - it is next to unusable. Additional CPE's are identificed by
-	 *             different MAC addresses. Therefore the correct behaviour is
-	 *             to collect all AddnCpe's for a modem and for each of these to
-	 *             find the correct MAC address and run from there.
-	 */
-	public AddnCpe AddnCpe(ModemId modemId, String childKey) {
-		return AddnCpeAndChildKey(modemId, childKey);
 	}
 
 	/**

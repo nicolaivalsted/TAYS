@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dk.yousee.tays.bbservice.restbase.asucase;
 
 import java.util.Date;
@@ -25,7 +21,7 @@ public class SimplifiedSubscriberService {
     // wifi
     private String ssid, psk, channel;
     private String ss_id_5g, gw_channel_id_5g, psk_5g;
-            // foreningsmail
+    // foreningsmail
     private String product;
     private String name;
     private String customerId;

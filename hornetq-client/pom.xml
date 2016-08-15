@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>dk.yousee.randy</groupId>
 		<artifactId>clients</artifactId>
-		<version>3.118-SNAPSHOT</version>
+		<version>3.119-SNAPSHOT</version>
 	</parent>
-	<groupId>dk.yousee.randy</groupId>
 	<artifactId>hornetq-client</artifactId>
 	<name>hornetq-client</name>
 	<url>http://maven.apache.org</url>

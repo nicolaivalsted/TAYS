@@ -20,12 +20,9 @@ public class AddnCpe extends BasicUnit {
 	public AddnCpe(SubscriberModel model, String externalKey, MTAService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setAddnCpe(this);
-		cpe_service_id.updateValue(externalKey);
 	}
 
-	public PropHolder cpe_service_id = new PropHolder(this, "cpe_service_id", true);
 	public PropHolder cpe_mac = new PropHolder(this, "cpe_mac", true);
-	public PropHolder cpe_product_code = new PropHolder(this, "cpe_product_code", true);
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac", true);
 	public PropHolder suspend_billing = new PropHolder(this, "suspend_billing");
 	public PropHolder suspend_abuse = new PropHolder(this, "suspend_abuse");

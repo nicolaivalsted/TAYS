@@ -30,11 +30,11 @@ public class CableBBActivationCase extends MacAddressCase {
 		HsdAccess hsdAccess = null;
 		if (getModel().find().HsdAccess(cableBBService.getModemId()) != null) {
 			// cahnge modem
-			if (getModel().find().HsdAccess(cableBBService.getModemId()).cm_mac.getValue() != null) {
-				String oldmac = getModel().find().HsdAccess(cableBBService.getModemId()).cm_mac.getValue();
+			if (getModel().find().HsdAccess(cableBBService.getModemId()).data_port_id.getValue() != null) {
+				String oldmac = getModel().find().HsdAccess(cableBBService.getModemId()).data_port_id.getValue();
 
 				if (!oldmac.equals(hsdAccessData.getCm_mac())) {
-					hsdAccess = assignCMMacAddressForHsdAccess(hsdAccessData.getCm_mac(), hsdAccessData, cableBBService.getModemId());
+					hsdAccess = assignCMMacAddressForHsdAccess(hsdAccessData.getCm_mac(), hsdAccessData, cableBBService.getModemId(),"");
 					hasImpact = true;
 				}
 			}

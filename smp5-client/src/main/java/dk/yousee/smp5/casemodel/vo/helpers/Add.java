@@ -32,7 +32,6 @@ import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
-import dk.yousee.smp5.casemodel.vo.voiceline.SwitchFeature;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 
@@ -217,19 +216,6 @@ public class Add {
 	public DialToneAccess DialToneAccess() {
 		VoiceService parent = model.alloc().VoiceService();
 		DialToneAccess res = new DialToneAccess(model, key.generateUUID(), parent);
-		if (res.getEntity() == null) {
-			res.getDefaultOrderData();
-		}
-		return res;
-	}
-
-	/**
-	 * @param modemId
-	 *            to the modem
-	 * @return new instance
-	 */
-	public SwitchFeature SwitchFeature(VoiceService parent) {
-		SwitchFeature res = new SwitchFeature(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

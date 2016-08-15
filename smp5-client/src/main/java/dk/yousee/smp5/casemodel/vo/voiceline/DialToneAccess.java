@@ -35,7 +35,7 @@ public class DialToneAccess extends BasicUnit {
 	public PropHolder mta_mac = new PropHolder(this, "mta_mac");
 	public PropHolder lnp_porting_status = new PropHolder(this, "lnp_porting_status", true);
 
-	public AssociationHolder dt_has_access = new AssociationHolder(this, "dt_has_access", VoipAccess.TYPE);
+	public AssociationHolder dt_has_equipment = new AssociationHolder(this, "dt_has_equipment", VoipAccess.TYPE);
 
 	@Override
 	public VoiceService getParent() {

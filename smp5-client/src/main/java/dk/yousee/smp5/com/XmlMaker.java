@@ -1,6 +1,3 @@
-/**
- * 
- */
 package dk.yousee.smp5.com;
 
 import java.util.Map;
@@ -18,8 +15,7 @@ import dk.yousee.smp5.order.model.OrderDataType;
  */
 public abstract class XmlMaker {
 
-	public void addParameters(EntityParamListType paramList,
-			Map<String, String> params) {
+	public void addParameters(EntityParamListType paramList, Map<String, String> params) {
 		ParamType paramEnt;
 		for (String key : params.keySet()) {
 			paramEnt = paramList.addNewParam();
@@ -28,8 +24,7 @@ public abstract class XmlMaker {
 		}
 	}
 
-	public SubSvcKeyType initiateSubSvcKeyType(OrderDataType type,
-			String externalKey) {
+	public SubSvcKeyType initiateSubSvcKeyType(OrderDataType type, String externalKey) {
 		SubSvcKeyType keyType = SubSvcKeyType.Factory.newInstance();
 		keyType.setType(type.toString());
 		keyType.setExternalKey(externalKey);
