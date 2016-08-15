@@ -195,13 +195,6 @@ public class CableBBCase extends AbstractCase {
             }
         }
 
-        if (lineItem.getAddnCPEProductCode() == null) {
-            AddnCpe addnCpe = getModel().find().theAddnCpe(modemId);
-            if (addnCpe != null) {
-                addnCpe.delete();
-            }
-        }
-
         return getModel().getOrder();
     }
 
