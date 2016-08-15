@@ -196,10 +196,6 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.allowed_cpe.setValue("2");
 		}
 
-		if (lineItem.getEmailServerUnblockProductCode() == null) {
-			inetAccess.email_server_enable.setValue("false");
-		}
-
 		if (lineItem.getWifiServiceProductCode() == null) {
 			inetAccess.wifi_security_disabled.setValue("true");
 			inetAccess.ss_id.clearValue();
@@ -208,23 +204,6 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.gw_channel_id.clearValue();
 			inetAccess.ss_id_5g.clearValue();
 			inetAccess.gw_channel_id_5g.clearValue();
-		}
-
-		if (lineItem.getStaticIpProductCode() == null) {
-			SMPStaticIP smpStaticIP = getModel().find().SMPStaticIP(modemId);
-			if (smpStaticIP != null) {
-				smpStaticIP.delete();
-			}
-		}
-
-		if (lineItem.getAddnCPEProductCode() == null) {
-			AddnCpe addnCpe = getModel().find().theAddnCpe(modemId);
-			if (addnCpe != null) {
-				addnCpe.delete();
-			}
-			if (!inetAccess.allowed_cpe.getValue().equals("1")) {
-				inetAccess.allowed_cpe.setValue("1");
-			}
 		}
 
 		return getModel().getOrder();

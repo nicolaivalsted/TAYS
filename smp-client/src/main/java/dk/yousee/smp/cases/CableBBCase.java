@@ -195,27 +195,6 @@ public class CableBBCase extends AbstractCase {
             }
         }
 
-        if (lineItem.getEmailServerUnblockProductCode() == null) {
-            SMPEmail smpEmail = getModel().find().SMPEmail(modemId);
-            if (smpEmail != null) {
-                smpEmail.delete();
-            }
-        }
-
-        if (lineItem.getWifiServiceProductCode() == null) {
-            SMPWiFi smpWiFi = getModel().find().SMPWiFi(modemId);
-            if (smpWiFi != null) {
-                smpWiFi.delete();
-            }
-        }
-
-        if (lineItem.getStaticIpProductCode() == null) {
-            SMPStaticIP smpStaticIP = getModel().find().SMPStaticIP(modemId);
-            if (smpStaticIP != null) {
-                smpStaticIP.delete();
-            }
-        }
-
         if (lineItem.getAddnCPEProductCode() == null) {
             AddnCpe addnCpe = getModel().find().theAddnCpe(modemId);
             if (addnCpe != null) {
