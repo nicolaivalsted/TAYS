@@ -146,7 +146,7 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		}
 		if (searchCustomersRequest.getCm_mac() != null) {
 			ParamType param = paramList.addNewParam();
-			param.setName("cm_mac");
+			param.setName("device_id");
 			param.setStringValue(searchCustomersRequest.getCm_mac());
 		}
 		return queryValue;
