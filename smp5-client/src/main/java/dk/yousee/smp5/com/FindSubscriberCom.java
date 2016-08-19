@@ -44,7 +44,12 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 	private QueryManagedEntitiesRequestDocument searchSubscriberMultiple(SearchCustomersRequest searchCustomersRequest) {
 
 		SmpQueryValue queryValue;
-		queryValue = basicSearchQuery(searchCustomersRequest);
+        if (searchCustomersRequest.getVoipPhoneNumber() != null) {
+            queryValue = byServicePhoneQuery(searchCustomersRequest);
+        } else {
+            queryValue = basicSearchQuery(searchCustomersRequest);
+        }
+		
 		QueryManagedEntitiesRequestDocument requestDocument = QueryManagedEntitiesRequestDocument.Factory.newInstance();
 		QueryManagedEntitiesRequestDocument.QueryManagedEntitiesRequest request = requestDocument.addNewQueryManagedEntitiesRequest();
 		request.setQuery(queryValue);
@@ -53,8 +58,6 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		arrayOfString.addItem("acct");
 		arrayOfString.addItem("first_name");
 		arrayOfString.addItem("last_name");
-		arrayOfString.addItem("emails.home.address");
-		arrayOfString.addItem("phones.home.number");
 		arrayOfString.addItem("ams_id");
 		arrayOfString.addItem("district");
 		arrayOfString.addItem("zipcode");
@@ -151,6 +154,19 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		}
 		return queryValue;
 	}
+	
+	private SmpQueryValue byServicePhoneQuery(SearchCustomersRequest searchCustomersRequest) {
+        SmpQueryValue queryValue;
+        queryValue = SmpQueryValue.Factory.newInstance();
+        queryValue.setQueryName("byServicePhone");
+        ParamListType paramList = queryValue.addNewParamList();
+        if (searchCustomersRequest.getVoipPhoneNumber() != null) {
+            ParamType param = paramList.addNewParam();
+            param.setName("telephone_number");
+            param.setStringValue(searchCustomersRequest.getVoipPhoneNumber());
+        }
+        return queryValue;
+    }
 
 	private static final Logger logger = Logger.getLogger(FindSubscriberCom.class);
 
