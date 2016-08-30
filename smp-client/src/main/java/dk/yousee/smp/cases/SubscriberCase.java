@@ -19,9 +19,6 @@ import dk.yousee.smp.order.model.Subscriber;
  */
 public class SubscriberCase extends AbstractCase {
 
-	// private static final Logger logger =
-	// Logger.getLogger(SubscriberCase.class);
-
 	/**
 	 * @param service
 	 *            the service where data should be read / written

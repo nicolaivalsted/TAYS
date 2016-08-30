@@ -60,34 +60,9 @@ public class SearchCustomersResponse  {
         return new SmpXml(xmlRequest,xmlResponse);
     }
 
-//    @Deprecated
-//    public String getXmlRequest() {
-//        return xmlRequest;
-//    }
-
-//    @Deprecated
-//    public void setXmlRequest(String xmlRequest) {
-//        this.xmlRequest = xmlRequest;
-//    }
-
-//    @Deprecated
-//    public String getXmlResponse() {
-//        return xmlResponse;
-//    }
-
-//    @Deprecated
-//    public void setXmlResponse(String xmlResponse) {
-//        this.xmlResponse = xmlResponse;
-//    }
-
     public String getErrorMessage() {
         return errorMessage;
     }
-
-//    @Deprecated
-//    public void setErrorMessage(String errorMessage) {
-//        this.errorMessage = errorMessage;
-//    }
 
     @Override
     public String toString() {

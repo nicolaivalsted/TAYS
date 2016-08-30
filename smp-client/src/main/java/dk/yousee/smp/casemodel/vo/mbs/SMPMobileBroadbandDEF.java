@@ -74,7 +74,6 @@ public class SMPMobileBroadbandDEF extends BasicUnit {
         res = current != null && current.startsWith(MOBB_SUBSCRIBER_PREFIX);
         return res;
     }
-//    public PropHolder TDC_Subscriber_ID = new PropHolder(this, "TDC_Subscriber_ID", true);     // todo: check the name
     /**
      * Field is used to force Sigma to update underlying systems. <p> The
      * reasoning for this is that Sigma does not perform an order that - in its

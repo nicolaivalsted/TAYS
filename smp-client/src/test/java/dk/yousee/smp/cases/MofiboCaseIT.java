@@ -6,7 +6,6 @@ import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
-import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
 import dk.yousee.smp.functions.OrderServiceImpl;
@@ -26,7 +25,6 @@ public class MofiboCaseIT {
     private static final Logger logger = Logger.getLogger(MofiboCaseIT.class);
 
     private MofiboCase test;
-    private SubscriberModel model;
     private Acct acct;
     private OrderService orderService = null;
 

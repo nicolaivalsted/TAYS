@@ -9,7 +9,8 @@ package dk.yousee.smp.order.model;
  */
 public class BusinessException extends Exception {
 
-    public BusinessException(String message, Object ... args) {
+	private static final long serialVersionUID = 6795869993018836479L;
+	public BusinessException(String message, Object ... args) {
         super(String.format(message,args));
     }
     public BusinessException(String message) {

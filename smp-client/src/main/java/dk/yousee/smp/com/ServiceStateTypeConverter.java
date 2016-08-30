@@ -109,41 +109,6 @@ public class ServiceStateTypeConverter {
         throw new IllegalArgumentException("Unknown action: " + action);
     }
 
-//    public String toStateString(SubSvcStateType state) {
-//
-//        ProvisionStateEnum pse = ProvisionStateEnum.find(state.getProvisionState());
-//        Action res = null;
-//        if (pse == ProvisionStateEnum.ACTIVE && state.getStringValue().equals(SubSvcStateType.ACTIVE.toString())) {
-//            res = Action.ACTIVATE;
-//        } else if (pse == ProvisionStateEnum.INACTIVE && state.getStringValue().equals(SubSvcStateType.INACTIVE.toString())) {
-//            res = Action.INACTIVE;
-//        } else if (pse == ProvisionStateEnum.DELETED && state.getStringValue().equals(SubSvcStateType.INACTIVE.toString())) {
-//            res = Action.DEACTIVATE;
-//        } else if (pse == ProvisionStateEnum.MSO_BLOCK && state.getStringValue().equals(SubSvcStateType.ACTIVE.toString())) {
-//            res = Action.BLOCK;
-//        } else if (pse == ProvisionStateEnum.MSO_BLOCK && state.getStringValue().equals(SubSvcStateType.INACTIVE.toString())) {
-//            res = Action.BLOCK;
-//        } else if (pse == ProvisionStateEnum.COURTESY_BLOCK && state.getStringValue().equals(SubSvcStateType.ACTIVE.toString())) {
-//            res = Action.SUSPEND;
-//        } else if (pse == ProvisionStateEnum.COURTESY_BLOCK && state.getStringValue().equals(SubSvcStateType.INACTIVE.toString())) {
-//            res = Action.SUSPEND;
-//        } else if (pse == ProvisionStateEnum.CHANGE_IN_PROGRESS
-//            || pse == ProvisionStateEnum.ADD_IN_PROGRESS
-//            || pse == ProvisionStateEnum.DELETE_IN_PROGRESS) {
-//            res = Action.CHANGE_IN_PROGRESS;
-//        }
-//        if (res == null) throw new IllegalArgumentException("Unknown state: " + state.toString());
-//        return res.getClientAction();
-//    }
-
-//    public ProvisionStateEnum fromOrderState(String state){
-//        if ("closed.completed.all".equals(state)) return ProvisionStateEnum.CLOSED_COMPLETED_ALL; // Constants.STATUS_CODE_CLOSED_COMPLETED_ALL;
-//        if ("open.not_running.pre_queued.scheduled".equals(state)) return ProvisionStateEnum.STATUS_CODE_FUTURE_ACTION;
-//        if ("open.not_running.not_started".equals(state)) return ProvisionStateEnum.STATUS_CODE_OPEN_NOT_RUNNING;
-//        //if ("".equals(state)) return Constants.STATUS_CODE_
-//        throw new IllegalArgumentException("Unknown order state, when converting SMP order state: " + state);
-//    }
-    
     public ProvisionStateEnum find(SubSvcStateType state) {
         return find(state.getProvisionState());
 

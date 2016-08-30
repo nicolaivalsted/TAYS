@@ -33,10 +33,6 @@ public enum OrderDataLevel {
      * Association between service plans
      */
     SUBSPEC,
-//    /**
-//     * @deprecated Should not be used any longer, use the association collection instead of
-//     */
-//    ASSOC,
     DEVICE,
     QUERY
 }

@@ -81,18 +81,10 @@ public final class Response implements Serializable {
         return xmlResponse;
     }
 
-//    public void setXmlResponse(String xmlResponse) {
-//        this.xmlResponse = xmlResponse;
-//    }
-
     /**
      * Assume we got error, then the message is here
      */
 	private String errorMessage;
-
-//	public void setErrorMessage(String errorMessage) {
-//		this.errorMessage = errorMessage;
-//	}
 
     /**
      * @return error from sigma that was produced under the process of making the response

@@ -1,6 +1,13 @@
 package dk.yousee.smp.smpclient;
 
-import dk.yousee.randy.base.AbstractClient;
+import java.io.IOException;
+import java.io.InputStream;
+import java.rmi.RemoteException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -17,12 +24,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.rmi.RemoteException;
+import dk.yousee.randy.base.AbstractClient;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,16 +37,10 @@ class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements Smp
 
     private static Logger logger = Logger.getLogger(HttpSoapClientImpl.class);
 
-//    private SmpConnectorImpl connector;
-
     public HttpSoapClientImpl(SmpConnectorImpl connector) {
         setConnector(connector);
-//        this.connector = connector;
     }
 
-//    private SmpConnectorImpl getConnector() {
-//        return connector;
-//    }
 
 
 // below is demo from Apache HTTP client
@@ -114,7 +110,6 @@ class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements Smp
         HttpPost post;
         post = new HttpPost(getConnector().getUrl());
         post.setHeader("accept", "application/soap+xml, application/dime, multipart/related, text/*");
-//        post.setHeader("Content-Type","text/xml; charset=utf-8"); //??? remove ..
         post.setHeader("Cache-Control", "no-cache");
         post.setHeader("Pragma", "no-cache");
         post.setHeader("SOAPAction", "");
@@ -129,7 +124,6 @@ class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements Smp
                 "</ns1:executeXml>" +
                 "</soapenv:Body>" +
                 "</soapenv:Envelope>", escapedXml);
-//        System.out.println("Sending soap xml: " + body);
         try {
             post.setEntity(new StringEntity(body, "text/xml", "UTF-8"));
         } catch (Throwable e) {
@@ -191,13 +185,6 @@ class HttpSoapClientImpl extends AbstractClient<SmpConnectorImpl> implements Smp
         }
     }
 
-//    private void close(InputStream is) {
-//        if (is != null) try {
-//            is.close();
-//        } catch (IOException e) {
-//            logger.warn("unexptected could not close input stream", e);
-//        }
-//    }
 
 // Response looks like this ....
 //<?xml version="1.0" encoding="utf-8" standalone="yes"?>

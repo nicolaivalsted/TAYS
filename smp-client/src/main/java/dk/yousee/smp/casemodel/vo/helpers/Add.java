@@ -29,7 +29,6 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandAttributes;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
-import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
@@ -83,13 +82,6 @@ public class Add {
 
 /** CableBBServices add ***************************************************************************************************/
 
-//    /**
-//     * @param modemId to modem
-//     * @return new instance
-//     */
-//    public CableBBService CableBBService(ModemId modemId) {
-//        return CableBBService(key.CableBBService(modemId));
-//    }
 
     /**
      * @param modemId the key composed from modem id
@@ -129,19 +121,6 @@ public class Add {
         }
         return res;
     }
-
-//    /**
-//     * @param parentKey to the CableBBService
-//     * @return new instance
-//     */
-//    protected InetAccess InetAccess(String parentKey) {
-//        CableBBService parent = model.alloc().CableBBService(parentKey);
-//        InetAccess res = new InetAccess(model, key.generateUUID(), parent);
-//        if (res.getEntity() == null) {
-//            res.getDefaultOrderData();
-//        }
-//        return res;
-//    }
 
     /**
      * @param modemId to the modem
@@ -224,14 +203,6 @@ public class Add {
         return res;
     }
 
-//    /**
-//     * @param externalKey the key
-//     * @return new instance
-//     */
-//    protected CpeComposedService CpeComposedService(String externalKey) {
-//    }
-
-
     /**
      * @param modemId to modem
      * @return new instance
@@ -244,19 +215,6 @@ public class Add {
         }
         return res;
     }
-
-//    /**
-//     * @param parentKey to the CpeComposedService
-//     * @return new instance
-//     */
-//    protected HsdAccess HsdAccess(String parentKey) {
-//        CpeComposedService parent = model.alloc().CpeComposedService(parentKey);
-//        HsdAccess res = new HsdAccess(model, key.generateUUID(), parent);
-//        if (res.getEntity() == null) {
-//            res.getDefaultOrderData();
-//        }
-//        return res;
-//    }
 
     /**
      * @param modemId to the modem
@@ -298,19 +256,6 @@ public class Add {
         }
         return res;
     }
-
-//    /**
-//     * @param parentKey to the CableVoiceService
-//     * @return new instance
-//     */
-//    protected DialToneAccess DialToneAccess(String parentKey) {
-//        CableVoiceService parent = model.alloc().CableVoiceService(parentKey);
-//        DialToneAccess res = new DialToneAccess(model, key.generateUUID(), parent);
-//        if (res.getEntity() == null) {
-//            res.getDefaultOrderData();
-//        }
-//        return res;
-//    }
 
     /**
      * @param modemId to the modem
@@ -387,19 +332,6 @@ public class Add {
         return res;
     }
 
-//    /**
-//     * @param parentKey to the MobileBBService
-//     * @return new instance
-//     */
-//    protected SMPMobileBroadbandDEF SMPMobileBroadbandDEF(String parentKey) {
-//        MobileBBService parent = model.alloc().MobileBBService(parentKey);
-//        SMPMobileBroadbandDEF res = new SMPMobileBroadbandDEF(model, key.generateUUID(), parent);
-//        if (res.getEntity() == null) {
-//            res.getDefaultOrderData();
-//        }
-//        return res;
-//    }
-
     /**
      * @param modemId to the modem
      * @return new instance
@@ -415,10 +347,6 @@ public class Add {
      */
     public Mail ForeningsMail(BusinessPosition position) {
         return new Mail(model,position);
-    }
-
-    public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
-        return new Sikkerhedspakke(model,position);
     }
 
     public TdcMail tdcMail(BusinessPosition businessPosition) {

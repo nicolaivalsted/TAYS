@@ -3,7 +3,6 @@ package dk.yousee.smp.casemodel.vo.cvp;
 import dk.yousee.smp.casemodel.SubscriberModel;
 import dk.yousee.smp.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp.casemodel.vo.helpers.PropHolder;
-import dk.yousee.smp.order.model.Constants;
 import dk.yousee.smp.order.model.OrderDataLevel;
 import dk.yousee.smp.order.model.OrderDataType;
 import dk.yousee.smp.order.model.ServicePrefix;
@@ -27,6 +26,4 @@ public class SwitchFeature extends BasicUnit {
 
     //Type.FEATURE
     public PropHolder switch_feature_service_id = new PropHolder(this, "switch_feature_service_id", true);
-    //Type.ASSOC
-//    public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE );
 }

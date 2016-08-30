@@ -60,11 +60,6 @@ public class HsdAccess extends BasicUnit {
     public PropHolder cm_manufacturer = new PropHolder(this, "cm_manufacturer");
     public PropHolder cm_serial_number = new PropHolder(this, "cm_serial_number");
     public PropHolder cm_model = new PropHolder(this, "cm_model");
-//    public PropHolder property_value = new PropHolder(this, "property_value", true);
-//    public PropHolder all_ip_mapping = new PropHolder(this, "all_ip_mapping", true);
-//    public PropHolder dflt_cm_dhcp_rules = new PropHolder(this, "dflt_cm_dhcp_rules");
-//    public PropHolder dflt_cpe_dhcp_rules = new PropHolder(this, "dflt_cpe_dhcp_rules");
-//    public PropHolder dflt_quality_of_svc = new PropHolder(this, "dflt_quality_of_svc");
     public PropHolder class_of_service = new PropHolder(this, "class_of_service",false);
 
 

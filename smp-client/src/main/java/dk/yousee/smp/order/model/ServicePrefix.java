@@ -12,10 +12,7 @@ public enum ServicePrefix {
     SubSvcSpec("SubSvcSpec"),
     SubContactSpec("SubContactSpec"),
     SubAddressSpec("SubAddressSpec"),
-    smp("smp")
-    ;
-
-
+    smp("smp");
 
     private String value;
 

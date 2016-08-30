@@ -172,6 +172,5 @@ public class InetAccess extends BasicUnit {
 
     //Type.ASSOC
     public AssociationHolder internet_access_has_emta_cm = new AssociationHolder(this, "internet_access_has_emta_cm", HsdAccess.TYPE);
-    //public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE );
 
 }

@@ -21,7 +21,6 @@ import dk.yousee.smp.casemodel.vo.mbs.MobileBBService;
 import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
-import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailResource;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
@@ -39,30 +38,6 @@ public class Alloc {
 		add = model.add();
 	}
 
-	// /**
-	// * @return instance either an existing plan or a new plan ready for fill
-	// in data
-	// */
-	// public SubContactSpec SubContactSpec() {
-	// SubContactSpec res = find.SubContactSpec();
-	// if (res == null) {
-	// res = add.SubContactSpec();
-	// }
-	// return res;
-	// }
-	//
-	// /**
-	// * @return instance either an existing plan or a new plan ready for fill
-	// in data
-	// */
-	// public SubAddressSpec SubAddressSpec() {
-	// SubAddressSpec res = find.SubAddressSpec();
-	// if (res == null) {
-	// res = add.SubAddressSpec();
-	// }
-	// return res;
-	// }
-
 	/** CableBBService Alloc ***************************************************************************************************/
 
 	/**
@@ -78,21 +53,7 @@ public class Alloc {
 		}
 		return res;
 
-		// return CableBBService(key.CableBBService(modemId));
 	}
-
-	// /**
-	// * @param externalKey the key composed from modem id
-	// * @return instance either an existing plan or a new plan ready for fill
-	// in data
-	// */
-	// public CableBBService CableBBService(String externalKey) {
-	// CableBBService res = find.CableBBService(externalKey);
-	// if (res == null) {
-	// res = add.CableBBService(externalKey);
-	// }
-	// return res;
-	// }
 
 	/**
 	 * @param modemId
@@ -121,20 +82,6 @@ public class Alloc {
 		}
 		return res;
 	}
-
-	// /**
-	// * @param modemId to modem
-	// * @param childKey ??? what is that ???
-	// * @return instance either an existing child-service or a new
-	// child-service ready for fill in data
-	// */
-	// public AddnCpe AddnCpe(ModemId modemId, String childKey) {
-	// AddnCpe res = find.AddnCpe(modemId, childKey);
-	// if (res == null) {
-	// return add.AddnCpe(modemId);
-	// }
-	// return res;
-	// }
 
 	/**
 	 * @param modemId
@@ -306,22 +253,6 @@ public class Alloc {
 		return res;
 	}
 
-	// /**
-	// * @param modemId to modem
-	// * @param childKey ?? what is that ??
-	// * @return instance either an existing child-service or a new
-	// child-service ready for fill in data
-	// */
-	// public SMPMobileBroadbandAttributes SMPMobileBroadbandAttributes(ModemId
-	// modemId, String childKey) {
-	// SMPMobileBroadbandAttributes res =
-	// find.SMPMobileBroadbandAttributesAndChildKey(modemId, childKey);
-	// if (res == null) {
-	// res = add.SMPMobileBroadbandAttributes(modemId);
-	// }
-	// return res;
-	// }
-
 	/**
 	 * @param modemId
 	 *            to modem
@@ -361,18 +292,6 @@ public class Alloc {
 	public Mail ForeningsMail(BusinessPosition position) {
 		Mail sub = find.ForeningsMail(position);
 		return sub == null ? add.ForeningsMail(position) : sub;
-	}
-
-	/** ForeningsMailService Alloc ***************************************************************************************************/
-
-	/**
-	 * @param position
-	 *            to service
-	 * @return new instance
-	 */
-	public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
-		Sikkerhedspakke sub = find.Sikkerhedspakke(position);
-		return sub == null ? add.Sikkerhedspakke(position) : sub;
 	}
 
 	public TdcMail tdcMail(BusinessPosition businessPosition) {

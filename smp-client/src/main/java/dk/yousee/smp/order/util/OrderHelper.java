@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderHelper {
-//    private static final Logger logger = Logger.getLogger(OrderHelper.class);
 
     public static OrderData createChildService(Action action, String externalKey, OrderDataType value) {
         return new OrderData(OrderDataLevel.CHILD_SERVICE, action, externalKey, value);

@@ -84,5 +84,4 @@ public class DialToneAccess extends BasicUnit {
     
     //Type.ASSOC
     public AssociationHolder dt_has_access = new AssociationHolder(this, "dt_has_access", VoipAccess.TYPE );
-//    public AssociationHolder service_on_address = new AssociationHolder(this, "service_on_address", SubAddressSpec.TYPE );
 }

@@ -35,8 +35,6 @@ import dk.yousee.smp.casemodel.vo.mbs.SMPMobileBroadbandDEF;
 import dk.yousee.smp.casemodel.vo.mbs.SMPSIMCard;
 import dk.yousee.smp.casemodel.vo.mofibo.Mofibo;
 import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
-import dk.yousee.smp.casemodel.vo.sikpakke.Sikkerhedspakke;
-import dk.yousee.smp.casemodel.vo.sikpakke.SikkerhedspakkeService;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp.casemodel.vo.tdcmail.TdcMailService;
 import dk.yousee.smp.order.model.OrderDataType;
@@ -530,39 +528,6 @@ public class Find {
 		return parent.getSmpMobileBroadbandAttributes();
 	}
 
-	// /**
-	// * @param modemId to the modem
-	// * @param childKey what is this ???
-	// * @return instance if it exists
-	// */
-	// public SMPMobileBroadbandAttributes
-	// SMPMobileBroadbandAttributesAndChildKey(ModemId modemId, String childKey)
-	// {
-	// return
-	// SMPMobileBroadbandAttributesAndChildKey(key.MobileBBService(modemId) ,
-	// childKey);
-	// }
-
-	// /**
-	// * @param parentKey to the MobileBBService
-	// * @param childKey what is this ???
-	// * @return instance if it exists
-	// */
-	// public SMPMobileBroadbandAttributes
-	// SMPMobileBroadbandAttributesAndChildKey(String parentKey, String
-	// childKey) {
-	// MobileBBService parent = MobileBBService(parentKey);
-	// if (parent == null) return null;
-	// for (SMPMobileBroadbandAttributes smpMobileBroadbandAttributes :
-	// parent.getSmpMobileBroadbandAttributes()) {
-	// if
-	// (smpMobileBroadbandAttributes.getExternalKey().equalsIgnoreCase(childKey))
-	// {
-	// return smpMobileBroadbandAttributes;
-	// }
-	// }
-	// return null;
-	// }
 
 	/**
 	 * @param modemId
@@ -589,22 +554,6 @@ public class Find {
 		}
 		return res;
 	}
-
-	// /**
-	// * find service level unit
-	// * @param externalKey key to unit (it is a global unique key)
-	// * @return the first unit matching this key. Might be null. Cardinality
-	// 0:1
-	// */
-	//
-	// public BasicUnit findServiceLevelUnitByExternalID(String externalKey) {
-	// for (BasicUnit unit : model.getServiceLevelUnit()) {
-	// if (unit.getExternalKey().equalsIgnoreCase(externalKey)) {
-	// return unit;
-	// }
-	// }
-	// return null;
-	// }
 
 	// ======= forenings mail =======
 
@@ -644,87 +593,6 @@ public class Find {
 	public Mail ForeningsMail(BusinessPosition position) {
 		ForeningsMailService parent = ForeningsMailService(position);
 		return parent == null ? null : parent.getMail();
-	}
-
-	// ======= Sikkerhedspakke =======
-
-	/**
-	 * @return the MobileBBService the subscriber has
-	 */
-	public List<SikkerhedspakkeService> SikkerhedspakkeService() {
-		List<SikkerhedspakkeService> res = new ArrayList<SikkerhedspakkeService>();
-		for (BasicUnit plan : serviceLevelUnit) {
-			if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
-				res.add((SikkerhedspakkeService) plan);
-			}
-		}
-		return res;
-	}
-
-	/**
-	 * @param position
-	 *            identifier for specific instance of the service plan
-	 * @return instance if it exists
-	 */
-	public SikkerhedspakkeService SikkerhedspakkeService(BusinessPosition position) {
-		if (position == null) {
-			return null;
-		}
-		List<SikkerhedspakkeService> plans = SikkerhedspakkeService();
-		for (SikkerhedspakkeService plan : plans) {
-			if (position.equals(plan.getPosition())) {
-				return plan;
-			}
-		}
-		return null;
-	}
-
-	/**
-	 *
-	 * @param position
-	 *            to service
-	 * @return new instance
-	 */
-	public Sikkerhedspakke Sikkerhedspakke(BusinessPosition position) {
-		SikkerhedspakkeService parent = SikkerhedspakkeService(position);
-		return parent == null ? null : parent.getSikkerhedspakke();
-	}
-
-	/**
-	 * @param modemId
-	 *            identifier for specific instance of the service plan
-	 * @return list of found services
-	 */
-	public List<SikkerhedspakkeService> SikkerhedspakkeService(ModemId modemId) {
-		List<SikkerhedspakkeService> services = new ArrayList<SikkerhedspakkeService>();
-
-		if (modemId == null) {
-			return services;
-		}
-
-		List<SikkerhedspakkeService> plans = SikkerhedspakkeService();
-		for (SikkerhedspakkeService plan : plans) {
-			if (modemId.equals(plan.getModemId())) {
-				services.add(plan);
-			}
-		}
-
-		return services;
-	}
-
-	/**
-	 *
-	 * @param modemId
-	 *            to service
-	 * @return list of found items
-	 */
-	public List<Sikkerhedspakke> Sikkerhedspakke(ModemId modemId) {
-		List<Sikkerhedspakke> sikkerhedspakker = new ArrayList<Sikkerhedspakke>();
-		List<SikkerhedspakkeService> parent = SikkerhedspakkeService(modemId);
-		for (SikkerhedspakkeService service : parent) {
-			sikkerhedspakker.add(service.getSikkerhedspakke());
-		}
-		return sikkerhedspakker;
 	}
 
 	// ======= TdcMail =======

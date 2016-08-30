@@ -51,9 +51,6 @@ import java.util.List;
  * <p>
  */
 public class SubscriberModel implements Serializable {
-
-	// private static final Logger logger =
-	// Logger.getLogger(SubscriberModel.class);
 	private Subscriber subscriber;
 
 	private Response response = null;

@@ -24,7 +24,6 @@ public class Mail extends BasicUnit {
     public Mail(SubscriberModel model, String externalKey, ForeningsMailService parent) {
         super(model, externalKey, TYPE, LEVEL,null, parent);
         parent.setMail(this);
-//        broadband_service_id.updateValue(externalKey);
     }
 
     public Mail(SubscriberModel model, BusinessPosition position) {

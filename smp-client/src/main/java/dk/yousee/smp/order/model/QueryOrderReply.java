@@ -28,7 +28,6 @@ public class QueryOrderReply implements Serializable {
      * @deprecated smp does not make sense here
      */
     public QueryOrderReply(ResponseEntity smp, OrderStateEnum orderState, SmpXml xml) {
-//        this.smp = smp;
         this.orderState = orderState;
         setXml(xml);
     }
@@ -53,12 +52,6 @@ public class QueryOrderReply implements Serializable {
         this.errorMessage = errorMessage;
         setXml(xml);
     }
-
-//    private ResponseEntity smp;
-//
-//    public ResponseEntity getSmp() {
-//        return smp;
-//    }
 
     private OrderStateEnum orderState;
 

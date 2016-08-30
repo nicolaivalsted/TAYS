@@ -172,54 +172,8 @@ public class AddSubscriberCom extends SmpCom<Order, ExecuteOrderReply> {
 		}
 	}
 
-	// public OrderReply execute(Order order, Integer orderId) {
-	// OrderData addressData = null;
-	// OrderData contactData = null;
-	// for (OrderData o : order.getOrderData()) {
-	// if (o.getLevel() == OrderDataLevel.ADDRESS) {
-	// addressData = o;
-	// }
-	// if (o.getLevel() == OrderDataLevel.CONTACT) {
-	// contactData = o;
-	// }
-	// }
-	//
-	//
-	// String xmlRequest = createXmlOrder(order, orderId);
-	//
-	//
-	// OrderReply reply = new OrderReply();
-	// reply.setXmlRequest(xmlRequest);
-	//
-	// OrderResult result = new OrderResult();
-	// result.addOrderData(addressData);
-	// result.addOrderData(contactData);
-	// List<OrderResult> resList = new ArrayList<OrderResult>();
-	// resList.add(result);
-	// reply.setResult(resList);
-	//
-	// XmlObject xmlObject = executeAndParse(xmlRequest);
-	// reply.setXmlResponse(xmlObject.toString());
-	// OrderReply pasrsedReply = parseResult(xmlRequest, xmlObject.toString());
-	// reply.setErrorMessage(pasrsedReply.getErrorMessage());
-	// reply.setOrderId(pasrsedReply.getOrderId());
-	// logger.info("Reply: " + reply);
-	// return reply;
-	// }
-
 	@Override
 	protected ExecuteOrderReply convertResponse(SmpXml xml, Order order) {
-
-		// OrderData addressData = null;
-		// OrderData contactData = null;
-		// for (OrderData o : order.getOrderData()) {
-		// if (o.getLevel() == OrderDataLevel.ADDRESS) {
-		// addressData = o;
-		// }
-		// if (o.getLevel() == OrderDataLevel.CONTACT) {
-		// contactData = o;
-		// }
-		// }
 		ExecuteOrderReply reply;
 		reply = new Parser().convertResponse(xml);
 		return reply;
@@ -234,20 +188,10 @@ public class AddSubscriberCom extends SmpCom<Order, ExecuteOrderReply> {
 
 		@Override
 		public ExecuteOrderReply convertResponse(SmpXml xml) {
-
-			// OrderResult result = new OrderResult();
-			// result.addOrderData(addressData);
-			// result.addOrderData(contactData);
-			// List<OrderResult> resList = new ArrayList<OrderResult>();
-			// resList.add(result);
-			// reply.setResult(resList);
-
-			// XmlObject xmlObject = getCon().parseResponse(response);
-
 			String response = xml.getResponse();
 			XmlObject xmlObject = parseResponse(response);
-			XmlObject[] res = xmlObject
-					.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderException");
+			XmlObject[] res = xmlObject.selectPath(
+					"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderException");
 
 			if (res.length > 0) {
 				// This is an error
@@ -268,8 +212,8 @@ public class AddSubscriberCom extends SmpCom<Order, ExecuteOrderReply> {
 				return reply;
 
 			} else {
-				res = xmlObject
-						.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderResponse");
+				res = xmlObject.selectPath(
+						"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderResponse");
 				if (res.length > 0) {
 					// Everything aparantly went fine
 					logger.debug("Got ExecuteOrderResponse back!");
@@ -304,7 +248,6 @@ public class AddSubscriberCom extends SmpCom<Order, ExecuteOrderReply> {
 				NodeList nodeList2 = document.getElementsByTagName("smp:errorMessage");
 				for (int s = 0; s < nodeList2.getLength(); s++) {
 					Node node = nodeList2.item(s);
-					// String name = node.getNodeName();
 					String value = node.getFirstChild().getNodeValue();
 					messagelist.add(value);
 				}

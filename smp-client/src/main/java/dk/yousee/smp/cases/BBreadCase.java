@@ -71,7 +71,6 @@ public class BBreadCase extends AbstractCase{
                 }
             }           
         }else{
-            //accessnet externalkey
             return null;
         } 
         
