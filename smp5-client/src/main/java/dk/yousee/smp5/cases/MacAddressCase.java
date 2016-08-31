@@ -159,8 +159,8 @@ public class MacAddressCase extends AbstractCase {
 	 */
 	public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, ModemId modemId) {
 		VoipAccess voipAccess = getModel().alloc().VoipAccess(modemId);
-		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
-		deviceControl.mta_mac.setValue(macAddress);
+//		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+//		deviceControl.mta_mac.setValue(macAddress);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
@@ -180,7 +180,13 @@ public class MacAddressCase extends AbstractCase {
 	 *             when some problem with link.
 	 */
 	public InetAccess addAssocInternet_access_has_emta_cmForInetAccess(HsdAccess hsdAccess, ModemId modemId) throws BusinessException {
-		InetAccess inetAccess = getModel().alloc().InetAccess(modemId);
+		InetAccess inetAccess = getModel().find().InetAccess(modemId);
+		if (inetAccess == null) {
+			inetAccess = getModel().add().InetAccess(modemId);
+			inetAccess.allowed_cpe.setValue("2");
+			inetAccess.wifi_security_disabled.setValue("true");
+		}
+
 		if (inetAccess.internet_access_has_emta_cm.get() == null) {
 			inetAccess.internet_access_has_emta_cm.add(hsdAccess);
 		}
@@ -265,8 +271,8 @@ public class MacAddressCase extends AbstractCase {
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
-		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
-		deviceControl.mta_mac.setValue(mta_mac);
+//		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+//		deviceControl.mta_mac.setValue(mta_mac);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
@@ -293,6 +299,7 @@ public class MacAddressCase extends AbstractCase {
 		ha.class_of_service.setValue(hsdAccessData.getClassOfService());
 		ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 		ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
+		ha.setCmOwnership(modemId);
 		return ha;
 	}
 

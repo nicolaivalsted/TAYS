@@ -26,7 +26,7 @@ public class HsdAccess extends BasicUnit {
 		cm_service_id.updateValue(externalKey);
 	}
 
-	public PropHolder data_port_id = new PropHolder(this, "data_port_id", true);//cm_mac
+	public PropHolder data_port_id = new PropHolder(this, "data_port_id", true);// cm_mac
 	private PropHolder cm_ownership = new PropHolder(this, "cm_ownership", true);
 	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
 	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
@@ -39,6 +39,12 @@ public class HsdAccess extends BasicUnit {
 
 	public ModemId getCmOwnership() {
 		return ModemId.create(cm_ownership.getValue());
+	}
+
+	public void setCmOwnership(ModemId cmOwnership) {
+		if (cmOwnership == null)
+			throw new IllegalArgumentException("cm ownsership can never be null in Hsd-access");
+		cm_ownership.setValue(cmOwnership.getId());
 	}
 
 	// Type.ASSOC
