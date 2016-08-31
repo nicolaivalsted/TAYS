@@ -550,7 +550,7 @@ public class Find {
 	 *            to the CableBBService
 	 * @return instance if it exists
 	 */
-	protected InetAccess InetAccess(String parentKey) {
+	public InetAccess InetAccess(String parentKey) {
 		CableBBService parent = CableBBService(parentKey);
 		if (parent == null)
 			return null;

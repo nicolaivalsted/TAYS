@@ -175,18 +175,13 @@ public class MacAddressCase extends AbstractCase {
 	 *            service
 	 * @param modemId
 	 *            modem used
+	 * @param cmDetails 
 	 * @return model instance
 	 * @throws dk.yousee.smp.order.model.BusinessException
 	 *             when some problem with link.
 	 */
 	public InetAccess addAssocInternet_access_has_emta_cmForInetAccess(HsdAccess hsdAccess, ModemId modemId) throws BusinessException {
 		InetAccess inetAccess = getModel().find().InetAccess(modemId);
-		if (inetAccess == null) {
-			inetAccess = getModel().add().InetAccess(modemId);
-			inetAccess.allowed_cpe.setValue("2");
-			inetAccess.wifi_security_disabled.setValue("true");
-		}
-
 		if (inetAccess.internet_access_has_emta_cm.get() == null) {
 			inetAccess.internet_access_has_emta_cm.add(hsdAccess);
 		}
