@@ -156,7 +156,7 @@ public class VoiceCase extends AbstractCase {
 
 		// create ASSOC if mta exist
 		if (modemId != null) {
-			VoipAccess voipAccess = getModel().find().VoipAccess(modemId);
+			VoipAccess voipAccess = getModel().find().VoipAccess(voiceData.getSik());
 			if (voipAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 				dialToneAccess.dt_has_equipment.add(voipAccess);
 			}

@@ -1,7 +1,6 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
 import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
@@ -130,7 +129,7 @@ public class Alloc {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing plan or a new plan ready for fill in
 	 *         data
@@ -140,7 +139,7 @@ public class Alloc {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing plan or a new plan ready for fill in
 	 *         data
@@ -155,7 +154,7 @@ public class Alloc {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
@@ -169,7 +168,7 @@ public class Alloc {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
@@ -191,44 +190,44 @@ public class Alloc {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing plan or a new plan ready for fill in
 	 *         data
 	 */
-	public CableBBService CableBBService(ModemId modemId) {
-		CableBBService res = find.CableBBService(modemId);
+	public CableBBService CableBBService(String sik) {
+		CableBBService res = find.CableBBService(sik);
 		if (res == null) {
-			res = add.CableBBService(modemId);
+			res = add.CableBBService(sik);
 		}
 		return res;
 
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public InetAccess InetAccess(ModemId modemId) {
-		InetAccess res = find.InetAccess(modemId);
+	public InetAccess InetAccess(String sik) {
+		InetAccess res = find.InetAccess(sik);
 		if (res == null) {
-			res = add.InetAccess(modemId);
+			res = add.InetAccess(sik);
 		}
 		return res;
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public SMPStaticIP SMPStaticIP(ModemId modemId) {
-		SMPStaticIP res = find.SMPStaticIP(modemId);
+	public SMPStaticIP SMPStaticIP(String sik) {
+		SMPStaticIP res = find.SMPStaticIP(sik);
 		if (res == null) {
-			return add.SMPStaticIP(modemId);
+			return add.SMPStaticIP(sik);
 		}
 		return res;
 	}
@@ -239,7 +238,7 @@ public class Alloc {
 	 * @return instance either an existing plan or a new plan ready for fill in
 	 *         data
 	 */
-	public MTAService MTAService(ModemId cmOwnership) {
+	public MTAService MTAService(String cmOwnership) {
 		MTAService res = find.MTAService(cmOwnership);
 		if (res == null) {
 			res = add.MTAService(cmOwnership);
@@ -248,58 +247,58 @@ public class Alloc {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public StdCpe StdCpe(ModemId modemId) {
-		StdCpe res = find.StdCpe(modemId);
+	public StdCpe StdCpe(String sik) {
+		StdCpe res = find.StdCpe(sik);
 		if (res == null) {
-			res = add.StdCpe(modemId);
+			res = add.StdCpe(sik);
 		}
 		return res;
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public HsdAccess HsdAccess(ModemId modemId) {
-		HsdAccess res = find.HsdAccess(modemId);
+	public HsdAccess HsdAccess(String sik) {
+		HsdAccess res = find.HsdAccess(sik);
 		if (res == null) {
-			res = add.HsdAccess(modemId);
+			res = add.HsdAccess(sik);
 		} else
 			res.getDefaultOrderData();
 		return res;
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public VoipAccess VoipAccess(ModemId modemId) {
-		VoipAccess res = find.VoipAccess(modemId);
+	public VoipAccess VoipAccess(String sik) {
+		VoipAccess res = find.VoipAccess(sik);
 		if (res == null) {
-			res = add.VoipAccess(modemId);
+			res = add.VoipAccess(sik);
 		}
 		return res;
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return instance either an existing child-service or a new child-service
 	 *         ready for fill in data
 	 */
-	public DeviceControl DeviceControl(ModemId modemId) {
-		DeviceControl res = find.DeviceControl(modemId);
+	public DeviceControl DeviceControl(String sik) {
+		DeviceControl res = find.DeviceControl(sik);
 		if (res == null) {
-			res = add.DeviceControl(modemId);
+			res = add.DeviceControl(sik);
 		} else
 			res.getDefaultOrderData();
 		return res;

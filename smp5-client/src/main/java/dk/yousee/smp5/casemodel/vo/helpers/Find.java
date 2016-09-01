@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
@@ -400,22 +399,6 @@ public class Find {
 	 * @param modemId
 	 *            to the modem
 	 * @return instance if it exists
-	 */
-	public VoiceService VoiceService(ModemId modemId) {
-		List<VoiceService> services = VoiceService();
-		for (VoiceService service : services) {
-			if (modemId.equals(service.getModemId())) {
-				return service;
-			}
-		}
-
-		return null;
-	}
-
-	/**
-	 * @param modemId
-	 *            to the modem
-	 * @return instance if it exists
 	 * 
 	 */
 	public VoiceService VoiceService(String sik) {
@@ -436,18 +419,6 @@ public class Find {
 	 */
 	public DialToneAccess DialToneAccess(String sik) {
 		VoiceService parent = VoiceService(sik);
-		if (parent == null)
-			return null;
-		return parent.getDialToneAccess();
-	}
-
-	/**
-	 * @param modemId
-	 *            to the modem
-	 * @return instance if it exists
-	 */
-	public DialToneAccess DialToneAccess(ModemId modemId) {
-		VoiceService parent = VoiceService(modemId);
 		if (parent == null)
 			return null;
 		return parent.getDialToneAccess();
@@ -511,7 +482,7 @@ public class Find {
 	 *            the key composed from modem id
 	 * @return instance if it exists
 	 */
-	protected CableBBService CableBBService(String externalKey) {
+	protected CableBBService CableBBServiceExternal(String externalKey) {
 		return (CableBBService) find(CableBBService.TYPE, externalKey);
 	}
 
@@ -520,16 +491,16 @@ public class Find {
 	 *            the key composed from modem id
 	 * @return instance if it exists
 	 */
-	public CableBBService CableBBService(ModemId modemId) {
+	public CableBBService CableBBService(String sik) {
 
 		List<CableBBService> services = CableBBService();
 		for (CableBBService service : services) {
 			InetAccess access = service.getInetAccess();
 			if (access == null) {
-				return CableBBService(key.CableBBService(modemId));
+				return CableBBServiceExternal(key.CableBBService(sik));
 			} else {
-				ModemId one = access.getModemId();
-				if (modemId.equals(one))
+				String one = access.sik.getValue();
+				if (sik.equals(one))
 					return service;
 			}
 		}
@@ -541,29 +512,29 @@ public class Find {
 	 *            to the modem
 	 * @return instance if it exists
 	 */
-	public InetAccess InetAccess(ModemId modemId) {
-		return InetAccess(key.CableBBService(modemId));
+	public InetAccess InetAccess(String sik) {
+		return InetAccess(key.CableBBService(sik));
 	}
 
-	/**
-	 * @param parentKey
-	 *            to the CableBBService
-	 * @return instance if it exists
-	 */
-	public InetAccess InetAccess(String parentKey) {
-		CableBBService parent = CableBBService(parentKey);
-		if (parent == null)
-			return null;
-		return parent.getInetAccess();
-	}
+	// /**
+	// * @param parentKey
+	// * to the CableBBService
+	// * @return instance if it exists
+	// */
+	// public InetAccess InetAccess(String parentKey) {
+	// CableBBService parent = CableBBServiceExternal(parentKey);
+	// if (parent == null)
+	// return null;
+	// return parent.getInetAccess();
+	// }
 
 	/**
 	 * @param modemId
 	 *            to the modem
 	 * @return instance if it exists
 	 */
-	public SMPStaticIP SMPStaticIP(ModemId modemId) {
-		CableBBService parent = CableBBService(modemId);
+	public SMPStaticIP SMPStaticIP(String sik) {
+		CableBBService parent = CableBBService(sik);
 		if (parent == null)
 			return null;
 		return parent.getSmpStaticIP();
@@ -584,10 +555,10 @@ public class Find {
 	 *            key to the composed service (currently modem id)
 	 * @return instance if it exists
 	 */
-	public MTAService MTAService(ModemId cmOwnership) {
+	public MTAService MTAService(String sik) {
 		List<MTAService> services = MTAService();
 		for (MTAService service : services) {
-			if (cmOwnership.equals(service.getCmOwnership())) {
+			if (sik.equals(service.getSik())) {
 				return service;
 			}
 		}
@@ -599,8 +570,8 @@ public class Find {
 	 *            key to the composed service (currently modem id)
 	 * @return instance if it exists
 	 */
-	public HsdAccess HsdAccess(ModemId cmOwnership) {
-		MTAService parent = MTAService(cmOwnership);
+	public HsdAccess HsdAccess(String sik) {
+		MTAService parent = MTAService(sik);
 		if (parent == null)
 			return null;
 		return parent.getHsdAccess();
@@ -611,8 +582,8 @@ public class Find {
 	 *            key to the composed service (currently modem id)
 	 * @return instance if it exists
 	 */
-	public DeviceControl DeviceControl(ModemId cmOwnership) {
-		MTAService parent = MTAService(cmOwnership);
+	public DeviceControl DeviceControl(String sik) {
+		MTAService parent = MTAService(sik);
 		if (parent == null)
 			return null;
 		return parent.getDeviceControl();
@@ -623,8 +594,8 @@ public class Find {
 	 *            key to the composed service (currently modem id)
 	 * @return instance if it exists
 	 */
-	public VoipAccess VoipAccess(ModemId cmOwnership) {
-		MTAService parent = MTAService(cmOwnership);
+	public VoipAccess VoipAccess(String sik) {
+		MTAService parent = MTAService(sik);
 		if (parent == null)
 			return null;
 		return parent.getVoipAccess();
@@ -635,8 +606,8 @@ public class Find {
 	 *            to modem
 	 * @return instance if it exists
 	 */
-	public StdCpe StdCpe(ModemId modemId) {
-		MTAService service = MTAService(modemId);
+	public StdCpe StdCpe(String sik) {
+		MTAService service = MTAService(sik);
 		if (service != null) {
 			return service.getStdCpe();
 		} else {
@@ -649,8 +620,8 @@ public class Find {
 	 *            to the CableBBService
 	 * @return instance list if it exists
 	 */
-	public AddnCpe AddnCpe(ModemId modemId) {
-		MTAService parent = MTAService(modemId);
+	public AddnCpe AddnCpe(String sik) {
+		MTAService parent = MTAService(sik);
 		if (parent == null)
 			return null;
 		return parent.getAddnCpe();
@@ -663,8 +634,8 @@ public class Find {
 	 *            what is this ???
 	 * @return instance if it exists
 	 */
-	public AddnCpe AddnCpeAndChildKey(ModemId modemId, String childKey) {
-		MTAService parent = MTAService(modemId);
+	public AddnCpe AddnCpeAndChildKey(String sik, String childKey) {
+		MTAService parent = MTAService(sik);
 		if (parent == null) {
 			return null;
 		} else {
@@ -678,8 +649,8 @@ public class Find {
 		return null;
 	}
 
-	public AddnCpe theAddnCpe(ModemId modemId) {
-		MTAService parent = MTAService(modemId);
+	public AddnCpe theAddnCpe(String sik) {
+		MTAService parent = MTAService(sik);
 		if (parent == null)
 			return null;
 		return parent.getAddnCpe();

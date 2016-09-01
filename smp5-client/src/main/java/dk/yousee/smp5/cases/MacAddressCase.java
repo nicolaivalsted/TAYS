@@ -1,7 +1,6 @@
 package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
 import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
@@ -66,8 +65,8 @@ public class MacAddressCase extends AbstractCase {
 	 * @return model instance
 	 * @throws BusinessException
 	 */
-	public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, ModemId modemId, String mtaMac) throws BusinessException {
-		HsdAccess ha = getModel().alloc().HsdAccess(modemId);
+	public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, String sik, String mtaMac) throws BusinessException {
+		HsdAccess ha = getModel().alloc().HsdAccess(sik);
 		if (ha.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 			ha.sendAction(Action.SUSPEND);
 		}
@@ -80,12 +79,12 @@ public class MacAddressCase extends AbstractCase {
 			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 			ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
 
-			DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+			DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
 			deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
 			deviceControl.mta_mac.setValue(mtaMac);
 			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
-			deviceControl.sik.setValue(modemId.getId());
+			deviceControl.sik.setValue(sik);
 			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
 			deviceControl.model.setValue(hsdAccessData.getCm_model());
 		}
@@ -103,8 +102,8 @@ public class MacAddressCase extends AbstractCase {
 	 *            modem used
 	 * @return model instance
 	 */
-	public InetAccess assignCMMacAddressForInetAccess(String macAddress, ModemId modemId) {
-		InetAccess inetAccess = getModel().alloc().InetAccess(modemId);
+	public InetAccess assignCMMacAddressForInetAccess(String macAddress, String sik) {
+		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
 		inetAccess.cm_mac.setValue(macAddress);
 		return inetAccess;
 	}
@@ -119,8 +118,8 @@ public class MacAddressCase extends AbstractCase {
 	 *            modem used
 	 * @return model instance
 	 */
-	public StdCpe assignCPEMacAddressForStdCpe(String macAddress, ModemId modemId) {
-		StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+	public StdCpe assignCPEMacAddressForStdCpe(String macAddress, String sik) {
+		StdCpe stdCpe = getModel().alloc().StdCpe(sik);
 		if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 			stdCpe.sendAction(Action.SUSPEND);
 		}
@@ -138,8 +137,8 @@ public class MacAddressCase extends AbstractCase {
 	 *            modem used
 	 * @return model instance
 	 */
-	public StdCpe assignCMMacAddressForStdCpe(String macAddress, ModemId modemId) {
-		StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
+	public StdCpe assignCMMacAddressForStdCpe(String macAddress, String sik) {
+		StdCpe stdCpe = getModel().alloc().StdCpe(sik);
 		if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 			stdCpe.sendAction(Action.SUSPEND);
 		}
@@ -157,11 +156,11 @@ public class MacAddressCase extends AbstractCase {
 	 *            modem used
 	 * @return model instance
 	 */
-	public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, ModemId modemId) {
-		VoipAccess voipAccess = getModel().alloc().VoipAccess(modemId);
-//		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+	public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, String sik) {
+		VoipAccess voipAccess = getModel().alloc().VoipAccess(sik);
+//		DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
 //		deviceControl.mta_mac.setValue(macAddress);
-		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
+		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
@@ -180,8 +179,8 @@ public class MacAddressCase extends AbstractCase {
 	 * @throws dk.yousee.smp.order.model.BusinessException
 	 *             when some problem with link.
 	 */
-	public InetAccess addAssocInternet_access_has_emta_cmForInetAccess(HsdAccess hsdAccess, ModemId modemId) throws BusinessException {
-		InetAccess inetAccess = getModel().find().InetAccess(modemId);
+	public InetAccess addAssocInternet_access_has_emta_cmForInetAccess(HsdAccess hsdAccess, String sik) throws BusinessException {
+		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess.internet_access_has_emta_cm.get() == null) {
 			inetAccess.internet_access_has_emta_cm.add(hsdAccess);
 		}
@@ -201,9 +200,9 @@ public class MacAddressCase extends AbstractCase {
 	 * @throws dk.yousee.smp.order.model.BusinessException
 	 *             when relation not exists
 	 */
-	public AddnCpe updateCpe_macForAddnCpe(ModemId modemId, String cpe_mac) throws BusinessException {
+	public AddnCpe updateCpe_macForAddnCpe(String sik, String cpe_mac) throws BusinessException {
 		AddnCpe addnCpe = null;
-		addnCpe = getModel().find().AddnCpe(modemId);
+		addnCpe = getModel().find().AddnCpe(sik);
 		if (addnCpe != null) {
 			addnCpe.cpe_mac.setValue(cpe_mac);
 		}
@@ -223,8 +222,8 @@ public class MacAddressCase extends AbstractCase {
 	 *            , cm_mac for AddnCpe
 	 * @return model instance
 	 */
-	public AddnCpe addAddnCpe(ModemId modemId, String cpe_mac, String product_code, String cm_mac) {
-		AddnCpe addnCpe = getModel().add().AddnCpe(modemId);
+	public AddnCpe addAddnCpe(String sik, String cpe_mac, String product_code, String cm_mac) {
+		AddnCpe addnCpe = getModel().add().AddnCpe(sik);
 		addnCpe.cpe_mac.setValue(cpe_mac);
 		addnCpe.cm_mac.setValue(cm_mac);
 		return addnCpe;
@@ -238,8 +237,8 @@ public class MacAddressCase extends AbstractCase {
 	 * @return model instance, if return null, that means there is no
 	 *         voipAccess.
 	 */
-	public VoipAccess deleteVoipAccess(ModemId modemId) {
-		VoipAccess voipAccess = getModel().find().VoipAccess(modemId);
+	public VoipAccess deleteVoipAccess(String sik) {
+		VoipAccess voipAccess = getModel().find().VoipAccess(sik);
 		if (voipAccess != null) {
 			voipAccess.getDefaultOrderData().getParams().clear();
 			voipAccess.delete();
@@ -261,14 +260,14 @@ public class MacAddressCase extends AbstractCase {
 	 *             when association cannot be established (internal error in
 	 *             model ... should be refactored)
 	 */
-	public VoipAccess addVoipAccess(ModemId modemId, String mta_id, String mta_mac) {
-		VoipAccess voipAccess = getModel().add().VoipAccess(modemId);
+	public VoipAccess addVoipAccess(String sik, String mta_id, String mta_mac) {
+		VoipAccess voipAccess = getModel().add().VoipAccess(sik);
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
-//		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+//		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
 //		deviceControl.mta_mac.setValue(mta_mac);
-		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(modemId);
+		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
@@ -285,8 +284,8 @@ public class MacAddressCase extends AbstractCase {
 	 * @return model instance
 	 * @throws BusinessException
 	 */
-	public HsdAccess addHsdAccess(ModemId modemId, HsdAccessData hsdAccessData) throws BusinessException {
-		HsdAccess ha = getModel().add().HsdAccess(modemId);
+	public HsdAccess addHsdAccess(String sik, HsdAccessData hsdAccessData) throws BusinessException {
+		HsdAccess ha = getModel().add().HsdAccess(sik);
 		ha.data_port_id.setValue(hsdAccessData.getCm_mac());
 		ha.cm_technology.setValue(hsdAccessData.getCm_technology());
 		ha.equipment_type.setValue(hsdAccessData.getEquipment_type()); // "emta"
@@ -294,29 +293,29 @@ public class MacAddressCase extends AbstractCase {
 		ha.class_of_service.setValue(hsdAccessData.getClassOfService());
 		ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 		ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
-		ha.setCmOwnership(modemId);
+		ha.setCmOwnership(sik);
 		return ha;
 	}
 
-	public DeviceControl addDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
-		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+	public DeviceControl addDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
 		deviceControl.mta_mac.setValue(mtaMac);
 		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
-		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.sik.setValue(sik);
 		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
 		deviceControl.model.setValue(hsdAccessData.getCm_model());
 		return deviceControl;
 	}
 
-	public DeviceControl updateDeviceControl(ModemId modemId, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
-		DeviceControl deviceControl = getModel().add().DeviceControl(modemId);
+	public DeviceControl updateDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
 		deviceControl.mta_mac.setValue(mtaMac);
 		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
-		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.sik.setValue(sik);
 		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
 		deviceControl.model.setValue(hsdAccessData.getCm_model());
 		return deviceControl;
@@ -452,8 +451,8 @@ public class MacAddressCase extends AbstractCase {
 	 *            autogenerate a new value
 	 * @return model instance or null if customer does not have wifi service
 	 */
-	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
-		InetAccess inetAccess = getModel().find().InetAccess(modemId);
+	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
+		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_id);
@@ -472,8 +471,8 @@ public class MacAddressCase extends AbstractCase {
 	}
 
 	// 17490
-	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String Psk_5g, String Ss_id_5g) {
-		InetAccess inetAccess = getModel().find().InetAccess(modemId);
+	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String Psk_5g, String Ss_id_5g) {
+		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_id);

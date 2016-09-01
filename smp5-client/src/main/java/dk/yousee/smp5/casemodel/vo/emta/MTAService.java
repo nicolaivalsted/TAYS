@@ -26,19 +26,6 @@ public class MTAService extends BasicUnit {
 	private ModemId tempCmOwnership;
 
 	/**
-	 * Used from parser to create model element
-	 * 
-	 * @param model
-	 *            in
-	 * @param externalKey
-	 *            key
-	 */
-	public MTAService(SubscriberModel model, String externalKey) {
-		super(model, externalKey, TYPE, LEVEL, NAME, null);
-		model.getServiceLevelUnit().add(this);
-	}
-
-	/**
 	 * Used under construction of new model elements before creation
 	 * (alloc/add).
 	 * 
@@ -47,9 +34,9 @@ public class MTAService extends BasicUnit {
 	 * @param cmOwnership
 	 *            in
 	 */
-	public MTAService(SubscriberModel model, ModemId cmOwnership) {
-		this(model, model.key().MTAService(cmOwnership));
-		this.tempCmOwnership = cmOwnership;
+	public MTAService(SubscriberModel model, String sik) {
+		super(model, model.key().MTAService(sik), TYPE, LEVEL, NAME, null);
+		model.getServiceLevelUnit().add(this);
 	}
 
 	private HsdAccess hsdAccess;
@@ -69,6 +56,10 @@ public class MTAService extends BasicUnit {
 		} else {
 			return hsdAccess.getCmOwnership();
 		}
+	}
+
+	public String getSik() {
+		return deviceControl.sik.getValue();
 	}
 
 	public HsdAccess getHsdAccess() {

@@ -1,11 +1,8 @@
 package dk.yousee.smp5.cases;
 
-import java.util.List;
-
 import org.apache.log4j.Logger;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
 import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
@@ -56,21 +53,6 @@ public class CableBBCase extends AbstractCase {
 	}
 
 	/**
-	 * Return the customers first cable broad band modem
-	 *
-	 * @return the first customer have
-	 */
-	public ModemId firstModem() {
-		List<CableBBService> list = getModel().find().CableBBService();
-		if (list.isEmpty()) {
-			return null;
-		}
-		CableBBService first = list.get(0);
-		return first.getModemId();
-
-	}
-
-	/**
 	 * Use-case 8: Erling: Lav en ordre, som indeholder en opret-service
 	 * (lineItem.getVarenummer())<br/>
 	 * <p/>
@@ -86,11 +68,14 @@ public class CableBBCase extends AbstractCase {
 	 *             when <br/>
 	 *             1) The customer does not exist<br/>
 	 */
-	public Order createBB(ModemId modemId, AbonData lineItem) throws BusinessException {
+	public Order createBB(String sik, AbonData lineItem) throws BusinessException {
 		ensureAcct();
 
-		InetAccess inetAccess = getModel().alloc().InetAccess(modemId);
-		inetAccess.setModemId(modemId);
+		if (sik == null) {
+			throw new IllegalArgumentException("ModemId can never be null on InetAccess, it is the primary key to BB-service");
+		}
+		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
+		inetAccess.modem_id.setValue(sik);
 		inetAccess.sik.setValue(lineItem.getSik());
 		inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
@@ -99,9 +84,9 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
-			HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
+			HsdAccess hsdAccess = getModel().find().HsdAccess(sik);
 			if (hsdAccess != null) {
-				logger.info("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for modemId:" + modemId);
+				logger.info("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for id:" + sik);
 				inetAccess.internet_access_has_emta_cm.add(hsdAccess);
 			}
 		}
@@ -113,7 +98,7 @@ public class CableBBCase extends AbstractCase {
 			// StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
 
 			if (lineItem.getStaticIpProductCode() != null) {
-				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
+				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
 				// this was moved into ASU Cse
 				// if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
@@ -136,10 +121,10 @@ public class CableBBCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public Order updateBB(ModemId modemId, AbonData lineItem) throws BusinessException {
+	public Order updateBB(String sik, AbonData lineItem) throws BusinessException {
 		ensureAcct();
 
-		InetAccess inetAccess = getModel().alloc().InetAccess(modemId);
+		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
 		inetAccess.sik.setValue(lineItem.getSik());
 		if (lineItem.getRateCodes() != null) {
 			inetAccess.rate_codes.setValue(lineItem.getRateCodes());
@@ -151,9 +136,9 @@ public class CableBBCase extends AbstractCase {
 		inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
 
 		if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
-			HsdAccess hsdAccess = getModel().find().HsdAccess(modemId);
+			HsdAccess hsdAccess = getModel().find().HsdAccess(sik);
 			if (hsdAccess != null) {
-				logger.warn("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for modemId:" + modemId);
+				logger.warn("Standard CPE HsdAccess was added for customer: " + getAcct() + ", for sik:" + sik);
 				inetAccess.internet_access_has_emta_cm.add(hsdAccess);
 			}
 		}
@@ -163,14 +148,14 @@ public class CableBBCase extends AbstractCase {
 			if (inetAccess.allowed_cpe.getValue().equals("0")) {
 				inetAccess.allowed_cpe.setValue("1");
 			}
-			StdCpe stdCpe = getModel().find().StdCpe(modemId);
+			StdCpe stdCpe = getModel().find().StdCpe(sik);
 			if (stdCpe != null) {
 				if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 					stdCpe.sendAction(Action.SUSPEND);
 				}
 			}
 			if (lineItem.getStaticIpProductCode() != null) {
-				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(modemId);
+				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
 				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
 					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
@@ -205,6 +190,15 @@ public class CableBBCase extends AbstractCase {
 	 */
 	public static class AbonData {
 		private String sik;
+		private String modemId;
+		private String rateCodes;
+		private String staticIpProductCode;
+		private String emailServerUnblockProductCode;
+		private String wifiServiceProductCode;
+		private String addnCPEProductCode;
+		private String modemActivationCode;
+		private boolean usingStdCpe = true;
+		private String vrf;
 
 		public String getSik() {
 			return sik;
@@ -213,13 +207,6 @@ public class CableBBCase extends AbstractCase {
 		public void setSik(String sik) {
 			this.sik = sik;
 		}
-
-		private String rateCodes;
-		private String staticIpProductCode;
-		private String emailServerUnblockProductCode;
-		private String wifiServiceProductCode;
-		private String addnCPEProductCode;
-		private String modemActivationCode;
 
 		/**
 		 * @param rateCodes
@@ -287,8 +274,6 @@ public class CableBBCase extends AbstractCase {
 			this.modemActivationCode = modemActivationCode;
 		}
 
-		private String vrf;
-
 		public String getVrf() {
 			return vrf;
 		}
@@ -297,8 +282,6 @@ public class CableBBCase extends AbstractCase {
 			this.vrf = vrf;
 		}
 
-		private boolean usingStdCpe = true;
-
 		public boolean isUsingStdCpe() {
 			return usingStdCpe;
 		}
@@ -306,6 +289,15 @@ public class CableBBCase extends AbstractCase {
 		public void setUsingStdCpe(boolean usingStdCpe) {
 			this.usingStdCpe = usingStdCpe;
 		}
+
+		public String getModemId() {
+			return modemId;
+		}
+
+		public void setModemId(String modemId) {
+			this.modemId = modemId;
+		}
+
 	}
 
 	/**
@@ -321,13 +313,13 @@ public class CableBBCase extends AbstractCase {
 	 *             when <br/>
 	 *             1) The customer does not exist<br/>
 	 */
-	public boolean deleteBB(ModemId modemId) throws BusinessException {
+	public boolean deleteBB(String sik) throws BusinessException {
 		ensureAcct();
 
-		VoiceService voiceService = this.getModel().find().VoiceService(modemId);
+		VoiceService voiceService = this.getModel().find().VoiceService(sik);
 		VoiceCase vc = new VoiceCase(this.getModel(), this.getService());
 		boolean r1 = voiceService != null ? vc.deleteVoice(voiceService.getSik()) : false;
-		boolean r2 = buildOrderFromAction(modemId, Action.DELETE);
+		boolean r2 = buildOrderFromAction(sik, Action.DELETE);
 		return r2 || r1;
 	}
 
@@ -343,16 +335,16 @@ public class CableBBCase extends AbstractCase {
 	 * @throws BusinessException
 	 *             when customer does not exist ..
 	 */
-	public SuspendStatus suspendAbuse(ModemId modemId, SuspendReasonAbuse reason) throws BusinessException {
+	public SuspendStatus suspendAbuse(String sik, SuspendReasonAbuse reason) throws BusinessException {
 		ensureAcct();
 		SuspendStatus spSt;
-		StdCpe stdCpe = getModel().find().StdCpe(modemId);
+		StdCpe stdCpe = getModel().find().StdCpe(sik);
 		if (stdCpe != null) {
 			stdCpe.sendAction(Action.SUSPEND);
 			stdCpe.suspend_abuse.setValue(reason.name());
 			spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
 					SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
-			AddnCpe addnCpe = getModel().find().AddnCpe(modemId);
+			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
 			if (addnCpe != null) {
 				addnCpe.sendAction(Action.SUSPEND);
 				addnCpe.suspend_abuse.setValue(reason.toString());
@@ -375,16 +367,16 @@ public class CableBBCase extends AbstractCase {
 	 * @throws BusinessException
 	 *             when customer does not exist ..
 	 */
-	public SuspendStatus suspendBilling(ModemId modemId, SuspendReasonBilling reason) throws BusinessException {
+	public SuspendStatus suspendBilling(String sik, SuspendReasonBilling reason) throws BusinessException {
 		ensureAcct();
 		SuspendStatus spSt;
-		StdCpe stdCpe = getModel().find().StdCpe(modemId);
+		StdCpe stdCpe = getModel().find().StdCpe(sik);
 		if (stdCpe != null) {
 			stdCpe.sendAction(Action.SUSPEND);
 			stdCpe.suspend_billing.setValue(reason.name());
 			spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
 					SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
-			AddnCpe addnCpe = getModel().find().AddnCpe(modemId);
+			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
 			if (addnCpe != null) {
 				addnCpe.sendAction(Action.SUSPEND);
 				addnCpe.suspend_billing.setValue(reason.toString());
@@ -409,10 +401,10 @@ public class CableBBCase extends AbstractCase {
 	 *             when <br/>
 	 *             1) The customer does not exist<br/>
 	 */
-	public SuspendStatus resumeAbuse(ModemId modemId) throws BusinessException {
+	public SuspendStatus resumeAbuse(String sik) throws BusinessException {
 		ensureAcct();
 		SuspendStatus spSt;
-		StdCpe stdCpe = getModel().find().StdCpe(modemId);
+		StdCpe stdCpe = getModel().find().StdCpe(sik);
 		if (stdCpe != null) {
 			Action resultingAction;
 			stdCpe.suspend_abuse.setValue(" ");
@@ -425,7 +417,7 @@ public class CableBBCase extends AbstractCase {
 				spSt = new SuspendStatus(true);
 			}
 			stdCpe.sendAction(resultingAction);
-			AddnCpe addnCpe = getModel().find().AddnCpe(modemId);
+			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
 			if (addnCpe != null) {
 				stdCpe.suspend_abuse.setValue(" ");
 				addnCpe.sendAction(resultingAction);
@@ -449,10 +441,10 @@ public class CableBBCase extends AbstractCase {
 	 * @throws BusinessException
 	 *             when account is missing
 	 */
-	public SuspendStatus resumeBilling(ModemId modemId) throws BusinessException {
+	public SuspendStatus resumeBilling(String sik) throws BusinessException {
 		ensureAcct();
 		SuspendStatus spSt;
-		StdCpe stdCpe = getModel().find().StdCpe(modemId);
+		StdCpe stdCpe = getModel().find().StdCpe(sik);
 		if (stdCpe != null) {
 			Action resultingAction;
 			stdCpe.suspend_billing.setValue(" ");
@@ -465,7 +457,7 @@ public class CableBBCase extends AbstractCase {
 				spSt = new SuspendStatus(true);
 			}
 			stdCpe.sendAction(resultingAction);
-			AddnCpe addnCpe = getModel().find().AddnCpe(modemId);
+			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
 			if (addnCpe != null) {
 				stdCpe.suspend_billing.setValue(" ");
 				addnCpe.sendAction(resultingAction);
@@ -499,9 +491,9 @@ public class CableBBCase extends AbstractCase {
 	 * @throws BusinessException
 	 *             on fundamental errors - like no account yet.
 	 */
-	public SuspendStatus getSuspendStatus(ModemId modemId) throws BusinessException {
+	public SuspendStatus getSuspendStatus(String sik) throws BusinessException {
 		ensureAcct();
-		StdCpe stdCpe = getModel().find().StdCpe(modemId);
+		StdCpe stdCpe = getModel().find().StdCpe(sik);
 		SuspendStatus spSt;
 		if (stdCpe != null) {
 			if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
@@ -525,10 +517,10 @@ public class CableBBCase extends AbstractCase {
 	 *            the action to send to the subscription
 	 * @return true if anything to do
 	 */
-	private boolean buildOrderFromAction(ModemId modemId, Action action) {
+	private boolean buildOrderFromAction(String sik, Action action) {
 		boolean doAnything = false;
 		{
-			CableBBService service = getModel().find().CableBBService(modemId);
+			CableBBService service = getModel().find().CableBBService(sik);
 			if (service != null) {
 				doAnything = true;
 
@@ -551,7 +543,7 @@ public class CableBBCase extends AbstractCase {
 			}
 		}
 		{
-			MTAService cpe = getModel().find().MTAService(modemId);
+			MTAService cpe = getModel().find().MTAService(sik);
 			if (cpe != null) {
 				doAnything = true;
 				if (action == Action.DELETE) {
@@ -581,8 +573,8 @@ public class CableBBCase extends AbstractCase {
 	 *            autogenerate a new value
 	 * @return model instance
 	 */
-	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
-		InetAccess inetAccess = getModel().find().InetAccess(modemId);
+	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
+		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (inetAccess != null) {
 				logger.debug("gw_ch_id: " + gw_ch_id);
@@ -601,8 +593,8 @@ public class CableBBCase extends AbstractCase {
 		return inetAccess;
 	}
 
-	public InetAccess updateSMPWiFi(ModemId modemId, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
-		InetAccess inetAccess = getModel().find().InetAccess(modemId);
+	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
+		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_id);

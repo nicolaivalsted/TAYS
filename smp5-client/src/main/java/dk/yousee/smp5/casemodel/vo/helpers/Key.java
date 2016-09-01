@@ -4,7 +4,6 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.order.model.Acct;
 
 /**
@@ -100,7 +99,7 @@ public class Key {
 	 *            to modem
 	 * @return external Key
 	 */
-	public String CableBBService(ModemId modemId) { // "cable_broadband_" cbb_
+	public String CableBBService(String modemId) { // "cable_broadband_" cbb_
 		return getProvider() + ":cbb_" + modemId;
 	}
 	
@@ -109,8 +108,8 @@ public class Key {
     * @param cmOwnership to modem
     * @return external Key
     */
-   public String MTAService(ModemId cmOwnership) {    //"MTAService"       cpe_
-       return getProvider() + ":cpe_" + cmOwnership;
+   public String MTAService(String sik) {    //"MTAService"       cpe_
+       return getProvider() + ":cpe_" + sik;
    }
 
 }

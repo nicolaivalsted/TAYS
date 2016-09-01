@@ -1,6 +1,5 @@
 package dk.yousee.smp5.cases;
 
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.order.model.Acct;
@@ -19,14 +18,14 @@ public class NodeSplitCase extends AbstractCase {
 		super(acct, service);
 	}
 
-	public void updateForNodeSplit(ModemId modemId, String gi_address, String cm_mac, String modemModel, String vendor, String serial) {
-		HsdAccess ha = getModel().alloc().HsdAccess(modemId);
+	public void updateForNodeSplit(String sik, String gi_address, String cm_mac, String modemModel, String vendor, String serial) {
+		HsdAccess ha = getModel().alloc().HsdAccess(sik);
 		ha.data_port_id.setValue(cm_mac);
 
-		DeviceControl deviceControl = getModel().alloc().DeviceControl(modemId);
+		DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(cm_mac);
 		deviceControl.gi_address.setValue(gi_address);
-		deviceControl.sik.setValue(modemId.getId());
+		deviceControl.sik.setValue(sik);
 		if (modemModel != null) {
 			deviceControl.model.setValue(modemModel);
 		}

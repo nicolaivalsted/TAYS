@@ -36,7 +36,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder upstream = new PropHolder(this, "upstream_speed");
 	public PropHolder allowed_cpe = new PropHolder(this, "allowed_cpe");
 
-	private PropHolder modem_id = new PropHolder(this, "modem_id");
+	public PropHolder modem_id = new PropHolder(this, "modem_id");
 	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
 	public PropHolder sik = new PropHolder(this, "sik");
 
@@ -61,20 +61,6 @@ public class InetAccess extends BasicUnit {
 	public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setInetAccess(this);
-	}
-
-	/**
-	 * Reads the assigned modemId from field modem_id or from external key if
-	 * modem_id is not assigned yet
-	 *
-	 * @return modemId
-	 */
-	public ModemId getModemId() {
-		if (modem_id.hasValue()) {
-			return ModemId.create(modem_id.getValue());
-		} else {
-			return getParent().getModemIdOld();
-		}
 	}
 
 	/**
@@ -112,7 +98,7 @@ public class InetAccess extends BasicUnit {
 		if (modem_activation_code.hasValue()) {
 			return modem_activation_code.getValue();
 		} else {
-			return getParent().getModemId().toString();
+			return modem_id.getValue();
 		}
 	}
 

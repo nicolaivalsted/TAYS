@@ -3,7 +3,6 @@ package dk.yousee.smp5.casemodel.vo.helpers;
 import java.util.UUID;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
@@ -196,7 +195,7 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
@@ -209,7 +208,7 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
@@ -223,7 +222,7 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
@@ -246,12 +245,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            the key composed from modem id
 	 * @return new instance
 	 */
-	public CableBBService CableBBService(ModemId modemId) {
-		CableBBService res = new CableBBService(model, modemId);
+	public CableBBService CableBBService(String sik) {
+		CableBBService res = new CableBBService(model, sik);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
@@ -259,13 +258,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
-	public InetAccess InetAccess(ModemId modemId) {
-		// return InetAccess(key.CableBBService(modemId));
-		CableBBService parent = model.alloc().CableBBService(modemId);
+	public InetAccess InetAccess(String sik) {
+		CableBBService parent = model.alloc().CableBBService(sik);
 		InetAccess res = new InetAccess(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -274,12 +272,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
-	public SMPStaticIP SMPStaticIP(ModemId modemId) {
-		CableBBService parent = model.alloc().CableBBService(modemId);
+	public SMPStaticIP SMPStaticIP(String sik) {
+		CableBBService parent = model.alloc().CableBBService(sik);
 		SMPStaticIP res = new SMPStaticIP(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -292,8 +290,8 @@ public class Add {
 	 *            to the modem
 	 * @return new instance
 	 */
-	public MTAService MTAService(ModemId cmOwnership) {
-		MTAService res = new MTAService(model, cmOwnership);
+	public MTAService MTAService(String sik) {
+		MTAService res = new MTAService(model, sik);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}
@@ -301,12 +299,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return new instance
 	 */
-	public StdCpe StdCpe(ModemId modemId) {
-		MTAService parent = model.alloc().MTAService(modemId);
+	public StdCpe StdCpe(String sik) {
+		MTAService parent = model.alloc().MTAService(sik);
 		StdCpe res = new StdCpe(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -315,12 +313,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
-	public AddnCpe AddnCpe(ModemId modemId) {
-		MTAService parent = model.alloc().MTAService(modemId);
+	public AddnCpe AddnCpe(String sik) {
+		MTAService parent = model.alloc().MTAService(sik);
 		AddnCpe res = new AddnCpe(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -329,12 +327,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return new instance
 	 */
-	public HsdAccess HsdAccess(ModemId modemId) {
-		MTAService parent = model.alloc().MTAService(modemId);
+	public HsdAccess HsdAccess(String sik) {
+		MTAService parent = model.alloc().MTAService(sik);
 		HsdAccess res = new HsdAccess(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -343,12 +341,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to the modem
 	 * @return new instance
 	 */
-	public VoipAccess VoipAccess(ModemId modemId) {
-		MTAService parent = model.alloc().MTAService(modemId);
+	public VoipAccess VoipAccess(String sik) {
+		MTAService parent = model.alloc().MTAService(sik);
 		VoipAccess res = new VoipAccess(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
@@ -357,12 +355,12 @@ public class Add {
 	}
 
 	/**
-	 * @param modemId
+	 * @param sik
 	 *            to modem
 	 * @return new instance
 	 */
-	public DeviceControl DeviceControl(ModemId modemId) {
-		MTAService parent = model.alloc().MTAService(modemId);
+	public DeviceControl DeviceControl(String sik) {
+		MTAService parent = model.alloc().MTAService(sik);
 		DeviceControl res = new DeviceControl(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();

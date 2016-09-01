@@ -41,10 +41,10 @@ public class HsdAccess extends BasicUnit {
 		return ModemId.create(cm_ownership.getValue());
 	}
 
-	public void setCmOwnership(ModemId cmOwnership) {
+	public void setCmOwnership(String cmOwnership) {
 		if (cmOwnership == null)
 			throw new IllegalArgumentException("cm ownsership can never be null in Hsd-access");
-		cm_ownership.setValue(cmOwnership.getId());
+		cm_ownership.setValue(cmOwnership);
 	}
 
 	// Type.ASSOC
