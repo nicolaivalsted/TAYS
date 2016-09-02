@@ -250,7 +250,7 @@ public class Add {
 	 * @return new instance
 	 */
 	public CableBBService CableBBService(String sik) {
-		CableBBService res = new CableBBService(model, sik);
+		CableBBService res = new CableBBService(model, key.CableBBService(sik));
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

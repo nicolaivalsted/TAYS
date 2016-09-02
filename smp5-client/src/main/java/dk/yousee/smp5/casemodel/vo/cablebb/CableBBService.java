@@ -26,8 +26,8 @@ public class CableBBService extends BasicUnit {
 	 * @param externalKey
 	 *            external key
 	 */
-	public CableBBService(SubscriberModel model, String sik) {
-		super(model, model.key().CableBBService(sik), TYPE, LEVEL, NAME, null);
+	public CableBBService(SubscriberModel model, String externalKey) {
+		super(model, externalKey, TYPE, LEVEL, NAME, null);
 		model.getServiceLevelUnit().add(this);
 	}
 

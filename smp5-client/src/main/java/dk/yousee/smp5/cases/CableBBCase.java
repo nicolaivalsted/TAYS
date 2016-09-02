@@ -92,18 +92,9 @@ public class CableBBCase extends AbstractCase {
 		}
 
 		if (lineItem.isUsingStdCpe()) {
-			// this was moved into ASU Cse
-			// DeviceControl deviceControl =
-			// getModel().alloc().DeviceControl(modemId);
-			// StdCpe stdCpe = getModel().alloc().StdCpe(modemId);
-
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
 				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
-				// this was moved into ASU Cse
-				// if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
-				// smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
-				// }
 			}
 		} else {
 			inetAccess.allowed_cpe.setValue("0");

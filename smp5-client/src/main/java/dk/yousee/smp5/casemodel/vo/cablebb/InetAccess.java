@@ -25,15 +25,14 @@ public class InetAccess extends BasicUnit {
 	public PropHolder num_of_ips = new PropHolder(this, "num_of_ips");
 	public PropHolder gi_address = new PropHolder(this, "gi_address");
 	public PropHolder aup = new PropHolder(this, "aup");
-	public PropHolder downstream_speed = new PropHolder(this, "downstream_speed");
 	public PropHolder email_cos = new PropHolder(this, "email_cos");
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac");
 	public PropHolder product_name = new PropHolder(this, "product_name");
 	public PropHolder upstream_bonding_enabled = new PropHolder(this, "upstream_bonding_enabled");
 	public PropHolder upstream_channel_bonding = new PropHolder(this, "upstream_channel_bonding");
 	public PropHolder cisco_sm_package_id = new PropHolder(this, "cisco_sm_package_id");
-	public PropHolder downstream = new PropHolder(this, "downstream_speed");
-	public PropHolder upstream = new PropHolder(this, "upstream_speed");
+	public PropHolder downstream = new PropHolder(this, "downstream_bw_profile");
+	public PropHolder upstream = new PropHolder(this, "upstream_bw_profile");
 	public PropHolder allowed_cpe = new PropHolder(this, "allowed_cpe");
 
 	public PropHolder modem_id = new PropHolder(this, "modem_id");

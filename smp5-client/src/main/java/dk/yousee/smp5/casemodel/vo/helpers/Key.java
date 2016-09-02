@@ -99,8 +99,8 @@ public class Key {
 	 *            to modem
 	 * @return external Key
 	 */
-	public String CableBBService(String modemId) { // "cable_broadband_" cbb_
-		return getProvider() + ":cbb_" + modemId;
+	public String CableBBService(String sik) { // "cable_broadband_" cbb_
+		return getProvider() + ":cbb_" + sik;
 	}
 	
     
