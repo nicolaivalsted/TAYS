@@ -513,20 +513,20 @@ public class Find {
 	 * @return instance if it exists
 	 */
 	public InetAccess InetAccess(String sik) {
-		return InetAccess(key.CableBBService(sik));
+		return InetAccessExternal(key.CableBBService(sik));
 	}
 
-	// /**
-	// * @param parentKey
-	// * to the CableBBService
-	// * @return instance if it exists
-	// */
-	// public InetAccess InetAccess(String parentKey) {
-	// CableBBService parent = CableBBServiceExternal(parentKey);
-	// if (parent == null)
-	// return null;
-	// return parent.getInetAccess();
-	// }
+	/**
+	 * @param parentKey
+	 *            to the CableBBService
+	 * @return instance if it exists
+	 */
+	protected InetAccess InetAccessExternal(String parentKey) {
+		CableBBService parent = CableBBServiceExternal(parentKey);
+		if (parent == null)
+			return null;
+		return parent.getInetAccess();
+	}
 
 	/**
 	 * @param modemId
