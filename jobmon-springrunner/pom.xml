@@ -4,7 +4,7 @@
     <parent>
         <groupId>dk.yousee.randy</groupId>
         <artifactId>clients</artifactId>
-        <version>3.120</version>
+        <version>3.121-SNAPSHOT</version>
     </parent>
     <groupId>dk.yousee.randy</groupId>
     <artifactId>jobmon-springrunner</artifactId>
