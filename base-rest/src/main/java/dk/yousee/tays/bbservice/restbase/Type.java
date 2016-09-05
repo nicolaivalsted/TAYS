@@ -12,7 +12,7 @@ public enum Type {
     Foreningsmail("foreningsmail"),
     WiFi("SubSvcSpec:wifi_service"),
     BSA("SubSvcSpec:bit_stream_access"),
-    StaticIp("SubSvcSpec:static_ip_cpe"),
+    StaticIp("SubSvcSpec:static_ip"),
     InternetAccess("SubSvcSpec:internet_access"),
     StdCpe("SubSvcSpec:std_cpe"),
     AddCpe("SubSvcSpec:additional_cpe"),
