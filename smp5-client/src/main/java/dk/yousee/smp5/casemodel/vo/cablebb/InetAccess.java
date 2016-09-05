@@ -30,7 +30,6 @@ public class InetAccess extends BasicUnit {
 	public PropHolder product_name = new PropHolder(this, "product_name");
 	public PropHolder upstream_bonding_enabled = new PropHolder(this, "upstream_bonding_enabled");
 	public PropHolder upstream_channel_bonding = new PropHolder(this, "upstream_channel_bonding");
-	public PropHolder cisco_sm_package_id = new PropHolder(this, "cisco_sm_package_id");
 	public PropHolder downstream = new PropHolder(this, "downstream_bw_profile");
 	public PropHolder upstream = new PropHolder(this, "upstream_bw_profile");
 	public PropHolder allowed_cpe = new PropHolder(this, "allowed_cpe");
