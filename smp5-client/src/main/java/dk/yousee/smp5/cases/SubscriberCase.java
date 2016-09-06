@@ -87,6 +87,7 @@ public class SubscriberCase extends AbstractCase {
 		subAddressSpec.geo_name.setValue(address.getGeographicName());
 		subAddressSpec.door_code.setValue(address.getDoorCode());
 		subAddressSpec.street_num.setValue(address.getStreetNumber());
+		subAddressSpec.street_number_suffix.setValue(address.getSide());
 		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		return subAddressSpec;
 	}
@@ -143,8 +144,8 @@ public class SubscriberCase extends AbstractCase {
 		}
 		setModel(new SubscriberModel(getResponse()));
 		if (getErrorMessage() != null) {
-			throw new BusinessException("could not create subscription, for customer %s, got message: %s", order.getSubscriber()
-					.getKundeId(), getErrorMessage());
+			throw new BusinessException("could not create subscription, for customer %s, got message: %s", order.getSubscriber().getKundeId(),
+					getErrorMessage());
 		}
 		justCreated = true;
 		return getModel();
@@ -173,6 +174,7 @@ public class SubscriberCase extends AbstractCase {
 
 		SubAddressSpec ma = getModel().add().SubAddressSpec();
 		ma.street_name.setValue(address.getStreetName());
+		ma.street_number_suffix.setValue(address.getSide());
 		ma.floor.setValue(address.getFloor());
 		ma.ams_id.setValue(address.getAms());
 		ma.zipcode.setValue(zip4ch(address.getZipcode()));

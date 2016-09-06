@@ -11,6 +11,7 @@ public final class Subscriber implements Serializable {
 	private String lid;
 	private String fornavn;
 	private String efternavn;
+	private String isp;
 	private boolean eksisterendeKunde = true;
 
 	public Acct getKundeId() {

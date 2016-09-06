@@ -15,10 +15,6 @@ import dk.yousee.smp5.order.model.ServicePrefix;
  *         Service Plan
  */
 public class SubAddressSpec extends BasicUnit {
-	public static final String AMS_ID = "ams_id";
-	public static final String DISTRICT = "province_state";
-	public static final String ZIP_CODE = "zipcode";
-	public static final String CITY = "city";
 	public static OrderDataLevel LEVEL = OrderDataLevel.ADDRESS;
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubAddressSpec, "-");
 	public static NickName NAME = new NickName("address");
@@ -29,13 +25,15 @@ public class SubAddressSpec extends BasicUnit {
 		model.getServiceLevelUnit().add(this);
 	}
 
-	public PropHolder ams_id = new PropHolder(this, AMS_ID);
+	public PropHolder ams_id = new PropHolder(this, "ams_id");
 
-	public PropHolder district = new PropHolder(this, DISTRICT);
+	public PropHolder district = new PropHolder(this, "province_state");
 
-	public PropHolder zipcode = new PropHolder(this, ZIP_CODE);
+	public PropHolder zipcode = new PropHolder(this, "zipcode");
 
-	public PropHolder city = new PropHolder(this, CITY);
+	public PropHolder street_number_suffix = new PropHolder(this, "street_number_suffix");
+
+	public PropHolder city = new PropHolder(this, "city");
 
 	public PropHolder floor = new PropHolder(this, "floor");
 
