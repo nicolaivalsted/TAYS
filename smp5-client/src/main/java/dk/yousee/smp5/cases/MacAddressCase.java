@@ -81,7 +81,9 @@ public class MacAddressCase extends AbstractCase {
 
 			DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
 			deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-			deviceControl.mta_mac.setValue(mtaMac);
+			if (mtaMac != null) {
+				deviceControl.mta_mac.setValue(mtaMac);
+			}
 			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 			deviceControl.sik.setValue(sik);
@@ -158,8 +160,8 @@ public class MacAddressCase extends AbstractCase {
 	 */
 	public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, String sik) {
 		VoipAccess voipAccess = getModel().alloc().VoipAccess(sik);
-//		DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
-//		deviceControl.mta_mac.setValue(macAddress);
+		// DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
+		// deviceControl.mta_mac.setValue(macAddress);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
@@ -174,7 +176,7 @@ public class MacAddressCase extends AbstractCase {
 	 *            service
 	 * @param modemId
 	 *            modem used
-	 * @param cmDetails 
+	 * @param cmDetails
 	 * @return model instance
 	 * @throws dk.yousee.smp.order.model.BusinessException
 	 *             when some problem with link.
@@ -265,8 +267,8 @@ public class MacAddressCase extends AbstractCase {
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
-//		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
-//		deviceControl.mta_mac.setValue(mta_mac);
+		// DeviceControl deviceControl = getModel().add().DeviceControl(sik);
+		// deviceControl.mta_mac.setValue(mta_mac);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
@@ -300,7 +302,9 @@ public class MacAddressCase extends AbstractCase {
 	public DeviceControl addDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
 		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-		deviceControl.mta_mac.setValue(mtaMac);
+		if (mtaMac != null) {
+			deviceControl.mta_mac.setValue(mtaMac);
+		}
 		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 		deviceControl.sik.setValue(sik);
