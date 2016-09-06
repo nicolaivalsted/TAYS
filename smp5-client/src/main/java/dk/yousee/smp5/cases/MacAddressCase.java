@@ -227,7 +227,9 @@ public class MacAddressCase extends AbstractCase {
 	public AddnCpe addAddnCpe(String sik, String cpe_mac, String product_code, String cm_mac) {
 		AddnCpe addnCpe = getModel().add().AddnCpe(sik);
 		addnCpe.cpe_mac.setValue(cpe_mac);
-		addnCpe.cm_mac.setValue(cm_mac);
+		if(cm_mac != null){
+			addnCpe.cm_mac.setValue(cm_mac);
+		}
 		return addnCpe;
 	}
 
