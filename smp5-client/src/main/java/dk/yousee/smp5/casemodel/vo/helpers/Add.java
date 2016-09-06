@@ -291,7 +291,7 @@ public class Add {
 	 * @return new instance
 	 */
 	public MTAService MTAService(String sik) {
-		MTAService res = new MTAService(model, sik);
+		MTAService res = new MTAService(model, key.MTAService(sik));
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

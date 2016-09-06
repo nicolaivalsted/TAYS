@@ -34,10 +34,12 @@ public class MTAService extends BasicUnit {
 	 * @param cmOwnership
 	 *            in
 	 */
-	public MTAService(SubscriberModel model, String sik) {
-		super(model, model.key().MTAService(sik), TYPE, LEVEL, NAME, null);
+	public MTAService(SubscriberModel model, String externalKey) {
+		super(model, externalKey, TYPE, LEVEL, NAME, null);
 		model.getServiceLevelUnit().add(this);
 	}
+	
+	
 
 	private HsdAccess hsdAccess;
 	private VoipAccess voipAccess;
