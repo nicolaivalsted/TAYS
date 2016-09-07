@@ -65,7 +65,7 @@ public class MacAddressCase extends AbstractCase {
 	 * @return model instance
 	 * @throws BusinessException
 	 */
-	public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, String sik, String mtaMac) throws BusinessException {
+	public HsdAccess assignCMMacAddressForHsdAccess(String macAddress, HsdAccessData hsdAccessData, String sik) throws BusinessException {
 		HsdAccess ha = getModel().alloc().HsdAccess(sik);
 		if (ha.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 			ha.sendAction(Action.SUSPEND);
@@ -78,19 +78,7 @@ public class MacAddressCase extends AbstractCase {
 			ha.class_of_service.setValue(hsdAccessData.getClassOfService());
 			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 			ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
-
-//			DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
-//			deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-//			if (mtaMac != null) {
-//				deviceControl.mta_mac.setValue(mtaMac);
-//			}
-//			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
-//			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
-//			deviceControl.sik.setValue(sik);
-//			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
-//			deviceControl.model.setValue(hsdAccessData.getCm_model());
 		}
-
 		return ha;
 	}
 
@@ -160,8 +148,6 @@ public class MacAddressCase extends AbstractCase {
 	 */
 	public VoipAccess assignMTAMacAddressForVoipAccess(String macAddress, String sik) {
 		VoipAccess voipAccess = getModel().alloc().VoipAccess(sik);
-		// DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
-		// deviceControl.mta_mac.setValue(macAddress);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
@@ -203,8 +189,7 @@ public class MacAddressCase extends AbstractCase {
 	 *             when relation not exists
 	 */
 	public AddnCpe updateCpe_macForAddnCpe(String sik, String cpe_mac) throws BusinessException {
-		AddnCpe addnCpe = null;
-		addnCpe = getModel().find().AddnCpe(sik);
+		AddnCpe addnCpe = getModel().find().AddnCpe(sik);
 		if (addnCpe != null) {
 			addnCpe.cpe_mac.setValue(cpe_mac);
 		}
@@ -224,12 +209,9 @@ public class MacAddressCase extends AbstractCase {
 	 *            , cm_mac for AddnCpe
 	 * @return model instance
 	 */
-	public AddnCpe addAddnCpe(String sik, String cpe_mac, String product_code, String cm_mac) {
+	public AddnCpe addAddnCpe(String sik, String cpe_mac) {
 		AddnCpe addnCpe = getModel().add().AddnCpe(sik);
 		addnCpe.cpe_mac.setValue(cpe_mac);
-		if (cm_mac != null) {
-			addnCpe.cm_mac.setValue(cm_mac);
-		}
 		return addnCpe;
 	}
 
@@ -269,8 +251,6 @@ public class MacAddressCase extends AbstractCase {
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
-		// DeviceControl deviceControl = getModel().add().DeviceControl(sik);
-		// deviceControl.mta_mac.setValue(mta_mac);
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
@@ -301,12 +281,9 @@ public class MacAddressCase extends AbstractCase {
 		return ha;
 	}
 
-	public DeviceControl addDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+	public DeviceControl addDeviceControl(String sik, HsdAccessData hsdAccessData) throws BusinessException {
 		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-		if (mtaMac != null) {
-			deviceControl.mta_mac.setValue(mtaMac);
-		}
 		if (hsdAccessData.getCm_serial_number() != null) {
 			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 		}
@@ -321,12 +298,9 @@ public class MacAddressCase extends AbstractCase {
 		return deviceControl;
 	}
 
-	public DeviceControl updateDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
+	public DeviceControl updateDeviceControl(String sik, HsdAccessData hsdAccessData) throws BusinessException {
 		DeviceControl deviceControl = getModel().find().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-		if (mtaMac != null) {
-			deviceControl.mta_mac.setValue(mtaMac);
-		}
 		if (hsdAccessData.getCm_serial_number() != null) {
 			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
 		}
