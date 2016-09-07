@@ -79,16 +79,16 @@ public class MacAddressCase extends AbstractCase {
 			ha.max_num_cpe.setValue(hsdAccessData.getMax_num_cpe()); // "5"
 			ha.docsis_3_capable.setValue(hsdAccessData.getDocsis_3_capable()); // "N"
 
-			DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
-			deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-			if (mtaMac != null) {
-				deviceControl.mta_mac.setValue(mtaMac);
-			}
-			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
-			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
-			deviceControl.sik.setValue(sik);
-			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
-			deviceControl.model.setValue(hsdAccessData.getCm_model());
+//			DeviceControl deviceControl = getModel().alloc().DeviceControl(sik);
+//			deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
+//			if (mtaMac != null) {
+//				deviceControl.mta_mac.setValue(mtaMac);
+//			}
+//			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+//			deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
+//			deviceControl.sik.setValue(sik);
+//			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+//			deviceControl.model.setValue(hsdAccessData.getCm_model());
 		}
 
 		return ha;
@@ -322,7 +322,7 @@ public class MacAddressCase extends AbstractCase {
 	}
 
 	public DeviceControl updateDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
-		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
+		DeviceControl deviceControl = getModel().find().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
 		if (mtaMac != null) {
 			deviceControl.mta_mac.setValue(mtaMac);
