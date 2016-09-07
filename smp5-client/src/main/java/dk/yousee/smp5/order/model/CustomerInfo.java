@@ -18,6 +18,10 @@ public final class CustomerInfo implements Serializable {
 	private String city;
 	private String address1;
 	private String address2;
+	private String floor;
+	private String streetNm;
+	private String streetNum;
+	private String side;
 
 	/**
 	 * Subscriber that matches this search
@@ -104,6 +108,38 @@ public final class CustomerInfo implements Serializable {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+
+	public String getStreetNm() {
+		return streetNm;
+	}
+
+	public void setStreetNm(String streetNm) {
+		this.streetNm = streetNm;
+	}
+
+	public String getStreetNum() {
+		return streetNum;
+	}
+
+	public void setStreetNum(String streetNum) {
+		this.streetNum = streetNum;
+	}
+
+	public String getSide() {
+		return side;
+	}
+
+	public void setSide(String side) {
+		this.side = side;
 	}
 
 	/**
