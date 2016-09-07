@@ -15,6 +15,8 @@ import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.GetServiceByKeyEx
 import com.sun.java.products.oss.xml.common.ArrayOfManagedEntityValue;
 import com.sun.java.products.oss.xml.common.ArrayOfString;
 import com.sun.java.products.oss.xml.common.ManagedEntityValue;
+import com.sun.java.products.oss.xml.common.QueryManagedEntitiesExceptionDocument;
+import com.sun.java.products.oss.xml.common.QueryManagedEntitiesExceptionDocument.QueryManagedEntitiesException;
 import com.sun.java.products.oss.xml.common.QueryManagedEntitiesRequestDocument;
 import com.sun.java.products.oss.xml.common.QueryManagedEntitiesResponseDocument;
 import com.sun.java.products.oss.xml.serviceActivation.GetOrderByKeyExceptionDocument;
@@ -63,6 +65,10 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		arrayOfString.addItem("zipcode");
 		arrayOfString.addItem("city");
 		arrayOfString.addItem("geo_name");
+		arrayOfString.addItem("street_nm");
+		arrayOfString.addItem("floor");
+		arrayOfString.addItem("street_num");
+		arrayOfString.addItem("street_number_suffix");
 		request.setAttrNames(arrayOfString);
 		return requestDocument;
 	}
@@ -152,6 +158,11 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			param.setName("device_id");
 			param.setStringValue(searchCustomersRequest.getCm_mac());
 		}
+		if (searchCustomersRequest.getStreet_nm() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("street_nm");
+			param.setStringValue(searchCustomersRequest.getStreet_nm());
+		}
 		return queryValue;
 	}
 	
@@ -227,6 +238,20 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 				else if (ex.getIllegalArgumentException() != null)
 					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
+			
+			res = xmlObject
+					.selectPath("declare namespace com='http://java.sun.com/products/oss/xml/Common'; $this//com:queryManagedEntitiesException");
+			if (res.length > 0) {
+				// This is an error
+				QueryManagedEntitiesExceptionDocument.QueryManagedEntitiesException ex = (QueryManagedEntitiesExceptionDocument.QueryManagedEntitiesException) res[0];
+				if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getIllegalArgumentException() != null)
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+			}
+
 
 			res = xmlObject.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
 			if (res.length > 0) {
