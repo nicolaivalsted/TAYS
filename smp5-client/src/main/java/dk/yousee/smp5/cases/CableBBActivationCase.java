@@ -32,7 +32,7 @@ public class CableBBActivationCase extends MacAddressCase {
 				String oldmac = getModel().find().HsdAccess(cableBBService.getSik()).data_port_id.getValue();
 
 				if (!oldmac.equals(hsdAccessData.getCm_mac())) {
-					hsdAccess = assignCMMacAddressForHsdAccess(hsdAccessData.getCm_mac(), hsdAccessData, cableBBService.getSik(), "");
+					hsdAccess = assignCMMacAddressForHsdAccess(hsdAccessData.getCm_mac(), hsdAccessData, cableBBService.getSik());
 					hasImpact = true;
 				}
 			}
