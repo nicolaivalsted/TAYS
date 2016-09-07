@@ -227,7 +227,7 @@ public class MacAddressCase extends AbstractCase {
 	public AddnCpe addAddnCpe(String sik, String cpe_mac, String product_code, String cm_mac) {
 		AddnCpe addnCpe = getModel().add().AddnCpe(sik);
 		addnCpe.cpe_mac.setValue(cpe_mac);
-		if(cm_mac != null){
+		if (cm_mac != null) {
 			addnCpe.cm_mac.setValue(cm_mac);
 		}
 		return addnCpe;
@@ -307,23 +307,37 @@ public class MacAddressCase extends AbstractCase {
 		if (mtaMac != null) {
 			deviceControl.mta_mac.setValue(mtaMac);
 		}
-		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		if (hsdAccessData.getCm_serial_number() != null) {
+			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		}
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 		deviceControl.sik.setValue(sik);
-		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
-		deviceControl.model.setValue(hsdAccessData.getCm_model());
+		if (hsdAccessData.getCm_manufacturer() != null) {
+			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+		}
+		if (hsdAccessData.getCm_model() != null) {
+			deviceControl.model.setValue(hsdAccessData.getCm_model());
+		}
 		return deviceControl;
 	}
 
 	public DeviceControl updateDeviceControl(String sik, HsdAccessData hsdAccessData, String mtaMac) throws BusinessException {
 		DeviceControl deviceControl = getModel().add().DeviceControl(sik);
 		deviceControl.cm_mac.setValue(hsdAccessData.getCm_mac());
-		deviceControl.mta_mac.setValue(mtaMac);
-		deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		if (mtaMac != null) {
+			deviceControl.mta_mac.setValue(mtaMac);
+		}
+		if (hsdAccessData.getCm_serial_number() != null) {
+			deviceControl.serial_number.setValue(hsdAccessData.getCm_serial_number());
+		}
 		deviceControl.gi_address.setValue(hsdAccessData.getGi_address());
 		deviceControl.sik.setValue(sik);
-		deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
-		deviceControl.model.setValue(hsdAccessData.getCm_model());
+		if (hsdAccessData.getCm_manufacturer() != null) {
+			deviceControl.manufacturer.setValue(hsdAccessData.getCm_manufacturer());
+		}
+		if (hsdAccessData.getCm_model() != null) {
+			deviceControl.model.setValue(hsdAccessData.getCm_model());
+		}
 		return deviceControl;
 	}
 
