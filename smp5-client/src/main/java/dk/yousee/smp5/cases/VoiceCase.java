@@ -143,8 +143,9 @@ public class VoiceCase extends AbstractCase {
 
 		DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(voiceData.getSik());
 
-		if (modemId != null)
+		if (modemId != null) {
 			dialToneAccess.modem_id.setValue(modemId.getId());
+		}
 		dialToneAccess.sik.setValue(voiceData.getSik());
 		dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
 		dialToneAccess.mta_voice_port.setValue(voiceData.getMta_voice_port());

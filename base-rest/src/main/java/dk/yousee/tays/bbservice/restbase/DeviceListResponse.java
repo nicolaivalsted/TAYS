@@ -16,30 +16,30 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.PROPERTY)
 public class DeviceListResponse {
-    private List<Device> cms = new ArrayList();
-    private Link link;
+	private List<Device> cms = new ArrayList<Device>();
+	private Link link;
 
-    public DeviceListResponse() {
-    }
+	public DeviceListResponse() {
+	}
 
-    @XmlElement(name = "device")
-    public List<Device> getCms() {
-        return cms;
-    }
+	@XmlElement(name = "device")
+	public List<Device> getCms() {
+		return cms;
+	}
 
-    public void setCms(List<Device> cms) {
-        this.cms = cms;
-    }
+	public void setCms(List<Device> cms) {
+		this.cms = cms;
+	}
 
-    public Link getLink() {
-        return link;
-    }
+	public Link getLink() {
+		return link;
+	}
 
-    public void setLink(Link link) {
-        this.link = link;
-    }
-    
-    public void addDev(Device devResp) {
-        cms.add(devResp);
-    }
+	public void setLink(Link link) {
+		this.link = link;
+	}
+
+	public void addDev(Device devResp) {
+		cms.add(devResp);
+	}
 }
