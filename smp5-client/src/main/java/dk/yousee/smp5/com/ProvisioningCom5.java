@@ -278,7 +278,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			servicePart.setAction("update");
 
 			SubType sSubType = SubType.Factory.newInstance();
-			sSubType.setServiceProvider("YouSee");
+			sSubType.setServiceProvider(subscriber.getIsp());
 			sSubType.setSubscriberType("residential");
 			sSubType.setLocale("en_US");
 			EntityKeyType entityKey = sSubType.addNewKey();

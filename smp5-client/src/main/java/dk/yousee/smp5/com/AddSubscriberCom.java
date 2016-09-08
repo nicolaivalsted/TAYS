@@ -32,7 +32,6 @@ import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderRespo
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.SnapshotOrderValue;
 import com.sun.java.products.oss.xml.cbe.core.EntityValue;
 
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Constants;
 import dk.yousee.smp5.order.model.ExecuteOrderReply;
 import dk.yousee.smp5.order.model.Order;
@@ -130,7 +129,7 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		public XmlObject createXmlOrder(Order order, Integer orderId) {
 			Subscriber subscriber = order.getSubscriber();
 			SnapshotOrderValue ssOrderValue = createSnapshotOrderValue(order, orderId);
-			SubType sSubType = addSubscriber(ssOrderValue, subscriber.getKundeId(), order.getExternalKey(), subscriber.getLid());
+			SubType sSubType = addSubscriber(ssOrderValue, order.getExternalKey(), subscriber);
 
 			OrderData addressData = OrderHelper.findElementOfType(order, OrderDataLevel.ADDRESS);
 			OrderData contactData = OrderHelper.findElementOfType(order, OrderDataLevel.CONTACT);
@@ -186,9 +185,9 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param externalKey
 		 * @return
 		 */
-		private SubType addSubscriber(SnapshotOrderValue ssOrderValue, Acct acct, String externalKey, String lid) {
+		private SubType addSubscriber(SnapshotOrderValue ssOrderValue, String externalKey, Subscriber subscriber) {
 			SubType sSubType = ssOrderValue.addNewSubscriber();
-			sSubType.setServiceProvider(Constants.SERVICE_PROVIDER);
+			sSubType.setServiceProvider(subscriber.getIsp());
 			sSubType.setSubscriberType(Constants.SUBSCRIBER_TYPE);
 			sSubType.setLocale("en_US");
 			EntityKeyType entityKey = sSubType.addNewKey();
@@ -200,10 +199,10 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 			EntityParamListType eParamList = sSubType.addNewParamList();
 			ParamType parameter = eParamList.addNewParam();
 			parameter.setName("acct");
-			parameter.setStringValue(acct.toString());
+			parameter.setStringValue(subscriber.getKundeId().toString());
 			ParamType lidParm = eParamList.addNewParam();
 			lidParm.setName("lid");
-			lidParm.setStringValue(lid);
+			lidParm.setStringValue(subscriber.getLid());
 			return sSubType;
 		}
 

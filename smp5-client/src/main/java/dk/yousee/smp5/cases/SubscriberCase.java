@@ -7,6 +7,7 @@ import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
 import dk.yousee.smp5.cases.subscriber.AddressInfo;
 import dk.yousee.smp5.cases.subscriber.ContactInfo;
+import dk.yousee.smp5.cases.subscriber.SubscriberInfo;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
@@ -47,7 +48,6 @@ public class SubscriberCase extends AbstractCase {
 		SubContactSpec plan = getModel().find().SubContactSpec();
 		plan.first_name.setValue(customer.getFirstName());
 		plan.last_name.setValue(customer.getLastName());
-		plan.isp.setValue(customer.getIsp());
 		plan.emails_home_address.setValue(customer.getEmail());
 		plan.phones_home_number.setValue(customer.getPrivattlf());
 		return plan;
@@ -56,12 +56,11 @@ public class SubscriberCase extends AbstractCase {
 	/**
 	 * @param Subscriber
 	 */
-	public Subscriber updateSusbcriber(String lid) {
+	public Subscriber updateSusbcriber(SubscriberInfo subscriberInfo) {
 		Subscriber sub = getModel().getSubscriber();
-		if (sub.getLid() == null || !sub.getLid().equals(lid)) {
-			sub.setLid(lid);
-			getModel().getOrder().setOnlySub(true);
-		}
+		sub.setLid(subscriberInfo.getLid());
+		sub.setIsp(subscriberInfo.getIsp());
+		getModel().getOrder().setOnlySub(true);
 		return sub;
 	}
 
@@ -156,7 +155,7 @@ public class SubscriberCase extends AbstractCase {
 	 * @param address
 	 * @return
 	 */
-	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address, String lid) {
+	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address, SubscriberInfo subscriberInfo) {
 		setModel(new SubscriberModel(getAcct()));
 
 		Order smpOrder = getModel().getOrder();
@@ -164,11 +163,11 @@ public class SubscriberCase extends AbstractCase {
 		Subscriber subscriber = smpOrder.getSubscriber();
 		subscriber.setFornavn(customer.getFirstName());
 		subscriber.setEfternavn(customer.getLastName());
-		subscriber.setKundeId(new Acct(customer.getAcct()));
-		subscriber.setLid(lid);
+		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
+		subscriber.setLid(subscriberInfo.getLid());
+		subscriber.setIsp(subscriberInfo.getIsp());
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
-		mc.isp.setValue(customer.getIsp());
 		mc.emails_home_address.setValue(customer.getEmail());
 		mc.phones_home_number.setValue(customer.getPrivattlf());
 

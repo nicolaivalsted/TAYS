@@ -33,7 +33,7 @@ public final class Subscriber implements Serializable {
 	public String getFornavn() {
 		return fornavn;
 	}
-	
+
 	public String getLid() {
 		return lid;
 	}
@@ -70,6 +70,14 @@ public final class Subscriber implements Serializable {
 
 	public void setEksisterendeKunde(boolean eksisterendeKunde) {
 		this.eksisterendeKunde = eksisterendeKunde;
+	}
+
+	public String getIsp() {
+		return isp;
+	}
+
+	public void setIsp(String isp) {
+		this.isp = isp;
 	}
 
 	@Override

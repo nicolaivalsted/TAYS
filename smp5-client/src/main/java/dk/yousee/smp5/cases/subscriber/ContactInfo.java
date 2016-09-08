@@ -8,7 +8,6 @@ package dk.yousee.smp5.cases.subscriber;
 public class ContactInfo {
 	private String firstName;
 	private String lastName;
-	private String acct;
 	private String email;
 	private String privattlf;
 
@@ -20,23 +19,12 @@ public class ContactInfo {
 		this.lastName = lastName;
 	}
 
-	public void setAcct(String acct) {
-		this.acct = acct;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
 
 	public String getLastName() {
 		return lastName;
-	}
-
-	/**
-	 * @return Customer ID
-	 */
-	public String getAcct() {
-		return acct;
 	}
 
 	public String getEmail() {
@@ -53,16 +41,6 @@ public class ContactInfo {
 
 	public void setPrivattlf(String privattlf) {
 		this.privattlf = privattlf;
-	}
-
-	private String isp;
-
-	public String getIsp() {
-		return isp;
-	}
-
-	public void setIsp(String isp) {
-		this.isp = isp;
 	}
 
 }
