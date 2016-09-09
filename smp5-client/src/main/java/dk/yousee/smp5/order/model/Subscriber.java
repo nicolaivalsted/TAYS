@@ -11,7 +11,6 @@ public final class Subscriber implements Serializable {
 	private String lid;
 	private String fornavn;
 	private String efternavn;
-	private String isp;
 	private boolean eksisterendeKunde = true;
 
 	public Acct getKundeId() {
@@ -70,14 +69,6 @@ public final class Subscriber implements Serializable {
 
 	public void setEksisterendeKunde(boolean eksisterendeKunde) {
 		this.eksisterendeKunde = eksisterendeKunde;
-	}
-
-	public String getIsp() {
-		return isp;
-	}
-
-	public void setIsp(String isp) {
-		this.isp = isp;
 	}
 
 	@Override

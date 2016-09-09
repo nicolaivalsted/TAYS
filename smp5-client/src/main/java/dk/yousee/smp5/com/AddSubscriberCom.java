@@ -187,7 +187,6 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 */
 		private SubType addSubscriber(SnapshotOrderValue ssOrderValue, String externalKey, Subscriber subscriber) {
 			SubType sSubType = ssOrderValue.addNewSubscriber();
-			sSubType.setServiceProvider(subscriber.getIsp());
 			sSubType.setSubscriberType(Constants.SUBSCRIBER_TYPE);
 			sSubType.setLocale("en_US");
 			EntityKeyType entityKey = sSubType.addNewKey();

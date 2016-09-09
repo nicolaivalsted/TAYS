@@ -50,6 +50,7 @@ public class SubscriberCase extends AbstractCase {
 		plan.last_name.setValue(customer.getLastName());
 		plan.emails_home_address.setValue(customer.getEmail());
 		plan.phones_home_number.setValue(customer.getPrivattlf());
+		plan.isp.setValue(customer.getIsp());
 		return plan;
 	}
 
@@ -59,7 +60,6 @@ public class SubscriberCase extends AbstractCase {
 	public Subscriber updateSusbcriber(SubscriberInfo subscriberInfo) {
 		Subscriber sub = getModel().getSubscriber();
 		sub.setLid(subscriberInfo.getLid());
-		sub.setIsp(subscriberInfo.getIsp());
 		getModel().getOrder().setOnlySub(true);
 		return sub;
 	}
@@ -165,11 +165,11 @@ public class SubscriberCase extends AbstractCase {
 		subscriber.setEfternavn(customer.getLastName());
 		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
 		subscriber.setLid(subscriberInfo.getLid());
-		subscriber.setIsp(subscriberInfo.getIsp());
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
 		mc.emails_home_address.setValue(customer.getEmail());
 		mc.phones_home_number.setValue(customer.getPrivattlf());
+		mc.isp.setValue(customer.getIsp());
 
 		SubAddressSpec ma = getModel().add().SubAddressSpec();
 		ma.street_name.setValue(address.getStreetName());

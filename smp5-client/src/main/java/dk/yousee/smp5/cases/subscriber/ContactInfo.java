@@ -10,6 +10,7 @@ public class ContactInfo {
 	private String lastName;
 	private String email;
 	private String privattlf;
+	private String isp;
 
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
@@ -41,6 +42,14 @@ public class ContactInfo {
 
 	public void setPrivattlf(String privattlf) {
 		this.privattlf = privattlf;
+	}
+
+	public String getIsp() {
+		return isp;
+	}
+
+	public void setIsp(String isp) {
+		this.isp = isp;
 	}
 
 }

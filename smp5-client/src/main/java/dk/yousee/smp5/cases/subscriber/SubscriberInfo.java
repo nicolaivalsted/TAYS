@@ -7,7 +7,6 @@ package dk.yousee.smp5.cases.subscriber;
  */
 public class SubscriberInfo {
 	private String lid;
-	private String isp;
 	private String acct;
 
 	public String getLid() {
@@ -16,14 +15,6 @@ public class SubscriberInfo {
 
 	public void setLid(String lid) {
 		this.lid = lid;
-	}
-
-	public String getIsp() {
-		return isp;
-	}
-
-	public void setIsp(String isp) {
-		this.isp = isp;
 	}
 
 	public String getAcct() {
