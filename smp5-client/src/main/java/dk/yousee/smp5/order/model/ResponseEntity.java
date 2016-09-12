@@ -19,6 +19,7 @@ public class ResponseEntity implements Serializable {
 	private ResponseEntityLevel level;
 	private ProvisionStateEnum state;
 	private String lid;
+	private String linkId;
 	private String externalKey;
 	private OrderDataType type;
 	private List<ResponseAssociation> associations = null;
@@ -103,6 +104,14 @@ public class ResponseEntity implements Serializable {
 
 	public void setLid(String lid) {
 		this.lid = lid;
+	}
+
+	public String getLinkId() {
+		return linkId;
+	}
+
+	public void setLinkId(String linkId) {
+		this.linkId = linkId;
 	}
 
 }
