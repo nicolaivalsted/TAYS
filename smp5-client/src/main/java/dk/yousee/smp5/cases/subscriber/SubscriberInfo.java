@@ -8,6 +8,7 @@ package dk.yousee.smp5.cases.subscriber;
 public class SubscriberInfo {
 	private String lid;
 	private String acct;
+	private String linkid;
 
 	public String getLid() {
 		return lid;
@@ -23,6 +24,14 @@ public class SubscriberInfo {
 
 	public void setAcct(String acct) {
 		this.acct = acct;
+	}
+
+	public String getLinkid() {
+		return linkid;
+	}
+
+	public void setLinkid(String linkid) {
+		this.linkid = linkid;
 	}
 
 }

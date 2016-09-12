@@ -60,6 +60,7 @@ public class SubscriberCase extends AbstractCase {
 	public Subscriber updateSusbcriber(SubscriberInfo subscriberInfo) {
 		Subscriber sub = getModel().getSubscriber();
 		sub.setLid(subscriberInfo.getLid());
+		sub.setLinkid(subscriberInfo.getLinkid());
 		getModel().getOrder().setOnlySub(true);
 		return sub;
 	}
@@ -165,6 +166,7 @@ public class SubscriberCase extends AbstractCase {
 		subscriber.setEfternavn(customer.getLastName());
 		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
 		subscriber.setLid(subscriberInfo.getLid());
+		subscriber.setLinkid(subscriberInfo.getLinkid());
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
 		mc.emails_home_address.setValue(customer.getEmail());

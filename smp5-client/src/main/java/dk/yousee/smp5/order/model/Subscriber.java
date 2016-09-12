@@ -9,6 +9,7 @@ public final class Subscriber implements Serializable {
 	private Acct kundeId;
 	private String internId;
 	private String lid;
+	private String linkid;
 	private String fornavn;
 	private String efternavn;
 	private boolean eksisterendeKunde = true;
@@ -69,6 +70,14 @@ public final class Subscriber implements Serializable {
 
 	public void setEksisterendeKunde(boolean eksisterendeKunde) {
 		this.eksisterendeKunde = eksisterendeKunde;
+	}
+
+	public String getLinkid() {
+		return linkid;
+	}
+
+	public void setLinkid(String linkid) {
+		this.linkid = linkid;
 	}
 
 	@Override

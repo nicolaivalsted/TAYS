@@ -432,6 +432,9 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			ParamType lidParm = parmList.addNewParam();
 			lidParm.setName("lid");
 			lidParm.setStringValue(order.getSubscriber().getLid());
+			ParamType linkid = parmList.addNewParam();
+			lidParm.setName("linkid");
+			lidParm.setStringValue(order.getSubscriber().getLinkid());
 			subKey.setType("SubSpec:-");
 			subKey.setExternalKey(order.getExternalKey());
 			headMaker.updateOrderParams(actionOrder.addNewOrderParamList(), order);
