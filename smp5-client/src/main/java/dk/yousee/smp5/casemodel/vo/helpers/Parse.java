@@ -63,7 +63,7 @@ public class Parse {
 	public void buildSubscriberModel(ResponseEntity top) {
 		if (top == null)
 			return;
-		if (top.getLid() != null) {
+		if (top != null) {
 			model.getSubscriber().setLid(top.getLid());
 			model.getSubscriber().setLinkid(top.getLinkId());
 		}
