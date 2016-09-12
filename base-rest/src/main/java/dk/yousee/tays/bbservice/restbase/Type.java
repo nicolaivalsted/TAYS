@@ -23,8 +23,6 @@ public enum Type {
     Mobb("SubSvcSpec:mobile_broadband"),
     SimCard("SubSvcSpec:sim_card"),
     Mta("SubSvcSpec:smp_emta_pc_voip_access"),
-    CWiFi("SubSvcSpec:community_wifi"),
-    Backup("SubSvcSpec:backup"),
     Mofibo("SubSvcSpec:mofibo_composed"),
     Sikkerhedspakke("SubSvcSpec:security_package"),
     OTT("SubSvcSpec:ott_services_composed"),
