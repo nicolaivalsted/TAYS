@@ -294,6 +294,9 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			ParamType parameter2 = eParamList.addNewParam();
 			parameter2.setName("acct");
 			parameter2.setStringValue(kundeId);
+			ParamType linkid = eParamList.addNewParam();
+			linkid.setName("linkid");
+			linkid.setStringValue(subscriber.getLinkid());
 			servicePart.setEntityKey(entKey);
 			// Add service to request
 			servicePart.setEntityValue(sSubType);
