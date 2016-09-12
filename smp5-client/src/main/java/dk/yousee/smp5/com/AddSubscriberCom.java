@@ -203,8 +203,8 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 			lidParm.setName("lid");
 			lidParm.setStringValue(subscriber.getLid());
 			ParamType linkid = eParamList.addNewParam();
-			lidParm.setName("linkid");
-			lidParm.setStringValue(subscriber.getLinkid());
+			linkid.setName("linkid");
+			linkid.setStringValue(subscriber.getLinkid());
 			return sSubType;
 		}
 
