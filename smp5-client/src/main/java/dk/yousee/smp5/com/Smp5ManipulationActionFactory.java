@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dk.yousee.smp5.order.model.Smp5ManipulationAction;
-import dk.yousee.smp.order.model.SmpManipulationAction;
 import dk.yousee.smp5.order.model.Action;
 
 /**
