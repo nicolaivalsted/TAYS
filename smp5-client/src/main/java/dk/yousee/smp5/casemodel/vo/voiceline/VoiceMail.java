@@ -15,7 +15,7 @@ public class VoiceMail extends BasicUnit {
 
 	public VoiceMail(SubscriberModel model, String externalKey, VoiceService parent) {
 		super(model, externalKey, TYPE, LEVEL, NAME, parent);
-		model.getServiceLevelUnit().add(this);
+		parent.setVoiceMail(this);
 	}
 
 	private MailBox mailBox;
