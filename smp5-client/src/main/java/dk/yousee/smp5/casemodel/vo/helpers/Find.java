@@ -516,6 +516,14 @@ public class Find {
 		return InetAccessExternal(key.CableBBService(sik));
 	}
 
+	public InetAccess findFirstInternet() {
+		List<CableBBService> bbs = CableBBService();
+		for (CableBBService bb : bbs) {
+			return bb.getInetAccess();
+		}
+		return null;
+	}
+
 	/**
 	 * @param parentKey
 	 *            to the CableBBService
