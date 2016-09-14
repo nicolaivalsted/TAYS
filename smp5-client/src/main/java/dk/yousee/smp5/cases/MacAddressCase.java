@@ -251,7 +251,7 @@ public class MacAddressCase extends AbstractCase {
 		voipAccess.mta_id.setValue(mta_id); // "12345678903" ** unique
 		voipAccess.mta_max_port_num.setValue("1");
 		voipAccess.port_number.setValue("1");
-		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
+		DialToneAccess dialToneAccess = getModel().find().findFirstVoice();
 		if (dialToneAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
 			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}

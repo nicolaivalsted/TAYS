@@ -424,6 +424,14 @@ public class Find {
 		return parent.getDialToneAccess();
 	}
 
+	public DialToneAccess findFirstVoice() {
+		List<VoiceService> voices = VoiceService();
+		for (VoiceService voice : voices) {
+			return voice.getDialToneAccess();
+		}
+		return null;
+	}
+
 	/**
 	 * @param modemId
 	 *            to the modem
