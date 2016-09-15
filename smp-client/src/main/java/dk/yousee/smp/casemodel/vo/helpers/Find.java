@@ -93,7 +93,9 @@ public class Find {
 		return null;
 	}
 
-	/** CableBBServices find ***************************************************************************************************/
+	/**
+	 * CableBBServices find
+	 ***************************************************************************************************/
 
 	/**
 	 * @return the CableBBServices the subscriber has
@@ -106,6 +108,15 @@ public class Find {
 			}
 		}
 		return res;
+	}
+
+	public CableBBService findFirstCableBBService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(CableBBService.TYPE)) {
+				return (CableBBService) plan;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -194,6 +205,11 @@ public class Find {
 	 */
 	public InetAccess InetAccess(ModemId modemId) {
 		return InetAccess(key.CableBBService(modemId));
+	}
+
+	public InetAccess findFirstInetAccess() {
+		CableBBService bb = findFirstCableBBService();
+		return bb.getInetAccess();
 	}
 
 	/**
@@ -327,7 +343,9 @@ public class Find {
 		return parent.getBsa();
 	}
 
-	/** CpeComposedService find ***************************************************************************************************/
+	/**
+	 * CpeComposedService find
+	 ***************************************************************************************************/
 
 	/**
 	 * @return the CpeComposedServices the subscriber has
@@ -340,6 +358,15 @@ public class Find {
 			}
 		}
 		return res;
+	}
+
+	public CpeComposedService findFirstCpeComposedService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(CpeComposedService.TYPE)) {
+				return (CpeComposedService) plan;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -381,7 +408,9 @@ public class Find {
 		return parent.getVoipAccess();
 	}
 
-	/** CableVoiceService find ***************************************************************************************************/
+	/**
+	 * CableVoiceService find
+	 ***************************************************************************************************/
 
 	/**
 	 * @return the CableVoiceService the subscriber has
@@ -394,6 +423,15 @@ public class Find {
 			}
 		}
 		return res;
+	}
+
+	public CableVoiceService findFirstCableVoiceService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(CableVoiceService.TYPE)) {
+				return (CableVoiceService) plan;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -492,7 +530,9 @@ public class Find {
 		return parent.getVoiceMail();
 	}
 
-	/** MobileBBService find ***************************************************************************************************/
+	/**
+	 * MobileBBService find
+	 ***************************************************************************************************/
 
 	/**
 	 * @return the MobileBBService the subscriber has
@@ -527,7 +567,6 @@ public class Find {
 			return null;
 		return parent.getSmpMobileBroadbandAttributes();
 	}
-
 
 	/**
 	 * @param modemId

@@ -103,11 +103,13 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
 			inetAccess.email_server_enable.setValue("true");
 		}
-		if (lineItem.getWifiServiceProductCode() != null) {
-
+		if (lineItem.getWifi()) {
+			inetAccess.wifi_security_disabled.setValue("false");
 			inetAccess.ss_id.setValue(InetAccess.generateSsid());
 			inetAccess.psk.setValue(InetAccess.generatePsk());
 			inetAccess.gw_channel_id.setValue("0");
+		} else {
+			inetAccess.wifi_security_disabled.setValue("true");
 		}
 		return getModel().getOrder();
 	}
@@ -159,7 +161,7 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
 			inetAccess.email_server_enable.setValue("true");
 		}
-		if (lineItem.getWifiServiceProductCode() != null) {
+		if (lineItem.getWifi()) {
 			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("false");
 			if (!exists) { // this means it is created now, then generate
 							// and fill in values
@@ -185,7 +187,7 @@ public class CableBBCase extends AbstractCase {
 		private String rateCodes;
 		private String staticIpProductCode;
 		private String emailServerUnblockProductCode;
-		private String wifiServiceProductCode;
+		private boolean wifi;
 		private String addnCPEProductCode;
 		private String modemActivationCode;
 		private boolean usingStdCpe = true;
@@ -237,16 +239,12 @@ public class CableBBCase extends AbstractCase {
 			return emailServerUnblockProductCode;
 		}
 
-		/**
-		 * @param wifiServiceProductCode
-		 *            field wifi_service_product_code sample value: 2948203984
-		 */
-		public void setWifiServiceProductCode(String wifiServiceProductCode) {
-			this.wifiServiceProductCode = wifiServiceProductCode;
+		public boolean getWifi() {
+			return wifi;
 		}
 
-		public String getWifiServiceProductCode() {
-			return wifiServiceProductCode;
+		public void setWifi(boolean wifi) {
+			this.wifi = wifi;
 		}
 
 		public String getAddnCPEProductCode() {

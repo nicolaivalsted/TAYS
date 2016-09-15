@@ -77,6 +77,7 @@ public class DialToneAccess extends BasicUnit {
     public PropHolder rate_codes = new PropHolder(this, "rate_codes", true);
     public PropHolder Privacy = new PropHolder(this, "privacy", true);
     public PropHolder Cos_restrict_id = new PropHolder(this, "cos_restrict_id", true);
+    public PropHolder lnp_porting_status  = new PropHolder(this, "lnp_porting_status");
     
     public PropHolder cnam = new PropHolder(this, "cnam", true);
     
