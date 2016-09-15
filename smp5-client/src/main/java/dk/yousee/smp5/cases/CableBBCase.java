@@ -168,9 +168,11 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
 				inetAccess.psk.setValue(InetAccess.generatePsk());
 				inetAccess.gw_channel_id.setValue("0");
+			}else{
+				inetAccess.wifi_security_disabled.setValue("false");
 			}
 		}else{
-			inetAccess.wifi_security_disabled.getValue().equals("true");
+			inetAccess.wifi_security_disabled.setValue("true");
 		}
 		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
 			inetAccess.allowed_cpe.setValue("2");
