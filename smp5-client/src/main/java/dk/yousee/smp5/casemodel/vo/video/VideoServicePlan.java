@@ -27,6 +27,8 @@ public class VideoServicePlan extends BasicUnit {
 
 	List<VideoSubscription> videoSubscriptions = new ArrayList<VideoSubscription>();
 
+	List<AppSubscription> appSubscriptions = new ArrayList<AppSubscription>();
+
 	public VideoComposedService getParent() {
 		return (VideoComposedService) super.getParent();
 	}
@@ -45,6 +47,14 @@ public class VideoServicePlan extends BasicUnit {
 
 	public void setVideoSubscriptions(List<VideoSubscription> videoSubscriptions) {
 		this.videoSubscriptions = videoSubscriptions;
+	}
+
+	public List<AppSubscription> getAppSubscriptions() {
+		return appSubscriptions;
+	}
+
+	public void setAppSubscriptions(List<AppSubscription> appSubscriptions) {
+		this.appSubscriptions = appSubscriptions;
 	}
 
 }

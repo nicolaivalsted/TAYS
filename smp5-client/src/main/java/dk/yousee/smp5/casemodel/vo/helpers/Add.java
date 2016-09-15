@@ -25,6 +25,7 @@ import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -128,6 +129,15 @@ public class Add {
 	public VideoSubscription VideoSubscription(String acct) {
 		VideoServicePlan parent = model.alloc().VideoServicePlan(acct);
 		VideoSubscription res = new VideoSubscription(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+	
+	public AppSubscription AppSubscription(String acct) {
+		VideoServicePlan parent = model.alloc().VideoServicePlan(acct);
+		AppSubscription res = new AppSubscription(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

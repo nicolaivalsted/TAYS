@@ -87,6 +87,7 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			ExecuteOrderRequestDocument execDoc;
 			
 			execDoc = createXmlOrderDoc(order, order.getDebugId(), orderId,order.getOnlySub());
+			logger.info(execDoc.xmlText());
 			return execDoc;
 		}
 

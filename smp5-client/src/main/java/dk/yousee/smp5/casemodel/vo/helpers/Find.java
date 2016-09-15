@@ -30,6 +30,7 @@ import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMailService;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -189,6 +190,15 @@ public class Find {
 			return null;
 		} else {
 			return parent.getVideoSubscriptions();
+		}
+	}
+	
+	public List<AppSubscription> AppSubscription() {
+		VideoServicePlan parent = VideoServicePlan();
+		if (parent == null) {
+			return null;
+		} else {
+			return parent.getAppSubscriptions();
 		}
 	}
 

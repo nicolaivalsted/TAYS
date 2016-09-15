@@ -35,5 +35,6 @@ public class VoipAccess extends BasicUnit {
     public PropHolder mta_fqdn = new PropHolder(this, "mta_fqdn", false);
     public PropHolder cm_mac = new PropHolder(this, "cm_mac", false);
     public PropHolder cmts = new PropHolder(this, "cmts", false);
+    public PropHolder mta_max_port_num = new PropHolder(this, "mta_max_port_num");
 
 }
