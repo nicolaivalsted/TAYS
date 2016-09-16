@@ -23,7 +23,6 @@ public class InetAccess extends BasicUnit {
 	public PropHolder bill_ack = new PropHolder(this, "bill_ack");
 	public PropHolder bottom_up_provisioned = new PropHolder(this, "bottom_up_provisioned");
 	public PropHolder num_of_ips = new PropHolder(this, "num_of_ips");
-	public PropHolder gi_address = new PropHolder(this, "gi_address");
 	public PropHolder aup = new PropHolder(this, "aup");
 	public PropHolder email_cos = new PropHolder(this, "email_cos");
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac");
