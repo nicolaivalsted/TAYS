@@ -85,9 +85,8 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		public XmlObject createXml(Order order) {
 			Integer orderId = -1;
 			ExecuteOrderRequestDocument execDoc;
-			
-			execDoc = createXmlOrderDoc(order, order.getDebugId(), orderId,order.getOnlySub());
-			logger.info(execDoc.xmlText());
+
+			execDoc = createXmlOrderDoc(order, order.getDebugId(), orderId, order.getOnlySub());
 			return execDoc;
 		}
 
@@ -100,9 +99,9 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		 *            ordernumber (always -1)
 		 * @return xml document to be processed at Sigma
 		 */
-		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, String debugId, Integer orderId,boolean subscriber) {
+		private ExecuteOrderRequestDocument createXmlOrderDoc(Order order, String debugId, Integer orderId, boolean subscriber) {
 			OrderValue orderValue;
-			orderValue = createForExistingCustomer(order, debugId, orderId,subscriber);
+			orderValue = createForExistingCustomer(order, debugId, orderId, subscriber);
 			ExecuteOrderRequestDocument execDoc = ExecuteOrderRequestDocument.Factory.newInstance();
 			ExecuteOrderRequestDocument.ExecuteOrderRequest execRequest = execDoc.addNewExecuteOrderRequest();
 			execRequest.setOrderValue(orderValue);
@@ -162,9 +161,8 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			OrderItemType servicePart = orderItemList.addNewOrderItem();
 			servicePart.setAction(samf.toAction(servicePlan.getAction()).getValue());
 			servicePart.setEntityKey(subSvcKeyType);
-			logger.debug("ServiceData constains: " + "Level: " + servicePlan.getLevel() + ",Action: " + servicePlan.getAction()
-					+ ",State: " + servicePlan.getState() + ",Type: " + servicePlan.getType() + ",ExternalKey: "
-					+ servicePlan.getExternalKey());
+			logger.debug("ServiceData constains: " + "Level: " + servicePlan.getLevel() + ",Action: " + servicePlan.getAction() + ",State: "
+					+ servicePlan.getState() + ",Type: " + servicePlan.getType() + ",ExternalKey: " + servicePlan.getExternalKey());
 			// Add service to request
 			SubSvcType serviceEntity = SubSvcType.Factory.newInstance();
 			serviceEntity.xsetServiceState(sstc.toState(servicePlan.getAction()));
@@ -179,8 +177,8 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 				serviceEntity.setParentServiceKey(keyType);
 			} else {
 				if (parentServiceKey != null) {
-					serviceEntity.setParentServiceKey(myMaker.initiateSubSvcKeyType(OrderDataType.SERVICE_TYPE_PARENT_SERVICE_KEY,
-							parentServiceKey.getExternalKey()));
+					serviceEntity.setParentServiceKey(
+							myMaker.initiateSubSvcKeyType(OrderDataType.SERVICE_TYPE_PARENT_SERVICE_KEY, parentServiceKey.getExternalKey()));
 				}
 			}
 
@@ -454,8 +452,8 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			String responseXml = xml.getResponse();
 			XmlObject xmlObject = parseResponse(responseXml);
 
-			XmlObject[] res = xmlObject
-					.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderException");
+			XmlObject[] res = xmlObject.selectPath(
+					"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderException");
 			if (res.length > 0) {
 				// This is an error
 				String errorMessage;
@@ -472,8 +470,8 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 				return new ExecuteOrderReply(errorMessage, xml);
 
 			} else {
-				res = xmlObject
-						.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderResponse");
+				res = xmlObject.selectPath(
+						"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderResponse");
 				if (res.length > 0) {
 					// Everything aparantly went fine
 					logger.debug("Got ExecuteOrderResponse back!");
