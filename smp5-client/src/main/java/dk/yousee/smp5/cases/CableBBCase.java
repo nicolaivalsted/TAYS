@@ -168,10 +168,10 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
 				inetAccess.psk.setValue(InetAccess.generatePsk());
 				inetAccess.gw_channel_id.setValue("0");
-			}else{
+			} else {
 				inetAccess.wifi_security_disabled.setValue("false");
 			}
-		}else{
+		} else {
 			inetAccess.wifi_security_disabled.setValue("true");
 		}
 		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
@@ -335,8 +335,12 @@ public class CableBBCase extends AbstractCase {
 		if (stdCpe != null) {
 			stdCpe.sendAction(Action.SUSPEND);
 			stdCpe.suspend_abuse.setValue(reason.name());
-			spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
-					SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+			InetAccess inetAccess = getModel().find().findFirstInternet();
+			SuspendReasonBilling billing = null;
+			if (inetAccess != null) {
+				billing = SuspendReasonBilling.getEnum(inetAccess.suspend_reason.getValue());
+			}
+			spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()), billing);
 			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
 			if (addnCpe != null) {
 				addnCpe.sendAction(Action.SUSPEND);
@@ -364,16 +368,16 @@ public class CableBBCase extends AbstractCase {
 		ensureAcct();
 		SuspendStatus spSt;
 		StdCpe stdCpe = getModel().find().StdCpe(sik);
-		if (stdCpe != null) {
-			stdCpe.sendAction(Action.SUSPEND);
-			stdCpe.suspend_billing.setValue(reason.name());
-			spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
-					SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
-			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
-			if (addnCpe != null) {
-				addnCpe.sendAction(Action.SUSPEND);
-				addnCpe.suspend_billing.setValue(reason.toString());
+		InetAccess inetAccess = getModel().find().findFirstInternet();
+		if (inetAccess != null) {
+			// stdCpe.sendAction(Action.SUSPEND);
+			inetAccess.suspend.setValue("y");
+			inetAccess.suspend_reason.setValue(reason.name());
+			SuspendReasonAbuse abuse = null;
+			if (stdCpe != null) {
+				abuse = SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue());
 			}
+			spSt = new SuspendStatus(abuse, SuspendReasonBilling.getEnum(inetAccess.suspend_reason.getValue()));
 		} else {
 			spSt = new SuspendStatus(false);
 		}
@@ -401,10 +405,17 @@ public class CableBBCase extends AbstractCase {
 		if (stdCpe != null) {
 			Action resultingAction;
 			stdCpe.suspend_abuse.setValue(" ");
-			if (stdCpe.suspend_billing.hasValue()) {
+			InetAccess inetAccess = getModel().find().findFirstInternet();
+			boolean hasValue = false;
+			if (inetAccess != null) {
+				hasValue = inetAccess.suspend.equals("y");
+			} else {
+				hasValue = false;
+			}
+			if (hasValue) {
 				resultingAction = Action.SUSPEND;
 				spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
-						SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+						SuspendReasonBilling.getEnum(inetAccess.suspend_reason.getValue()));
 			} else {
 				resultingAction = Action.RESUME;
 				spSt = new SuspendStatus(true);
@@ -438,10 +449,17 @@ public class CableBBCase extends AbstractCase {
 		ensureAcct();
 		SuspendStatus spSt;
 		StdCpe stdCpe = getModel().find().StdCpe(sik);
-		if (stdCpe != null) {
+		InetAccess inetAccess = getModel().find().findFirstInternet();
+		if (inetAccess != null) {
 			Action resultingAction;
-			stdCpe.suspend_billing.setValue(" ");
-			if (stdCpe.suspend_abuse.hasValue()) {
+			inetAccess.suspend.setValue("n");
+			boolean hasValue = false;
+			if (stdCpe != null) {
+				hasValue = stdCpe.suspend_abuse.hasValue();
+			} else {
+				hasValue = false;
+			}
+			if (hasValue) {
 				resultingAction = Action.SUSPEND;
 				spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
 						SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
@@ -450,11 +468,6 @@ public class CableBBCase extends AbstractCase {
 				spSt = new SuspendStatus(true);
 			}
 			stdCpe.sendAction(resultingAction);
-			AddnCpe addnCpe = getModel().find().AddnCpe(sik);
-			if (addnCpe != null) {
-				stdCpe.suspend_billing.setValue(" ");
-				addnCpe.sendAction(resultingAction);
-			}
 		} else {
 			spSt = new SuspendStatus(false);
 		}
@@ -487,11 +500,12 @@ public class CableBBCase extends AbstractCase {
 	public SuspendStatus getSuspendStatus(String sik) throws BusinessException {
 		ensureAcct();
 		StdCpe stdCpe = getModel().find().StdCpe(sik);
+		InetAccess inetAccess = getModel().find().findFirstInternet();
 		SuspendStatus spSt;
-		if (stdCpe != null) {
-			if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
+		if (inetAccess != null) {
+			if (inetAccess.suspend.getValue().equals("y")) {
 				spSt = new SuspendStatus(SuspendReasonAbuse.getEnum(stdCpe.suspend_abuse.getValue()),
-						SuspendReasonBilling.getEnum(stdCpe.suspend_billing.getValue()));
+						SuspendReasonBilling.getEnum(inetAccess.suspend_reason.getValue()));
 			} else {
 				spSt = new SuspendStatus(true);
 			}

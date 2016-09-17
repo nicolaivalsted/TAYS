@@ -32,6 +32,8 @@ public class InetAccess extends BasicUnit {
 	public PropHolder downstream = new PropHolder(this, "downstream_bw_profile");
 	public PropHolder upstream = new PropHolder(this, "upstream_bw_profile");
 	public PropHolder allowed_cpe = new PropHolder(this, "allowed_cpe");
+	public PropHolder suspend = new PropHolder(this, "suspend");
+	public PropHolder suspend_reason = new PropHolder(this, "suspend_reason");
 
 	public PropHolder modem_id = new PropHolder(this, "modem_id");
 	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
