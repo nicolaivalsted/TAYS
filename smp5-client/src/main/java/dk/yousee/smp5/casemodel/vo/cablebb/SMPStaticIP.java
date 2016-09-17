@@ -25,7 +25,7 @@ public class SMPStaticIP extends BasicUnit {
 
 	// Type.FEATURE
 	public PropHolder static_ip_address = new PropHolder(this, "static_ip", true);
-	public PropHolder staticip_product_code = new PropHolder(this, "staticip_product_code", true);
+	public PropHolder sik = new PropHolder(this, "sik", true);
 	public PropHolder staticip_cpe_mac = new PropHolder(this, "cpe_mac");
 	public PropHolder static_gi_address = new PropHolder(this, "gi_address");
 

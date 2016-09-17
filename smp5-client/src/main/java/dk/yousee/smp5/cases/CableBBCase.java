@@ -94,7 +94,7 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.isUsingStdCpe()) {
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
-				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
+				smpStaticIP.sik.setValue(sik);
 			}
 		} else {
 			inetAccess.allowed_cpe.setValue("0");
@@ -149,7 +149,7 @@ public class CableBBCase extends AbstractCase {
 			}
 			if (lineItem.getStaticIpProductCode() != null) {
 				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
-				smpStaticIP.staticip_product_code.setValue(lineItem.getStaticIpProductCode());
+				smpStaticIP.sik.setValue(sik);
 				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
 					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
 				}
