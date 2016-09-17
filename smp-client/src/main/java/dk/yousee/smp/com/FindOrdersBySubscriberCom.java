@@ -148,9 +148,6 @@ public class FindOrdersBySubscriberCom extends SmpCom<Acct, QueryOrdersBySubscri
             List<OrderInfo> orderInfos = new ArrayList<OrderInfo>();
             ArrayOfOrderValue arrayOfOrderValue = queryOrdersResponse.getOrderValue();
 
-//            logger.debug("parseQueryOrdersBySubscriber " + queryOrdersResponse.toString());
-//            logger.debug("parseQueryOrdersBySubscriber, parsing orders");
-
             for (OrderValue orderVal : arrayOfOrderValue.getItemArray()) {
                 int orderState = orderVal.getOrderState().intValue();
                 OrderStateEnum stateEnum = OrderStateEnum.findOrderStateEnumByType(orderState);
@@ -181,7 +178,6 @@ public class FindOrdersBySubscriberCom extends SmpCom<Acct, QueryOrdersBySubscri
                     orderInfo.setStateEnum(stateEnum);
                     orderInfos.add(orderInfo);
                 }
-//                logger.debug("Order Number " + orderId + " is in orderState = " + stateEnum.getType());
             }
             return orderInfos;
         }

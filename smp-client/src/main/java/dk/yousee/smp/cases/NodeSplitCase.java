@@ -10,29 +10,28 @@ import dk.yousee.smp.order.model.OrderService;
  * Node Split use case
  */
 public class NodeSplitCase extends AbstractCase {
-    /**
-     * Constructor with the customer account.
-     *
-     * @param acct account id
-     * @param service service to sigma
-     */
-    public NodeSplitCase(Acct acct, OrderService service) {
-        super(acct, service);
-    }
+	/**
+	 * Constructor with the customer account.
+	 *
+	 * @param acct
+	 *            account id
+	 * @param service
+	 *            service to sigma
+	 */
+	public NodeSplitCase(Acct acct, OrderService service) {
+		super(acct, service);
+	}
 
-    public HsdAccess updateForNodeSplit(ModemId modemId, String gi_address, String cm_mac,
-            String modemModel,
-            String vendor,
-            String serial) {
-        HsdAccess ha = getModel().alloc().HsdAccess(modemId);
-        ha.cm_mac.setValue(cm_mac);
-        ha.gi_address.setValue(gi_address);
-        if (modemModel != null)
-            ha.cm_model.setValue(modemModel);
-        if (vendor != null)
-            ha.cm_manufacturer.setValue(vendor);
-        if (serial != null)
-            ha.cm_serial_number.setValue(serial);
-        return ha;
-    }
+	public HsdAccess updateForNodeSplit(ModemId modemId, String gi_address, String cm_mac, String modemModel, String vendor, String serial) {
+		HsdAccess ha = getModel().alloc().HsdAccess(modemId);
+		ha.cm_mac.setValue(cm_mac);
+		ha.gi_address.setValue(gi_address);
+		if (modemModel != null)
+			ha.cm_model.setValue(modemModel);
+		if (vendor != null)
+			ha.cm_manufacturer.setValue(vendor);
+		if (serial != null)
+			ha.cm_serial_number.setValue(serial);
+		return ha;
+	}
 }

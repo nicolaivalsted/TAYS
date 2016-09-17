@@ -9,47 +9,48 @@ package dk.yousee.randy.base;
  * @author jablo
  */
 public class RestClientException extends Exception {
-    private int httpStatusCode;
+	private static final long serialVersionUID = -2237322083677501508L;
+	private int httpStatusCode;
 
-    public RestClientException() {
-    }
+	public RestClientException() {
+	}
 
-    public RestClientException(String string) {
-        super(string);
-    }
+	public RestClientException(String string) {
+		super(string);
+	}
 
-    public RestClientException(String string, Throwable thrwbl) {
-        super(string, thrwbl);
-    }
+	public RestClientException(String string, Throwable thrwbl) {
+		super(string, thrwbl);
+	}
 
-    public RestClientException(Throwable thrwbl) {
-        super(thrwbl);
-    }
+	public RestClientException(Throwable thrwbl) {
+		super(thrwbl);
+	}
 
-    public RestClientException(int httpStatusCode) {
-        this.httpStatusCode = httpStatusCode;
-    }
+	public RestClientException(int httpStatusCode) {
+		this.httpStatusCode = httpStatusCode;
+	}
 
-    public RestClientException(int httpStatusCode, String string) {
-        super(string);
-        this.httpStatusCode = httpStatusCode;
-    }
+	public RestClientException(int httpStatusCode, String string) {
+		super(string);
+		this.httpStatusCode = httpStatusCode;
+	}
 
-    public RestClientException(int httpStatusCode, String string, Throwable thrwbl) {
-        super(string, thrwbl);
-        this.httpStatusCode = httpStatusCode;
-    }
+	public RestClientException(int httpStatusCode, String string, Throwable thrwbl) {
+		super(string, thrwbl);
+		this.httpStatusCode = httpStatusCode;
+	}
 
-    public RestClientException(int httpStatusCode, Throwable thrwbl) {
-        super(thrwbl);
-        this.httpStatusCode = httpStatusCode;
-    }
+	public RestClientException(int httpStatusCode, Throwable thrwbl) {
+		super(thrwbl);
+		this.httpStatusCode = httpStatusCode;
+	}
 
-    public int getHttpStatusCode() {
-        return httpStatusCode;
-    }
+	public int getHttpStatusCode() {
+		return httpStatusCode;
+	}
 
-    public void setHttpStatusCode(int httpStatusCode) {
-        this.httpStatusCode = httpStatusCode;
-    }
+	public void setHttpStatusCode(int httpStatusCode) {
+		this.httpStatusCode = httpStatusCode;
+	}
 }

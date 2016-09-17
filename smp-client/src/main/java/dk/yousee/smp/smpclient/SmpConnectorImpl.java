@@ -1,11 +1,12 @@
 package dk.yousee.smp.smpclient;
 
-import dk.yousee.randy.base.AbstractConnector;
-import org.apache.http.HttpHost;
-import sun.misc.BASE64Encoder;
-
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.apache.http.HttpHost;
+
+import dk.yousee.randy.base.AbstractConnector;
+import sun.misc.BASE64Encoder;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,7 +30,6 @@ public class SmpConnectorImpl extends AbstractConnector  {
     public static final String K_QA_SMP_HOST="http://194.239.10.197:41203";
     public static final String K_SMP_HOST="http://10.114.24.120:44001";
 
-//    private SmpUrlContext urlContext;
 
     /**
      * Default 100 seconds to ask this question as max.
@@ -39,10 +39,6 @@ public class SmpConnectorImpl extends AbstractConnector  {
     public SmpConnectorImpl() {
         super();
         setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
-//        urlContext=new SmpUrlContext();
-//        urlContext.setProxyHost(DEFAULT_PROXY_HOST);
-//        urlContext.setConnectionTimeout(DEFAULT_CONNECTION_TIMEOUT);
-//        urlContext.setOperationTimeout(DEFAULT_OPERATION_TIMEOUT);
     }
     private String url;
     private URL url2;
@@ -130,12 +126,6 @@ public class SmpConnectorImpl extends AbstractConnector  {
     }
 
     public String encodeBasic(String userName, String password) {
-
-// code from
-//        otherHeaders.append(HTTPConstants.HEADER_AUTHORIZATION)
-//            .append(": Basic ")
-//            .append(Base64.encode(tmpBuf.toString().getBytes()))
-//            .append("\r\n");
         // stuff the Authorization request header
         byte[] encodedPassword = (userName + ":" + password).getBytes();
         BASE64Encoder encoder = new BASE64Encoder();

@@ -13,33 +13,14 @@ public final class CustomerInfo implements Serializable {
     private static final long serialVersionUID = 1521257064570975454L;
 
     private String acct;
-//    private String sub_id;
     private String zipcode;
-//    private String country;
     private String district;
     private String ntd_return_segment;
     private String first_name;
     private String last_name;
     private String city;
-//    private String cm_mac;
-//    private String cpe_mac;
-//    private String rate_center;
     private String address1;
     private String address2;
-
-
-//    /**
-//     *
-//     * @return Smp internal key to the subscriber
-//     * @deprecated do not use this. Use getAcct
-//     */
-//    public String getSub_id() {
-//        return sub_id;
-//    }
-//
-//    public void setSub_id(String sub_id) {
-//        this.sub_id = sub_id;
-//    }
 
     /**
      * Subscriber that matches this search
@@ -60,14 +41,6 @@ public final class CustomerInfo implements Serializable {
     public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
-
-//    public String getCountry() {
-//        return country;
-//    }
-//
-//    public void setCountry(String country) {
-//        this.country = country;
-//    }
 
     public String getDistrict() {
         return district;
@@ -108,30 +81,6 @@ public final class CustomerInfo implements Serializable {
     public void setCity(String city) {
         this.city = city;
     }
-
-//    public String getCm_mac() {
-//        return cm_mac;
-//    }
-//
-//    public void setCm_mac(String cm_mac) {
-//        this.cm_mac = cm_mac;
-//    }
-//
-//    public String getCpe_mac() {
-//        return cpe_mac;
-//    }
-//
-//    public void setCpe_mac(String cpe_mac) {
-//        this.cpe_mac = cpe_mac;
-//    }
-
-//    public String getRate_center() {
-//        return rate_center;
-//    }
-//
-//    public void setRate_center(String rate_center) {
-//        this.rate_center = rate_center;
-//    }
 
     public String getAddress1() {
         return address1;
@@ -185,19 +134,14 @@ public final class CustomerInfo implements Serializable {
     public String toString() {
         final StringBuilder sb = new StringBuilder();
         sb.append("{\"acct\":\"").append(acct).append('"');
-//        if (sub_id != null) sb.append(", \"sub_id\":\"").append(sub_id).append('"');
         if (first_name != null) sb.append(", \"first_name\":\"").append(getFirst_name()).append('"');
         if (last_name != null) sb.append(", \"last_name\":\"").append(getLast_name()).append('"');
         if (address1 != null) sb.append(", \"address1\":\"").append(getAddress1()).append('"');
         if (address2 != null) sb.append(", \"address2\":\"").append(getAddress2()).append('"');
         if (zipcode != null) sb.append(", \"zipcode\":\"").append(getZipcode()).append('"');
         if (city != null) sb.append(", \"city\":\"").append(getCity()).append('"');
-//        if (country != null) sb.append(", \"country\":\"").append(country).append('"');
         if (district != null) sb.append(", \"district\":\"").append(getDistrict()).append('"');
         if (ntd_return_segment != null) sb.append(", \"ntd_return_segment\":\"").append(getNtd_return_segment()).append('"');
-//        if (cm_mac != null) sb.append(", \"cm_mac\":\"").append(cm_mac).append('"');
-//        if (cpe_mac != null) sb.append(", \"cpe_mac\":\"").append(cpe_mac).append('"');
-//        if (rate_center != null) sb.append(", \"rate_center\":\"").append(rate_center).append('"');
         if (status != null) sb.append(", \"status\":\"").append(getStatus()).append('"');
         sb.append('}');
         return sb.toString();

@@ -35,7 +35,7 @@ public class Sikkerhedspakke extends BasicUnit {
 	}
 
 	public PropHolder sik = new PropHolder(this, "sik", true);
-	public PropHolder yspro_provisioningid = new PropHolder(this, "yspro_provisioningid", false);
+	public PropHolder provisioningid = new PropHolder(this, "provisioningid", false);
 	public PropHolder license_type = new PropHolder(this, "licenseType", false);
 
 }

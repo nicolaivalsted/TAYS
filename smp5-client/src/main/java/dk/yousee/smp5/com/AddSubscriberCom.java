@@ -32,7 +32,6 @@ import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.ExecuteOrderRespo
 import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.SnapshotOrderValue;
 import com.sun.java.products.oss.xml.cbe.core.EntityValue;
 
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Constants;
 import dk.yousee.smp5.order.model.ExecuteOrderReply;
 import dk.yousee.smp5.order.model.Order;
@@ -48,8 +47,7 @@ import dk.yousee.smp5.order.util.OrderHelper;
  *         Date: 16/10/2015 Time: 12:35:23
  */
 public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
-	private static final Logger logger = Logger
-			.getLogger(AddSubscriberCom.class);
+	private static final Logger logger = Logger.getLogger(AddSubscriberCom.class);
 
 	@Override
 	protected String convertRequest(Order input) {
@@ -60,61 +58,57 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 	@Override
 	protected ExecuteOrderReply convertResponse(Smp5Xml xml, Order input) {
 		ExecuteOrderReply reply;
-        reply = new Parser().convertResponse(xml);
-        return reply;
+		reply = new Parser().convertResponse(xml);
+		return reply;
 	}
 
 	@Override
 	protected Integer getOperationTimeout() {
 		return 50000;
 	}
-	
-	 public static String makePrettyErrorMessage(String message, String response) {
-	        if (response != null && response.trim().length() != 0) {
-	            try {
-	                DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-	                DocumentBuilder docBuilder;
-	                docBuilder = docBuilderFactory.newDocumentBuilder();
-	                Document document = docBuilder.parse(new InputSource(new StringReader(response)));
-	                NodeList nodeList = document.getElementsByTagName("smp:errorCode");
-	                List<String> codelist = new ArrayList<String>();
-	                List<String> messagelist = new ArrayList<String>();
 
-	                for (int s = 0; s < nodeList.getLength(); s++) {
-	                    Node node = nodeList.item(s);
-	                    String value = node.getFirstChild().getNodeValue();
-	                    codelist.add(value);
-	                }
+	public static String makePrettyErrorMessage(String message, String response) {
+		if (response != null && response.trim().length() != 0) {
+			try {
+				DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder docBuilder;
+				docBuilder = docBuilderFactory.newDocumentBuilder();
+				Document document = docBuilder.parse(new InputSource(new StringReader(response)));
+				NodeList nodeList = document.getElementsByTagName("smp:errorCode");
+				List<String> codelist = new ArrayList<String>();
+				List<String> messagelist = new ArrayList<String>();
 
-	                NodeList nodeList2 = document.getElementsByTagName("smp:errorMessage");
-	                for (int s = 0; s < nodeList2.getLength(); s++) {
-	                    Node node = nodeList2.item(s);
-	                    String value = node.getFirstChild().getNodeValue();
-	                    messagelist.add(value);
-	                }
-	                for (int i = 0; i < codelist.size(); i++) {
-	                    message = message + "\n" + "errorcode = " + codelist.get(i) + "  errorMessage = " + messagelist.get(i);
-	                }
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        }
-	        return message;
-	    }
+				for (int s = 0; s < nodeList.getLength(); s++) {
+					Node node = nodeList.item(s);
+					String value = node.getFirstChild().getNodeValue();
+					codelist.add(value);
+				}
 
-	void validate(Order order) {
-		if (order == null || order.getOrderData() == null
-				|| order.getOrderData().size() == 0) {
-			throw new IllegalArgumentException(
-					"Trying to create subcriber with no order data!");
+				NodeList nodeList2 = document.getElementsByTagName("smp:errorMessage");
+				for (int s = 0; s < nodeList2.getLength(); s++) {
+					Node node = nodeList2.item(s);
+					String value = node.getFirstChild().getNodeValue();
+					messagelist.add(value);
+				}
+				for (int i = 0; i < codelist.size(); i++) {
+					message = message + "\n" + "errorcode = " + codelist.get(i) + "  errorMessage = " + messagelist.get(i);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return message;
+	}
+
+	private void validate(Order order) {
+		if (order == null || order.getOrderData() == null || order.getOrderData().size() == 0) {
+			throw new IllegalArgumentException("Trying to create subcriber with no order data!");
 		}
 		if (OrderHelper.findElementOfType(order, OrderDataLevel.ADDRESS) == null) {
-			throw new IllegalArgumentException(
-					"An element of orderData must be [address] with list of address parameter");
+			throw new IllegalArgumentException("An element of orderData must be [address] with list of address parameter");
 		}
 		if (OrderHelper.findElementOfType(order, OrderDataLevel.CONTACT) == null) {
-			throw new IllegalArgumentException(
-					"An element of orderData must be [contact] with list of contact parameter");
+			throw new IllegalArgumentException("An element of orderData must be [contact] with list of contact parameter");
 		}
 		if (order.getSubscriber() == null) {
 			throw new IllegalArgumentException("Subscriber must be included!");
@@ -135,36 +129,33 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		public XmlObject createXmlOrder(Order order, Integer orderId) {
 			Subscriber subscriber = order.getSubscriber();
 			SnapshotOrderValue ssOrderValue = createSnapshotOrderValue(order, orderId);
-			SubType sSubType = addSubscriber(ssOrderValue,subscriber.getKundeId(), order.getExternalKey(), subscriber.getLid());
-			
+			SubType sSubType = addSubscriber(ssOrderValue, order.getExternalKey(), subscriber);
+
 			OrderData addressData = OrderHelper.findElementOfType(order, OrderDataLevel.ADDRESS);
 			OrderData contactData = OrderHelper.findElementOfType(order, OrderDataLevel.CONTACT);
 			EntityListType entityList = sSubType.addNewEntityList();
-			
-			if(addressData != null){
-				 addAddressToEntityList(entityList, addressData);
+
+			if (addressData != null) {
+				addAddressToEntityList(entityList, addressData);
 			}
-			if(contactData != null){
+			if (contactData != null) {
 				addContactToEntityList(entityList, subscriber, contactData);
 			}
 			addSampSubToEntityList(entityList, subscriber, addressData);
 			ExecuteOrderRequestDocument executeDoc = ExecuteOrderRequestDocument.Factory.newInstance();
-            executeDoc.addNewExecuteOrderRequest().setOrderValue(ssOrderValue);
-            return executeDoc;
+			executeDoc.addNewExecuteOrderRequest().setOrderValue(ssOrderValue);
+			return executeDoc;
 		}
-
-
 
 		/**
 		 * @param entityList
 		 * @param subscriber
 		 * @param addressData
 		 */
-		private void addSampSubToEntityList(EntityListType entityList,
-				Subscriber subscriber, OrderData addressData) {
+		private void addSampSubToEntityList(EntityListType entityList, Subscriber subscriber, OrderData addressData) {
 			EntityValue entityValue = entityList.addNewEntityValue();
-            SubSvcType entity = addressMaker.createSampSubEntityValue(addressData, subscriber);
-            entityValue.set(entity);
+			SubSvcType entity = addressMaker.createSampSubEntityValue(addressData, subscriber);
+			entityValue.set(entity);
 		}
 
 		/**
@@ -172,24 +163,21 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param subscriber
 		 * @param contactData
 		 */
-		private void addContactToEntityList(EntityListType entityList,
-				Subscriber subscriber, OrderData contactData) {
+		private void addContactToEntityList(EntityListType entityList, Subscriber subscriber, OrderData contactData) {
 			EntityValue entVal = entityList.addNewEntityValue();
-            SubContactType contactType = contactMaker.createContactEntityValue(contactData, subscriber);
-            entVal.set(contactType);
+			SubContactType contactType = contactMaker.createContactEntityValue(contactData, subscriber);
+			entVal.set(contactType);
 		}
 
 		/**
 		 * @param entityList
 		 * @param addressData
 		 */
-		private void addAddressToEntityList(EntityListType entityList,
-				OrderData addressData) {
+		private void addAddressToEntityList(EntityListType entityList, OrderData addressData) {
 			EntityValue entVal = entityList.addNewEntityValue();
-            SubAddressType addressEntity = addressMaker.createAddressEntityValue(addressData);
-            entVal.set(addressEntity);
+			SubAddressType addressEntity = addressMaker.createAddressEntityValue(addressData);
+			entVal.set(addressEntity);
 		}
-		
 
 		/**
 		 * @param ssOrderValue
@@ -197,10 +185,8 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param externalKey
 		 * @return
 		 */
-		private SubType addSubscriber(SnapshotOrderValue ssOrderValue,
-				Acct acct, String externalKey, String lid) {
+		private SubType addSubscriber(SnapshotOrderValue ssOrderValue, String externalKey, Subscriber subscriber) {
 			SubType sSubType = ssOrderValue.addNewSubscriber();
-			sSubType.setServiceProvider(Constants.SERVICE_PROVIDER);
 			sSubType.setSubscriberType(Constants.SUBSCRIBER_TYPE);
 			sSubType.setLocale("en_US");
 			EntityKeyType entityKey = sSubType.addNewKey();
@@ -212,10 +198,13 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 			EntityParamListType eParamList = sSubType.addNewParamList();
 			ParamType parameter = eParamList.addNewParam();
 			parameter.setName("acct");
-			parameter.setStringValue(acct.toString());
+			parameter.setStringValue(subscriber.getKundeId().toString());
 			ParamType lidParm = eParamList.addNewParam();
 			lidParm.setName("lid");
-			lidParm.setStringValue(lid);
+			lidParm.setStringValue(subscriber.getLid());
+			ParamType linkid = eParamList.addNewParam();
+			linkid.setName("linkid");
+			linkid.setStringValue(subscriber.getLinkid());
 			return sSubType;
 		}
 
@@ -224,18 +213,15 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param orderId
 		 * @return SnapshotOrderValue
 		 */
-		private SnapshotOrderValue createSnapshotOrderValue(Order order,
-				Integer orderId) {
-			SnapshotOrderValue ssOrderValue = SnapshotOrderValue.Factory
-					.newInstance();
+		private SnapshotOrderValue createSnapshotOrderValue(Order order, Integer orderId) {
+			SnapshotOrderValue ssOrderValue = SnapshotOrderValue.Factory.newInstance();
 			ssOrderValue.setLastUpdateVersionNumber(-1);
 			ssOrderValue.setApiClientId(order.getApiClientId());
 			ssOrderValue.setOrderKey(headMaker.createOrderKey(orderId));
 			ssOrderValue.setPriority(3);
 			ssOrderValue.setDescription("TAYS DebugId - " + order.getDebugId());
 			ssOrderValue.xsetOrderState(headMaker.createOrderStateType());
-			headMaker.updateOrderParams(ssOrderValue.addNewOrderParamList(),
-					order);
+			headMaker.updateOrderParams(ssOrderValue.addNewOrderParamList(), order);
 			return ssOrderValue;
 		}
 
@@ -245,40 +231,42 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 
 		@Override
 		public ExecuteOrderReply convertResponse(Smp5Xml xml) {
-			String response=xml.getResponse();
-            XmlObject xmlObject = parseResponse(response);
-            XmlObject[] res = xmlObject.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderException");
+			String response = xml.getResponse();
+			XmlObject xmlObject = parseResponse(response);
+			XmlObject[] res = xmlObject.selectPath(
+					"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderException");
 
-            if (res.length > 0) {
-                // This is an error
-                String errorMessage;
-                ExecuteOrderExceptionDocument.ExecuteOrderException ex = (ExecuteOrderExceptionDocument.ExecuteOrderException) res[0];
-                if (ex.getRemoteException() != null) {
-                    errorMessage=ex.getRemoteException().getMessage();
-                } else if (ex.getObjectNotFoundException() != null) {
-                    errorMessage=ex.getObjectNotFoundException().getMessage();
+			if (res.length > 0) {
+				// This is an error
+				String errorMessage;
+				ExecuteOrderExceptionDocument.ExecuteOrderException ex = (ExecuteOrderExceptionDocument.ExecuteOrderException) res[0];
+				if (ex.getRemoteException() != null) {
+					errorMessage = ex.getRemoteException().getMessage();
+				} else if (ex.getObjectNotFoundException() != null) {
+					errorMessage = ex.getObjectNotFoundException().getMessage();
 
-                } else if (ex.getIllegalArgumentException() != null) {
-                    errorMessage=ex.getIllegalArgumentException().getMessage();
-                } else {
-                    errorMessage=null;
-                }
-                ExecuteOrderReply reply;
-                reply = new ExecuteOrderReply(errorMessage,xml);
-                return reply;
+				} else if (ex.getIllegalArgumentException() != null) {
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+				} else {
+					errorMessage = null;
+				}
+				ExecuteOrderReply reply;
+				reply = new ExecuteOrderReply(errorMessage, xml);
+				return reply;
 
-            } else {
-                res = xmlObject.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderResponse");
-                if (res.length > 0) {
-                    // Everything aparantly went fine
-                    logger.debug("Got ExecuteOrderResponse back!");
-                    ExecuteOrderResponseDocument.ExecuteOrderResponse resp = (ExecuteOrderResponseDocument.ExecuteOrderResponse) res[0];
-                    ExecuteOrderReply.MadeOrder eor = parseMadeOrder(resp);
-                    return new ExecuteOrderReply(eor,xml);
-                } else {
-                    return new ExecuteOrderReply("Error in parsing result, no order",xml);
-                }
-            }
+			} else {
+				res = xmlObject.selectPath(
+						"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:executeOrderResponse");
+				if (res.length > 0) {
+					// Everything aparantly went fine
+					logger.debug("Got ExecuteOrderResponse back!");
+					ExecuteOrderResponseDocument.ExecuteOrderResponse resp = (ExecuteOrderResponseDocument.ExecuteOrderResponse) res[0];
+					ExecuteOrderReply.MadeOrder eor = parseMadeOrder(resp);
+					return new ExecuteOrderReply(eor, xml);
+				} else {
+					return new ExecuteOrderReply("Error in parsing result, no order", xml);
+				}
+			}
 		}
 
 	}

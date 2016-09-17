@@ -22,7 +22,7 @@ public class AcctTest {
     
     @Test
     public void hessianTest(){
-        Acct acct = new Acct();
+        new Acct();
         
     }
 }

@@ -3,9 +3,8 @@
  */
 package dk.yousee.smp5.casemodel.vo.helpers;
 
-import dk.yousee.smp5.casemodel.vo.helpers.UUIDGenerater;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.order.model.Acct;
 
 /**
  * @author m64746
@@ -85,5 +84,32 @@ public class Key {
 	public String generateKeySmartCard(String acct) {
 		return "SmartCard-" + acct;
 	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return external Key
+	 */
+	public String VoiceService(String uuid) { // voice_
+		return getProvider() + ":voice_" + uuid;
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return external Key
+	 */
+	public String CableBBService(String sik) { // "cable_broadband_" cbb_
+		return getProvider() + ":cbb_" + sik;
+	}
+	
+    
+    /**
+    * @param cmOwnership to modem
+    * @return external Key
+    */
+   public String MTAService(String sik) {    //"MTAService"       cpe_
+       return getProvider() + ":cpe_" + sik;
+   }
 
 }

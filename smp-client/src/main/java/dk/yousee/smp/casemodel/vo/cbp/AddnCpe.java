@@ -30,7 +30,6 @@ public class AddnCpe  extends BasicUnit {
     public PropHolder cpe_mac = new PropHolder(this, "cpe_mac", true);
     public PropHolder cpe_product_code = new PropHolder(this, "cpe_product_code", true);
     public PropHolder cm_mac = new PropHolder(this, "cm_mac", true);
-//    public PropHolder reason_code = new PropHolder(this, "reason_code");
     public PropHolder suspend_billing = new PropHolder(this, "suspend_billing");
     public PropHolder suspend_abuse = new PropHolder(this, "suspend_abuse");
 

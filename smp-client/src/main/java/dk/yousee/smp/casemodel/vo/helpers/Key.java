@@ -1,7 +1,6 @@
 package dk.yousee.smp.casemodel.vo.helpers;
 
 import dk.yousee.smp.casemodel.SubscriberModel;
-import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.ModemId;
 import dk.yousee.smp.order.model.Acct;
 
@@ -27,19 +26,6 @@ public class Key {
         } else return "";
     }
 
-//    /**
-//     * @return the subscribers Contact information external key
-//     */
-//    public String SubContactSpec() {
-//        return SubContactSpec.EXTERNAL_KEY;
-//    }
-//
-//    /**
-//     * @return the subscribes Address external key
-//     */
-//    public String SubAddressSpec() {
-//        return SubAddressSpec.EXTERNAL_KEY;
-//    }
 
     /**
      * @param modemId to modem
@@ -103,7 +89,6 @@ public class Key {
      */
     public String generateUUID(){
           return UUIDGenerater.generateKey();
-        //return getProvider() + ":" +UUIDGenerater.generateKey();
     }
 
 }

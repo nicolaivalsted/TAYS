@@ -4,9 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
+import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
+import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
+import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
+import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
+import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
+import dk.yousee.smp5.casemodel.vo.emta.MTAService;
+import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
+import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
@@ -20,10 +30,15 @@ import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMailService;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.OrderDataType;
 
 /**
@@ -177,6 +192,15 @@ public class Find {
 			return parent.getVideoSubscriptions();
 		}
 	}
+	
+	public List<AppSubscription> AppSubscription() {
+		VideoServicePlan parent = VideoServicePlan();
+		if (parent == null) {
+			return null;
+		} else {
+			return parent.getAppSubscriptions();
+		}
+	}
 
 	public VideoSubscription VideoSubscription(String entitlementId) {
 		VideoServicePlan parent = VideoServicePlan();
@@ -327,7 +351,7 @@ public class Find {
 		return parent == null ? null : parent.getSikkerhedspakke();
 	}
 
-	public List<TdcMailService> tdcMailServices() {
+	public List<TdcMailService> TdcMailService() {
 		List<TdcMailService> res = new ArrayList<TdcMailService>();
 		for (BasicUnit plan : serviceLevelUnit) {
 			if (plan.getType().equals(TdcMailService.TYPE)) {
@@ -338,8 +362,8 @@ public class Find {
 		return res;
 	}
 
-	public TdcMailService tdcMailService(String sik) {
-		List<TdcMailService> plans = tdcMailServices();
+	public TdcMailService TdcMailService(String sik) {
+		List<TdcMailService> plans = TdcMailService();
 		for (TdcMailService plan : plans) {
 			if (sik.equals(plan.getSik())) {
 				return plan;
@@ -349,8 +373,313 @@ public class Find {
 	}
 
 	public TdcMail tdcMail(String sik) {
-		TdcMailService parent = tdcMailService(sik);
+		TdcMailService parent = TdcMailService(sik);
 		return parent != null ? parent.getTdcMail() : null;
+	}
+
+	/**
+	 * @return the VoiceService the subscriber has
+	 */
+	public List<VoiceService> VoiceService() {
+		List<VoiceService> res = new ArrayList<VoiceService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(VoiceService.TYPE)) {
+				res.add((VoiceService) plan);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * @param phoneNumber
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public VoiceService VoiceService(PhoneNumber phoneNumber) {
+		List<VoiceService> services = VoiceService();
+		for (VoiceService service : services) {
+			if (phoneNumber.equals(service.getPhoneNumber())) {
+				return service;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 * 
+	 */
+	public VoiceService VoiceService(String sik) {
+		List<VoiceService> services = VoiceService();
+		for (VoiceService service : services) {
+			if (sik.equalsIgnoreCase(service.getSik())) {
+				return service;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param BusinessPosition
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public DialToneAccess DialToneAccess(String sik) {
+		VoiceService parent = VoiceService(sik);
+		if (parent == null)
+			return null;
+		return parent.getDialToneAccess();
+	}
+
+	public DialToneAccess findFirstVoice() {
+		List<VoiceService> voices = VoiceService();
+		for (VoiceService voice : voices) {
+			return voice.getDialToneAccess();
+		}
+		return null;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public MailBox MailBox(String sik) {
+		VoiceMail parent = VoiceMail(sik);
+		if (parent == null)
+			return null;
+		return parent.getMailBox();
+	}
+
+	public VoiceMail VoiceMail(String sik) {
+		VoiceService parent = VoiceService(sik);
+		if (parent == null)
+			return null;
+		return parent.getVoiceMail();
+	}
+
+	/**
+	 * @return the CableBBServices the subscriber has
+	 */
+	public List<CableBBService> CableBBService() {
+		List<CableBBService> res = new ArrayList<CableBBService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(CableBBService.TYPE)) {
+				res.add((CableBBService) plan);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * First Cable Modem matching the activation code
+	 *
+	 * @param modemActivationCode
+	 *            code to search for (case sensitive etc)
+	 * @return instance if it exists
+	 */
+	public CableBBService firstCableBBService(String modemActivationCode) {
+		if (modemActivationCode == null)
+			throw new IllegalArgumentException("modemActivationCode is mandatory in query");
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(CableBBService.TYPE)) {
+				CableBBService bb = (CableBBService) plan;
+				if (modemActivationCode.equals(bb.getInetAccess().getModemActivationCode())) {
+					return bb;
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param externalKey
+	 *            the key composed from modem id
+	 * @return instance if it exists
+	 */
+	protected CableBBService CableBBServiceExternal(String externalKey) {
+		return (CableBBService) find(CableBBService.TYPE, externalKey);
+	}
+
+	/**
+	 * @param modemId
+	 *            the key composed from modem id
+	 * @return instance if it exists
+	 */
+	public CableBBService CableBBService(String sik) {
+
+		List<CableBBService> services = CableBBService();
+		for (CableBBService service : services) {
+			InetAccess access = service.getInetAccess();
+			if (access == null) {
+				return CableBBServiceExternal(key.CableBBService(sik));
+			} else {
+				String one = access.sik.getValue();
+				if (sik.equals(one))
+					return service;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public InetAccess InetAccess(String sik) {
+		return InetAccessExternal(key.CableBBService(sik));
+	}
+
+	public InetAccess findFirstInternet() {
+		List<CableBBService> bbs = CableBBService();
+		for (CableBBService bb : bbs) {
+			return bb.getInetAccess();
+		}
+		return null;
+	}
+
+	/**
+	 * @param parentKey
+	 *            to the CableBBService
+	 * @return instance if it exists
+	 */
+	protected InetAccess InetAccessExternal(String parentKey) {
+		CableBBService parent = CableBBServiceExternal(parentKey);
+		if (parent == null)
+			return null;
+		return parent.getInetAccess();
+	}
+
+	/**
+	 * @param modemId
+	 *            to the modem
+	 * @return instance if it exists
+	 */
+	public SMPStaticIP SMPStaticIP(String sik) {
+		CableBBService parent = CableBBService(sik);
+		if (parent == null)
+			return null;
+		return parent.getSmpStaticIP();
+	}
+
+	public List<MTAService> MTAService() {
+		List<MTAService> res = new ArrayList<MTAService>();
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(MTAService.TYPE)) {
+				res.add((MTAService) plan);
+			}
+		}
+		return res;
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            key to the composed service (currently modem id)
+	 * @return instance if it exists
+	 */
+	public MTAService MTAService(String sik) {
+		List<MTAService> services = MTAService();
+		for (MTAService service : services) {
+			if (sik.equals(service.getSik())) {
+				return service;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            key to the composed service (currently modem id)
+	 * @return instance if it exists
+	 */
+	public HsdAccess HsdAccess(String sik) {
+		MTAService parent = MTAService(sik);
+		if (parent == null)
+			return null;
+		return parent.getHsdAccess();
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            key to the composed service (currently modem id)
+	 * @return instance if it exists
+	 */
+	public DeviceControl DeviceControl(String sik) {
+		MTAService parent = MTAService(sik);
+		if (parent == null)
+			return null;
+		return parent.getDeviceControl();
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            key to the composed service (currently modem id)
+	 * @return instance if it exists
+	 */
+	public VoipAccess VoipAccess(String sik) {
+		MTAService parent = MTAService(sik);
+		if (parent == null)
+			return null;
+		return parent.getVoipAccess();
+	}
+
+	/**
+	 * @param modemId
+	 *            to modem
+	 * @return instance if it exists
+	 */
+	public StdCpe StdCpe(String sik) {
+		MTAService service = MTAService(sik);
+		if (service != null) {
+			return service.getStdCpe();
+		} else {
+			return null;
+		}
+	}
+
+	/**
+	 * @param parentKey
+	 *            to the CableBBService
+	 * @return instance list if it exists
+	 */
+	public AddnCpe AddnCpe(String sik) {
+		MTAService parent = MTAService(sik);
+		if (parent == null)
+			return null;
+		return parent.getAddnCpe();
+	}
+
+	/**
+	 * @param parentKey
+	 *            to the CableBBService
+	 * @param childKey
+	 *            what is this ???
+	 * @return instance if it exists
+	 */
+	public AddnCpe AddnCpeAndChildKey(String sik, String childKey) {
+		MTAService parent = MTAService(sik);
+		if (parent == null) {
+			return null;
+		} else {
+			AddnCpe addnCpe = parent.getAddnCpe();
+			if (addnCpe != null) {
+				if (addnCpe.getExternalKey().equalsIgnoreCase(childKey)) {
+					return addnCpe;
+				}
+			}
+		}
+		return null;
+	}
+
+	public AddnCpe theAddnCpe(String sik) {
+		MTAService parent = MTAService(sik);
+		if (parent == null)
+			return null;
+		return parent.getAddnCpe();
 	}
 
 }

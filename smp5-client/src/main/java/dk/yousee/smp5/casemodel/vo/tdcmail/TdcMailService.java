@@ -36,4 +36,8 @@ public class TdcMailService extends BasicUnit {
 	public String getSik() {
 		return getTdcMail() == null ? null : getTdcMail().sik.getValue();
 	}
+
+	public void setSik(String sik) {
+		getTdcMail().sik.setValue(sik);
+	}
 }

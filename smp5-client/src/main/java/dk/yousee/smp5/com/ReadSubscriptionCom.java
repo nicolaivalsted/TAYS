@@ -185,6 +185,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 						smp.setExternalKey(subType.getKey().getExternalKey());
 						smp.setState(sstc.find(subType.getState()));
 						smp.setLid(getParmByName(subType.getParamList(), "lid"));
+						smp.setLinkId(getParmByName(subType.getParamList(), "linkid"));
 						EntityListType entListType = subType.getEntityList();
 						for (EntityValue entityValue : entListType.getEntityValueArray()) {
 							ResponseEntity dataChild;

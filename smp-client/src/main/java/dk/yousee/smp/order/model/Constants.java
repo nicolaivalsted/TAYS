@@ -9,8 +9,6 @@ package dk.yousee.smp.order.model;
  */
 public class Constants {
 
-
-// param name for subscriber name and sur name
     public static final String FIRST_NAME ="first_name";
     public static final String LAST_NAME ="last_name";
     

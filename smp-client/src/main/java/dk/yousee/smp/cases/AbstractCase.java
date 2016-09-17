@@ -217,7 +217,6 @@ public class AbstractCase {
 
 			for (int s = 0; s < nodeList.getLength(); s++) {
 				Node node = nodeList.item(s);
-//                String name = node.getNodeName();
 				String value = node.getFirstChild().getNodeValue();
 				codelist.add(value);
 			}
@@ -225,7 +224,6 @@ public class AbstractCase {
 			NodeList nodeList2 = document.getElementsByTagName("smp:errorMessage");
 			for (int s = 0; s < nodeList2.getLength(); s++) {
 				Node node = nodeList2.item(s);
-//                String name = node.getNodeName();
 				String value = node.getFirstChild().getNodeValue();
 				messagelist.add(value);
 			}

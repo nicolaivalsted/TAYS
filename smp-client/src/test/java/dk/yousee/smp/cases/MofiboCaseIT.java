@@ -1,6 +1,11 @@
 package dk.yousee.smp.cases;
 
-import dk.yousee.smp.casemodel.SubscriberModel;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.junit.Before;
+import org.junit.Test;
+
 import dk.yousee.smp.casemodel.vo.BusinessPosition;
 import dk.yousee.smp.casemodel.vo.mofibo.MofiboService;
 import dk.yousee.smp.functions.OrderServiceImpl;
@@ -9,11 +14,7 @@ import dk.yousee.smp.order.model.BusinessException;
 import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderService;
 import dk.yousee.smp.smpclient.SmpConnectorImpl;
-import java.util.List;
 import junit.framework.Assert;
-import org.apache.log4j.Logger;
-import org.junit.Before;
-import org.junit.Test;
 
 /**
  *
@@ -24,7 +25,6 @@ public class MofiboCaseIT {
     private static final Logger logger = Logger.getLogger(MofiboCaseIT.class);
 
     private MofiboCase test;
-    private SubscriberModel model;
     private Acct acct;
     private OrderService orderService = null;
 

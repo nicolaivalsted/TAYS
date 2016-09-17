@@ -192,7 +192,7 @@ public class SikkerhedspakkeCase extends AbstractCase {
 			SikkerhedspakkeActivationData row = new SikkerhedspakkeActivationData(service.getSik());
 			Sikkerhedspakke sikpakke = service.getSikkerhedspakke();
 			if (sikpakke != null) { // should never be null
-				row.setUuid(sikpakke.yspro_provisioningid.getValue());
+				row.setUuid(sikpakke.provisioningid.getValue());
 				row.setExternalKey(sikpakke.getExternalKey());
 			} else {
 				row.setUuid("error");

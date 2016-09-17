@@ -7,6 +7,7 @@ import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubSpec;
 import dk.yousee.smp5.cases.subscriber.AddressInfo;
 import dk.yousee.smp5.cases.subscriber.ContactInfo;
+import dk.yousee.smp5.cases.subscriber.SubscriberInfo;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
@@ -47,21 +48,20 @@ public class SubscriberCase extends AbstractCase {
 		SubContactSpec plan = getModel().find().SubContactSpec();
 		plan.first_name.setValue(customer.getFirstName());
 		plan.last_name.setValue(customer.getLastName());
-		plan.isp.setValue(customer.getIsp());
 		plan.emails_home_address.setValue(customer.getEmail());
 		plan.phones_home_number.setValue(customer.getPrivattlf());
+		plan.isp.setValue(customer.getIsp());
 		return plan;
 	}
 
 	/**
 	 * @param Subscriber
 	 */
-	public Subscriber updateSusbcriber(String lid) {
+	public Subscriber updateSusbcriber(SubscriberInfo subscriberInfo) {
 		Subscriber sub = getModel().getSubscriber();
-		if (sub.getLid() == null || !sub.getLid().equals(lid)) {
-			sub.setLid(lid);
-			getModel().getOrder().setOnlySub(true);
-		}
+		sub.setLid(subscriberInfo.getLid());
+		sub.setLinkid(subscriberInfo.getLinkid());
+		getModel().getOrder().setOnlySub(true);
 		return sub;
 	}
 
@@ -87,6 +87,8 @@ public class SubscriberCase extends AbstractCase {
 		subAddressSpec.geo_name.setValue(address.getGeographicName());
 		subAddressSpec.door_code.setValue(address.getDoorCode());
 		subAddressSpec.street_num.setValue(address.getStreetNumber());
+		subAddressSpec.street_number_suffix.setValue(address.getSide());
+		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		return subAddressSpec;
 	}
 
@@ -142,8 +144,8 @@ public class SubscriberCase extends AbstractCase {
 		}
 		setModel(new SubscriberModel(getResponse()));
 		if (getErrorMessage() != null) {
-			throw new BusinessException("could not create subscription, for customer %s, got message: %s", order.getSubscriber()
-					.getKundeId(), getErrorMessage());
+			throw new BusinessException("could not create subscription, for customer %s, got message: %s", order.getSubscriber().getKundeId(),
+					getErrorMessage());
 		}
 		justCreated = true;
 		return getModel();
@@ -154,7 +156,7 @@ public class SubscriberCase extends AbstractCase {
 	 * @param address
 	 * @return
 	 */
-	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address, String lid) {
+	public Order buildAddSubscriptionOrder(ContactInfo customer, AddressInfo address, SubscriberInfo subscriberInfo) {
 		setModel(new SubscriberModel(getAcct()));
 
 		Order smpOrder = getModel().getOrder();
@@ -162,16 +164,18 @@ public class SubscriberCase extends AbstractCase {
 		Subscriber subscriber = smpOrder.getSubscriber();
 		subscriber.setFornavn(customer.getFirstName());
 		subscriber.setEfternavn(customer.getLastName());
-		subscriber.setKundeId(new Acct(customer.getAcct()));
-		subscriber.setLid(lid);
+		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
+		subscriber.setLid(subscriberInfo.getLid());
+		subscriber.setLinkid(subscriberInfo.getLinkid());
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
-		mc.isp.setValue(customer.getIsp());
 		mc.emails_home_address.setValue(customer.getEmail());
 		mc.phones_home_number.setValue(customer.getPrivattlf());
+		mc.isp.setValue(customer.getIsp());
 
 		SubAddressSpec ma = getModel().add().SubAddressSpec();
 		ma.street_name.setValue(address.getStreetName());
+		ma.street_number_suffix.setValue(address.getSide());
 		ma.floor.setValue(address.getFloor());
 		ma.ams_id.setValue(address.getAms());
 		ma.zipcode.setValue(zip4ch(address.getZipcode()));
@@ -180,6 +184,7 @@ public class SubscriberCase extends AbstractCase {
 		ma.geo_name.setValue(address.getGeographicName());
 		ma.door_code.setValue(address.getDoorCode());
 		ma.street_num.setValue(address.getStreetNumber());
+		ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		return getModel().getOrder();
 	}
 

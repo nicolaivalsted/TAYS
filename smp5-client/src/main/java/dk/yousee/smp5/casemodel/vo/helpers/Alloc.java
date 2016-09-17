@@ -1,6 +1,14 @@
 package dk.yousee.smp5.casemodel.vo.helpers;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
+import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
+import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
+import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
+import dk.yousee.smp5.casemodel.vo.emta.MTAService;
+import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
+import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -15,6 +23,10 @@ import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 
 /**
  * @author m64746
@@ -111,9 +123,185 @@ public class Alloc {
 		return sub == null ? add.Sikkerhedspakke() : sub;
 	}
 
-	public TdcMail tdcMail(String sik) {
+	public TdcMail TdcMail(String sik) {
 		TdcMail mail = find.tdcMail(sik);
 		return mail == null ? add.tdcMail(sik) : mail;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public VoiceService VoiceService() {
+		return add.VoiceService();
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public VoiceService VoiceService(String sik) {
+		VoiceService res = find.VoiceService(sik);
+
+		if (res == null) {
+			res = add.VoiceService();
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public DialToneAccess DialToneAccess(String sik) {
+		DialToneAccess res = find.DialToneAccess(sik);
+		if (res == null) {
+			res = add.DialToneAccess();
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public MailBox MailBox(String sik) {
+		MailBox res = find.MailBox(sik);
+		if (res == null) {
+			res = add.MailBox(sik);
+		}
+		return res;
+	}
+
+	public VoiceMail VoiceMail(String sik) {
+		VoiceMail res = find.VoiceMail(sik);
+		if (res == null) {
+			res = add.VoiceMail(sik);
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public CableBBService CableBBService(String sik) {
+		CableBBService res = find.CableBBService(sik);
+		if (res == null) {
+			res = add.CableBBService(sik);
+		}
+		return res;
+
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public InetAccess InetAccess(String sik) {
+		InetAccess res = find.InetAccess(sik);
+		if (res == null) {
+			res = add.InetAccess(sik);
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public SMPStaticIP SMPStaticIP(String sik) {
+		SMPStaticIP res = find.SMPStaticIP(sik);
+		if (res == null) {
+			return add.SMPStaticIP(sik);
+		}
+		return res;
+	}
+
+	/**
+	 * @param cmOwnership
+	 *            to modem
+	 * @return instance either an existing plan or a new plan ready for fill in
+	 *         data
+	 */
+	public MTAService MTAService(String cmOwnership) {
+		MTAService res = find.MTAService(cmOwnership);
+		if (res == null) {
+			res = add.MTAService(cmOwnership);
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public StdCpe StdCpe(String sik) {
+		StdCpe res = find.StdCpe(sik);
+		if (res == null) {
+			res = add.StdCpe(sik);
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public HsdAccess HsdAccess(String sik) {
+		HsdAccess res = find.HsdAccess(sik);
+		if (res == null) {
+			res = add.HsdAccess(sik);
+		} else
+			res.getDefaultOrderData();
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public VoipAccess VoipAccess(String sik) {
+		VoipAccess res = find.VoipAccess(sik);
+		if (res == null) {
+			res = add.VoipAccess(sik);
+		}
+		return res;
+	}
+
+	/**
+	 * @param sik
+	 *            to modem
+	 * @return instance either an existing child-service or a new child-service
+	 *         ready for fill in data
+	 */
+	public DeviceControl DeviceControl(String sik) {
+		DeviceControl res = find.DeviceControl(sik);
+		if (res == null) {
+			res = add.DeviceControl(sik);
+		} else
+			res.getDefaultOrderData();
+		return res;
 	}
 
 }

@@ -30,10 +30,10 @@ public class SubContactSpec extends BasicUnit {
 
 	public PropHolder last_name = new PropHolder(this, LAST_NAME);
 
-	public PropHolder isp = new PropHolder(this, ISP);
-
 	public PropHolder emails_home_address = new PropHolder(this, EMAILS_HOME_ADDRESS);
 
 	public PropHolder phones_home_number = new PhoneNumberPropHolder(this, PHONES_HOME_NUMBER);
+	
+	public PropHolder isp = new PropHolder(this, "isp");
 
 }

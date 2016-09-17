@@ -31,8 +31,6 @@ public interface OrderService {
 
     public SearchCustomersResponse searchSubscriber(SearchCustomersRequest searchCustomersRequest);
 
-//    public OrderReply queryOrder(Acct acct, String key);
-
     public QueryOrderReply queryOrderState(String orderID);
 
      /**

@@ -227,20 +227,6 @@ public abstract class BasicUnit {
         return externalKey;
     }
 
-//    public List<BasicUnit> getUnitByType(OrderDataType type) {
-//        List<BasicUnit> units = new ArrayList<BasicUnit>();
-//        for (BasicUnit unit : childrenServices) {
-//            if (unit.getType().equals(type)) {
-//                units.add(unit);
-//                if (unit.getChildrenServices() != null && unit.getChildrenServices().size() > 0) {
-//                    for (BasicUnit childunit : unit.getChildrenServices()) {
-//                        units.addAll(childunit.getUnitByType(type));
-//                    }
-//                }
-//            }
-//        }
-//        return units;
-//    }
     /**
      * Cause to send delete command to sigma
      */

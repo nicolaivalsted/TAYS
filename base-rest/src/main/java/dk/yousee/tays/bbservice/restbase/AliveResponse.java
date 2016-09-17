@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class AliveResponse {
     private String message;
     private String version;
-    private List<Link> links = new ArrayList();
+	private List<Link> links = new ArrayList<Link>();
 
     public AliveResponse() {
     }

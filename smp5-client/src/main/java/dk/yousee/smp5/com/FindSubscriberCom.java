@@ -2,6 +2,8 @@ package dk.yousee.smp5.com;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 
@@ -15,6 +17,7 @@ import com.sigmaSystems.schemas.x31.smpServiceActivationSchema.GetServiceByKeyEx
 import com.sun.java.products.oss.xml.common.ArrayOfManagedEntityValue;
 import com.sun.java.products.oss.xml.common.ArrayOfString;
 import com.sun.java.products.oss.xml.common.ManagedEntityValue;
+import com.sun.java.products.oss.xml.common.QueryManagedEntitiesExceptionDocument;
 import com.sun.java.products.oss.xml.common.QueryManagedEntitiesRequestDocument;
 import com.sun.java.products.oss.xml.common.QueryManagedEntitiesResponseDocument;
 import com.sun.java.products.oss.xml.serviceActivation.GetOrderByKeyExceptionDocument;
@@ -44,7 +47,12 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 	private QueryManagedEntitiesRequestDocument searchSubscriberMultiple(SearchCustomersRequest searchCustomersRequest) {
 
 		SmpQueryValue queryValue;
-		queryValue = basicSearchQuery(searchCustomersRequest);
+		if (searchCustomersRequest.getVoipPhoneNumber() != null) {
+			queryValue = byServicePhoneQuery(searchCustomersRequest);
+		} else {
+			queryValue = basicSearchQuery(searchCustomersRequest);
+		}
+
 		QueryManagedEntitiesRequestDocument requestDocument = QueryManagedEntitiesRequestDocument.Factory.newInstance();
 		QueryManagedEntitiesRequestDocument.QueryManagedEntitiesRequest request = requestDocument.addNewQueryManagedEntitiesRequest();
 		request.setQuery(queryValue);
@@ -53,13 +61,15 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		arrayOfString.addItem("acct");
 		arrayOfString.addItem("first_name");
 		arrayOfString.addItem("last_name");
-		arrayOfString.addItem("emails.home.address");
-		arrayOfString.addItem("phones.home.number");
 		arrayOfString.addItem("ams_id");
 		arrayOfString.addItem("district");
 		arrayOfString.addItem("zipcode");
 		arrayOfString.addItem("city");
 		arrayOfString.addItem("geo_name");
+		arrayOfString.addItem("street_nm");
+		arrayOfString.addItem("floor");
+		arrayOfString.addItem("street_num");
+		arrayOfString.addItem("street_number_suffix");
 		request.setAttrNames(arrayOfString);
 		return requestDocument;
 	}
@@ -139,6 +149,34 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			param.setName("smartcard_serial");
 			param.setStringValue(searchCustomersRequest.getSmartcardSerial());
 		}
+		if (searchCustomersRequest.getCpe_mac() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("cpe_mac");
+			param.setStringValue(searchCustomersRequest.getCpe_mac());
+		}
+		if (searchCustomersRequest.getCm_mac() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("device_id");
+			param.setStringValue(searchCustomersRequest.getCm_mac());
+		}
+		if (searchCustomersRequest.getStreet_nm() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("street_nm");
+			param.setStringValue(searchCustomersRequest.getStreet_nm());
+		}
+		return queryValue;
+	}
+
+	private SmpQueryValue byServicePhoneQuery(SearchCustomersRequest searchCustomersRequest) {
+		SmpQueryValue queryValue;
+		queryValue = SmpQueryValue.Factory.newInstance();
+		queryValue.setQueryName("byServicePhone");
+		ParamListType paramList = queryValue.addNewParamList();
+		if (searchCustomersRequest.getVoipPhoneNumber() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("telephone_number");
+			param.setStringValue(searchCustomersRequest.getVoipPhoneNumber());
+		}
 		return queryValue;
 	}
 
@@ -175,8 +213,8 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 					errorMessage = ex.getIllegalArgumentException().getMessage();
 
 			}
-			res = xmlObject
-					.selectPath("declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:getServiceByKeyException");
+			res = xmlObject.selectPath(
+					"declare namespace smpsa='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpsa:getServiceByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetServiceByKeyExceptionDocument.GetServiceByKeyException ex = (GetServiceByKeyExceptionDocument.GetServiceByKeyException) res[0];
@@ -202,8 +240,19 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
 
-			res = xmlObject
-					.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
+			res = xmlObject.selectPath("declare namespace com='http://java.sun.com/products/oss/xml/Common'; $this//com:queryManagedEntitiesException");
+			if (res.length > 0) {
+				// This is an error
+				QueryManagedEntitiesExceptionDocument.QueryManagedEntitiesException ex = (QueryManagedEntitiesExceptionDocument.QueryManagedEntitiesException) res[0];
+				if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getIllegalArgumentException() != null)
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+			}
+
+			res = xmlObject.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
 			if (res.length > 0) {
 				// This is an error
 				QueryOrdersExceptionDocument.QueryOrdersException ex = (QueryOrdersExceptionDocument.QueryOrdersException) res[0];
@@ -217,15 +266,13 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			} else {
 
 				/* PARSE RESULTS */
-				res = xmlObject
-						.selectPath("declare namespace cmn='http://java.sun.com/products/oss/xml/Common'; $this//cmn:queryManagedEntitiesResponse");
+				res = xmlObject.selectPath("declare namespace cmn='http://java.sun.com/products/oss/xml/Common'; $this//cmn:queryManagedEntitiesResponse");
 				logger.debug("Select queryManagedEntitiesResponse, res length: " + res.length);
 				// parse the
 				if (res.length > 0) {
 					ArrayList<CustomerInfo> list = new ArrayList<CustomerInfo>();
 					QueryManagedEntitiesResponseDocument responseDocument = (QueryManagedEntitiesResponseDocument) xmlObject;
-					QueryManagedEntitiesResponseDocument.QueryManagedEntitiesResponse entity = responseDocument
-							.getQueryManagedEntitiesResponse();
+					QueryManagedEntitiesResponseDocument.QueryManagedEntitiesResponse entity = responseDocument.getQueryManagedEntitiesResponse();
 					if (entity != null) {
 						ArrayOfManagedEntityValue arrayOfManagedEntityValue = entity.getValue();
 						if (arrayOfManagedEntityValue != null) {
@@ -271,7 +318,7 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 						ci.setLast_name(value);
 					} else if (key.equalsIgnoreCase("address1")) {
 						ci.setAddress1(value);
-					} else if (key.equalsIgnoreCase("address2")) {
+					} else if (key.equalsIgnoreCase("geo_name")) {
 						ci.setAddress2(value);
 					} else if (key.equalsIgnoreCase("city")) {
 						ci.setCity(value);
@@ -283,8 +330,26 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 						ci.setNtd_return_segment(value);
 					} else if (key.equalsIgnoreCase("status")) {
 						ci.setStatus(value);
+					} else if (key.equalsIgnoreCase("floor")) {
+						ci.setFloor(value);
+					} else if (key.equalsIgnoreCase("street_nm")) {
+						ci.setStreetNm(value);
+					} else if (key.equalsIgnoreCase("street_num")) {
+						ci.setStreetNum(value);
+					} else if (key.equalsIgnoreCase("street_number_suffix")) {
+						ci.setSide(value);
 					}
+
 				}
+				// handle address convertion
+				String vejnavn = ci.getStreetNm() == null ? "" : ci.getStreetNm();
+				String husnr = ci.getStreetNum() == null ? "" : ci.getStreetNum();
+				String etage = ci.getFloor() == null ? "" : ci.getFloor();
+				String side = ci.getSide() == null ? "" : ci.getSide();
+
+				ci.setAddress1(WordUtils.capitalizeFully(vejnavn) + " " + husnr.toUpperCase() + (!StringUtils.isBlank(etage) ? ", " + etage.toUpperCase() : "")
+						+ (!StringUtils.isBlank(etage) && StringUtils.isNumeric(etage) ? "." : "")
+						+ (!StringUtils.isBlank(side) ? " " + side.toUpperCase() : ""));
 			}
 			return ci;
 		}

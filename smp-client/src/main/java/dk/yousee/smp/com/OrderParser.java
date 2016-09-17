@@ -12,7 +12,6 @@ import dk.yousee.smp.order.model.ExecuteOrderReply;
  */
 public abstract class OrderParser<OUTPUT> extends ResponseParser<OUTPUT> {
 
-    //    static String apiClientId = "triple";
     private static final ServiceStateTypeConverter sstc = new ServiceStateTypeConverter();
 
     ExecuteOrderReply.MadeOrder parseMadeOrder(ExecuteOrderResponseDocument.ExecuteOrderResponse smpResponse){
@@ -20,18 +19,6 @@ public abstract class OrderParser<OUTPUT> extends ResponseParser<OUTPUT> {
         String orderId =smpResponse.getOrderKey().getPrimaryKey();
         Integer oid=Integer.valueOf(orderId);
         reply=new ExecuteOrderReply.MadeOrder(oid,sstc.find(smpResponse.getOrderState().getSmpState()));
-
-//        dataItem.setState(sstc.find(smpResponse.getOrderState().getSmpState()));
-//        dataItem.setType(OrderDataType.create(smpResponse.getOrderKey().getType()));
-//        dataItem.setExternalKey(orderId);
-//        OrderResult result = new OrderResult();
-//        result.addOrderData(dataItem);
-//        result.setType(OrderResult.TYPE_PROVISIONING);
-//        List<OrderResult> results = new ArrayList<OrderResult>();
-//        results.add(result);
-//        Integer oid=Integer.valueOf(orderId);
-//        OrderReply reply;
-//        reply = new OrderReply(oid,results);
 
         return reply;
     }

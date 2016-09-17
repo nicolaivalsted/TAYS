@@ -29,14 +29,5 @@ public enum SmpManipulationAction {
     public String toString() {
         return value;
     }
-    /*
-    if (Action.ACTIVATE==action) return "add";
-    if (Action.DEACTIVATE==action) return "delete";
-    if (Action.RESUME==action) return "update";
-    if (Action.UPDATE==action) return "update";
-    if (Action.SUSPEND==action) return "update";
-    if (Action.BLOCK==action) return "update";
-    if (Action.SWAP==action) return "update";
-    if (Action.DELETE==action) return "delete";
-*/
+    
 }

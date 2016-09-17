@@ -29,6 +29,10 @@ public class SearchCustomersRequest implements Serializable {
 	private String serialNumber;
 	private String cableUnit;
 	private String smartcardSerial;
+	private String cm_mac;
+	private String cpe_mac;
+	private String voipPhoneNumber;
+	private String street_nm;
 
 	/**
 	 * @return the 9 digit customer key
@@ -150,7 +154,7 @@ public class SearchCustomersRequest implements Serializable {
 	public void setCableUnit(String cableUnit) {
 		this.cableUnit = cableUnit;
 	}
-	
+
 	public String getSmartcardSerial() {
 		return smartcardSerial;
 	}
@@ -159,12 +163,44 @@ public class SearchCustomersRequest implements Serializable {
 		this.smartcardSerial = smartcardSerial;
 	}
 
+	public String getCm_mac() {
+		return cm_mac;
+	}
+
+	public void setCm_mac(String cm_mac) {
+		this.cm_mac = cm_mac;
+	}
+
+	public String getCpe_mac() {
+		return cpe_mac;
+	}
+
+	public void setCpe_mac(String cpe_mac) {
+		this.cpe_mac = cpe_mac;
+	}
+
+	public String getVoipPhoneNumber() {
+		return voipPhoneNumber;
+	}
+
+	public void setVoipPhoneNumber(String voipPhoneNumber) {
+		this.voipPhoneNumber = voipPhoneNumber;
+	}
+
+	public String getStreet_nm() {
+		return street_nm;
+	}
+
+	public void setStreet_nm(String street_nm) {
+		this.street_nm = street_nm;
+	}
+
 	@Override
 	public String toString() {
-		return "SearchCustomersRequest [kundeId=" + kundeId + ", subscriber=" + subscriber + ", fornavn=" + fornavn + ", efternavn="
-				+ efternavn + ", privattelefon=" + privattelefon + ", email=" + email + ", postnr=" + postnr + ", kommune=" + kommune
-				+ ", bynavn=" + bynavn + ", stednavn=" + stednavn + ", amsid=" + amsid + ", chipid=" + chipid + ", serialNumber="
-				+ serialNumber + ", cableUnit=" + cableUnit + ", smartcardSerial=" + smartcardSerial + "]";
+		return "SearchCustomersRequest [kundeId=" + kundeId + ", subscriber=" + subscriber + ", fornavn=" + fornavn + ", efternavn=" + efternavn
+				+ ", privattelefon=" + privattelefon + ", email=" + email + ", postnr=" + postnr + ", kommune=" + kommune + ", bynavn=" + bynavn + ", stednavn="
+				+ stednavn + ", amsid=" + amsid + ", chipid=" + chipid + ", serialNumber=" + serialNumber + ", cableUnit=" + cableUnit + ", smartcardSerial="
+				+ smartcardSerial + ", cm_mac=" + cm_mac + ", cpe_mac=" + cpe_mac + "]";
 	}
 
 }

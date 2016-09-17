@@ -51,7 +51,6 @@ public class CpeComposedService extends BasicUnit {
     //children
 
     private HsdAccess hsdAccess;
-
     private VoipAccess voipAccess;
 
     /**

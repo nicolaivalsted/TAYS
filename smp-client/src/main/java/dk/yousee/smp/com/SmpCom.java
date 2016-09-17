@@ -31,10 +31,6 @@ public abstract class SmpCom<INPUT,OUTPUT> {
 
     private SigmaAction con;
 
-//    public SigmaAction getCon() {
-//        return con;
-//    }
-
     public SmpCom<INPUT,OUTPUT> setCon(SigmaAction con) {
         this.con = con;
         return this;
@@ -67,8 +63,6 @@ public abstract class SmpCom<INPUT,OUTPUT> {
      * @return string containing the xml to send to SMP
      */
     protected abstract OUTPUT convertResponse(SmpXml xml,INPUT input);
-
-//    protected abstract OUTPUT convertResponse(String i,String o,INPUT input);
 
     /**
      * How long time is the request allowed to run

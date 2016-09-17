@@ -59,14 +59,14 @@ public class TdcMailCase extends AbstractCase {
 	public Order createProvisioning(String sik, TdcMailData lineItem) throws BusinessException {
 		ensureAcct();
 
-		TdcMail def = getModel().alloc().tdcMail(sik);
+		TdcMail def = getModel().alloc().TdcMail(sik);
 		def.yspro_pcode.setValue(lineItem.getYsproPcode());
 
 		return getModel().getOrder();
 	}
 
 	public Order createResource(String sik, TdcMailData lineItem) throws BusinessException {
-		TdcMailService service = getModel().find().tdcMailService(sik);
+		TdcMailService service = getModel().find().TdcMailService(sik);
 		if (service != null) {
 			TdcMail mail = service.getTdcMail();
 			mail.kpm_number.setValue(lineItem.getKpmNumber());
@@ -80,7 +80,7 @@ public class TdcMailCase extends AbstractCase {
 	public Order updateResource(String sik, String newKpm) throws BusinessException {
 		ensureAcct();
 
-		TdcMailService service = getModel().find().tdcMailService(sik);
+		TdcMailService service = getModel().find().TdcMailService(sik);
 		if (service != null) {
 			TdcMail mail = service.getTdcMail();
 			mail.kpm_number.updateValue(newKpm);
@@ -93,7 +93,7 @@ public class TdcMailCase extends AbstractCase {
 	}
 
 	public TdcMail readProvisioning(String sik) throws BusinessException {
-		TdcMailService service = getModel().find().tdcMailService(sik);
+		TdcMailService service = getModel().find().TdcMailService(sik);
 		return service != null ? service.getTdcMail() : null;
 	}
 
@@ -106,7 +106,7 @@ public class TdcMailCase extends AbstractCase {
 	private boolean buildOrderFromAction(String sik, Action action) {
 		boolean doAnything = false;
 		{
-			TdcMailService service = getModel().find().tdcMailService(sik);
+			TdcMailService service = getModel().find().TdcMailService(sik);
 			if (service != null) {
 				doAnything = true;
 
@@ -122,6 +122,6 @@ public class TdcMailCase extends AbstractCase {
 	}
 
 	public List<TdcMailService> readAll() {
-		return getModel().find().tdcMailServices();
+		return getModel().find().TdcMailService();
 	}
 }

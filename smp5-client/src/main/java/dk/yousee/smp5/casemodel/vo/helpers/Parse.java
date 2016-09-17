@@ -6,6 +6,15 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
 import dk.yousee.smp5.casemodel.vo.base.SubContactSpec;
+import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
+import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
+import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
+import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
+import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
+import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
+import dk.yousee.smp5.casemodel.vo.emta.MTAService;
+import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
+import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
@@ -23,6 +32,10 @@ import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
+import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
+import dk.yousee.smp5.casemodel.vo.voiceline.MailBox;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceMail;
+import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
 import dk.yousee.smp5.order.model.ResponseEntity;
 
 /**
@@ -50,8 +63,9 @@ public class Parse {
 	public void buildSubscriberModel(ResponseEntity top) {
 		if (top == null)
 			return;
-		if(top.getLid() != null){
+		if (top != null) {
 			model.getSubscriber().setLid(top.getLid());
+			model.getSubscriber().setLinkid(top.getLinkId());
 		}
 		for (ResponseEntity plan : top.getEntities()) {
 			logger.debug("Type" + plan.getType());
@@ -138,6 +152,52 @@ public class Parse {
 				for (ResponseEntity child : plan.getEntities()) {
 					if (child.getType().equals(TdcMail.TYPE)) {
 						new TdcMail(model, child.getExternalKey(), service);
+					}
+				}
+			} else if (plan.getType().equals(CableBBService.TYPE)) {
+				CableBBService cableBBService = new CableBBService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(SMPStaticIP.TYPE)) {
+						new SMPStaticIP(model, child.getExternalKey(), cableBBService);
+					} else if (child.getType().equals(InetAccess.TYPE)) {
+						new InetAccess(model, child.getExternalKey(), cableBBService);
+					} else {
+						logger.warn("unknown CableBBService child_service " + child.getExternalKey());
+					}
+				}
+			} else if (plan.getType().equals(MTAService.TYPE)) {
+				MTAService mtaService = new MTAService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(HsdAccess.TYPE)) {
+						new HsdAccess(model, child.getExternalKey(), mtaService);
+					} else if (child.getType().equals(DeviceControl.TYPE)) {
+						new DeviceControl(model, child.getExternalKey(), mtaService);
+					} else if (child.getType().equals(StdCpe.TYPE)) {
+						new StdCpe(model, child.getExternalKey(), mtaService);
+					} else if (child.getType().equals(VoipAccess.TYPE)) {
+						new VoipAccess(model, child.getExternalKey(), mtaService);
+					} else if (child.getType().equals(AddnCpe.TYPE)) {
+						new AddnCpe(model, child.getExternalKey(), mtaService);
+					} else {
+						logger.warn("unknown MTAService child_service " + child.getExternalKey());
+					}
+				}
+			} else if (plan.getType().equals(VoiceService.TYPE)) {
+				VoiceService voiceService = new VoiceService(model, plan.getExternalKey());
+				for (ResponseEntity child : plan.getEntities()) {
+					if (child.getType().equals(DialToneAccess.TYPE)) {
+						new DialToneAccess(model, child.getExternalKey(), voiceService);
+					} else if (child.getType().equals(VoiceMail.TYPE)) {
+						VoiceMail voiceMail = new VoiceMail(model, child.getExternalKey(), voiceService);
+						for (ResponseEntity secondchild : child.getEntities()) {
+							if (secondchild.getType().equals(MailBox.TYPE)) {
+								new MailBox(model, secondchild.getExternalKey(), voiceMail);
+							} else {
+								logger.warn("unknown VoiceMail child_service " + child.getExternalKey());
+							}
+						}
+					} else {
+						logger.warn("unknown VoiceService child_service " + child.getExternalKey());
 					}
 				}
 			} else {

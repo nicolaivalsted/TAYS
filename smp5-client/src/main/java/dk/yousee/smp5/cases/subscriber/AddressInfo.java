@@ -15,6 +15,8 @@ public class AddressInfo {
 	private String geographicName;
 	private String streetNumber;
 	private String doorCode;
+	private String ntd_return_segment_nm;
+	private String side;
 
 	public String getDoorCode() {
 		return doorCode;
@@ -86,6 +88,22 @@ public class AddressInfo {
 
 	public void setFloor(String floor) {
 		this.floor = floor;
+	}
+
+	public String getNtd_return_segment_nm() {
+		return ntd_return_segment_nm;
+	}
+
+	public void setNtd_return_segment_nm(String ntd_return_segment_nm) {
+		this.ntd_return_segment_nm = ntd_return_segment_nm;
+	}
+
+	public String getSide() {
+		return side;
+	}
+
+	public void setSide(String side) {
+		this.side = side;
 	}
 
 }
