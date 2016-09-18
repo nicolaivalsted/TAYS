@@ -192,7 +192,7 @@ public class Find {
 			return parent.getVideoSubscriptions();
 		}
 	}
-	
+
 	public List<AppSubscription> AppSubscription() {
 		VideoServicePlan parent = VideoServicePlan();
 		if (parent == null) {
@@ -491,6 +491,14 @@ public class Find {
 					return bb;
 				}
 			}
+		}
+		return null;
+	}
+
+	public TdcMailService findFirstTdcMail() {
+		List<TdcMailService> mailList = TdcMailService();
+		for (TdcMailService mail : mailList) {
+			return mail;
 		}
 		return null;
 	}
