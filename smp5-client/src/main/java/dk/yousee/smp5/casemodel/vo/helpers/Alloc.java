@@ -139,6 +139,14 @@ public class Alloc {
 		return add.VoiceService();
 	}
 
+	public VoiceService VoiceService1() {
+		VoiceService res = find.findFirstVoice();
+		if (res == null) {
+			return add.VoiceService();
+		}
+		return res;
+	}
+
 	/**
 	 * @param sik
 	 *            to modem
@@ -162,6 +170,14 @@ public class Alloc {
 	 */
 	public DialToneAccess DialToneAccess(String sik) {
 		DialToneAccess res = find.DialToneAccess(sik);
+		if (res == null) {
+			res = add.DialToneAccess();
+		}
+		return res;
+	}
+	
+	public DialToneAccess DialToneAccessFirst() {
+		DialToneAccess res = find.findFirstVoiceDial();
 		if (res == null) {
 			res = add.DialToneAccess();
 		}
@@ -260,7 +276,7 @@ public class Alloc {
 		}
 		return res;
 	}
-	
+
 	public AddnCpe AddnCpe(String sik) {
 		AddnCpe res = find.AddnCpe(sik);
 		if (res == null) {
