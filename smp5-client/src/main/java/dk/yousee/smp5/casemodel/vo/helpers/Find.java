@@ -434,10 +434,20 @@ public class Find {
 		return parent.getDialToneAccess();
 	}
 
-	public DialToneAccess findFirstVoice() {
+	public DialToneAccess findFirstVoiceDial() {
 		List<VoiceService> voices = VoiceService();
 		for (VoiceService voice : voices) {
 			return voice.getDialToneAccess();
+		}
+		return null;
+	}
+
+	public VoiceService findFirstVoice() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(VoiceService.TYPE)) {
+				VoiceService voice = (VoiceService) plan;
+				return voice;
+			}
 		}
 		return null;
 	}
