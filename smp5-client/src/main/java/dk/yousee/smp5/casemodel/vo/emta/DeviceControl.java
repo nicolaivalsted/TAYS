@@ -20,7 +20,7 @@ public class DeviceControl extends BasicUnit {
 	public PropHolder equipment_type = new PropHolder(this, "equipment_type", true);
 	public PropHolder cm_mac = new PropHolder(this, "device_id", true);
 	public PropHolder mta_mac = new PropHolder(this, "device_id2", true);
-	public PropHolder serial_number = new PropHolder(this, "serial_number", true);
+	public PropHolder serial_number = new PropHolder(this, "serial_number");
 	public PropHolder ownership = new PropHolder(this, "ownership", true);
 	public PropHolder max_data_port_num = new PropHolder(this, "max_data_port_num");
 	public PropHolder max_voice_port_num = new PropHolder(this, "max_voice_port_num", true);

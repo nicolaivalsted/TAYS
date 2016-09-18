@@ -4,6 +4,7 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
 import dk.yousee.smp5.casemodel.vo.cablebb.SMPStaticIP;
+import dk.yousee.smp5.casemodel.vo.emta.AddnCpe;
 import dk.yousee.smp5.casemodel.vo.emta.DeviceControl;
 import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
@@ -256,6 +257,14 @@ public class Alloc {
 		StdCpe res = find.StdCpe(sik);
 		if (res == null) {
 			res = add.StdCpe(sik);
+		}
+		return res;
+	}
+	
+	public AddnCpe AddnCpe(String sik) {
+		AddnCpe res = find.AddnCpe(sik);
+		if (res == null) {
+			res = add.AddnCpe(sik);
 		}
 		return res;
 	}
