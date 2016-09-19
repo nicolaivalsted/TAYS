@@ -23,7 +23,7 @@ public class MailBox extends BasicUnit {
 	public PhoneNumber getPhoneNumber() {
 		return PhoneNumber.create(telephone_number.getValue());
 	}
-
+	
 	public void setPhoneNumber(PhoneNumber phoneNumber) {
 		if (phoneNumber == null)
 			throw new IllegalArgumentException("Phone number can never be null for VoiceMail");

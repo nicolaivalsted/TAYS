@@ -118,6 +118,15 @@ public class Find {
 		}
 		return null;
 	}
+	
+	public ForeningsMailService findFirstForeningsMailService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(ForeningsMailService.TYPE)) {
+				return (ForeningsMailService) plan;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * First Cable Modem matching the activation code

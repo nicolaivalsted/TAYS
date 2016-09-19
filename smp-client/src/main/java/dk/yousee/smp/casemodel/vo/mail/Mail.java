@@ -65,7 +65,7 @@ public class Mail extends BasicUnit {
 
 
     public static final String CONVERSATION="conversation";
-    protected PropHolder conversation = new PropHolder(this, CONVERSATION);
+    public PropHolder conversation = new PropHolder(this, CONVERSATION);
 
     public Boolean getConversation() {
         Boolean res;

@@ -199,7 +199,7 @@ public class Alloc {
 	}
 
 	public VoiceMail VoiceMail(String sik) {
-		VoiceMail res = find.VoiceMail(sik);
+		VoiceMail res = find.VoiceMail2();
 		if (res == null) {
 			res = add.VoiceMail(sik);
 		}

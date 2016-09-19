@@ -451,6 +451,15 @@ public class Find {
 		}
 		return null;
 	}
+	
+	public ForeningsMailService findFirstForeningsMailService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(ForeningsMailService.TYPE)) {
+				return (ForeningsMailService) plan;
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * @param modemId
@@ -463,9 +472,23 @@ public class Find {
 			return null;
 		return parent.getMailBox();
 	}
+	
+	public MailBox MailBox() {
+		VoiceMail parent = VoiceMail2();
+		if (parent == null)
+			return null;
+		return parent.getMailBox();
+	}
 
 	public VoiceMail VoiceMail(String sik) {
 		VoiceService parent = VoiceService(sik);
+		if (parent == null)
+			return null;
+		return parent.getVoiceMail();
+	}
+	
+	public VoiceMail VoiceMail2() {
+		VoiceService parent = findFirstVoice();
 		if (parent == null)
 			return null;
 		return parent.getVoiceMail();

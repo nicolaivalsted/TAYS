@@ -32,7 +32,7 @@ public class Mail extends BasicUnit {
 	public PropHolder product_code = new PropHolder(this, "product_code", true);
 	public PropHolder product_name = new PropHolder(this, "product_name");
 	public PropHolder customer_id = new PropHolder(this, "customer_id");
-	protected PropHolder conversation = new PropHolder(this, "conversation");
+	public PropHolder conversation = new PropHolder(this, "conversation");
 	public PropHolder sik = new PropHolder(this, "sik");
 
 	public Boolean getConversation() {
