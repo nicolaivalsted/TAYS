@@ -34,7 +34,7 @@ public class TdcMail extends BasicUnit {
 
 	public PropHolder sik = new PropHolder(this, "sik");
 	public PropHolder yspro_pcode = new PropHolder(this, "yspro_pcode", true);
-    public PropHolder kpm_number = new PropHolder(this, "kpm_number", true);
+    public PropHolder kpm_number = new PropHolder(this, "kpm_number");
     public PropHolder yspro_provisioning_id = new PropHolder(this, "yspro_provisioningid");
 
 }
