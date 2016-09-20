@@ -24,9 +24,9 @@ public class DialToneAccess extends BasicUnit {
 		parent.setDialToneAccess(this);
 	}
 
-	public PropHolder sik = new PropHolder(this, "sik");
+	public PropHolder sik = new PropHolder(this, "sik", true);
 	public PropHolder modem_id = new PropHolder(this, "modem_id");
-	private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
+	private PropHolder telephone_number = new PropHolder(this, "telephone_number");
 	public PropHolder mta_voice_port = new PropHolder(this, "mta_voice_port", true);
 	public PropHolder rate_codes = new PropHolder(this, "rate_codes", true);
 	public PropHolder Privacy = new PropHolder(this, "privacy", true);
@@ -50,7 +50,7 @@ public class DialToneAccess extends BasicUnit {
 		if (phoneNumber == null) {
 			throw new IllegalArgumentException("Phone number can never be null for dial-tone-access");
 		}
-		telephone_number.setValue(phoneNumber.getPhoneNumber());
+		telephone_number.updateValue(phoneNumber.getPhoneNumber());
 	}
 
 }

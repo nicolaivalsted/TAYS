@@ -1,5 +1,7 @@
 package dk.yousee.smp5.cases;
 
+import org.apache.commons.lang3.StringUtils;
+
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
@@ -169,29 +171,26 @@ public class VoiceCase extends AbstractCase {
 		ensureAcct();
 
 		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
-		if (dialToneAccess == null) {
-			throw new BusinessException("Update failed,  Voice service Plan was not found: for position: %s", sik);
-		}
-		if (voiceData.getSik() != null) {
-			dialToneAccess.sik.setValue(voiceData.getSik());
+
+		if (StringUtils.isNotBlank(voiceData.getSik())) {
+			dialToneAccess.sik.updateValue(voiceData.getSik());
 		}
 		if (voiceData.getPhoneNumber() != null) {
 			dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
 		}
-		if (voiceData.getMta_voice_port() != null) {
+		if (StringUtils.isNotBlank(voiceData.getMta_voice_port())) {
 			dialToneAccess.mta_voice_port.setValue(voiceData.getMta_voice_port());
 		}
-		if (voiceData.getRate_codes() != null) {
+		if (StringUtils.isNotBlank(voiceData.getRate_codes())) {
 			dialToneAccess.rate_codes.setValue(voiceData.getRate_codes());
 		}
-		if (voiceData.getPrivacy() != null) {
+
+		if (StringUtils.isNotBlank(voiceData.getRate_codes())) {
 			dialToneAccess.Privacy.setValue(voiceData.getPrivacy());
 		}
-		if (voiceData.getCos_restrict_id() != null) {
+
+		if (StringUtils.isNotBlank(voiceData.getCos_restrict_id())) {
 			dialToneAccess.Cos_restrict_id.setValue(voiceData.getCos_restrict_id());
-		}
-		if (voiceData.getModemActivationCode() != null) {
-			dialToneAccess.modem_id.setValue(voiceData.getModemActivationCode());
 		}
 
 		return null;
