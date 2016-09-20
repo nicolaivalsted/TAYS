@@ -597,6 +597,14 @@ public class Find {
 		return null;
 	}
 
+	public DeviceControl findFirstDeviceControl() {
+		List<MTAService> mts = MTAService();
+		for (MTAService mt : mts) {
+			return mt.getDeviceControl();
+		}
+		return null;
+	}
+
 	public VoipAccess findFirsteMta() {
 		List<MTAService> mtas = MTAService();
 		for (MTAService mta : mtas) {
