@@ -597,6 +597,16 @@ public class Find {
 		return null;
 	}
 
+	public VoipAccess findFirsteMta() {
+		List<MTAService> mtas = MTAService();
+		for (MTAService mta : mtas) {
+			if (mta.getVoipAccess() != null) {
+				return mta.getVoipAccess();
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @param parentKey
 	 *            to the CableBBService

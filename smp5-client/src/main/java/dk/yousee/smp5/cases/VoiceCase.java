@@ -156,11 +156,9 @@ public class VoiceCase extends AbstractCase {
 		dialToneAccess.lnp_porting_status.setValue("Not Ported");
 
 		// create ASSOC if mta exist
-		if (modemId != null) {
-			VoipAccess voipAccess = getModel().find().VoipAccess(voiceData.getSik());
-			if (voipAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
-				dialToneAccess.dt_has_equipment.add(voipAccess);
-			}
+		VoipAccess voipAccess = getModel().find().findFirsteMta();
+		if (voipAccess != null && dialToneAccess.dt_has_equipment.get() == null) {
+			dialToneAccess.dt_has_equipment.add(voipAccess);
 		}
 
 		createVoiceMail(voiceData.getSik(), voiceData.getPhoneNumber());
