@@ -1,5 +1,7 @@
 package dk.yousee.smp5.cases;
 
+import org.apache.commons.lang3.StringUtils;
+
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.base.SampSub;
 import dk.yousee.smp5.casemodel.vo.base.SubAddressSpec;
@@ -57,12 +59,26 @@ public class SubscriberCase extends AbstractCase {
 	/**
 	 * @param Subscriber
 	 */
-	public Subscriber updateSusbcriber(SubscriberInfo subscriberInfo) {
+	public Subscriber updateSusbcriber(SubscriberInfo requestSubscriber) {
 		Subscriber sub = getModel().getSubscriber();
-		sub.setLid(subscriberInfo.getLid());
-		sub.setLinkid(subscriberInfo.getLinkid());
-		getModel().getOrder().setOnlySub(true);
+
+		if (requestSubscriber.getLid() != null && !getValue(requestSubscriber.getLid()).equalsIgnoreCase(getValue(sub.getLid()))) {
+			sub.setLid(requestSubscriber.getLid());
+		}
+
+		if (requestSubscriber.getLinkid() != null && !getValue(requestSubscriber.getLinkid()).equalsIgnoreCase(getValue(sub.getLinkid()))) {
+			sub.setLinkid(requestSubscriber.getLinkid());
+		}
+
 		return sub;
+	}
+
+	private String getValue(String value) {
+		return getValue(value, "");
+	}
+
+	private String getValue(String value, String defaultValue) {
+		return StringUtils.isNotBlank(value) ? value : defaultValue;
 	}
 
 	/**
