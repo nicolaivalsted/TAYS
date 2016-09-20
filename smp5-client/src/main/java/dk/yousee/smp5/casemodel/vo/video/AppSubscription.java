@@ -14,7 +14,7 @@ import dk.yousee.smp5.order.model.ServicePrefix;
  */
 public class AppSubscription extends BasicUnit {
 	public static OrderDataLevel LEVEL = OrderDataLevel.CHILD_SERVICE;
-	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "video_subscription");
+	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "app_subscription");
 
 	public AppSubscription(SubscriberModel model, String externalKey, VideoServicePlan parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);

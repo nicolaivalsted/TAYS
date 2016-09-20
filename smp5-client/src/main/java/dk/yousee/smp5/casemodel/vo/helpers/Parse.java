@@ -28,6 +28,7 @@ import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMailService;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -95,6 +96,8 @@ public class Parse {
 								new VideoServicePlanAttributes(model, subchild.getExternalKey(), videoServicePlan);
 							} else if (subchild.getType().equals(VideoSubscription.TYPE)) {
 								new VideoSubscription(model, subchild.getExternalKey(), videoServicePlan);
+							} else if (subchild.getType().equals(AppSubscription.TYPE)) {
+								new AppSubscription(model, subchild.getExternalKey(), videoServicePlan);
 							} else {
 								logger.warn("unknown VideoServicePlan child_service " + child.getExternalKey());
 							}

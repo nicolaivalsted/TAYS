@@ -216,6 +216,20 @@ public class Find {
 		return null;
 	}
 
+	public AppSubscription AppSubscription(String sik) {
+		VideoServicePlan parent = VideoServicePlan();
+		if (parent == null) {
+			return null;
+		} else {
+			for (AppSubscription appSubscription : parent.getAppSubscriptions()) {
+				if (sik.equalsIgnoreCase(appSubscription.sik.getValue())) {
+					return appSubscription;
+				}
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @return the VideoCPEService the subscriber has
 	 */
@@ -451,7 +465,7 @@ public class Find {
 		}
 		return null;
 	}
-	
+
 	public ForeningsMailService findFirstForeningsMailService() {
 		for (BasicUnit plan : serviceLevelUnit) {
 			if (plan.getType().equals(ForeningsMailService.TYPE)) {
@@ -472,7 +486,7 @@ public class Find {
 			return null;
 		return parent.getMailBox();
 	}
-	
+
 	public MailBox MailBox() {
 		VoiceMail parent = VoiceMail2();
 		if (parent == null)
@@ -486,7 +500,7 @@ public class Find {
 			return null;
 		return parent.getVoiceMail();
 	}
-	
+
 	public VoiceMail VoiceMail2() {
 		VoiceService parent = findFirstVoice();
 		if (parent == null)

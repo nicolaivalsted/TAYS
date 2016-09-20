@@ -20,6 +20,7 @@ import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPE;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoComposedService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlan;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -77,6 +78,11 @@ public class Alloc {
 	public VideoSubscription VideoSubscription(String entitlementId, String parcos, String acct) {
 		VideoSubscription res = find.VideoSubscription(entitlementId);
 		return res == null ? add.VideoSubscription(acct) : res;
+	}
+
+	public AppSubscription AppSubscription(String sik, String acct) {
+		AppSubscription res = find.AppSubscription(sik);
+		return res == null ? add.AppSubscription(acct) : res;
 	}
 
 	public VideoCPE VideoCPE(String serialNumber) {
@@ -175,7 +181,7 @@ public class Alloc {
 		}
 		return res;
 	}
-	
+
 	public DialToneAccess DialToneAccessFirst() {
 		DialToneAccess res = find.findFirstVoiceDial();
 		if (res == null) {

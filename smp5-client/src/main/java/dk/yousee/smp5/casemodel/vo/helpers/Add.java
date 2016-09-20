@@ -134,7 +134,7 @@ public class Add {
 		}
 		return res;
 	}
-	
+
 	public AppSubscription AppSubscription(String acct) {
 		VideoServicePlan parent = model.alloc().VideoServicePlan(acct);
 		AppSubscription res = new AppSubscription(model, key.generateUUID(), parent);
