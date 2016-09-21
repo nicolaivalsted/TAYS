@@ -566,6 +566,17 @@ public class CableBBCase extends AbstractCase {
 		}
 		return doAnything;
 	}
+	
+	public boolean reprovInternet(String id) throws BusinessException{
+		ensureAcct();
+		
+		InetAccess inetAccess = getModel().find().findFirstInternet();
+		if(inetAccess != null){
+			inetAccess.sendAction(Action.REPROV);
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Update the customer's WiFi settings such as gw.channel.id, psk, ss_id -
