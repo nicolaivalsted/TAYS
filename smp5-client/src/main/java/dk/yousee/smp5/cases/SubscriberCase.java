@@ -48,11 +48,10 @@ public class SubscriberCase extends AbstractCase {
 	 */
 	public SubContactSpec updateContact(ContactInfo customer) {
 		SubContactSpec plan = getModel().find().SubContactSpec();
-
-		plan.first_name.updateValue(customer.getFirstName());
-		plan.last_name.updateValue(customer.getLastName());
-		plan.emails_home_address.updateValue(customer.getEmail());
-		plan.phones_home_number.updateValue(customer.getPrivattlf());
+		plan.first_name.setValue(customer.getFirstName());
+		plan.last_name.setValue(customer.getLastName());
+		plan.emails_home_address.setValue(customer.getEmail());
+		plan.phones_home_number.setValue(customer.getPrivattlf());
 		plan.isp.setValue(customer.getIsp());
 		return plan;
 	}
@@ -97,15 +96,15 @@ public class SubscriberCase extends AbstractCase {
 				ams_id = subAddressSpec.ams_id.getValue();
 			}
 		}
-		subAddressSpec.ams_id.updateValue(ams_id);
-		subAddressSpec.zipcode.updateValue(zip4ch(address.getZipcode()));
-		subAddressSpec.district.updateValue(address.getDistrict());
-		subAddressSpec.city.updateValue(address.getCity());
-		subAddressSpec.geo_name.updateValue(address.getGeographicName());
-		subAddressSpec.door_code.updateValue(address.getDoorCode());
-		subAddressSpec.street_num.updateValue(address.getStreetNumber());
-		subAddressSpec.street_number_suffix.updateValue(address.getSide());
-		subAddressSpec.ntd_return_segment_nm.updateValue(address.getNtd_return_segment_nm());
+		subAddressSpec.ams_id.setValue(ams_id);
+		subAddressSpec.zipcode.setValue(zip4ch(address.getZipcode()));
+		subAddressSpec.district.setValue(address.getDistrict());
+		subAddressSpec.city.setValue(address.getCity());
+		subAddressSpec.geo_name.setValue(address.getGeographicName());
+		subAddressSpec.door_code.setValue(address.getDoorCode());
+		subAddressSpec.street_num.setValue(address.getStreetNumber());
+		subAddressSpec.street_number_suffix.setValue(address.getSide());
+		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		return subAddressSpec;
 	}
 
