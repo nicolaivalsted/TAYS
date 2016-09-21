@@ -141,17 +141,21 @@ public class CableBBCase extends AbstractCase {
 			if (inetAccess.allowed_cpe.getValue().equals("0")) {
 				inetAccess.allowed_cpe.setValue("1");
 			}
+			if (lineItem.getStaticIpProductCode() != null) {
+				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
+				smpStaticIP.sik.setValue(sik);
+			}
+
 			StdCpe stdCpe = getModel().find().StdCpe(sik);
 			if (stdCpe != null) {
 				if (stdCpe.getServicePlanState() == ProvisionStateEnum.COURTESY_BLOCK) {
 					stdCpe.sendAction(Action.SUSPEND);
 				}
-			}
-			if (lineItem.getStaticIpProductCode() != null) {
-				SMPStaticIP smpStaticIP = getModel().alloc().SMPStaticIP(sik);
-				smpStaticIP.sik.setValue(sik);
-				if (smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
-					smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
+				if (lineItem.getStaticIpProductCode() != null) {
+					SMPStaticIP smpStaticIP = getModel().find().SMPStaticIP(sik);
+					if (smpStaticIP != null && smpStaticIP.static_ip_has_std_cpe.isEmpty()) {
+						smpStaticIP.static_ip_has_std_cpe.add(stdCpe);
+					}
 				}
 			}
 		} else {

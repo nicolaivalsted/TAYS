@@ -25,7 +25,7 @@ public class SubAddressSpec extends BasicUnit {
 		model.getServiceLevelUnit().add(this);
 	}
 
-	public PropHolder ams_id = new PropHolder(this, "ams_id");
+	public PropHolder ams_id = new PropHolder(this, "ams_id", true);
 
 	public PropHolder district = new PropHolder(this, "province_state");
 
