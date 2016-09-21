@@ -567,7 +567,7 @@ public class CableBBCase extends AbstractCase {
 		return doAnything;
 	}
 	
-	public boolean reprovInternet(String id) throws BusinessException{
+	public boolean reprovInternet() throws BusinessException{
 		ensureAcct();
 		
 		InetAccess inetAccess = getModel().find().findFirstInternet();

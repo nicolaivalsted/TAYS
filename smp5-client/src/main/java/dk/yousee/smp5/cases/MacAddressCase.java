@@ -492,4 +492,15 @@ public class MacAddressCase extends AbstractCase {
 		}
 		return inetAccess;
 	}
+
+	public boolean reprovVoice() throws BusinessException {
+		ensureAcct();
+
+		VoipAccess voipAccess = getModel().find().findFirsteMta();
+		if (voipAccess != null) {
+			voipAccess.sendAction(Action.REPROV);
+			return true;
+		}
+		return false;
+	}
 }
