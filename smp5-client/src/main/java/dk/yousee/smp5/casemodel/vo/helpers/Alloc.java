@@ -219,7 +219,7 @@ public class Alloc {
 	 *         data
 	 */
 	public CableBBService CableBBService(String sik) {
-		CableBBService res = find.CableBBService(sik);
+		CableBBService res = find.CableBBServiceSik(sik);
 		if (res == null) {
 			res = add.CableBBService(sik);
 		}

@@ -531,7 +531,7 @@ public class CableBBCase extends AbstractCase {
 	private boolean buildOrderFromAction(String sik, Action action) {
 		boolean doAnything = false;
 		{
-			CableBBService service = getModel().find().CableBBService(sik);
+			CableBBService service = getModel().find().CableBBServiceSik(sik);
 			if (service != null) {
 				doAnything = true;
 

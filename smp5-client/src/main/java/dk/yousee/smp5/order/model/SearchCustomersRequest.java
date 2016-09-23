@@ -33,6 +33,10 @@ public class SearchCustomersRequest implements Serializable {
 	private String cpe_mac;
 	private String voipPhoneNumber;
 	private String street_nm;
+	private String street;
+	private String husnr;
+	private String side;
+	private String floor;
 
 	/**
 	 * @return the 9 digit customer key
@@ -195,12 +199,36 @@ public class SearchCustomersRequest implements Serializable {
 		this.street_nm = street_nm;
 	}
 
-	@Override
-	public String toString() {
-		return "SearchCustomersRequest [kundeId=" + kundeId + ", subscriber=" + subscriber + ", fornavn=" + fornavn + ", efternavn=" + efternavn
-				+ ", privattelefon=" + privattelefon + ", email=" + email + ", postnr=" + postnr + ", kommune=" + kommune + ", bynavn=" + bynavn + ", stednavn="
-				+ stednavn + ", amsid=" + amsid + ", chipid=" + chipid + ", serialNumber=" + serialNumber + ", cableUnit=" + cableUnit + ", smartcardSerial="
-				+ smartcardSerial + ", cm_mac=" + cm_mac + ", cpe_mac=" + cpe_mac + "]";
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+
+	public String getHusnr() {
+		return husnr;
+	}
+
+	public void setHusnr(String husnr) {
+		this.husnr = husnr;
+	}
+
+	public String getSide() {
+		return side;
+	}
+
+	public void setSide(String side) {
+		this.side = side;
+	}
+
+	public String getFloor() {
+		return floor;
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
 	}
 
 }

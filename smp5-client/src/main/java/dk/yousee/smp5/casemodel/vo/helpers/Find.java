@@ -49,11 +49,9 @@ import dk.yousee.smp5.order.model.OrderDataType;
 public class Find {
 
 	private List<BasicUnit> serviceLevelUnit;
-	private Key key;
 
 	public Find(SubscriberModel model, List<BasicUnit> serviceLevelUnit) {
 		this.serviceLevelUnit = serviceLevelUnit;
-		this.key = model.key();
 	}
 
 	BasicUnit find(OrderDataType type) {
@@ -521,6 +519,16 @@ public class Find {
 		return res;
 	}
 
+	public CableBBService CableBBServiceSik(String sik) {
+		List<CableBBService> services = CableBBService();
+		for (CableBBService service : services) {
+			if (sik.equals(service.getSik())) {
+				return service;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * First Cable Modem matching the activation code
 	 *
@@ -542,40 +550,19 @@ public class Find {
 		return null;
 	}
 
-	public TdcMailService findFirstTdcMail() {
-		List<TdcMailService> mailList = TdcMailService();
-		for (TdcMailService mail : mailList) {
-			return mail;
+	public CableBBService firstOneCableBBService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(CableBBService.TYPE)) {
+				return (CableBBService) plan;
+			}
 		}
 		return null;
 	}
 
-	/**
-	 * @param externalKey
-	 *            the key composed from modem id
-	 * @return instance if it exists
-	 */
-	protected CableBBService CableBBServiceExternal(String externalKey) {
-		return (CableBBService) find(CableBBService.TYPE, externalKey);
-	}
-
-	/**
-	 * @param modemId
-	 *            the key composed from modem id
-	 * @return instance if it exists
-	 */
-	public CableBBService CableBBService(String sik) {
-
-		List<CableBBService> services = CableBBService();
-		for (CableBBService service : services) {
-			InetAccess access = service.getInetAccess();
-			if (access == null) {
-				return CableBBServiceExternal(key.CableBBService(sik));
-			} else {
-				String one = access.sik.getValue();
-				if (sik.equals(one))
-					return service;
-			}
+	public TdcMailService findFirstTdcMail() {
+		List<TdcMailService> mailList = TdcMailService();
+		for (TdcMailService mail : mailList) {
+			return mail;
 		}
 		return null;
 	}
@@ -586,7 +573,11 @@ public class Find {
 	 * @return instance if it exists
 	 */
 	public InetAccess InetAccess(String sik) {
-		return InetAccessExternal(key.CableBBService(sik));
+		CableBBService parent = CableBBServiceSik(sik);
+		if (parent == null) {
+			return null;
+		}
+		return parent.getInetAccess();
 	}
 
 	public InetAccess findFirstInternet() {
@@ -616,24 +607,12 @@ public class Find {
 	}
 
 	/**
-	 * @param parentKey
-	 *            to the CableBBService
-	 * @return instance if it exists
-	 */
-	protected InetAccess InetAccessExternal(String parentKey) {
-		CableBBService parent = CableBBServiceExternal(parentKey);
-		if (parent == null)
-			return null;
-		return parent.getInetAccess();
-	}
-
-	/**
 	 * @param modemId
 	 *            to the modem
 	 * @return instance if it exists
 	 */
 	public SMPStaticIP SMPStaticIP(String sik) {
-		CableBBService parent = CableBBService(sik);
+		CableBBService parent = CableBBServiceSik(sik);
 		if (parent == null)
 			return null;
 		return parent.getSmpStaticIP();
@@ -724,28 +703,6 @@ public class Find {
 		if (parent == null)
 			return null;
 		return parent.getAddnCpe();
-	}
-
-	/**
-	 * @param parentKey
-	 *            to the CableBBService
-	 * @param childKey
-	 *            what is this ???
-	 * @return instance if it exists
-	 */
-	public AddnCpe AddnCpeAndChildKey(String sik, String childKey) {
-		MTAService parent = MTAService(sik);
-		if (parent == null) {
-			return null;
-		} else {
-			AddnCpe addnCpe = parent.getAddnCpe();
-			if (addnCpe != null) {
-				if (addnCpe.getExternalKey().equalsIgnoreCase(childKey)) {
-					return addnCpe;
-				}
-			}
-		}
-		return null;
 	}
 
 	public AddnCpe theAddnCpe(String sik) {

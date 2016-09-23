@@ -70,14 +70,10 @@ public class BBreadCase extends AbstractCase {
 	}
 
 	public BasicUnit findServiceFromExternalKey(OrderDataType type, String externalKey) {
-
 		if (type.equals(CableBBService.TYPE)) {
-			List<CableBBService> cableBBServices = fetchAllCableBBServices();
-			for (CableBBService cableBBService : cableBBServices) {
-				for (BasicUnit basicUnit : cableBBService.getChildrenServices()) {
-					if (basicUnit.getExternalKey().equalsIgnoreCase(externalKey))
-						return cableBBService;
-				}
+			CableBBService bbService = getModel().find().firstOneCableBBService();
+			if (bbService != null) {
+				return bbService;
 			}
 		} else {
 			// accessnet externalkey
