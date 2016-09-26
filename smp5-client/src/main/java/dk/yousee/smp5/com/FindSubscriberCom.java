@@ -2,8 +2,6 @@ package dk.yousee.smp5.com;
 
 import java.util.ArrayList;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 
@@ -70,6 +68,9 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		arrayOfString.addItem("floor");
 		arrayOfString.addItem("street_num");
 		arrayOfString.addItem("street_number_suffix");
+		arrayOfString.addItem("emails.home.address");
+		arrayOfString.addItem("phones.home.number");
+		arrayOfString.addItem("svc_provider");
 		request.setAttrNames(arrayOfString);
 		return requestDocument;
 	}
@@ -161,7 +162,22 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		}
 		if (searchCustomersRequest.getStreet_nm() != null) {
 			ParamType param = paramList.addNewParam();
+			param.setName("street_num");
+			param.setStringValue(searchCustomersRequest.getStreet_nm());
+		}
+		if (searchCustomersRequest.getStreet() != null) {
+			ParamType param = paramList.addNewParam();
 			param.setName("street_nm");
+			param.setStringValue(searchCustomersRequest.getStreet_nm());
+		}
+		if (searchCustomersRequest.getSide() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("street_number_suffix");
+			param.setStringValue(searchCustomersRequest.getStreet_nm());
+		}
+		if (searchCustomersRequest.getFloor() != null) {
+			ParamType param = paramList.addNewParam();
+			param.setName("floor");
 			param.setStringValue(searchCustomersRequest.getStreet_nm());
 		}
 		return queryValue;
@@ -316,8 +332,6 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 						ci.setFirst_name(value);
 					} else if (key.equalsIgnoreCase("last_name")) {
 						ci.setLast_name(value);
-					} else if (key.equalsIgnoreCase("address1")) {
-						ci.setAddress1(value);
 					} else if (key.equalsIgnoreCase("geo_name")) {
 						ci.setAddress2(value);
 					} else if (key.equalsIgnoreCase("city")) {
@@ -338,18 +352,14 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 						ci.setStreetNum(value);
 					} else if (key.equalsIgnoreCase("street_number_suffix")) {
 						ci.setSide(value);
+					} else if (key.equalsIgnoreCase("emails.home.address")) {
+						ci.setEmail(value);
+					} else if (key.equalsIgnoreCase("phones.home.number")) {
+						ci.setPhoneNumber(value);
+					} else if (key.equalsIgnoreCase("svc_provider")) {
+						ci.setIsp(value);
 					}
-
 				}
-				// handle address convertion
-				String vejnavn = ci.getStreetNm() == null ? "" : ci.getStreetNm();
-				String husnr = ci.getStreetNum() == null ? "" : ci.getStreetNum();
-				String etage = ci.getFloor() == null ? "" : ci.getFloor();
-				String side = ci.getSide() == null ? "" : ci.getSide();
-
-				ci.setAddress1(WordUtils.capitalizeFully(vejnavn) + " " + husnr.toUpperCase() + (!StringUtils.isBlank(etage) ? ", " + etage.toUpperCase() : "")
-						+ (!StringUtils.isBlank(etage) && StringUtils.isNumeric(etage) ? "." : "")
-						+ (!StringUtils.isBlank(side) ? " " + side.toUpperCase() : ""));
 			}
 			return ci;
 		}

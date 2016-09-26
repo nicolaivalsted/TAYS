@@ -13,15 +13,17 @@ public final class CustomerInfo implements Serializable {
 	private String zipcode;
 	private String district;
 	private String ntd_return_segment;
+	private String email;
 	private String first_name;
 	private String last_name;
 	private String city;
-	private String address1;
-	private String address2;
 	private String floor;
 	private String streetNm;
 	private String streetNum;
 	private String side;
+	private String phoneNumber;
+	private String address2;
+	private String isp;
 
 	/**
 	 * Subscriber that matches this search
@@ -84,14 +86,6 @@ public final class CustomerInfo implements Serializable {
 		this.city = city;
 	}
 
-	public String getAddress1() {
-		return address1;
-	}
-
-	public void setAddress1(String address1) {
-		this.address1 = address1;
-	}
-
 	public String getAddress2() {
 		return address2;
 	}
@@ -142,6 +136,30 @@ public final class CustomerInfo implements Serializable {
 		this.side = side;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+
+	public String getIsp() {
+		return isp;
+	}
+
+	public void setIsp(String isp) {
+		this.isp = isp;
+	}
+
 	/**
 	 * Compare the row with a row of same type. They are identical if same
 	 * account (same subscriberId)
@@ -169,28 +187,10 @@ public final class CustomerInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		final StringBuilder sb = new StringBuilder();
-		sb.append("{\"acct\":\"").append(acct).append('"');
-		if (first_name != null)
-			sb.append(", \"first_name\":\"").append(getFirst_name()).append('"');
-		if (last_name != null)
-			sb.append(", \"last_name\":\"").append(getLast_name()).append('"');
-		if (address1 != null)
-			sb.append(", \"address1\":\"").append(getAddress1()).append('"');
-		if (address2 != null)
-			sb.append(", \"address2\":\"").append(getAddress2()).append('"');
-		if (zipcode != null)
-			sb.append(", \"zipcode\":\"").append(getZipcode()).append('"');
-		if (city != null)
-			sb.append(", \"city\":\"").append(getCity()).append('"');
-		if (district != null)
-			sb.append(", \"district\":\"").append(getDistrict()).append('"');
-		if (ntd_return_segment != null)
-			sb.append(", \"ntd_return_segment\":\"").append(getNtd_return_segment()).append('"');
-		if (status != null)
-			sb.append(", \"status\":\"").append(getStatus()).append('"');
-		sb.append('}');
-		return sb.toString();
+		return "CustomerInfo [acct=" + acct + ", zipcode=" + zipcode + ", district=" + district + ", ntd_return_segment=" + ntd_return_segment + ", email="
+				+ email + ", first_name=" + first_name + ", last_name=" + last_name + ", city=" + city + ", floor=" + floor + ", streetNm=" + streetNm
+				+ ", streetNum=" + streetNum + ", side=" + side + ", phoneNumber=" + phoneNumber + ", address2=" + address2 + ", isp=" + isp + ", status="
+				+ status + "]";
 	}
 
 }
