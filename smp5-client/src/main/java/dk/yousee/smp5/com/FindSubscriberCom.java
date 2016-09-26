@@ -68,8 +68,6 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		arrayOfString.addItem("floor");
 		arrayOfString.addItem("street_num");
 		arrayOfString.addItem("street_number_suffix");
-		arrayOfString.addItem("emails.home.address");
-		arrayOfString.addItem("phones.home.number");
 		arrayOfString.addItem("svc_provider");
 		request.setAttrNames(arrayOfString);
 		return requestDocument;
@@ -352,10 +350,6 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 						ci.setStreetNum(value);
 					} else if (key.equalsIgnoreCase("street_number_suffix")) {
 						ci.setSide(value);
-					} else if (key.equalsIgnoreCase("emails.home.address")) {
-						ci.setEmail(value);
-					} else if (key.equalsIgnoreCase("phones.home.number")) {
-						ci.setPhoneNumber(value);
 					} else if (key.equalsIgnoreCase("svc_provider")) {
 						ci.setIsp(value);
 					}

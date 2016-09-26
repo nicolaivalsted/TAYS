@@ -13,7 +13,6 @@ public final class CustomerInfo implements Serializable {
 	private String zipcode;
 	private String district;
 	private String ntd_return_segment;
-	private String email;
 	private String first_name;
 	private String last_name;
 	private String city;
@@ -21,7 +20,6 @@ public final class CustomerInfo implements Serializable {
 	private String streetNm;
 	private String streetNum;
 	private String side;
-	private String phoneNumber;
 	private String address2;
 	private String isp;
 
@@ -136,22 +134,6 @@ public final class CustomerInfo implements Serializable {
 		this.side = side;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-
 	public String getIsp() {
 		return isp;
 	}
@@ -187,10 +169,9 @@ public final class CustomerInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return "CustomerInfo [acct=" + acct + ", zipcode=" + zipcode + ", district=" + district + ", ntd_return_segment=" + ntd_return_segment + ", email="
-				+ email + ", first_name=" + first_name + ", last_name=" + last_name + ", city=" + city + ", floor=" + floor + ", streetNm=" + streetNm
-				+ ", streetNum=" + streetNum + ", side=" + side + ", phoneNumber=" + phoneNumber + ", address2=" + address2 + ", isp=" + isp + ", status="
-				+ status + "]";
+		return "CustomerInfo [acct=" + acct + ", zipcode=" + zipcode + ", district=" + district + ", ntd_return_segment=" + ntd_return_segment + ", first_name="
+				+ first_name + ", last_name=" + last_name + ", city=" + city + ", floor=" + floor + ", streetNm=" + streetNm + ", streetNum=" + streetNum
+				+ ", side=" + side + ", address2=" + address2 + ", isp=" + isp + ", status=" + status + "]";
 	}
 
 }
