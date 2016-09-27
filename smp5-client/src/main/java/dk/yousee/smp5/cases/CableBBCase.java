@@ -76,7 +76,7 @@ public class CableBBCase extends AbstractCase {
 		}
 		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
 		inetAccess.modem_id.setValue(sik);
-		inetAccess.sik.setValue(lineItem.getSik());
+		inetAccess.sik.setValue(sik);
 		inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
 		if (lineItem.getVrf() != null) {
@@ -118,7 +118,7 @@ public class CableBBCase extends AbstractCase {
 		ensureAcct();
 
 		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
-		inetAccess.sik.setValue(lineItem.getSik());
+		inetAccess.sik.setValue(sik);
 		if (lineItem.getRateCodes() != null) {
 			inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		}
