@@ -172,7 +172,6 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
 				inetAccess.psk.setValue(InetAccess.generatePsk());
 				inetAccess.gw_channel_id.setValue("0");
-			} else {
 				inetAccess.wifi_security_disabled.setValue("false");
 			}
 		} else {
@@ -566,12 +565,12 @@ public class CableBBCase extends AbstractCase {
 		}
 		return doAnything;
 	}
-	
-	public boolean reprovInternet() throws BusinessException{
+
+	public boolean reprovInternet() throws BusinessException {
 		ensureAcct();
-		
+
 		InetAccess inetAccess = getModel().find().findFirstInternet();
-		if(inetAccess != null){
+		if (inetAccess != null) {
 			inetAccess.sendAction(Action.REPROV);
 			return true;
 		}
