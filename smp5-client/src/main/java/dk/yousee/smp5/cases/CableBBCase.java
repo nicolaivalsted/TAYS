@@ -166,7 +166,7 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.email_server_enable.setValue("true");
 		}
 		if (!lineItem.getWifi()) {
-			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("false");
+			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("true");
 			if (!exists) { // this means it is created now, then generate
 							// and fill in values
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
