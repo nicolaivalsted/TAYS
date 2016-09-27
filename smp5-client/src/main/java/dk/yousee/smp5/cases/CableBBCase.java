@@ -76,7 +76,7 @@ public class CableBBCase extends AbstractCase {
 		}
 		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
 		inetAccess.modem_id.setValue(sik);
-		inetAccess.sik.setValue(lineItem.getSik());
+		inetAccess.sik.setValue(sik);
 		inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
 		if (lineItem.getVrf() != null) {
@@ -118,7 +118,7 @@ public class CableBBCase extends AbstractCase {
 		ensureAcct();
 
 		InetAccess inetAccess = getModel().alloc().InetAccess(sik);
-		inetAccess.sik.setValue(lineItem.getSik());
+		inetAccess.sik.setValue(sik);
 		if (lineItem.getRateCodes() != null) {
 			inetAccess.rate_codes.setValue(lineItem.getRateCodes());
 		}
@@ -166,13 +166,12 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.email_server_enable.setValue("true");
 		}
 		if (!lineItem.getWifi()) {
-			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("false");
+			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("true");
 			if (!exists) { // this means it is created now, then generate
 							// and fill in values
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
 				inetAccess.psk.setValue(InetAccess.generatePsk());
 				inetAccess.gw_channel_id.setValue("0");
-			} else {
 				inetAccess.wifi_security_disabled.setValue("false");
 			}
 		} else {
@@ -566,12 +565,12 @@ public class CableBBCase extends AbstractCase {
 		}
 		return doAnything;
 	}
-	
-	public boolean reprovInternet() throws BusinessException{
+
+	public boolean reprovInternet() throws BusinessException {
 		ensureAcct();
-		
+
 		InetAccess inetAccess = getModel().find().findFirstInternet();
-		if(inetAccess != null){
+		if (inetAccess != null) {
 			inetAccess.sendAction(Action.REPROV);
 			return true;
 		}
