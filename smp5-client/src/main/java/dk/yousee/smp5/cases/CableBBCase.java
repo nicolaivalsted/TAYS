@@ -170,7 +170,7 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
 			inetAccess.allowed_cpe.setValue("2");
 		}
-		
+
 		if (lineItem.getWifi()) {
 			inetAccess.wifi_security_disabled.setValue("true");
 		} else {
@@ -597,8 +597,7 @@ public class CableBBCase extends AbstractCase {
 		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (inetAccess != null) {
-				logger.debug("gw_ch_id: " + gw_ch_id);
-				inetAccess.gw_channel_id.setValue(gw_ch_id);
+				inetAccess.gw_channel_id.setValue(gw_ch_id.equals("Auto") ? "0" : gw_ch_id);
 			}
 			if (psk != null) {
 				inetAccess.psk.setValue(psk);
@@ -607,7 +606,7 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id.setValue(ss_id);
 			}
 			if (gw_ch_5g != null) {
-				inetAccess.gw_channel_id_5g.setValue(gw_ch_5g);
+				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
 		}
 		return inetAccess;
@@ -617,7 +616,7 @@ public class CableBBCase extends AbstractCase {
 		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
-				inetAccess.gw_channel_id.setValue(gw_ch_id);
+				inetAccess.gw_channel_id.setValue(gw_ch_id.equals("Auto") ? "0" : gw_ch_id);
 			}
 			if (psk != null) {
 				inetAccess.psk.setValue(psk);
@@ -632,7 +631,7 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id_5g.setValue(ss_id_5g);
 			}
 			if (gw_ch_5g != null) {
-				inetAccess.gw_channel_id_5g.setValue(gw_ch_5g);
+				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
 		}
 		return inetAccess;
