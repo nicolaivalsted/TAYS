@@ -593,7 +593,7 @@ public class CableBBCase extends AbstractCase {
 	 *            autogenerate a new value
 	 * @return model instance
 	 */
-	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
+	public boolean updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (inetAccess != null) {
@@ -608,11 +608,12 @@ public class CableBBCase extends AbstractCase {
 			if (gw_ch_5g != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
+			return true;
 		}
-		return inetAccess;
+		return false;
 	}
 
-	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
+	public boolean updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
@@ -633,8 +634,9 @@ public class CableBBCase extends AbstractCase {
 			if (gw_ch_5g != null) {
 				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
+			return true;
 		}
-		return inetAccess;
+		return false;
 	}
 
 }
