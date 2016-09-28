@@ -593,12 +593,11 @@ public class CableBBCase extends AbstractCase {
 	 *            autogenerate a new value
 	 * @return model instance
 	 */
-	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
+	public boolean updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (inetAccess != null) {
-				logger.debug("gw_ch_id: " + gw_ch_id);
-				inetAccess.gw_channel_id.setValue(gw_ch_id);
+				inetAccess.gw_channel_id.setValue(gw_ch_id.equals("Auto") ? "0" : gw_ch_id);
 			}
 			if (psk != null) {
 				inetAccess.psk.setValue(psk);
@@ -607,17 +606,18 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id.setValue(ss_id);
 			}
 			if (gw_ch_5g != null) {
-				inetAccess.gw_channel_id_5g.setValue(gw_ch_5g);
+				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
+			return true;
 		}
-		return inetAccess;
+		return false;
 	}
 
-	public InetAccess updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
+	public boolean updateSMPWiFi(String sik, String gw_ch_id, String psk, String ss_id, String gw_ch_5g, String psk_5g, String ss_id_5g) {
 		InetAccess inetAccess = getModel().find().InetAccess(sik);
 		if (inetAccess != null && inetAccess.wifi_security_disabled.getValue().equals("false")) {
 			if (gw_ch_id != null) {
-				inetAccess.gw_channel_id.setValue(gw_ch_id);
+				inetAccess.gw_channel_id.setValue(gw_ch_id.equals("Auto") ? "0" : gw_ch_id);
 			}
 			if (psk != null) {
 				inetAccess.psk.setValue(psk);
@@ -632,10 +632,11 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id_5g.setValue(ss_id_5g);
 			}
 			if (gw_ch_5g != null) {
-				inetAccess.gw_channel_id_5g.setValue(gw_ch_5g);
+				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
+			return true;
 		}
-		return inetAccess;
+		return false;
 	}
 
 }
