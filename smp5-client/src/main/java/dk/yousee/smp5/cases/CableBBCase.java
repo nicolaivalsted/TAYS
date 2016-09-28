@@ -103,13 +103,14 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
 			inetAccess.email_server_enable.setValue("true");
 		}
-		if (!lineItem.getWifi()) {
+
+		if (lineItem.getWifi()) {
+			inetAccess.wifi_security_disabled.setValue("true");
+		} else {
 			inetAccess.wifi_security_disabled.setValue("false");
 			inetAccess.ss_id.setValue(InetAccess.generateSsid());
 			inetAccess.psk.setValue(InetAccess.generatePsk());
 			inetAccess.gw_channel_id.setValue("0");
-		} else {
-			inetAccess.wifi_security_disabled.setValue("true");
 		}
 		return getModel().getOrder();
 	}
@@ -165,20 +166,18 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
 			inetAccess.email_server_enable.setValue("true");
 		}
-		if (!lineItem.getWifi()) {
-			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("true");
-			if (!exists) { // this means it is created now, then generate
-							// and fill in values
-				inetAccess.ss_id.setValue(InetAccess.generateSsid());
-				inetAccess.psk.setValue(InetAccess.generatePsk());
-				inetAccess.gw_channel_id.setValue("0");
-				inetAccess.wifi_security_disabled.setValue("false");
-			}
-		} else {
-			inetAccess.wifi_security_disabled.setValue("true");
-		}
+
 		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
 			inetAccess.allowed_cpe.setValue("2");
+		}
+		
+		if (lineItem.getWifi()) {
+			inetAccess.wifi_security_disabled.setValue("true");
+		} else {
+			inetAccess.wifi_security_disabled.setValue("false");
+			inetAccess.ss_id.setValue(InetAccess.generateSsid());
+			inetAccess.psk.setValue(InetAccess.generatePsk());
+			inetAccess.gw_channel_id.setValue("0");
 		}
 
 		return getModel().getOrder();
