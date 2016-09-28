@@ -103,14 +103,6 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
 			inetAccess.email_server_enable.setValue("true");
 		}
-		if (!lineItem.getWifi()) {
-			inetAccess.wifi_security_disabled.setValue("false");
-			inetAccess.ss_id.setValue(InetAccess.generateSsid());
-			inetAccess.psk.setValue(InetAccess.generatePsk());
-			inetAccess.gw_channel_id.setValue("0");
-		} else {
-			inetAccess.wifi_security_disabled.setValue("true");
-		}
 		return getModel().getOrder();
 	}
 
@@ -165,18 +157,7 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getEmailServerUnblockProductCode() != null) {
 			inetAccess.email_server_enable.setValue("true");
 		}
-		if (!lineItem.getWifi()) {
-			boolean exists = inetAccess.wifi_security_disabled.getValue().equals("true");
-			if (!exists) { // this means it is created now, then generate
-							// and fill in values
-				inetAccess.ss_id.setValue(InetAccess.generateSsid());
-				inetAccess.psk.setValue(InetAccess.generatePsk());
-				inetAccess.gw_channel_id.setValue("0");
-				inetAccess.wifi_security_disabled.setValue("false");
-			}
-		} else {
-			inetAccess.wifi_security_disabled.setValue("true");
-		}
+		
 		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
 			inetAccess.allowed_cpe.setValue("2");
 		}
@@ -637,6 +618,26 @@ public class CableBBCase extends AbstractCase {
 			}
 		}
 		return inetAccess;
+	}
+
+	public Order updateWifi(String sik, boolean current, boolean newState) throws BusinessException {
+		ensureAcct();
+
+		if (sik == null) {
+			throw new IllegalArgumentException("ModemId can never be null on InetAccess, it is the primary key to BB-service");
+		}
+		InetAccess inetAccess = getModel().find().InetAccess(sik);
+
+		if ((!newState && current) || (!newState && !current && inetAccess.ss_id.getValue() == null)) {
+			inetAccess.wifi_security_disabled.setValue("false");
+			inetAccess.ss_id.setValue(InetAccess.generateSsid());
+			inetAccess.psk.setValue(InetAccess.generatePsk());
+			inetAccess.gw_channel_id.setValue("0");
+		} else if (newState && !current) {
+			inetAccess.wifi_security_disabled.setValue("true");
+		}
+
+		return getModel().getOrder();
 	}
 
 }
