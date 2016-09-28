@@ -606,7 +606,7 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id.setValue(ss_id);
 			}
 			if (gw_ch_5g != null) {
-				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
+				inetAccess.gw_channel_id_5g.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
 			return true;
 		}
@@ -632,7 +632,7 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.ss_id_5g.setValue(ss_id_5g);
 			}
 			if (gw_ch_5g != null) {
-				inetAccess.gw_channel_id.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
+				inetAccess.gw_channel_id_5g.setValue(gw_ch_5g.equals("Auto") ? "0" : gw_ch_5g);
 			}
 			return true;
 		}
