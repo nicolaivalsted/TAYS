@@ -46,14 +46,36 @@ public class SubscriberCase extends AbstractCase {
 	/**
 	 * @param customer
 	 */
-	public SubContactSpec updateContact(ContactInfo customer) {
-		SubContactSpec plan = getModel().find().SubContactSpec();
-		plan.first_name.setValue(customer.getFirstName());
-		plan.last_name.setValue(customer.getLastName());
-		plan.emails_home_address.setValue(customer.getEmail());
-		plan.phones_home_number.setValue(customer.getPrivattlf());
-		plan.isp.setValue(customer.getIsp());
-		return plan;
+	public boolean updateContact(ContactInfo customer) {
+		SubContactSpec subContactSpec = getModel().find().SubContactSpec();
+		boolean changes = false;
+
+		if (StringUtils.isNotBlank(customer.getFirstName()) && !customer.getFirstName().equalsIgnoreCase(getValue(subContactSpec.first_name.getValue()))) {
+			subContactSpec.first_name.setValue(customer.getFirstName());
+			changes = true;
+		}
+
+		if (StringUtils.isNotBlank(customer.getLastName()) && !customer.getLastName().equalsIgnoreCase(getValue(subContactSpec.last_name.getValue()))) {
+			subContactSpec.last_name.setValue(customer.getLastName());
+			changes = true;
+		}
+
+		if (StringUtils.isNotBlank(customer.getEmail()) && !customer.getEmail().equalsIgnoreCase(getValue(subContactSpec.emails_home_address.getValue()))) {
+			subContactSpec.emails_home_address.setValue(customer.getEmail());
+			changes = true;
+		}
+
+		if (StringUtils.isNotBlank(customer.getPrivattlf())
+				&& !customer.getPrivattlf().equalsIgnoreCase(getValue(subContactSpec.phones_home_number.getValue()))) {
+			subContactSpec.phones_home_number.setValue(customer.getPrivattlf());
+			changes = true;
+		}
+
+		if (StringUtils.isNotBlank(customer.getIsp()) && !customer.getIsp().equalsIgnoreCase(getValue(subContactSpec.isp.getValue()))) {
+			subContactSpec.isp.setValue(customer.getIsp());
+			changes = true;
+		}
+		return changes;
 	}
 
 	/**
@@ -86,8 +108,47 @@ public class SubscriberCase extends AbstractCase {
 	 */
 	public SubAddressSpec updateAddress(AddressInfo address) {
 		SubAddressSpec subAddressSpec = getModel().find().SubAddressSpec();
-		subAddressSpec.floor.setValue(address.getFloor());
-		subAddressSpec.street_name.setValue(address.getStreetName());
+		if (StringUtils.isNotBlank(address.getFloor()) && address.getFloor().equalsIgnoreCase(getValue(subAddressSpec.floor.getValue()))) {
+			subAddressSpec.floor.setValue(address.getFloor());
+		}
+
+		if (StringUtils.isNotBlank(address.getStreetName()) && address.getStreetName().equalsIgnoreCase(getValue(subAddressSpec.street_name.getValue()))) {
+			subAddressSpec.street_name.setValue(address.getStreetName());
+		}
+
+		if (StringUtils.isNotBlank(address.getZipcode()) && address.getZipcode().equalsIgnoreCase(getValue(subAddressSpec.zipcode.getValue()))) {
+			subAddressSpec.zipcode.setValue(address.getZipcode());
+		}
+
+		if (StringUtils.isNotBlank(address.getDistrict()) && address.getDistrict().equalsIgnoreCase(getValue(subAddressSpec.district.getValue()))) {
+			subAddressSpec.district.setValue(address.getDistrict());
+		}
+
+		if (StringUtils.isNotBlank(address.getCity()) && address.getCity().equalsIgnoreCase(getValue(subAddressSpec.city.getValue()))) {
+			subAddressSpec.city.setValue(address.getCity());
+		}
+
+		if (StringUtils.isNotBlank(address.getGeographicName()) && address.getGeographicName().equalsIgnoreCase(getValue(subAddressSpec.geo_name.getValue()))) {
+			subAddressSpec.geo_name.setValue(address.getGeographicName());
+		}
+
+		if (StringUtils.isNotBlank(address.getDoorCode()) && address.getDoorCode().equalsIgnoreCase(getValue(subAddressSpec.door_code.getValue()))) {
+			subAddressSpec.door_code.setValue(address.getDoorCode());
+		}
+
+		if (StringUtils.isNotBlank(address.getStreetNumber()) && address.getStreetNumber().equalsIgnoreCase(getValue(subAddressSpec.street_num.getValue()))) {
+			subAddressSpec.street_num.setValue(address.getStreetNumber());
+		}
+
+		if (StringUtils.isNotBlank(address.getSide()) && address.getSide().equalsIgnoreCase(getValue(subAddressSpec.street_number_suffix.getValue()))) {
+			subAddressSpec.street_number_suffix.setValue(address.getSide());
+		}
+
+		if (StringUtils.isNotBlank(address.getNtd_return_segment_nm())
+				&& address.getNtd_return_segment_nm().equalsIgnoreCase(getValue(subAddressSpec.ntd_return_segment_nm.getValue()))) {
+			subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
+		}
+
 		String ams_id = address.getAms();
 		if (address.getAms().equals("")) {
 			if (subAddressSpec.ams_id.getValue().equals("")) {
@@ -97,14 +158,7 @@ public class SubscriberCase extends AbstractCase {
 			}
 		}
 		subAddressSpec.ams_id.setValue(ams_id);
-		subAddressSpec.zipcode.setValue(zip4ch(address.getZipcode()));
-		subAddressSpec.district.setValue(address.getDistrict());
-		subAddressSpec.city.setValue(address.getCity());
-		subAddressSpec.geo_name.setValue(address.getGeographicName());
-		subAddressSpec.door_code.setValue(address.getDoorCode());
-		subAddressSpec.street_num.setValue(address.getStreetNumber());
-		subAddressSpec.street_number_suffix.setValue(address.getSide());
-		subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
+
 		return subAddressSpec;
 	}
 
