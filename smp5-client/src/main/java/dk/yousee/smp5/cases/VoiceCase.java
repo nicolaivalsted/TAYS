@@ -3,7 +3,6 @@ package dk.yousee.smp5.cases;
 import org.apache.commons.lang3.StringUtils;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.ModemId;
 import dk.yousee.smp5.casemodel.vo.PhoneNumber;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
 import dk.yousee.smp5.casemodel.vo.voiceline.DialToneAccess;
@@ -61,6 +60,7 @@ public class VoiceCase extends AbstractCase {
 		private String Cos_restrict_id;
 		private String cnam;
 		private String modemActivationCode;
+		private String modemId;
 
 		public String getSik() {
 			return sik;
@@ -126,6 +126,14 @@ public class VoiceCase extends AbstractCase {
 			this.modemActivationCode = modemActivationCode;
 		}
 
+		public String getModemId() {
+			return modemId;
+		}
+
+		public void setModemId(String modemId) {
+			this.modemId = modemId;
+		}
+
 	}
 
 	public VoiceService findByPhoneNumber(PhoneNumber phoneNumber) {
@@ -135,18 +143,29 @@ public class VoiceCase extends AbstractCase {
 	Order createVoiceMail(String sik, PhoneNumber phoneNumber) throws BusinessException {
 		ensureAcct();
 
-		MailBox voiceMail = getModel().alloc().MailBox(sik);
+		MailBox voiceMail = getModel().add().MailBox(sik);
 		voiceMail.setPhoneNumber(phoneNumber);
 		return getModel().getOrder();
 	}
 
-	public Order createVoice(ModemId modemId, VoiceData voiceData) throws BusinessException {
+	Order updateVoiceMail(PhoneNumber phoneNumber) throws BusinessException {
 		ensureAcct();
 
-		DialToneAccess dialToneAccess = getModel().alloc().DialToneAccess(voiceData.getSik());
+		MailBox voiceMail = getModel().find().MailBox();
 
-		if (modemId != null) {
-			dialToneAccess.modem_id.setValue(modemId.getId());
+		if (phoneNumber != null) {
+			voiceMail.setPhoneNumber(phoneNumber);
+		}
+		return getModel().getOrder();
+	}
+
+	public Order createVoice(VoiceData voiceData) throws BusinessException {
+		ensureAcct();
+
+		DialToneAccess dialToneAccess = getModel().add().DialToneAccess();
+
+		if (voiceData.getModemId() != null) {
+			dialToneAccess.modem_id.setValue(voiceData.getModemId());
 		}
 		dialToneAccess.sik.setValue(voiceData.getSik());
 		dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
@@ -167,10 +186,10 @@ public class VoiceCase extends AbstractCase {
 		return getModel().getOrder();
 	}
 
-	public Order updateDialToneAccess(String sik, VoiceData voiceData) throws BusinessException {
+	public Order updateDialToneAccess(VoiceData voiceData) throws BusinessException {
 		ensureAcct();
 
-		DialToneAccess dialToneAccess = getModel().find().DialToneAccess(sik);
+		DialToneAccess dialToneAccess = getModel().find().findFirstVoiceDial();
 
 		if (StringUtils.isNotBlank(voiceData.getSik())) {
 			dialToneAccess.sik.updateValue(voiceData.getSik());
@@ -192,6 +211,8 @@ public class VoiceCase extends AbstractCase {
 		if (StringUtils.isNotBlank(voiceData.getCos_restrict_id())) {
 			dialToneAccess.Cos_restrict_id.setValue(voiceData.getCos_restrict_id());
 		}
+
+		updateVoiceMail(voiceData.getPhoneNumber());
 
 		return null;
 	}
@@ -262,6 +283,7 @@ public class VoiceCase extends AbstractCase {
 	private boolean buildOrderFromAction(String sik, Action action) {
 		boolean doAnything = false;
 
+		// we ignore sik in vocie because they aren't consitant
 		VoiceService service = getModel().find().VoiceService(sik);
 
 		if (service != null) {
