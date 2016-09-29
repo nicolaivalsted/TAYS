@@ -284,7 +284,7 @@ public class VoiceCase extends AbstractCase {
 		boolean doAnything = false;
 
 		// we ignore sik in vocie because they aren't consitant
-		VoiceService service = getModel().find().findFirstVoice();
+		VoiceService service = getModel().find().VoiceService(sik);
 
 		if (service != null) {
 			doAnything = true;
