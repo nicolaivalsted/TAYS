@@ -166,17 +166,17 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 		if (searchCustomersRequest.getStreet() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("street_nm");
-			param.setStringValue(searchCustomersRequest.getStreet_nm());
+			param.setStringValue(searchCustomersRequest.getStreet());
 		}
 		if (searchCustomersRequest.getSide() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("street_number_suffix");
-			param.setStringValue(searchCustomersRequest.getStreet_nm());
+			param.setStringValue(searchCustomersRequest.getSide());
 		}
 		if (searchCustomersRequest.getFloor() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("floor");
-			param.setStringValue(searchCustomersRequest.getStreet_nm());
+			param.setStringValue(searchCustomersRequest.getFloor());
 		}
 		return queryValue;
 	}
