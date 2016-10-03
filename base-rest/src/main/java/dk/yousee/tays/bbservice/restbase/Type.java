@@ -21,7 +21,6 @@ public enum Type {
     TdcMail("SubSvcSpec:tdcmail_composed"),
     EmailUnblock("SubSvcSpec:email_server_unblock"),
     Mobb("SubSvcSpec:mobile_broadband"),
-    SimCard("SubSvcSpec:sim_card"),
     Mta("SubSvcSpec:smp_emta_pc_voip_access"),
     Mofibo("SubSvcSpec:mofibo_composed"),
     Sikkerhedspakke("SubSvcSpec:security_package"),
