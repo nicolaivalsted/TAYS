@@ -158,11 +158,6 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			param.setName("device_id");
 			param.setStringValue(searchCustomersRequest.getCm_mac());
 		}
-		if (searchCustomersRequest.getStreet_nm() != null) {
-			ParamType param = paramList.addNewParam();
-			param.setName("street_num");
-			param.setStringValue(searchCustomersRequest.getStreet_nm());
-		}
 		if (searchCustomersRequest.getStreet() != null) {
 			ParamType param = paramList.addNewParam();
 			param.setName("street_nm");
@@ -177,6 +172,11 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 			ParamType param = paramList.addNewParam();
 			param.setName("floor");
 			param.setStringValue(searchCustomersRequest.getFloor());
+		}
+		if(searchCustomersRequest.getHusnr() != null){
+			ParamType param = paramList.addNewParam();
+			param.setName("street_num");
+			param.setStringValue(searchCustomersRequest.getHusnr());
 		}
 		return queryValue;
 	}
