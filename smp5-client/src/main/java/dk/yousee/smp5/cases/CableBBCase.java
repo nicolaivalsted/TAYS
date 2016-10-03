@@ -1,5 +1,6 @@
 package dk.yousee.smp5.cases;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
@@ -107,6 +108,7 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getWifi()) {
 			inetAccess.wifi_security_disabled.setValue("true");
 		} else {
+
 			inetAccess.wifi_security_disabled.setValue("false");
 			inetAccess.ss_id.setValue(InetAccess.generateSsid());
 			inetAccess.psk.setValue(InetAccess.generatePsk());
@@ -174,10 +176,15 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getWifi()) {
 			inetAccess.wifi_security_disabled.setValue("true");
 		} else {
-			inetAccess.wifi_security_disabled.setValue("false");
-			inetAccess.ss_id.setValue(InetAccess.generateSsid());
-			inetAccess.psk.setValue(InetAccess.generatePsk());
-			inetAccess.gw_channel_id.setValue("0");
+			if (inetAccess.wifi_security_disabled.getValue().equals("true")) {
+				inetAccess.wifi_security_disabled.setValue("false");
+			}
+
+			if (StringUtils.isNotBlank(inetAccess.ss_id.getValue())) {
+				inetAccess.ss_id.setValue(InetAccess.generateSsid());
+				inetAccess.psk.setValue(InetAccess.generatePsk());
+				inetAccess.gw_channel_id.setValue("0");
+			}
 		}
 
 		return getModel().getOrder();
