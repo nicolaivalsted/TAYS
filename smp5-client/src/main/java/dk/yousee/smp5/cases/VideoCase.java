@@ -71,8 +71,8 @@ public class VideoCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packages=" + packages + ", modifyDate=" + modifyDate
-					+ ", cableUnit=" + cableUnit + ", acct=" + acct + "]";
+			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packages=" + packages + ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit
+					+ ", acct=" + acct + "]";
 		}
 
 		public Set<String> getPackages() {
@@ -184,6 +184,8 @@ public class VideoCase extends AbstractCase {
 			VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 			if (planAttributes != null) {
 				planAttributes.modify_date.setValue(generateModifyDate());
+			} else {
+				changed = false;
 			}
 		}
 		return changed;
