@@ -338,8 +338,6 @@ public class FindSubscriberCom extends Smp5Com<SearchCustomersRequest, SearchCus
 						ci.setZipcode(value);
 					} else if (key.equalsIgnoreCase("district")) {
 						ci.setDistrict(value);
-					} else if (key.equalsIgnoreCase("ntd_return_segment")) {
-						ci.setNtd_return_segment(value);
 					} else if (key.equalsIgnoreCase("status")) {
 						ci.setStatus(value);
 					} else if (key.equalsIgnoreCase("floor")) {
