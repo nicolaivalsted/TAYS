@@ -180,7 +180,7 @@ public class CableBBCase extends AbstractCase {
 				inetAccess.wifi_security_disabled.setValue("false");
 			}
 
-			if (StringUtils.isNotBlank(inetAccess.ss_id.getValue())) {
+			if (StringUtils.isBlank(inetAccess.ss_id.getValue())) {
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
 				inetAccess.psk.setValue(InetAccess.generatePsk());
 				inetAccess.gw_channel_id.setValue("0");
