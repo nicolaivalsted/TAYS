@@ -114,8 +114,9 @@ public class VideoAppCase extends AbstractCase {
 	 * @param id
 	 * @param delete
 	 * @return
+	 * @throws BusinessException
 	 */
-	public Boolean sendAction(String sik, Action action) {
+	public Boolean sendAction(String sik, Action action) throws BusinessException {
 		AppSubscription appSubscription = getModel().find().AppSubscription(sik);
 		if (appSubscription != null) {
 			appSubscription.sendAction(action);
@@ -124,7 +125,7 @@ public class VideoAppCase extends AbstractCase {
 		return false;
 	}
 
-	public static String generateModifyDate() throws BusinessException {
+	public static String generateModifyDate() {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
 		String dateFinal = sdf.format(new Date()) + "-" + new Random().nextInt(5000);
 		return dateFinal;

@@ -112,8 +112,22 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				else if (ex.getIllegalArgumentException() != null)
 					errorMessage = ex.getIllegalArgumentException().getMessage();
 			}
+
 			res = xmlObject
-					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smp:getServiceByKeyException");
+					.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getEntityByKeyException");
+			if (res.length > 0) {
+				// This is an error
+				GetEntityByKeyExceptionDocument.GetEntityByKeyException ex = (GetEntityByKeyExceptionDocument.GetEntityByKeyException) res[0];
+				if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getObjectNotFoundException() != null)
+					errorMessage = ex.getObjectNotFoundException().getMessage();
+				else if (ex.getIllegalArgumentException() != null)
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+			}
+
+			res = xmlObject.selectPath(
+					"declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smp:getServiceByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetServiceByKeyExceptionDocument.GetServiceByKeyException ex = (GetServiceByKeyExceptionDocument.GetServiceByKeyException) res[0];
@@ -126,8 +140,21 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 
 			}
 
-			res = xmlObject
-					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getOrderByKeyException");
+			res = xmlObject.selectPath(
+					"declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema'; $this//smpce:getServiceByKeyException");
+			if (res.length > 0) {
+				// This is an error
+				GetServiceByKeyExceptionDocument.GetServiceByKeyException ex = (GetServiceByKeyExceptionDocument.GetServiceByKeyException) res[0];
+				if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getObjectNotFoundException() != null)
+					errorMessage = ex.getObjectNotFoundException().getMessage();
+				else if (ex.getIllegalArgumentException() != null)
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+
+			}
+
+			res = xmlObject.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getOrderByKeyException");
 			if (res.length > 0) {
 				// This is an error
 				GetOrderByKeyExceptionDocument.GetOrderByKeyException ex = (GetOrderByKeyExceptionDocument.GetOrderByKeyException) res[0];
@@ -140,7 +167,29 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 			}
 
 			res = xmlObject
-					.selectPath("declare namespace smp='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smp:queryOrdersException");
+					.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getOrderByKeyException");
+			if (res.length > 0) {
+				// This is an error
+				GetOrderByKeyExceptionDocument.GetOrderByKeyException ex = (GetOrderByKeyExceptionDocument.GetOrderByKeyException) res[0];
+				if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getObjectNotFoundException() != null)
+					errorMessage = ex.getObjectNotFoundException().getMessage();
+				else if (ex.getIllegalArgumentException() != null)
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+			}
+
+			res = xmlObject.selectPath("declare namespace smp='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smp:queryOrdersException");
+			if (res.length > 0) {
+				// This is an error
+				QueryOrdersExceptionDocument.QueryOrdersException ex = (QueryOrdersExceptionDocument.QueryOrdersException) res[0];
+				if (ex.getRemoteException() != null)
+					errorMessage = ex.getRemoteException().getMessage();
+				else if (ex.getIllegalArgumentException() != null)
+					errorMessage = ex.getIllegalArgumentException().getMessage();
+			}
+
+			res = xmlObject.selectPath("declare namespace smpce='http://java.sun.com/products/oss/xml/ServiceActivation'; $this//smpce:queryOrdersException");
 			if (res.length > 0) {
 				// This is an error
 				QueryOrdersExceptionDocument.QueryOrdersException ex = (QueryOrdersExceptionDocument.QueryOrdersException) res[0];
@@ -151,8 +200,7 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 			}
 
 			/* PARSE RESULTS */
-			res = xmlObject
-					.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getEntityByKeyResponse");
+			res = xmlObject.selectPath("declare namespace smp='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smp:getEntityByKeyResponse");
 			logger.debug("Select getEntityByKeyResponse, res length: " + res.length);
 			// parse the
 			ResponseEntity smp = null;
@@ -162,6 +210,16 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				GetEntityByKeyResponseDocument doc = (GetEntityByKeyResponseDocument) xmlObject;
 				GetEntityByKeyResponseDocument.GetEntityByKeyResponse entity = doc.getGetEntityByKeyResponse();
 				smp = parseSmpRoot(entity);
+			} else {
+				res = xmlObject.selectPath(
+						"declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getEntityByKeyResponse");
+				logger.debug("Select getEntityByKeyResponse, res length: " + res.length);
+
+				if (res.length > 0) {
+					GetEntityByKeyResponseDocument doc = (GetEntityByKeyResponseDocument) xmlObject;
+					GetEntityByKeyResponseDocument.GetEntityByKeyResponse entity = doc.getGetEntityByKeyResponse();
+					smp = parseSmpRoot(entity);
+				}
 			}
 
 			Response reply;
