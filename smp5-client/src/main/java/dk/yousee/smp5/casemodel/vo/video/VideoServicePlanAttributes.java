@@ -29,5 +29,9 @@ public class VideoServicePlanAttributes extends BasicUnit {
 
 	// Type.ASSOC
 	public AssociationHolder video_service_defn_has_cas = new AssociationHolder(this, "video_service_defn_has_cas", STBCas.TYPE);
+	
+	public VideoServicePlan getParent() {
+		return (VideoServicePlan) super.getParent();
+	}
 
 }
