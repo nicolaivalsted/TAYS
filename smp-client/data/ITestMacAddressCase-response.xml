@@ -1,6 +1,0 @@
-<smpsa:executeOrderException xmlns:smpsa="http://www.sigma-systems.com/schemas/3.1/SmpServiceActivationSchema" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:cmn="http://java.sun.com/products/oss/xml/Common">
-  <smpsa:remoteException xmlns:smp="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xsi:type="smp:SmpRemoteException">
-    <cmn:message>java.lang.NullPointerException</cmn:message>
-  </smpsa:remoteException>
-</smpsa:executeOrderException>
