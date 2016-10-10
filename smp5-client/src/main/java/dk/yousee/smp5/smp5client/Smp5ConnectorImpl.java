@@ -3,9 +3,10 @@ package dk.yousee.smp5.smp5client;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.http.HttpHost;
 
-import sun.misc.BASE64Encoder;
 import dk.yousee.randy.base.AbstractConnector;
 
 public class Smp5ConnectorImpl extends AbstractConnector {
@@ -101,9 +102,8 @@ public class Smp5ConnectorImpl extends AbstractConnector {
 
 	public String encodeBasic(String userName, String password) {
 		byte[] encodedPassword = (userName + ":" + password).getBytes();
-		BASE64Encoder encoder = new BASE64Encoder();
 		String val;
-		val = "Basic " + encoder.encode(encodedPassword);
+		val = "Basic " + DatatypeConverter.printBase64Binary(encodedPassword);;
 		return val;
 	}
 

@@ -50,8 +50,6 @@ public class SubscriberModel implements Serializable {
 	 */
 	public SubscriberModel(Acct acct) {
 		subscriber = new Subscriber();
-		subscriber.setFornavn("");
-		subscriber.setEfternavn("");
 		subscriber.setKundeId(acct);
 	}
 

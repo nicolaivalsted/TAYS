@@ -55,7 +55,7 @@ public class FindOrdersBySubscriberCom extends Smp5Com<Acct, QueryOrdersBySubscr
 		return 4000;
 	}
 
-	private static final Set closedSet = new HashSet<OrderStateEnum>() {
+	private static final Set<OrderStateEnum> closedSet = new HashSet<OrderStateEnum>() {
 		private static final long serialVersionUID = 2760836951133747710L;
 
 		{

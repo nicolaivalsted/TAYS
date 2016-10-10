@@ -10,8 +10,6 @@ public final class Subscriber implements Serializable {
 	private String internId;
 	private String lid;
 	private String linkid;
-	private String fornavn;
-	private String efternavn;
 	private boolean eksisterendeKunde = true;
 
 	public Acct getKundeId() {
@@ -30,38 +28,12 @@ public final class Subscriber implements Serializable {
 		this.internId = internId;
 	}
 
-	public String getFornavn() {
-		return fornavn;
-	}
-
 	public String getLid() {
 		return lid;
 	}
 
 	public void setLid(String lid) {
 		this.lid = lid;
-	}
-
-	/**
-	 * @deprecated use SubContactSpec instead of
-	 * @param fornavn
-	 *            first name of subscriber
-	 */
-	public void setFornavn(String fornavn) {
-		this.fornavn = fornavn;
-	}
-
-	public String getEfternavn() {
-		return efternavn;
-	}
-
-	/**
-	 * @deprecated use SubContactSpec instead of
-	 * @param efternavn
-	 *            last name of subscriber
-	 */
-	public void setEfternavn(String efternavn) {
-		this.efternavn = efternavn;
 	}
 
 	public boolean getEksisterendeKunde() {
@@ -85,8 +57,6 @@ public final class Subscriber implements Serializable {
 		final StringBuilder sb = new StringBuilder();
 		sb.append("{kundeId=").append(kundeId);
 		sb.append(", internId='").append(internId).append('\'');
-		sb.append(", fornavn='").append(fornavn).append('\'');
-		sb.append(", efternavn='").append(efternavn).append('\'');
 		sb.append(", eksisterendeKunde=").append(eksisterendeKunde);
 		sb.append('}');
 		return sb.toString();

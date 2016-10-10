@@ -17,8 +17,8 @@ import dk.yousee.smp5.order.model.OrderDataType;
 import dk.yousee.smp5.order.model.ResponseEntity;
 
 public abstract class BasicUnit {
-	private ResponseEntity entity;
 	private BasicUnit parent = null;
+	private ResponseEntity entity;
 	private List<BasicUnit> childrenServices = new ArrayList<BasicUnit>();
 
 	/**
@@ -187,13 +187,13 @@ public abstract class BasicUnit {
 			} else {
 				od.setAction(Action.UPDATE);
 				// and all paramss.. if present...
-				Map params;
+				Map<String, String> params;
 				if (od.getParams() == null) {
-					params = new HashMap();
+					params = new HashMap<String, String>();
 					od.setParams(params);
 				} else
 					params = od.getParams();
-				Map eparams = entity.getParams();
+				Map<String, String> eparams = entity.getParams();
 				if (eparams != null)
 					params.putAll(eparams);
 			}
@@ -300,9 +300,9 @@ public abstract class BasicUnit {
 	}
 
 	public boolean isDelete() {
-		return (orderDatas.size() == 0 || orderDatas == null ) ? false : orderDatas.get(0).getAction() == Action.DELETE;
+		return (orderDatas.size() == 0 || orderDatas == null) ? false : orderDatas.get(0).getAction() == Action.DELETE;
 	}
-	
+
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();

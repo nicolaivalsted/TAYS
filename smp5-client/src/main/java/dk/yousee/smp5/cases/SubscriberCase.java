@@ -232,8 +232,6 @@ public class SubscriberCase extends AbstractCase {
 		Order smpOrder = getModel().getOrder();
 		// Populate Subscriber object, contact and address objects
 		Subscriber subscriber = smpOrder.getSubscriber();
-		subscriber.setFornavn(customer.getFirstName());
-		subscriber.setEfternavn(customer.getLastName());
 		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
 		subscriber.setLid(subscriberInfo.getLid());
 		subscriber.setLinkid(subscriberInfo.getLinkid());
@@ -242,6 +240,8 @@ public class SubscriberCase extends AbstractCase {
 		mc.emails_home_address.setValue(customer.getEmail());
 		mc.phones_home_number.setValue(customer.getPrivattlf());
 		mc.isp.setValue(customer.getIsp());
+		mc.first_name.setValue(customer.getFirstName());
+		mc.last_name.setValue(customer.getLastName());
 
 		SubAddressSpec ma = getModel().add().SubAddressSpec();
 		ma.street_name.setValue(address.getStreetName());

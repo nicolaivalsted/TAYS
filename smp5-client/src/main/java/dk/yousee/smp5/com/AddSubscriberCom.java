@@ -139,7 +139,7 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 				addAddressToEntityList(entityList, addressData);
 			}
 			if (contactData != null) {
-				addContactToEntityList(entityList, subscriber, contactData);
+				addContactToEntityList(entityList, contactData);
 			}
 			addSampSubToEntityList(entityList, subscriber, addressData);
 			ExecuteOrderRequestDocument executeDoc = ExecuteOrderRequestDocument.Factory.newInstance();
@@ -163,9 +163,9 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 		 * @param subscriber
 		 * @param contactData
 		 */
-		private void addContactToEntityList(EntityListType entityList, Subscriber subscriber, OrderData contactData) {
+		private void addContactToEntityList(EntityListType entityList, OrderData contactData) {
 			EntityValue entVal = entityList.addNewEntityValue();
-			SubContactType contactType = contactMaker.createContactEntityValue(contactData, subscriber);
+			SubContactType contactType = contactMaker.createContactEntityValue(contactData);
 			entVal.set(contactType);
 		}
 

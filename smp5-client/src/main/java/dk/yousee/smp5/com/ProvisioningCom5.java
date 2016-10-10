@@ -403,11 +403,11 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 		private void addContactToOrderItem(OrderItemList orderItemList, OrderData plan, Order order) {
 			OrderItemType itemType = orderItemList.addNewOrderItem();
 			itemType.setAction(samf.toAction(plan.getAction()).getValue());
-			addContact(itemType, order.getSubscriber(), plan);
+			addContact(itemType, plan);
 		}
 
-		private static void addContact(OrderItemType orderItem, Subscriber subscriber, OrderData contactData) {
-			SubContactType contactType = contactMaker.createContactEntityValue(contactData, subscriber);
+		private static void addContact(OrderItemType orderItem, OrderData contactData) {
+			SubContactType contactType = contactMaker.createContactEntityValue(contactData);
 			SubContactKeyType subContactKey = contactMaker.createContactKey();
 			orderItem.setEntityValue(contactType);
 			orderItem.setEntityKey(subContactKey);
