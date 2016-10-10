@@ -254,6 +254,18 @@ public class Find {
 		return null;
 	}
 
+	public STBCas findFirstSTB() {
+		VideoCPEService parent = VideoCPEService();
+		if (parent == null) {
+			return null;
+		} else {
+			for (VideoCPE videoCPE : parent.getVideoCPEs()) {
+				return videoCPE.getStbCAS();
+			}
+		}
+		return null;
+	}
+
 	public STBCas STBCas(String id) {
 		VideoCPE parent = VideoCPE(id);
 		if (parent == null) {

@@ -7,6 +7,7 @@ import java.util.Random;
 import java.util.Set;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
+import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.order.model.Acct;
@@ -112,6 +113,11 @@ public class VideoCase extends AbstractCase {
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
+		}
+
+		STBCas stb = getModel().find().findFirstSTB();
+		if (stb != null && videoServicePlanAttributes != null && videoServicePlanAttributes.video_service_defn_has_cas.isEmpty()) {
+			videoServicePlanAttributes.video_service_defn_has_cas.add(stb);
 		}
 
 		if (!lineItem.getCableUnit().equals(videoServicePlanAttributes.cableUnit.getValue())) {
