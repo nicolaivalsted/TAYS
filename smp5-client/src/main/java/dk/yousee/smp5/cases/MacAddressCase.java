@@ -209,9 +209,8 @@ public class MacAddressCase extends AbstractCase {
 	 *            , cm_mac for AddnCpe
 	 * @return model instance
 	 */
-	public AddnCpe addAddnCpe(String sik, String cpe_mac) {
+	public AddnCpe addAddnCpe(String sik) {
 		AddnCpe addnCpe = getModel().add().AddnCpe(sik);
-		addnCpe.cpe_mac.setValue(cpe_mac);
 		return addnCpe;
 	}
 
