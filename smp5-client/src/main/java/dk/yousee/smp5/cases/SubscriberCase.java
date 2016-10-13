@@ -108,56 +108,51 @@ public class SubscriberCase extends AbstractCase {
 	 */
 	public SubAddressSpec updateAddress(AddressInfo address) {
 		SubAddressSpec subAddressSpec = getModel().find().SubAddressSpec();
-		if (StringUtils.isNotBlank(address.getFloor()) && address.getFloor().equalsIgnoreCase(getValue(subAddressSpec.floor.getValue()))) {
+		if (StringUtils.isNotBlank(address.getFloor()) && !address.getFloor().equalsIgnoreCase(getValue(subAddressSpec.floor.getValue()))) {
 			subAddressSpec.floor.setValue(address.getFloor());
 		}
 
-		if (StringUtils.isNotBlank(address.getStreetName()) && address.getStreetName().equalsIgnoreCase(getValue(subAddressSpec.street_name.getValue()))) {
+		if (StringUtils.isNotBlank(address.getStreetName()) && !address.getStreetName().equalsIgnoreCase(getValue(subAddressSpec.street_name.getValue()))) {
 			subAddressSpec.street_name.setValue(address.getStreetName());
 		}
 
-		if (StringUtils.isNotBlank(address.getZipcode()) && address.getZipcode().equalsIgnoreCase(getValue(subAddressSpec.zipcode.getValue()))) {
+		if (StringUtils.isNotBlank(address.getZipcode()) && !address.getZipcode().equalsIgnoreCase(getValue(subAddressSpec.zipcode.getValue()))) {
 			subAddressSpec.zipcode.setValue(address.getZipcode());
 		}
 
-		if (StringUtils.isNotBlank(address.getDistrict()) && address.getDistrict().equalsIgnoreCase(getValue(subAddressSpec.district.getValue()))) {
+		if (StringUtils.isNotBlank(address.getDistrict()) && !address.getDistrict().equalsIgnoreCase(getValue(subAddressSpec.district.getValue()))) {
 			subAddressSpec.district.setValue(address.getDistrict());
 		}
 
-		if (StringUtils.isNotBlank(address.getCity()) && address.getCity().equalsIgnoreCase(getValue(subAddressSpec.city.getValue()))) {
+		if (StringUtils.isNotBlank(address.getCity()) && !address.getCity().equalsIgnoreCase(getValue(subAddressSpec.city.getValue()))) {
 			subAddressSpec.city.setValue(address.getCity());
 		}
 
-		if (StringUtils.isNotBlank(address.getGeographicName()) && address.getGeographicName().equalsIgnoreCase(getValue(subAddressSpec.geo_name.getValue()))) {
+		if (StringUtils.isNotBlank(address.getGeographicName())
+				&& !address.getGeographicName().equalsIgnoreCase(getValue(subAddressSpec.geo_name.getValue()))) {
 			subAddressSpec.geo_name.setValue(address.getGeographicName());
 		}
 
-		if (StringUtils.isNotBlank(address.getDoorCode()) && address.getDoorCode().equalsIgnoreCase(getValue(subAddressSpec.door_code.getValue()))) {
+		if (StringUtils.isNotBlank(address.getDoorCode()) && !address.getDoorCode().equalsIgnoreCase(getValue(subAddressSpec.door_code.getValue()))) {
 			subAddressSpec.door_code.setValue(address.getDoorCode());
 		}
 
-		if (StringUtils.isNotBlank(address.getStreetNumber()) && address.getStreetNumber().equalsIgnoreCase(getValue(subAddressSpec.street_num.getValue()))) {
+		if (StringUtils.isNotBlank(address.getStreetNumber()) && !address.getStreetNumber().equalsIgnoreCase(getValue(subAddressSpec.street_num.getValue()))) {
 			subAddressSpec.street_num.setValue(address.getStreetNumber());
 		}
 
-		if (StringUtils.isNotBlank(address.getSide()) && address.getSide().equalsIgnoreCase(getValue(subAddressSpec.street_number_suffix.getValue()))) {
+		if (StringUtils.isNotBlank(address.getSide()) && !address.getSide().equalsIgnoreCase(getValue(subAddressSpec.street_number_suffix.getValue()))) {
 			subAddressSpec.street_number_suffix.setValue(address.getSide());
 		}
 
 		if (StringUtils.isNotBlank(address.getNtd_return_segment_nm())
-				&& address.getNtd_return_segment_nm().equalsIgnoreCase(getValue(subAddressSpec.ntd_return_segment_nm.getValue()))) {
+				&& !address.getNtd_return_segment_nm().equalsIgnoreCase(getValue(subAddressSpec.ntd_return_segment_nm.getValue()))) {
 			subAddressSpec.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
 		}
 
-		String ams_id = address.getAms();
-		if (address.getAms().equals("")) {
-			if (subAddressSpec.ams_id.getValue().equals("")) {
-				ams_id = "0000";
-			} else {
-				ams_id = subAddressSpec.ams_id.getValue();
-			}
+		if (address.getAms() != null && !address.getAms().trim().equals("") && !address.getAms().equalsIgnoreCase(getValue(subAddressSpec.ams_id.getValue()))) {
+			subAddressSpec.ams_id.setValue(address.getAms());
 		}
-		subAddressSpec.ams_id.setValue(ams_id);
 
 		return subAddressSpec;
 	}

@@ -120,7 +120,6 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			Subscriber subscriber = order.getSubscriber();
 			ActionOrderValue actionOrder = createActionOrderValue(order, debugId, orderId);
 			ActionOrderValue.OrderItemList orderItemList = actionOrder.addNewOrderItemList();
-			logger.debug("Looping through orderData");
 			if (susbcriber) {
 				addSubscription(orderItemList, order, subscriber.getKundeId().toString(), subscriber);
 			}
