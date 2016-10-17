@@ -225,31 +225,58 @@ public class SubscriberCase extends AbstractCase {
 		setModel(new SubscriberModel(getAcct()));
 
 		Order smpOrder = getModel().getOrder();
-		// Populate Subscriber object, contact and address objects
 		Subscriber subscriber = smpOrder.getSubscriber();
 		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
 		subscriber.setLid(subscriberInfo.getLid());
 		subscriber.setLinkid(subscriberInfo.getLinkid());
+		
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
-		mc.emails_home_address.setValue(customer.getEmail());
-		mc.phones_home_number.setValue(customer.getPrivattlf());
-		mc.isp.setValue(customer.getIsp());
+		if (StringUtils.isNotBlank(customer.getEmail())) {
+			mc.emails_home_address.setValue(customer.getEmail());
+		}
+		if (StringUtils.isNotBlank(customer.getPrivattlf())) {
+			mc.phones_home_number.setValue(customer.getPrivattlf());
+		}
+		if (StringUtils.isNotBlank(customer.getIsp())) {
+			mc.isp.setValue(customer.getIsp());
+		}
 		mc.first_name.setValue(customer.getFirstName());
 		mc.last_name.setValue(customer.getLastName());
 
 		SubAddressSpec ma = getModel().add().SubAddressSpec();
-		ma.street_name.setValue(address.getStreetName());
-		ma.street_number_suffix.setValue(address.getSide());
-		ma.floor.setValue(address.getFloor());
+		if (StringUtils.isNotBlank(address.getStreetName())) {
+			ma.street_name.setValue(address.getStreetName());
+		}
+		if (StringUtils.isNotBlank(address.getSide())) {
+			ma.street_number_suffix.setValue(address.getSide());
+		}
+		if (StringUtils.isNotBlank(address.getFloor())) {
+			ma.floor.setValue(address.getFloor());
+		}
 		ma.ams_id.setValue(address.getAms());
-		ma.zipcode.setValue(zip4ch(address.getZipcode()));
-		ma.district.setValue(address.getDistrict());
-		ma.city.setValue(address.getCity());
-		ma.geo_name.setValue(address.getGeographicName());
-		ma.door_code.setValue(address.getDoorCode());
-		ma.street_num.setValue(address.getStreetNumber());
-		ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
+		if (StringUtils.isNotBlank(address.getZipcode())) {
+			ma.zipcode.setValue(zip4ch(address.getZipcode()));
+		}
+		if (StringUtils.isNotBlank(address.getDistrict())) {
+			ma.district.setValue(address.getDistrict());
+		}
+		if (StringUtils.isNotBlank(address.getCity())) {
+			ma.city.setValue(address.getCity());
+		}
+		if (StringUtils.isNotBlank(address.getGeographicName())) {
+			ma.geo_name.setValue(address.getGeographicName());
+		}
+		if (StringUtils.isNotBlank(address.getDoorCode())) {
+			ma.door_code.setValue(address.getDoorCode());
+		}
+		if (StringUtils.isNotBlank(address.getStreetNumber())) {
+			ma.street_num.setValue(address.getStreetNumber());
+		}
+		if (StringUtils.isNotBlank(address.getNtd_return_segment_nm())) {
+			ma.ntd_return_segment_nm.setValue(address.getNtd_return_segment_nm());
+		}
+
 		return getModel().getOrder();
 	}
 

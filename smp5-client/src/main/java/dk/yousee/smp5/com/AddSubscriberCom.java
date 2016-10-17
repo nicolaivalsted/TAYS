@@ -10,6 +10,7 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlObject;
 import org.w3c.dom.Document;
@@ -199,12 +200,16 @@ public class AddSubscriberCom extends Smp5Com<Order, ExecuteOrderReply> {
 			ParamType parameter = eParamList.addNewParam();
 			parameter.setName("acct");
 			parameter.setStringValue(subscriber.getKundeId().toString());
-			ParamType lidParm = eParamList.addNewParam();
-			lidParm.setName("lid");
-			lidParm.setStringValue(subscriber.getLid());
-			ParamType linkid = eParamList.addNewParam();
-			linkid.setName("linkid");
-			linkid.setStringValue(subscriber.getLinkid());
+			if (StringUtils.isNotBlank(subscriber.getLid())) {
+				ParamType lidParm = eParamList.addNewParam();
+				lidParm.setName("lid");
+				lidParm.setStringValue(subscriber.getLid());
+			}
+			if (StringUtils.isNotBlank(subscriber.getLinkid())) {
+				ParamType linkid = eParamList.addNewParam();
+				linkid.setName("linkid");
+				linkid.setStringValue(subscriber.getLinkid());
+			}
 			return sSubType;
 		}
 
