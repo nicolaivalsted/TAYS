@@ -153,7 +153,7 @@ public class VoiceCase extends AbstractCase {
 
 		MailBox voiceMail = getModel().find().MailBox();
 
-		if (phoneNumber != null) {
+		if (phoneNumber != null && !phoneNumber.getPhoneNumber().equals(voiceMail.getPhoneNumber().getPhoneNumber())) {
 			voiceMail.setPhoneNumber(phoneNumber);
 		}
 		return getModel().getOrder();
@@ -190,25 +190,31 @@ public class VoiceCase extends AbstractCase {
 		ensureAcct();
 
 		DialToneAccess dialToneAccess = getModel().find().findFirstVoiceDial();
+		
+		if (StringUtils.isNotBlank(voiceData.getModemId()) && !voiceData.getModemId().equals(getValue(dialToneAccess.modem_id.getValue()))) {
+			dialToneAccess.modem_id.setValue(voiceData.getModemId());
+		}
 
-		if (StringUtils.isNotBlank(voiceData.getSik())) {
+		if (StringUtils.isNotBlank(voiceData.getSik()) && !voiceData.getSik().equals(getValue(dialToneAccess.sik.getValue()))) {
 			dialToneAccess.sik.updateValue(voiceData.getSik());
 		}
-		if (voiceData.getPhoneNumber() != null) {
+		if (voiceData.getPhoneNumber() != null && !voiceData.getPhoneNumber().getPhoneNumber().equals(dialToneAccess.getPhoneNumber().getPhoneNumber())) {
 			dialToneAccess.setPhoneNumber(voiceData.getPhoneNumber());
 		}
-		if (StringUtils.isNotBlank(voiceData.getMta_voice_port())) {
+		if (StringUtils.isNotBlank(voiceData.getMta_voice_port())
+				&& !voiceData.getMta_voice_port().equals(getValue(dialToneAccess.mta_voice_port.getValue()))) {
 			dialToneAccess.mta_voice_port.setValue(voiceData.getMta_voice_port());
 		}
-		if (StringUtils.isNotBlank(voiceData.getRate_codes())) {
+		if (StringUtils.isNotBlank(voiceData.getRate_codes()) && !voiceData.getRate_codes().equals(getValue(dialToneAccess.rate_codes.getValue()))) {
 			dialToneAccess.rate_codes.setValue(voiceData.getRate_codes());
 		}
 
-		if (StringUtils.isNotBlank(voiceData.getRate_codes())) {
+		if (StringUtils.isNotBlank(voiceData.getPrivacy()) && !voiceData.getPrivacy().equals(getValue(dialToneAccess.Privacy.getValue()))) {
 			dialToneAccess.Privacy.setValue(voiceData.getPrivacy());
 		}
 
-		if (StringUtils.isNotBlank(voiceData.getCos_restrict_id())) {
+		if (StringUtils.isNotBlank(voiceData.getCos_restrict_id())
+				&& !voiceData.getCos_restrict_id().equals(getValue(dialToneAccess.Cos_restrict_id.getValue()))) {
 			dialToneAccess.Cos_restrict_id.setValue(voiceData.getCos_restrict_id());
 		}
 

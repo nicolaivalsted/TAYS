@@ -95,14 +95,6 @@ public class SubscriberCase extends AbstractCase {
 		return sub;
 	}
 
-	private String getValue(String value) {
-		return getValue(value, "");
-	}
-
-	private String getValue(String value, String defaultValue) {
-		return StringUtils.isNotBlank(value) ? value : defaultValue;
-	}
-
 	/**
 	 * @param address
 	 */
