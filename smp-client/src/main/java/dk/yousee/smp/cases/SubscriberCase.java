@@ -131,6 +131,46 @@ public class SubscriberCase extends AbstractCase {
 		return justCreated;
 	}
 
+	/**
+	 * Adds subscription to sigma. It means that a new customer is created
+	 *
+	 * @param order
+	 *            the order to process
+	 * @return the new model starting the customer's content
+	 * @throws dk.yousee.smp.order.model.BusinessException
+	 *             when add cannot be performed
+	 */
+	public SubscriberModel addSubscription(Order order) throws BusinessException {
+		setErrorMessage(null);
+		try {
+			setResponse(getService().addSubscription(order));
+		} catch (Exception e) {
+			e.printStackTrace();
+			setErrorMessage(e.getMessage());
+			return null;
+		}
+		if (getResponse().getSmp() == null)
+			setErrorMessage(getResponse().getErrorMessage());
+		setModel(new SubscriberModel(getResponse()));
+		if (getErrorMessage() != null) {
+			throw new BusinessException("could not create subscription, for customer %s, got message: %s", order.getSubscriber()
+					.getKundeId(), getErrorMessage());
+		}
+		justCreated = true;
+		return getModel();
+	}
+
+	/**
+	 * Adds subscription to sigma. It means that a new customer is created
+	 *
+	 * @return the new model starting the customer's content
+	 * @throws dk.yousee.smp.order.model.BusinessException
+	 *             when add cannot be performed
+	 */
+	public SubscriberModel addSubscription() throws BusinessException {
+		return this.addSubscription(getModel().getOrder());
+	}
+
 	public SubAddressSpec updateAddress(SubscriberCase.AddressInfo address) throws BusinessException {
 		SubAddressSpec subAddressSpec = getModel().find().SubAddressSpec();
 		subAddressSpec.ams_id.setValue(address.getAms());

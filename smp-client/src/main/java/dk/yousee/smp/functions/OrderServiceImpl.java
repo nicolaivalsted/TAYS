@@ -3,8 +3,12 @@ package dk.yousee.smp.functions;
 import dk.yousee.smp.com.ReadSubscriptionCom;
 import dk.yousee.smp.com.SigmaAction;
 import dk.yousee.smp.order.model.Acct;
+import dk.yousee.smp.order.model.ExecuteOrderReply;
+import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderService;
 import dk.yousee.smp.order.model.Response;
+import dk.yousee.smp.order.model.SearchCustomersRequest;
+import dk.yousee.smp.order.model.SearchCustomersResponse;
 import dk.yousee.smp.smpclient.SmpConnectorImpl;
 
 /**
@@ -54,6 +58,33 @@ public class OrderServiceImpl implements OrderService {
 		ReadSubscriptionCom com = new ReadSubscriptionCom();
 		com.setCon(getCon());
 		return com.process(acct);
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.yousee.smp.order.model.OrderService#searchSubscriber(dk.yousee.smp.order.model.SearchCustomersRequest)
+	 */
+	@Override
+	public SearchCustomersResponse searchSubscriber(SearchCustomersRequest searchCustomersRequest) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.yousee.smp.order.model.OrderService#addSubscription(dk.yousee.smp.order.model.Order)
+	 */
+	@Override
+	public Response addSubscription(Order order) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see dk.yousee.smp.order.model.OrderService#maintainPlan(dk.yousee.smp.order.model.Order)
+	 */
+	@Override
+	public ExecuteOrderReply maintainPlan(Order order) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

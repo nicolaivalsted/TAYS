@@ -153,6 +153,58 @@ public class AbstractCase {
 		return errorMessage;
 	}
 
+	/**
+	 * commit the changes to SMP, the order is the order generated in the model.<br/>
+	 * precondition: order must be established by model updates<br/>
+	 * postcondition: OrderReply made, orderId returned
+	 *
+	 * @return order number
+	 * @throws BusinessException when could not send, see the errorMessage as well
+	 */
+	public Integer send() throws BusinessException {
+		return send(model.getOrder());
+	}
+
+	/**
+	 * commit the changes to SMP, the order is the order generated in the model.<br/>
+	 * precondition: order must be established by model updates<br/>
+	 * postcondition: OrderReply made, orderId returned
+	 *
+	 * @param p the priority to use
+	 * @return order number
+	 * @throws BusinessException when could not send, see the errorMessage as well
+	 */
+	public Integer send(Priority p) throws BusinessException {
+		Order o = model.getOrder();
+		o.setPriority(p);
+		return send(o);
+	}
+
+	/**
+	 * commit the changes to SMP.<br/>
+	 * postcondition: OrderReply made, orderId returned
+	 *
+	 * @param order2send the order to send. (should be taken from the model
+	 * @return order number
+	 * @throws BusinessException when could not send, see the errorMessage as well
+	 */
+	public Integer send(Order order2send) throws BusinessException {
+		setErrorMessage(null);
+		try {
+			lastOrderReply = service.maintainPlan(order2send);
+		} catch (Exception e) {
+			setErrorMessage(e.getMessage());
+			throw new RuntimeException(e.getMessage(), e);
+		}
+		if (lastOrderReply.getErrorMessage() != null) {
+			String detailError = lastOrderReply.getXml().getResponse();
+			detailError = errorMessageHandler(lastOrderReply.getErrorMessage(), detailError);
+			setErrorMessage(detailError);
+			throw new BusinessException("When sendng order, got exception: %s", getErrorMessage());
+		}
+		return lastOrderReply.getOrderId();
+	}
+
 	public String errorMessageHandler(String original, String detailError) {
 		try {
 			DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();

@@ -29,5 +29,31 @@ public interface OrderService {
      */
     public Response readSubscription(Acct acct);
 
+    public SearchCustomersResponse searchSubscriber(SearchCustomersRequest searchCustomersRequest);
+
+    /**
+     * Creates an account in a synchronized way and return the customers engagement (will be empty, but ready for more order processing)
+     *
+     * @param order to create the customer
+     * @return reply, the entire engagement for the customer containing (customer info ..) but no real plans (yet)
+     */
+    public Response addSubscription(Order order);
+
+    /**
+     * <p>
+     * Maintain service plans (add, update, delete) (contact, address, bb, mobb, voip ...)
+     * </p>
+     * <p>
+     * precondition: order.type must be filled in<br/>
+     * <p/>
+     * </p>
+     * <p>
+     * Orders MUST be synchronous.
+     * </p>
+     *
+     * @param order - build an order structure and pass this as "command"
+     * @return reply from Sigma. An order or an error message. (+ contains xml documents)
+     */
+	public ExecuteOrderReply maintainPlan(Order order);
 
 }
