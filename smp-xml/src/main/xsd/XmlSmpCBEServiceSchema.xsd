@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2006 U (http://www.altova.com) by david (EMBRACE) -->
+<!--
+//=============================================================================
+//
+//  FILE INFO
+//    $Id: XmlSmpCBEServiceSchema.xsd,v 1.9 2006/05/07 21:08:03 davidx Exp $
+//
+//  DESCRIPTION
+//
+//  REVISION HISTORY
+//  *  Based on CVS log
+//
+//  Copyright (c) 1993 - 2006 Sigma Systems Canada Inc. All rights reserved.
+//=============================================================================
+-->
+<xs:schema xmlns:cbesvc="http://java.sun.com/products/oss/xml/CBE/Service" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:smpcmn="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" xmlns:cbecore="http://java.sun.com/products/oss/xml/CBE/Core" xmlns:cmn="http://java.sun.com/products/oss/xml/Common" xmlns="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" xmlns:smpcbe="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" targetNamespace="http://www.sigma-systems.com/schemas/3.1/SmpCBEServiceSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:import namespace="http://www.sigma-systems.com/schemas/3.1/SmpCommonValues" schemaLocation="XmlSmpCommonSchema.xsd"/>
+	<xs:import namespace="http://java.sun.com/products/oss/xml/CBE/Core" schemaLocation="XmlCBECoreSchema.xsd"/>
+	<xs:import namespace="http://java.sun.com/products/oss/xml/CBE/Service" schemaLocation="XmlCBEServiceSchema.xsd"/>
+	<xs:import namespace="http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema" schemaLocation="XmlSmpCBECoreSchema.xsd"/>
+	<xs:import namespace="http://java.sun.com/products/oss/xml/Common" schemaLocation="XmlCommonSchema.xsd"/>
+	<xs:complexType name="SubSvcKeyType">
+		<xs:complexContent>
+			<xs:extension base="cbesvc:ServiceKey">
+				<xs:sequence>
+					<xs:element name="primaryKey" type="xs:long" minOccurs="0"/>
+					<xs:choice>
+						<xs:element name="nameQuery" type="smpcmn:NamedQuery" minOccurs="0"/>
+						<xs:element name="externalKey" type="xs:string" minOccurs="0"/>
+					</xs:choice>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SubSvcType">
+		<xs:complexContent>
+			<xs:extension base="cbesvc:ServiceValue">
+				<xs:sequence>
+					<xs:element name="serviceKey" type="SubSvcKeyType"/>
+					<xs:element name="parentServiceKey" type="SubSvcKeyType" minOccurs="0"/>
+					<xs:element name="paramList" type="smpcbe:EntityParamListType" minOccurs="0"/>
+					<xs:element name="endDateTime" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="auditInfo" type="smpcmn:AuditInfoType" minOccurs="0"/>
+					<xs:element name="associationList" type="smpcbe:AssocListType" minOccurs="0"/>
+					<xs:element name="childServiceList" minOccurs="0">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="serviceValue" type="SubSvcType" minOccurs="0" maxOccurs="unbounded"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

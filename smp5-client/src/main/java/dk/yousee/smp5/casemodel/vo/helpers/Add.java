@@ -196,6 +196,10 @@ public class Add {
 		return new Mail(model);
 	}
 
+	public Mail ForeningsMail() {
+		return new Mail(model);
+	}
+
 	public Sikkerhedspakke Sikkerhedspakke() {
 		return new Sikkerhedspakke(model);
 	}
