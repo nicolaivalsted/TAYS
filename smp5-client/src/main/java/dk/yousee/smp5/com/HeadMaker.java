@@ -49,7 +49,7 @@ public class HeadMaker extends XmlMaker {
 		parmTyp.setName("has_groups");
 		parmTyp.setStringValue("yes");
 
-		if (!order.getNoImpact()) {
+		if (order.getNoImpact()) {
 			parmTyp = orderParamList.addNewParam();
 			parmTyp.setName("impact_generation_policy");
 			parmTyp.setStringValue("skip_tmplt");
