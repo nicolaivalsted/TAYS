@@ -6,6 +6,7 @@ import dk.yousee.smp.order.model.Acct;
 import dk.yousee.smp.order.model.ExecuteOrderReply;
 import dk.yousee.smp.order.model.Order;
 import dk.yousee.smp.order.model.OrderService;
+import dk.yousee.smp.com.ProvisioningCom;
 import dk.yousee.smp.order.model.Response;
 import dk.yousee.smp.order.model.SearchCustomersRequest;
 import dk.yousee.smp.order.model.SearchCustomersResponse;
@@ -83,8 +84,9 @@ public class OrderServiceImpl implements OrderService {
 	 */
 	@Override
 	public ExecuteOrderReply maintainPlan(Order order) {
-		// TODO Auto-generated method stub
-		return null;
+		ProvisioningCom com = new ProvisioningCom();
+		com.setCon(getCon());
+		return com.process(order);
 	}
 
 }
