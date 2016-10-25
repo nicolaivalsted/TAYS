@@ -413,11 +413,13 @@ public class CableBBCase extends AbstractCase {
 		StdCpe stdCpe = getModel().find().StdCpe(sik);
 		if (stdCpe != null) {
 			Action resultingAction;
-			stdCpe.suspend_abuse.setValue(" ");
+			if (StringUtils.isNotBlank(stdCpe.suspend_abuse.getValue())) {
+				stdCpe.suspend_abuse.setValue(" ");
+			}
 			InetAccess inetAccess = getModel().find().findFirstInternet();
 			boolean hasValue = false;
-			if (inetAccess != null) {
-				hasValue = inetAccess.suspend.equals("y");
+			if (inetAccess != null && StringUtils.isNotBlank(inetAccess.suspend.getValue())) {
+				hasValue = inetAccess.suspend.getValue().equalsIgnoreCase("y");
 			} else {
 				hasValue = false;
 			}
