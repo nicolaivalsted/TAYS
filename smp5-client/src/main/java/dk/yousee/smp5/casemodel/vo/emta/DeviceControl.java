@@ -31,6 +31,5 @@ public class DeviceControl extends BasicUnit {
 	public PropHolder sik = new PropHolder(this, "sik", true);
 	public PropHolder model = new PropHolder(this, "model", true);
 	public PropHolder manufacturer = new PropHolder(this, "manufacturer", true);
-	public PropHolder cmts_id = new PropHolder(this, "cmts_id");
 
 }
