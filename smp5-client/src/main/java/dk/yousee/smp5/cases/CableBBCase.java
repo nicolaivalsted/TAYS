@@ -648,4 +648,24 @@ public class CableBBCase extends AbstractCase {
 		return false;
 	}
 
+	/**
+	 * @param id
+	 * @return 
+	 * @throws BusinessException
+	 */
+	public boolean deleteStaticIp(String sik) throws BusinessException {
+		ensureAcct();
+
+		CableBBService service = getModel().find().CableBBServiceSik(sik);
+		if (service != null) {
+			SMPStaticIP staticIP = service.getSmpStaticIP();
+			if (staticIP != null) {
+				staticIP.sendAction(Action.DELETE);
+				return true;
+			}
+		}
+		return false;
+
+	}
+
 }
