@@ -58,7 +58,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder wifi_security_disabled = new PropHolder(this, "wifi_security_disabled", true);
 	
 	//wallplug
-	public PropHolder wallplug = new PropHolder(this,"wallplug");
+	public PropHolder wallplug = new PropHolder(this,"d31_wallplug");
 	
 
 	public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
