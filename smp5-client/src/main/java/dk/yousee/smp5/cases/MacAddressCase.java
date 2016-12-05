@@ -502,4 +502,15 @@ public class MacAddressCase extends AbstractCase {
 		}
 		return false;
 	}
+
+	public boolean reprovStaticIP() throws BusinessException {
+		ensureAcct();
+
+		CableBBService bbService = getModel().find().firstOneCableBBService();
+		if (bbService != null && bbService.getSmpStaticIP() != null) {
+			bbService.getSmpStaticIP().sendAction(Action.REPROV);
+			return true;
+		}
+		return false;
+	}
 }
