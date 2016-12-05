@@ -101,14 +101,7 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.allowed_cpe.setValue("0");
 		}
 
-		if (lineItem.getEmailServerUnblockProductCode() != null) {
-			inetAccess.email_server_enable.setValue("true");
-		}
-
-		if (lineItem.getWifi()) {
-			inetAccess.wifi_security_disabled.setValue("true");
-		} else {
-
+		if (!lineItem.getWifi()) {
 			inetAccess.wifi_security_disabled.setValue("false");
 			inetAccess.ss_id.setValue(InetAccess.generateSsid());
 			inetAccess.psk.setValue(InetAccess.generatePsk());
@@ -165,20 +158,11 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.allowed_cpe.setValue("0");
 		}
 
-		if (lineItem.getEmailServerUnblockProductCode() != null) {
-			inetAccess.email_server_enable.setValue("true");
-		}
-
 		if (lineItem.getAddnCPEProductCode() != null && lineItem.isUsingStdCpe()) {
 			inetAccess.allowed_cpe.setValue("2");
 		}
 
-		if (lineItem.getWifi()) {
-			inetAccess.wifi_security_disabled.setValue("true");
-		} else {
-			if (inetAccess.wifi_security_disabled.getValue().equals("true")) {
-				inetAccess.wifi_security_disabled.setValue("false");
-			}
+		if (!lineItem.getWifi()) {
 
 			if (StringUtils.isBlank(inetAccess.ss_id.getValue())) {
 				inetAccess.ss_id.setValue(InetAccess.generateSsid());
@@ -199,7 +183,6 @@ public class CableBBCase extends AbstractCase {
 		private String modemId;
 		private String rateCodes;
 		private String staticIpProductCode;
-		private String emailServerUnblockProductCode;
 		private boolean wifi;
 		private String addnCPEProductCode;
 		private String modemActivationCode;
@@ -238,18 +221,6 @@ public class CableBBCase extends AbstractCase {
 
 		public String getStaticIpProductCode() {
 			return staticIpProductCode;
-		}
-
-		/**
-		 * @param emailServerUnblockProductCode
-		 *            sample value "ABCD" in the cases from Sigma
-		 */
-		public void setEmailServerUnblockProductCode(String emailServerUnblockProductCode) {
-			this.emailServerUnblockProductCode = emailServerUnblockProductCode;
-		}
-
-		public String getEmailServerUnblockProductCode() {
-			return emailServerUnblockProductCode;
 		}
 
 		public boolean getWifi() {
@@ -650,7 +621,7 @@ public class CableBBCase extends AbstractCase {
 
 	/**
 	 * @param id
-	 * @return 
+	 * @return
 	 * @throws BusinessException
 	 */
 	public boolean deleteStaticIp(String sik) throws BusinessException {
