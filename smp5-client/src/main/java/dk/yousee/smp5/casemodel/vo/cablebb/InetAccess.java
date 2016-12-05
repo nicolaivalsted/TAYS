@@ -56,6 +56,10 @@ public class InetAccess extends BasicUnit {
 	public PropHolder ss_id_5g = new PropHolder(this, "ss_id_5g", false); // readonly!
 	public PropHolder gw_channel_id_5g = new PropHolder(this, "gw_channel_id_5g", false);
 	public PropHolder wifi_security_disabled = new PropHolder(this, "wifi_security_disabled", true);
+	
+	//wallplug
+	public PropHolder wallplug = new PropHolder(this,"wallplug");
+	
 
 	public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
