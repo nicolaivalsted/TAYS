@@ -162,19 +162,6 @@ public class CableBBCase extends AbstractCase {
 			inetAccess.allowed_cpe.setValue("2");
 		}
 
-		if (!lineItem.getWifi()) {
-			
-			if (inetAccess.wifi_security_disabled.getValue().equals("true")) {
-				inetAccess.wifi_security_disabled.setValue("false");
-			}
-
-			if (StringUtils.isBlank(inetAccess.ss_id.getValue())) {
-				inetAccess.ss_id.setValue(InetAccess.generateSsid());
-				inetAccess.psk.setValue(InetAccess.generatePsk());
-				inetAccess.gw_channel_id.setValue("0");
-			}
-		}
-
 		return getModel().getOrder();
 	}
 

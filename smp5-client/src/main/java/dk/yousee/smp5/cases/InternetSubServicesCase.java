@@ -66,6 +66,14 @@ public class InternetSubServicesCase extends AbstractCase {
 
 		if (wallplug != signal) {
 			inetAccess.wifi_security_disabled.setValue(String.valueOf(signal));
+
+			if (!signal && StringUtils.isBlank(inetAccess.ss_id.getValue())) {
+				inetAccess.ss_id.setValue(InetAccess.generateSsid());
+				inetAccess.psk.setValue(InetAccess.generatePsk());
+				inetAccess.gw_channel_id.setValue("0");
+			}
+
 		}
 	}
+
 }
