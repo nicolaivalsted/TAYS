@@ -161,24 +161,34 @@ public class RandyContextLoggingAspect implements Ordered {
         try {
             Response r = (Response) pjp.proceed();           
             if(logInputOutputUniqueKey) {
-                requestEntityJson =  methodClassName + "." + methodName + ".requestentity";
-                responseEntityJson = methodClassName + "." + methodName + ".responseentity";
+                requestEntityJson =  "requestentity_str";
+                responseEntityJson = "responseentity_str";
             }
+            
             if (r == null || r.getStatus() >= logPayloadHttpStatusMin) {
                 // prefer parsed json object - it gives nested json object in the log
                 if (payloadParsed != null) {
-                    MDC.put(requestEntityJson, payloadParsed);
+                    if(logInputOutputUniqueKey) {
+                        MDC.put(requestEntityJson, payloadParsed.toString());
+                    } else {
+                        MDC.put(requestEntityJson, payloadParsed);
+                    }
                 } else if (payload != null) {
-                    MDC.put(requestEntityJson, payload);
+                        MDC.put(requestEntityJson, payload);
                 }
             }
+            
             if (r != null) {
                 Object entity = r.getEntity();
-                analyzeResponse(entity);
+                String str = analyzeResponse(entity);
                 MDC.put(httpStatusJson, r.getStatus());
                 if (r.getStatus() >= logPayloadHttpStatusMin) {
                     if (entity != null) {
-                        MDC.put(responseEntityJson, entity);
+                        if(logInputOutputUniqueKey) {
+                            MDC.put(responseEntityJson, str);
+                        } else {
+                            MDC.put(responseEntityJson, entity);
+                        }
                     }
                 }
                 if (r.getStatus() >= 500) {
@@ -196,7 +206,11 @@ public class RandyContextLoggingAspect implements Ordered {
             MDC.put(uncaughtExcsptionMsgJson, exception.toString());
             // prefer parsed json object - it gives nested json object in the log
             if (payloadParsed != null) {
-                MDC.put(requestEntityJson, payloadParsed);
+                if(logInputOutputUniqueKey) {
+                    MDC.put(requestEntityJson, payloadParsed.toString());
+                } else {
+                    MDC.put(requestEntityJson, payloadParsed);
+                }
             } else if (payload != null) {
                 MDC.put(requestEntityJson, payload);
             }
@@ -268,10 +282,10 @@ public class RandyContextLoggingAspect implements Ordered {
      *
      * @param response
      */
-    private void analyzeResponse(Object response) {
+    private String analyzeResponse(Object response) {
         try {
             if (response == null)
-                return;
+                return null;
             
             String jsonString;
             if (response instanceof String) {
@@ -282,17 +296,18 @@ public class RandyContextLoggingAspect implements Ordered {
             
            JsonElement jsonElement = new JsonParser().parse(jsonString);
             if (!jsonElement.isJsonObject())
-                return;
+                return jsonString;
 
             JsonObject joResponse = jsonElement.getAsJsonObject();
 
             for (ContextLoggingSearchItem si : searchItems) {
                 analyzePayload(si, joResponse);
             }
-
+            return jsonString;
         } catch (Exception e) {
             log.warn("Error serializing return value for analysis - ignored", e);
         }
+        return null;
     }
 
     private void analyzeArgAnnotations(ContextLoggingSearchItem si, Object arg, Annotation[] annotations) {
