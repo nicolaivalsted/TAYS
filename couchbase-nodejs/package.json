@@ -1,0 +1,22 @@
+{
+  "name": "couchbase-stuff",
+  "version": "0.1.0",
+  "description": "couchbase-stuff",
+  "main": "hello-world-server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified! Configure in package.json\" && exit 1"
+  },
+  "repository": "",
+  "keywords": [
+    "node.js",
+    "eclipse",
+    "nodeclipse"
+  ],
+  "author": "",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "couchbase": "^2.2.5",
+    "express": "^4.14.0"
+  }
+}
