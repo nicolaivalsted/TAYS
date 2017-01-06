@@ -83,6 +83,9 @@ public class CableBBCase extends AbstractCase {
 		if (lineItem.getVrf() != null) {
 			inetAccess.vrf.setValue(lineItem.getVrf());
 		}
+		if (lineItem.getSip() != null) {
+			inetAccess.sip_enabled.setValue(lineItem.getSip());
+		}
 
 		if (inetAccess.internet_access_has_emta_cm.isEmpty()) {
 			HsdAccess hsdAccess = getModel().find().HsdAccess(sik);
@@ -120,6 +123,10 @@ public class CableBBCase extends AbstractCase {
 		}
 		if (lineItem.getVrf() != null) {
 			inetAccess.vrf.setValue(lineItem.getVrf());
+		}
+
+		if (lineItem.getSip() != null) {
+			inetAccess.sip_enabled.setValue(lineItem.getSip());
 		}
 
 		inetAccess.setModemActivationCode(lineItem.getModemActivationCode());
@@ -179,6 +186,7 @@ public class CableBBCase extends AbstractCase {
 		private String modemActivationCode;
 		private boolean usingStdCpe = true;
 		private String vrf;
+		private String sip;
 
 		public String getSik() {
 			return sik;
@@ -260,6 +268,14 @@ public class CableBBCase extends AbstractCase {
 
 		public void setModemId(String modemId) {
 			this.modemId = modemId;
+		}
+
+		public String getSip() {
+			return sip;
+		}
+
+		public void setSip(String sip) {
+			this.sip = sip;
 		}
 
 	}

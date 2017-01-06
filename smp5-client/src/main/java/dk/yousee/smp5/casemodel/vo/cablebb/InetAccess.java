@@ -44,6 +44,7 @@ public class InetAccess extends BasicUnit {
 	// BSA
 	public PropHolder vrf = new PropHolder(this, "vrf", true);
 	public PropHolder isp_name = new PropHolder(this, "isp_name", false);
+	public PropHolder sip_enabled = new PropHolder(this, "sip_enabled", false);
 
 	// email server unblock
 	public PropHolder email_server_enable = new PropHolder(this, "email_server_enable", true);
@@ -56,10 +57,9 @@ public class InetAccess extends BasicUnit {
 	public PropHolder ss_id_5g = new PropHolder(this, "ss_id_5g", false); // readonly!
 	public PropHolder gw_channel_id_5g = new PropHolder(this, "gw_channel_id_5g", false);
 	public PropHolder wifi_security_disabled = new PropHolder(this, "wifi_security_disabled", true);
-	
-	//wallplug
-	public PropHolder wallplug = new PropHolder(this,"d31_wallplug");
-	
+
+	// wallplug
+	public PropHolder wallplug = new PropHolder(this, "d31_wallplug");
 
 	public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
@@ -118,15 +118,6 @@ public class InetAccess extends BasicUnit {
 		if (modemActivationCode != null) {
 			modem_activation_code.setValue(modemActivationCode);
 		}
-	}
-
-	/**
-	 * intermediate question does this BB use modem_activation_code ?
-	 *
-	 * @return true means yes
-	 */
-	public boolean isModemActivationCodeUsed() {
-		return modem_activation_code.hasValue();
 	}
 
 	public CableBBService getParent() {
