@@ -27,7 +27,7 @@ public class VideoServicePlanAttributes extends BasicUnit {
 	public PropHolder modify_date = new PropHolder(this, "modify_date", true);
 	public PropHolder cableUnit = new PropHolder(this, "cable_unit");
 	public PropHolder npvr_enabled = new PropHolder(this, "npvr_enabled");
-	public PropHolder npvr_storage_size = new PropHolder(this, "npvr_storage_size ");
+	public PropHolder npvr_storage_size = new PropHolder(this, "npvr_storage_size");
 
 	// Type.ASSOC
 	public AssociationHolder video_service_defn_has_cas = new AssociationHolder(this, "video_service_defn_has_cas", STBCas.TYPE);

@@ -212,28 +212,22 @@ public class VideoCase extends AbstractCase {
 	 */
 	public void createOrUpdateNpvr(boolean signal, String size) throws BusinessException {
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
-		if (planAttributes != null) {
-			String smpNpvr = planAttributes.npvr_enabled.getValue();
-			boolean npvr;
-			if (StringUtils.isBlank(smpNpvr) || smpNpvr.equals("false")) {
-				npvr = false;
-			} else {
-				npvr = true;
-			}
-
-			if (npvr != signal) {
-				planAttributes.npvr_enabled.setValue(String.valueOf(signal));
-			}
-
-			String currentSize = planAttributes.npvr_storage_size.getValue();
-			if (StringUtils.isNotBlank(currentSize) && !currentSize.equals(size) && signal) {
-				planAttributes.npvr_storage_size.setValue(size);
-			}
-
+		String smpNpvr = planAttributes.npvr_enabled.getValue();
+		boolean npvr;
+		if (StringUtils.isBlank(smpNpvr) || smpNpvr.equals("false")) {
+			npvr = false;
 		} else {
-			throw new BusinessException("Video Service Not Found!");
+			npvr = true;
 		}
 
+		if (npvr != signal) {
+			planAttributes.npvr_enabled.setValue(String.valueOf(signal));
+		}
+
+		String currentSize = planAttributes.npvr_storage_size.getValue();
+		if (signal && !currentSize.equals(size)) {
+			planAttributes.npvr_storage_size.setValue(size);
+		}
 	}
 
 }
