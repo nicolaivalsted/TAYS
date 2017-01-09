@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
+
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
@@ -201,6 +203,37 @@ public class VideoCase extends AbstractCase {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss:SSS");
 		String dateFinal = sdf.format(new Date()) + "-" + new Random().nextInt(5000);
 		return dateFinal;
+	}
+
+	/**
+	 * @param signal
+	 * @param propertyValue
+	 * @throws BusinessException
+	 */
+	public void createOrUpdateNpvr(boolean signal, String size) throws BusinessException {
+		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
+		if (planAttributes != null) {
+			String smpNpvr = planAttributes.npvr_enabled.getValue();
+			boolean npvr;
+			if (StringUtils.isBlank(smpNpvr) || smpNpvr.equals("false")) {
+				npvr = false;
+			} else {
+				npvr = true;
+			}
+
+			if (npvr != signal) {
+				planAttributes.npvr_enabled.setValue(String.valueOf(signal));
+			}
+
+			String currentSize = planAttributes.npvr_storage_size.getValue();
+			if (StringUtils.isNotBlank(currentSize) && !currentSize.equals(size) && signal) {
+				planAttributes.npvr_storage_size.setValue(size);
+			}
+
+		} else {
+			throw new BusinessException("Video Service Not Found!");
+		}
+
 	}
 
 }
