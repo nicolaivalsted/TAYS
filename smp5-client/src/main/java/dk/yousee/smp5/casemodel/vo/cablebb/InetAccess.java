@@ -61,6 +61,8 @@ public class InetAccess extends BasicUnit {
 	// wallplug
 	public PropHolder wallplug = new PropHolder(this, "d31_wallplug");
 
+	public PropHolder diplexer = new PropHolder(this, "diplexer");
+
 	public InetAccess(SubscriberModel model, String externalKey, CableBBService parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);
 		parent.setInetAccess(this);
