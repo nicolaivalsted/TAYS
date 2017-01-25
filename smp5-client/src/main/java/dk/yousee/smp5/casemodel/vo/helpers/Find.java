@@ -17,6 +17,8 @@ import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
+import dk.yousee.smp5.casemodel.vo.fordel.FordelComposed;
+import dk.yousee.smp5.casemodel.vo.fordel.FordelSubscription;
 import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
@@ -364,6 +366,15 @@ public class Find {
 		return null;
 	}
 
+	public SikkerhedspakkeService findFirstSikkerhedspakkeService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
+				return (SikkerhedspakkeService) plan;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 *
 	 * @param position
@@ -640,6 +651,15 @@ public class Find {
 		return res;
 	}
 
+	public MTAService findFirstdMTAService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(MTAService.TYPE)) {
+				return (MTAService) plan;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * @param cmOwnership
 	 *            key to the composed service (currently modem id)
@@ -722,6 +742,25 @@ public class Find {
 		if (parent == null)
 			return null;
 		return parent.getAddnCpe();
+	}
+
+	public FordelComposed FordelComposed() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(FordelComposed.TYPE)) {
+				return (FordelComposed) plan;
+			}
+		}
+		return null;
+	}
+
+	public FordelSubscription FordelSubscription(String identifier) {
+		FordelComposed parent = FordelComposed();
+		for (FordelSubscription fordel : parent.getFordelSubscriptions()) {
+			if (identifier.equals(fordel.identifier.getValue())) {
+				return fordel;
+			}
+		}
+		return null;
 	}
 
 }

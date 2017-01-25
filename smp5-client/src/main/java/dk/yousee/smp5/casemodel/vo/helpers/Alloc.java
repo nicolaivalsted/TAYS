@@ -10,6 +10,8 @@ import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
+import dk.yousee.smp5.casemodel.vo.fordel.FordelComposed;
+import dk.yousee.smp5.casemodel.vo.fordel.FordelSubscription;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -333,6 +335,19 @@ public class Alloc {
 		} else
 			res.getDefaultOrderData();
 		return res;
+	}
+
+	public FordelComposed FordelComposed() {
+		FordelComposed res = find.FordelComposed();
+		if (res == null) {
+			res = add.FordelComposed();
+		}
+		return res;
+	}
+
+	public FordelSubscription FordelSubscription(String identifier) {
+		FordelSubscription sub = find.FordelSubscription(identifier);
+		return sub == null ? add.FordelSubscription() : sub;
 	}
 
 }

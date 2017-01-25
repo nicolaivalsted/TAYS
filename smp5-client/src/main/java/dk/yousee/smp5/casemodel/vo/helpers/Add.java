@@ -15,6 +15,8 @@ import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
 import dk.yousee.smp5.casemodel.vo.emta.VoipAccess;
+import dk.yousee.smp5.casemodel.vo.fordel.FordelComposed;
+import dk.yousee.smp5.casemodel.vo.fordel.FordelSubscription;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
 import dk.yousee.smp5.casemodel.vo.ott.OTTService;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
@@ -234,6 +236,15 @@ public class Add {
 		}
 		return res;
 	}
+	
+	public DialToneAccess DialToneAccess1() {
+		VoiceService parent = model.alloc().VoiceService1();
+		DialToneAccess res = new DialToneAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
 
 	/**
 	 * @param sik
@@ -376,6 +387,23 @@ public class Add {
 	public DeviceControl DeviceControl(String sik) {
 		MTAService parent = model.alloc().MTAService(sik);
 		DeviceControl res = new DeviceControl(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+	
+	public FordelComposed FordelComposed() {
+		FordelComposed res = new FordelComposed(model, key.generateUUID());
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
+
+	public FordelSubscription FordelSubscription() {
+		FordelComposed parent = model.alloc().FordelComposed();
+		FordelSubscription res = new FordelSubscription(model, key.generateUUID(), parent);
 		if (res.getEntity() == null) {
 			res.getDefaultOrderData();
 		}

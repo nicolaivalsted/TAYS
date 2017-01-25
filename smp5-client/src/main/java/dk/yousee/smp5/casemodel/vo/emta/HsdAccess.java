@@ -27,7 +27,7 @@ public class HsdAccess extends BasicUnit {
 	}
 
 	public PropHolder data_port_id = new PropHolder(this, "data_port_id", true);// cm_mac
-	private PropHolder cm_ownership = new PropHolder(this, "cm_ownership", true);
+	public PropHolder cm_ownership = new PropHolder(this, "cm_ownership", true);
 	public PropHolder cm_technology = new PropHolder(this, "cm_technology");
 	public PropHolder equipment_type = new PropHolder(this, "equipment_type");
 	public PropHolder cm_service_id = new PropHolder(this, "cm_service_id", true);

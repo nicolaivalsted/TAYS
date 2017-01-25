@@ -19,11 +19,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder rate_codes = new PropHolder(this, "rate_codes", true);
 	public PropHolder svc_provider_nm = new PropHolder(this, "svc_provider_nm");
 	public PropHolder upstream_speed = new PropHolder(this, "upstream_speed");
-	public PropHolder config_file_override = new PropHolder(this, "config_file_override");
-	public PropHolder bill_ack = new PropHolder(this, "bill_ack");
-	public PropHolder bottom_up_provisioned = new PropHolder(this, "bottom_up_provisioned");
 	public PropHolder num_of_ips = new PropHolder(this, "num_of_ips");
-	public PropHolder aup = new PropHolder(this, "aup");
 	public PropHolder email_cos = new PropHolder(this, "email_cos");
 	public PropHolder cm_mac = new PropHolder(this, "cm_mac");
 	public PropHolder product_name = new PropHolder(this, "product_name");
@@ -36,7 +32,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder suspend_reason = new PropHolder(this, "suspend_reason");
 
 	public PropHolder modem_id = new PropHolder(this, "modem_id");
-	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
+	public PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
 	public PropHolder sik = new PropHolder(this, "sik");
 
 	public AssociationHolder internet_access_has_emta_cm = new AssociationHolder(this, "internet_has_access", HsdAccess.TYPE);
