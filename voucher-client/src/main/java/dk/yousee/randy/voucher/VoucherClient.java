@@ -25,7 +25,7 @@ public class VoucherClient {
     public void setHttpPool(HttpPool httpPool) {
         this.httpPool = httpPool;
     }
-    private final RequestConfig req = RequestConfig.custom().setSocketTimeout(20000).setConnectTimeout(20000).build();
+    private final RequestConfig req = RequestConfig.custom().setSocketTimeout(4000).setConnectTimeout(4000).build();
     public static final String PREPROD_VOUCHER_HOST = "http://192.168.98.10:8080";
     public static final String VOUCHER_HOST = "http://smt-h3106.yousee.dk:8080";
     private String voucherHost;
