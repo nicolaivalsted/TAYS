@@ -17,18 +17,18 @@ public class FordelSubscription extends BasicUnit {
 	public static OrderDataType TYPE = new OrderDataType(ServicePrefix.SubSvcSpec, "fordel_subscription");
 
 	public PropHolder sik = new PropHolder(this, "sik", true);
-	public PropHolder sid = new PropHolder(this, "sid", true);
-	public PropHolder cnr = new PropHolder(this, "cnr", true);
-	public PropHolder la = new PropHolder(this, "la", true);
-	public PropHolder identifier = new PropHolder(this, "identifier", true);
-	public PropHolder type = new PropHolder(this, "type", true);
-	public PropHolder branding = new PropHolder(this, "branding", true);
-	public PropHolder email = new PropHolder(this, "email", true);
-	public PropHolder gllid = new PropHolder(this, "gllid", true);
-	public PropHolder id = new PropHolder(this, "id", true);
-	public PropHolder lid = new PropHolder(this, "lid", true);
-	public PropHolder plan = new PropHolder(this, "plan", true);
-	public PropHolder source_code = new PropHolder(this, "source_code", true);
+	public PropHolder sid = new PropHolder(this, "sid", false);
+	public PropHolder cnr = new PropHolder(this, "cnr", false);
+	public PropHolder la = new PropHolder(this, "la", false);
+	public PropHolder identifier = new PropHolder(this, "identifier", false);
+	public PropHolder type = new PropHolder(this, "type", false);
+	public PropHolder branding = new PropHolder(this, "branding", false);
+	public PropHolder email = new PropHolder(this, "email", false);
+	public PropHolder gllid = new PropHolder(this, "gllid", false);
+	public PropHolder id = new PropHolder(this, "id", false);
+	public PropHolder lid = new PropHolder(this, "lid", false);
+	public PropHolder plan = new PropHolder(this, "plan", false);
+	public PropHolder source_code = new PropHolder(this, "source_code", false);
 
 	public FordelSubscription(SubscriberModel model, String externalKey, FordelComposed parent) {
 		super(model, externalKey, TYPE, LEVEL, null, parent);

@@ -1,10 +1,9 @@
 package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
-import dk.yousee.smp5.casemodel.vo.fordel.FordelComposed;
 import dk.yousee.smp5.casemodel.vo.fordel.FordelSubscription;
-import dk.yousee.smp5.cases.FordelCase.FordelData;
 import dk.yousee.smp5.order.model.Acct;
+import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
@@ -29,17 +28,35 @@ public class FordelCase extends AbstractCase {
 	}
 
 	public static class FordelData {
-		private String sourceCode;
-		private String sid;
-		private String la;
-		private String cnr;
-		private String identifier;
-		private String branding;
-		private String email;
-		private String gllid;
-		private String id;
-		private String plan;
-		private String type;
+		private String sik; // bonnier, mofibo,politiken, meraki
+		private String sourceCode; // bonnier
+		private String sid; // bonnier
+		private String la;// bonnier
+		private String cnr;// bonnier
+		private String identifier;// politiken
+		private String id;// meraki
+		private String branding;// politiken
+		private String email;// bonnier,mofibo, politiken
+		private String gllid;// meraki
+		private String lid;// meraki
+		private String plan; // bonnier,mofibo
+		private String type;// bonnier,politiken
+
+		public String getSik() {
+			return sik;
+		}
+
+		public void setSik(String sik) {
+			this.sik = sik;
+		}
+
+		public String getLid() {
+			return lid;
+		}
+
+		public void setLid(String lid) {
+			this.lid = lid;
+		}
 
 		public String getSourceCode() {
 			return sourceCode;
@@ -134,12 +151,14 @@ public class FordelCase extends AbstractCase {
 	public Order create(FordelData fordelData) throws BusinessException {
 		ensureAcct();
 
-		FordelSubscription fordelSubscription = getModel().add().FordelSubscription();
+		FordelSubscription fordelSubscription = getModel().alloc().FordelSubscription(fordelData.getSik());
+		fordelSubscription.sik.setValue(fordelData.getSik());
 		fordelSubscription.sid.setValue(fordelData.getSid());
 		fordelSubscription.la.setValue(fordelData.getLa());
 		fordelSubscription.cnr.setValue(fordelData.getCnr());
 		fordelSubscription.email.setValue(fordelData.getEmail());
 		fordelSubscription.type.setValue(fordelData.getType());
+		fordelSubscription.plan.setValue(fordelData.getPlan());
 
 		return getModel().getOrder();
 	}
@@ -147,7 +166,7 @@ public class FordelCase extends AbstractCase {
 	public Order update(FordelData fordelData) throws BusinessException {
 		ensureAcct();
 
-		FordelSubscription fordelSubscription = getModel().find().FordelSubscription(fordelData.getIdentifier());
+		FordelSubscription fordelSubscription = getModel().find().FordelSubscription(fordelData.getSik());
 		if (fordelSubscription != null) {
 			fordelSubscription.sid.setValue(fordelData.getSid());
 			fordelSubscription.la.setValue(fordelData.getLa());
@@ -164,11 +183,9 @@ public class FordelCase extends AbstractCase {
 	 * @param fordelData
 	 */
 	public void delete(FordelData fordelData) {
-		FordelSubscription fordelSubscription = getModel().find().FordelSubscription(fordelData.getIdentifier());
+		FordelSubscription fordelSubscription = getModel().find().FordelSubscription(fordelData.getSik());
 		if (fordelSubscription != null) {
-
-		} else {
-
+			fordelSubscription.sendAction(Action.DELETE);
 		}
 
 	}

@@ -345,8 +345,8 @@ public class Alloc {
 		return res;
 	}
 
-	public FordelSubscription FordelSubscription(String identifier) {
-		FordelSubscription sub = find.FordelSubscription(identifier);
+	public FordelSubscription FordelSubscription(String sik) {
+		FordelSubscription sub = find.FordelSubscription(sik);
 		return sub == null ? add.FordelSubscription() : sub;
 	}
 

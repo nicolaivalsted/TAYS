@@ -753,10 +753,10 @@ public class Find {
 		return null;
 	}
 
-	public FordelSubscription FordelSubscription(String identifier) {
+	public FordelSubscription FordelSubscription(String sik) {
 		FordelComposed parent = FordelComposed();
 		for (FordelSubscription fordel : parent.getFordelSubscriptions()) {
-			if (identifier.equals(fordel.identifier.getValue())) {
+			if (sik.equals(fordel.sik.getValue())) {
 				return fordel;
 			}
 		}
