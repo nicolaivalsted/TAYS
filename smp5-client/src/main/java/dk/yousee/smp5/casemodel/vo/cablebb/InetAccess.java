@@ -36,7 +36,7 @@ public class InetAccess extends BasicUnit {
 	public PropHolder suspend_reason = new PropHolder(this, "suspend_reason");
 
 	public PropHolder modem_id = new PropHolder(this, "modem_id");
-	protected PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
+	public PropHolder modem_activation_code = new PropHolder(this, "modem_activation_code");
 	public PropHolder sik = new PropHolder(this, "sik");
 
 	public AssociationHolder internet_access_has_emta_cm = new AssociationHolder(this, "internet_has_access", HsdAccess.TYPE);

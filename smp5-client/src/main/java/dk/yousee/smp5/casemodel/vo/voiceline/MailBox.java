@@ -18,7 +18,7 @@ public class MailBox extends BasicUnit {
 	}
 
 	public PropHolder randy_status = new PropHolder(this, "randy_status");
-	private PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
+	public PropHolder telephone_number = new PropHolder(this, "telephone_number", true);
 
 	public PhoneNumber getPhoneNumber() {
 		return PhoneNumber.create(telephone_number.getValue());
