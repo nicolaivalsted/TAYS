@@ -249,15 +249,21 @@ public class VideoCase extends AbstractCase {
 		}
 	}
 
-	/**
-	 * @param sik
-	 * @param b
-	 * @throws BusinessException
-	 */
-	public void updateSentryEnable(boolean enable) throws BusinessException {
+	public void updateWebTvEnabld(boolean enable) throws BusinessException {
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
-		videoServicePlanAttributes.linkedid.setValue(String.valueOf(enable));
-		videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+		String webtv_enabled = videoServicePlanAttributes.webtv_enabled.getValue();
+		boolean oldWebtv;
+		if (StringUtils.isBlank(webtv_enabled) || webtv_enabled.equals("false")) {
+			oldWebtv = false;
+		} else {
+			oldWebtv = true;
+		}
+
+		if (oldWebtv != enable) {
+			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
+			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
+			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+		}
 	}
 
 }
