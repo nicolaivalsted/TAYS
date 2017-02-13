@@ -36,6 +36,15 @@ public class OTTCase extends AbstractCase {
 		private String entitlementId;
 		private String serviceName;
 		private String acct;
+		private String linkedId;
+
+		public String getLinkedId() {
+			return linkedId;
+		}
+
+		public void setLinkedId(String linkedId) {
+			this.linkedId = linkedId;
+		}
 
 		public String getAcct() {
 			return acct;
@@ -79,8 +88,8 @@ public class OTTCase extends AbstractCase {
 
 		@Override
 		public String toString() {
-			return "OTTData [id=" + id + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName=" + serviceName
-					+ ", acct=" + acct + "]";
+			return "OTTData [id=" + id + ", ottProduct=" + ottProduct + ", entitlementId=" + entitlementId + ", serviceName=" + serviceName + ", acct=" + acct
+					+ "]";
 		}
 	}
 
@@ -95,6 +104,7 @@ public class OTTCase extends AbstractCase {
 			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 			ottSubscription.service_name.setValue(lineItem.getServiceName());
 			ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+			ottSubscription.linkedid.setValue(lineItem.getLinkedId());
 			return getModel().getOrder();
 		}
 		return null;

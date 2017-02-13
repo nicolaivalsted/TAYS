@@ -39,6 +39,15 @@ public class VideoCase extends AbstractCase {
 		private String modifyDate;
 		private String cableUnit;
 		private String acct;
+		private String linkedId;
+
+		public String getLinkedId() {
+			return linkedId;
+		}
+
+		public void setLinkedId(String linkedId) {
+			this.linkedId = linkedId;
+		}
 
 		public String getAcct() {
 			return acct;
@@ -106,7 +115,9 @@ public class VideoCase extends AbstractCase {
 				videoSubscription.packageId.setValue(parcos);
 			}
 		}
+
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+
 		if (changed) {
 			if (videoServicePlanAttributes == null) {
 				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
@@ -115,6 +126,14 @@ public class VideoCase extends AbstractCase {
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
+		}
+
+		String currentLinkedId = getValue(videoServicePlanAttributes.linkedid.getValue());
+		String newLinkedID = getValue(lineItem.getLinkedId());
+		if (!currentLinkedId.equals("") && !newLinkedID.equals("") && !currentLinkedId.equals(newLinkedID)) {
+			videoServicePlanAttributes.linkedid.setValue(newLinkedID);
+			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+
 		}
 
 		STBCas stb = getModel().find().findFirstSTB();
@@ -227,6 +246,23 @@ public class VideoCase extends AbstractCase {
 		String currentSize = planAttributes.npvr_storage_size.getValue();
 		if (signal && !currentSize.equals(size)) {
 			planAttributes.npvr_storage_size.setValue(size);
+		}
+	}
+
+	public void updateWebTvEnabld(boolean enable) throws BusinessException {
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
+		String webtv_enabled = videoServicePlanAttributes.webtv_enabled.getValue();
+		boolean oldWebtv;
+		if (StringUtils.isBlank(webtv_enabled) || webtv_enabled.equals("false")) {
+			oldWebtv = false;
+		} else {
+			oldWebtv = true;
+		}
+
+		if (oldWebtv != enable) {
+			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
+			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
+			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 		}
 	}
 

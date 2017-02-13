@@ -3,7 +3,6 @@ package dk.yousee.smp5.casemodel.vo.ott;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.helpers.BasicUnit;
 import dk.yousee.smp5.casemodel.vo.helpers.PropHolder;
-import dk.yousee.smp5.order.model.Constants;
 import dk.yousee.smp5.order.model.OrderDataLevel;
 import dk.yousee.smp5.order.model.OrderDataType;
 import dk.yousee.smp5.order.model.ServicePrefix;
@@ -22,10 +21,11 @@ public class OTTSubscription extends BasicUnit {
 		parent.getOttSubscriptions().add(this);
 	}
 
-	public PropHolder sik = new PropHolder(this, Constants.SIK, true);
-	public PropHolder ott_product = new PropHolder(this, Constants.OTT_PRODUCT, true);
-	public PropHolder service_name = new PropHolder(this, Constants.SERVICE_NAME, true);
-	public PropHolder ott_entitlement_id = new PropHolder(this, Constants.ENTITLEMENT_ID, true);
+	public PropHolder sik = new PropHolder(this, "sik", true);
+	public PropHolder ott_product = new PropHolder(this, "ott_product", true);
+	public PropHolder service_name = new PropHolder(this, "service_name", true);
+	public PropHolder ott_entitlement_id = new PropHolder(this, "ott_entitlement_id", true);
+	public PropHolder linkedid = new PropHolder(this, "linkedid", false);
 
 	public OTTService getParent() {
 		return (OTTService) super.getParent();

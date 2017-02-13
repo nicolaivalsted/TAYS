@@ -2,6 +2,7 @@ package dk.yousee.smp5.cases;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
+import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
@@ -74,6 +75,15 @@ public class HumaxSTBCase extends AbstractCase {
 
 	public Order create(STBData lineItem) throws BusinessException {
 		ensureAcct();
+
+		// TAYS-2782 Prevent client to have more than 100 STB
+		VideoCPEService parent = getModel().find().VideoCPEService();
+		if (parent != null) {
+			int count = parent.getVideoCPEs().size();
+			if (count >= 99) {
+				throw new BusinessException("Maximum number of STB reached!");
+			}
+		}
 		STBCas stbCas = getModel().alloc().STBCas(lineItem.getSik());
 
 		stbCas.serialNumber.setValue(lineItem.getSerialNumber());
