@@ -141,7 +141,8 @@ public class CableBBCase extends AbstractCase {
 
 		if (lineItem.isUsingStdCpe()) { // not make standard cpe or other
 										// additional cpe's for M5 customers
-			if (inetAccess.allowed_cpe.getValue().equals("0")) {
+			String allowedCpe = getValue(inetAccess.allowed_cpe.getValue());
+			if (!allowedCpe.equals("") && allowedCpe.equals("0")) {
 				inetAccess.allowed_cpe.setValue("1");
 			}
 			if (lineItem.getStaticIpProductCode() != null) {
