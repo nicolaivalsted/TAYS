@@ -106,13 +106,14 @@ public class VideoCase extends AbstractCase {
 
 		// handle packages to add/nothing
 		for (String parcos : lineItem.getPackages()) {
-			action = findActionToPerform(parcos, vSubs);
+			action = findActionToPerform(parcos, vSubs, getValue(lineItem.getLinkedId()));
 			if (!action) {
 				changed = true;
 				entitlementId = lineItem.getAcct() + "-" + lineItem.getVideoEntitlementId() + "-" + parcos;
 				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos, getAcct().toString());
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
+				videoSubscription.linkedid.setValue(lineItem.getLinkedId());
 			}
 		}
 
@@ -126,14 +127,6 @@ public class VideoCase extends AbstractCase {
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
-		}
-
-		String currentLinkedId = getValue(videoServicePlanAttributes.linkedid.getValue());
-		String newLinkedID = getValue(lineItem.getLinkedId());
-		if (!currentLinkedId.equals("") && !newLinkedID.equals("") && !currentLinkedId.equals(newLinkedID)) {
-			videoServicePlanAttributes.linkedid.setValue(newLinkedID);
-			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
-
 		}
 
 		STBCas stb = getModel().find().findFirstSTB();
@@ -162,11 +155,16 @@ public class VideoCase extends AbstractCase {
 	 * @param vSubs
 	 * @return true if nothing to do or false if is add
 	 */
-	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs) {
+	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs, String newLinkedID) {
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
 				if (subscription.packageId.getValue().toUpperCase().equals(parcos.toUpperCase())) {
-					return true;
+					String currentLinkedId = getValue(subscription.linkedid.getValue());
+					if (!currentLinkedId.equals("") && !newLinkedID.equals("") && !currentLinkedId.equals(newLinkedID)) {
+						return false;
+					} else {
+						return true;
+					}
 				}
 			}
 		}
