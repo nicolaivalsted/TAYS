@@ -28,7 +28,6 @@ public class VideoServicePlanAttributes extends BasicUnit {
 	public PropHolder cableUnit = new PropHolder(this, "cable_unit");
 	public PropHolder npvr_enabled = new PropHolder(this, "npvr_enabled");
 	public PropHolder npvr_storage_size = new PropHolder(this, "npvr_storage_size");
-	public PropHolder linkedid = new PropHolder(this, "linkedid", false);
 	public PropHolder webtv_enabled = new PropHolder(this, "webtv_enabled", false);
 
 	// Type.ASSOC
