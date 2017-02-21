@@ -160,7 +160,7 @@ public class VideoCase extends AbstractCase {
 			for (VideoSubscription subscription : vSubs) {
 				if (subscription.packageId.getValue().toUpperCase().equals(parcos.toUpperCase())) {
 					String currentLinkedId = getValue(subscription.linkedid.getValue());
-					if (!currentLinkedId.equals("") && !newLinkedID.equals("") && !currentLinkedId.equals(newLinkedID)) {
+					if (currentLinkedId.equals("") && !newLinkedID.equals("") && !currentLinkedId.equals(newLinkedID)) {
 						return false;
 					} else {
 						return true;
