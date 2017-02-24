@@ -84,12 +84,24 @@ public class SubscriberCase extends AbstractCase {
 	public Subscriber updateSusbcriber(SubscriberInfo requestSubscriber) {
 		Subscriber sub = getModel().getSubscriber();
 
-		if (requestSubscriber.getLid() != null && !getValue(requestSubscriber.getLid()).equalsIgnoreCase(getValue(sub.getLid()))) {
+		if (requestSubscriber.getLid() != null && !requestSubscriber.getLid().equalsIgnoreCase(getValue(sub.getLid()))) {
 			sub.setLid(requestSubscriber.getLid());
 		}
 
-		if (requestSubscriber.getLinkid() != null && !getValue(requestSubscriber.getLinkid()).equalsIgnoreCase(getValue(sub.getLinkid()))) {
+		if (requestSubscriber.getLinkid() != null && !requestSubscriber.getLinkid().equalsIgnoreCase(getValue(sub.getLinkid()))) {
 			sub.setLinkid(requestSubscriber.getLinkid());
+		}
+
+		if (requestSubscriber.getSegment() != null && !requestSubscriber.getSegment().equalsIgnoreCase(getValue(sub.getSegment()))) {
+			sub.setLinkid(requestSubscriber.getSegment());
+		}
+
+		if (requestSubscriber.getCuAccount() != null && !requestSubscriber.getCuAccount().equalsIgnoreCase(getValue(sub.getCuAccount()))) {
+			sub.setLinkid(requestSubscriber.getCuAccount());
+		}
+
+		if (requestSubscriber.getCustomerNo() != null && !requestSubscriber.getCustomerNo().equalsIgnoreCase(getValue(sub.getCustomerNo()))) {
+			sub.setLinkid(requestSubscriber.getCustomerNo());
 		}
 
 		return sub;
@@ -221,7 +233,9 @@ public class SubscriberCase extends AbstractCase {
 		subscriber.setKundeId(new Acct(subscriberInfo.getAcct()));
 		subscriber.setLid(subscriberInfo.getLid());
 		subscriber.setLinkid(subscriberInfo.getLinkid());
-		
+		subscriber.setSegment(subscriberInfo.getSegment());
+		subscriber.setCuAccount(subscriberInfo.getCuAccount());
+		subscriber.setCustomerNo(subscriberInfo.getCustomerNo());
 
 		SubContactSpec mc = getModel().add().SubContactSpec();
 		if (StringUtils.isNotBlank(customer.getEmail())) {

@@ -106,14 +106,13 @@ public class VideoCase extends AbstractCase {
 
 		// handle packages to add/nothing
 		for (String parcos : lineItem.getPackages()) {
-			action = findActionToPerform(parcos, vSubs, getValue(lineItem.getLinkedId()));
+			action = findActionToPerform(parcos, vSubs);
 			if (!action) {
 				changed = true;
 				entitlementId = lineItem.getAcct() + "-" + lineItem.getVideoEntitlementId() + "-" + parcos;
 				VideoSubscription videoSubscription = getModel().alloc().VideoSubscription(entitlementId, parcos, getAcct().toString());
 				videoSubscription.video_entitlement_id.setValue(entitlementId);
 				videoSubscription.packageId.setValue(parcos);
-				videoSubscription.linkedid.setValue(lineItem.getLinkedId());
 			}
 		}
 
@@ -127,6 +126,20 @@ public class VideoCase extends AbstractCase {
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
+		}
+
+		String tmp = getValue(videoServicePlanAttributes.has_linked_id.getValue());
+		boolean oldHasLinkedId = false;
+		if (StringUtils.isBlank(tmp) || tmp.equals("false")) {
+			oldHasLinkedId = false;
+		} else {
+			oldHasLinkedId = true;
+		}
+
+		boolean newHasLinkedId = StringUtils.isNotBlank(lineItem.getLinkedId());
+		if (oldHasLinkedId != newHasLinkedId) {
+			videoServicePlanAttributes.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 		}
 
 		STBCas stb = getModel().find().findFirstSTB();
@@ -155,16 +168,11 @@ public class VideoCase extends AbstractCase {
 	 * @param vSubs
 	 * @return true if nothing to do or false if is add
 	 */
-	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs, String newLinkedID) {
+	private boolean findActionToPerform(String parcos, List<VideoSubscription> vSubs) {
 		if (vSubs != null) {
 			for (VideoSubscription subscription : vSubs) {
 				if (subscription.packageId.getValue().toUpperCase().equals(parcos.toUpperCase())) {
-					String currentLinkedId = getValue(subscription.linkedid.getValue());
-					if (currentLinkedId.equals("") && !newLinkedID.equals("") && !currentLinkedId.equals(newLinkedID)) {
-						return false;
-					} else {
-						return true;
-					}
+					return true;
 				}
 			}
 		}

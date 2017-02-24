@@ -67,6 +67,9 @@ public class Parse {
 		if (top != null) {
 			model.getSubscriber().setLid(top.getLid());
 			model.getSubscriber().setLinkid(top.getLinkId());
+			model.getSubscriber().setSegment(top.getSegment());
+			model.getSubscriber().setCuAccount(top.getCuAccount());
+			model.getSubscriber().setCustomerNo(top.getCustomerNo());
 		}
 		for (ResponseEntity plan : top.getEntities()) {
 			logger.debug("Type" + plan.getType());

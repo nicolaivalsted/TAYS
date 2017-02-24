@@ -1,5 +1,7 @@
 package dk.yousee.smp5.cases;
 
+import org.apache.commons.lang3.StringUtils;
+
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.ott.OTTSubscription;
 import dk.yousee.smp5.order.model.Acct;
@@ -97,6 +99,9 @@ public class OTTCase extends AbstractCase {
 		ensureAcct();
 
 		String sik = lineItem.getAcct() + "-" + lineItem.getId() + "-" + lineItem.getOttProduct();
+
+		boolean newHasLinkedId = StringUtils.isNotBlank(lineItem.getLinkedId());
+
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
 		if (ottSubscription == null) {
 			ottSubscription = getModel().alloc().OTTSubscription(sik);
@@ -104,8 +109,20 @@ public class OTTCase extends AbstractCase {
 			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 			ottSubscription.service_name.setValue(lineItem.getServiceName());
 			ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
-			ottSubscription.linkedid.setValue(lineItem.getLinkedId());
+			ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
 			return getModel().getOrder();
+		} else {
+			String tmp = getValue(ottSubscription.has_linked_id.getValue());
+			boolean oldHasLinkedId = false;
+			if (StringUtils.isBlank(tmp) || tmp.equals("false")) {
+				oldHasLinkedId = false;
+			} else {
+				oldHasLinkedId = true;
+			}
+			if (oldHasLinkedId != newHasLinkedId) {
+				ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+				return getModel().getOrder();
+			}
 		}
 		return null;
 	}
