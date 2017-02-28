@@ -20,6 +20,9 @@ public class ResponseEntity implements Serializable {
 	private ProvisionStateEnum state;
 	private String lid;
 	private String linkId;
+	private String customerNo;
+	private String segment;
+	private String cuAccount;
 	private String externalKey;
 	private OrderDataType type;
 	private List<ResponseAssociation> associations = null;
@@ -112,6 +115,30 @@ public class ResponseEntity implements Serializable {
 
 	public void setLinkId(String linkId) {
 		this.linkId = linkId;
+	}
+
+	public String getCustomerNo() {
+		return customerNo;
+	}
+
+	public void setCustomerNo(String customerNo) {
+		this.customerNo = customerNo;
+	}
+
+	public String getSegment() {
+		return segment;
+	}
+
+	public void setSegment(String segment) {
+		this.segment = segment;
+	}
+
+	public String getCuAccount() {
+		return cuAccount;
+	}
+
+	public void setCuAccount(String cuAccount) {
+		this.cuAccount = cuAccount;
 	}
 
 }

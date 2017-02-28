@@ -211,8 +211,8 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 				GetEntityByKeyResponseDocument.GetEntityByKeyResponse entity = doc.getGetEntityByKeyResponse();
 				smp = parseSmpRoot(entity);
 			} else {
-				res = xmlObject.selectPath(
-						"declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getEntityByKeyResponse");
+				res = xmlObject
+						.selectPath("declare namespace smpce='http://www.sigma-systems.com/schemas/3.1/SmpCBECoreSchema'; $this//smpce:getEntityByKeyResponse");
 				logger.debug("Select getEntityByKeyResponse, res length: " + res.length);
 
 				if (res.length > 0) {
@@ -244,6 +244,9 @@ public class ReadSubscriptionCom extends Smp5Com<Acct, Response> {
 						smp.setState(sstc.find(subType.getState()));
 						smp.setLid(getParmByName(subType.getParamList(), "lid"));
 						smp.setLinkId(getParmByName(subType.getParamList(), "linkid"));
+						smp.setSegment(getParmByName(subType.getParamList(), "segment"));
+						smp.setCuAccount(getParmByName(subType.getParamList(), "cu_account"));
+						smp.setCustomerNo(getParmByName(subType.getParamList(), "customer_no"));
 						EntityListType entListType = subType.getEntityList();
 						for (EntityValue entityValue : entListType.getEntityValueArray()) {
 							ResponseEntity dataChild;

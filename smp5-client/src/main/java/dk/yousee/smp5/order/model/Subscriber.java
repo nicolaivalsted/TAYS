@@ -10,6 +10,9 @@ public final class Subscriber implements Serializable {
 	private String internId;
 	private String lid;
 	private String linkid;
+	private String customerNo;
+	private String segment;
+	private String cuAccount;
 	private boolean eksisterendeKunde = true;
 
 	public Acct getKundeId() {
@@ -50,6 +53,30 @@ public final class Subscriber implements Serializable {
 
 	public void setLinkid(String linkid) {
 		this.linkid = linkid;
+	}
+
+	public String getCustomerNo() {
+		return customerNo;
+	}
+
+	public void setCustomerNo(String customerNo) {
+		this.customerNo = customerNo;
+	}
+
+	public String getSegment() {
+		return segment;
+	}
+
+	public void setSegment(String segment) {
+		this.segment = segment;
+	}
+
+	public String getCuAccount() {
+		return cuAccount;
+	}
+
+	public void setCuAccount(String cuAccount) {
+		this.cuAccount = cuAccount;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public class OTTSubscription extends BasicUnit {
 	public PropHolder ott_product = new PropHolder(this, "ott_product", true);
 	public PropHolder service_name = new PropHolder(this, "service_name", true);
 	public PropHolder ott_entitlement_id = new PropHolder(this, "ott_entitlement_id", true);
-	public PropHolder linkedid = new PropHolder(this, "linkedid", false);
+	public PropHolder has_linked_id = new PropHolder(this, "has_linked_id", false);
 
 	public OTTService getParent() {
 		return (OTTService) super.getParent();
