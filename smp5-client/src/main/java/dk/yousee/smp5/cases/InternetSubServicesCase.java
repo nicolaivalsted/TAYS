@@ -92,4 +92,20 @@ public class InternetSubServicesCase extends AbstractCase {
 		}
 	}
 
+	public void updateUpstreamBonding(String sik, boolean signal) {
+		CableBBService bbService = getModel().find().CableBBServiceSik(sik);
+		String smpBonding = bbService.getInetAccess().upstream_bonding_enabled.getValue();
+		boolean bonding;
+		if (StringUtils.isBlank(smpBonding) || smpBonding.equals("true")) {
+			bonding = true;
+		} else {
+			bonding = false;
+		}
+
+		if (bonding != signal) {
+			bbService.getInetAccess().upstream_bonding_enabled.setValue(String.valueOf(signal));
+		}
+
+	}
+
 }
