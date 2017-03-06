@@ -103,6 +103,10 @@ public class InetAccess extends BasicUnit {
 		}
 	}
 
+	public String getSimpleActivationCode() {
+		return modem_activation_code.getValue();
+	}
+
 	/**
 	 * Assign activation code
 	 *
