@@ -80,15 +80,14 @@ public class InternetSubServicesCase extends AbstractCase {
 		CableBBService bbService = getModel().find().CableBBServiceSik(sik);
 		String smpDiplexer = bbService.getInetAccess().diplexer.getValue();
 		boolean diplexer;
-		if (StringUtils.isBlank(smpDiplexer) || smpDiplexer.equals("0")) {
+		if (StringUtils.isBlank(smpDiplexer) || smpDiplexer.equals("false")) {
 			diplexer = false;
 		} else {
 			diplexer = true;
 		}
 
 		if (diplexer != signal) {
-			String convertedValue = signal ? "1" : "0";
-			bbService.getInetAccess().diplexer.setValue(convertedValue);
+			bbService.getInetAccess().diplexer.setValue(String.valueOf(signal));
 		}
 	}
 
