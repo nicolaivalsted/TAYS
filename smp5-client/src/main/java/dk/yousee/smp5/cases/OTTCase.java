@@ -102,29 +102,23 @@ public class OTTCase extends AbstractCase {
 
 		boolean newHasLinkedId = StringUtils.isNotBlank(lineItem.getLinkedId());
 
+		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(sik);
+		ottSubscription = getModel().alloc().OTTSubscription(sik);
+		ottSubscription.sik.setValue(sik);
+		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
+		ottSubscription.service_name.setValue(lineItem.getServiceName());
+		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
+		ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+		return getModel().getOrder();
+	}
+
+	public Order update(String sik, String linkedid) throws BusinessException {
+		ensureAcct();
+		boolean newHasLinkedId = StringUtils.isNotBlank(linkedid);
+
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
-		if (ottSubscription == null) {
-			ottSubscription = getModel().alloc().OTTSubscription(sik);
-			ottSubscription.sik.setValue(sik);
-			ottSubscription.ott_product.setValue(lineItem.getOttProduct());
-			ottSubscription.service_name.setValue(lineItem.getServiceName());
-			ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
-			ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
-			return getModel().getOrder();
-		} else {
-			String tmp = getValue(ottSubscription.has_linked_id.getValue());
-			boolean oldHasLinkedId = false;
-			if (StringUtils.isBlank(tmp) || tmp.equals("false")) {
-				oldHasLinkedId = false;
-			} else {
-				oldHasLinkedId = true;
-			}
-			if (oldHasLinkedId != newHasLinkedId) {
-				ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
-				return getModel().getOrder();
-			}
-		}
-		return null;
+		ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+		return getModel().getOrder();
 	}
 
 	public boolean delete(String sik) throws BusinessException {

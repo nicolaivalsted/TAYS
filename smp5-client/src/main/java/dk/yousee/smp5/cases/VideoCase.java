@@ -256,7 +256,7 @@ public class VideoCase extends AbstractCase {
 	}
 
 	public void updateWebTvEnabld(boolean enable) throws BusinessException {
-		VideoServicePlanAttributes videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
 		String webtv_enabled = videoServicePlanAttributes.webtv_enabled.getValue();
 		boolean oldWebtv;
 		if (StringUtils.isBlank(webtv_enabled) || webtv_enabled.equals("false")) {
@@ -266,7 +266,6 @@ public class VideoCase extends AbstractCase {
 		}
 
 		if (oldWebtv != enable) {
-			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
 			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
 			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 		}
