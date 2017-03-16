@@ -103,7 +103,6 @@ public class OTTCase extends AbstractCase {
 		boolean newHasLinkedId = StringUtils.isNotBlank(lineItem.getLinkedId());
 
 		OTTSubscription ottSubscription = getModel().alloc().OTTSubscription(sik);
-		ottSubscription = getModel().alloc().OTTSubscription(sik);
 		ottSubscription.sik.setValue(sik);
 		ottSubscription.ott_product.setValue(lineItem.getOttProduct());
 		ottSubscription.service_name.setValue(lineItem.getServiceName());
