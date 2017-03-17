@@ -9,6 +9,7 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.model.Subscriber;
 
 /**
  * @author m64746
@@ -108,6 +109,13 @@ public class OTTCase extends AbstractCase {
 		ottSubscription.service_name.setValue(lineItem.getServiceName());
 		ottSubscription.ott_entitlement_id.setValue(lineItem.getEntitlementId());
 		ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+
+		Subscriber subscriber = getModel().getSubscriber();
+
+		if (StringUtils.isNotBlank(lineItem.getLinkedId())) {
+			subscriber.setLinkid(lineItem.getLinkedId());
+			getModel().getOrder().setOnlySub(true);
+		}
 		return getModel().getOrder();
 	}
 
@@ -117,6 +125,15 @@ public class OTTCase extends AbstractCase {
 
 		OTTSubscription ottSubscription = getModel().find().OTTSubscription(sik);
 		ottSubscription.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+
+		Subscriber subscriber = getModel().getSubscriber();
+		String oldLinkeId = getValue(subscriber.getLinkid());
+
+		if (StringUtils.isNotBlank(linkedid) && !oldLinkeId.equals(linkedid)) {
+			subscriber.setLinkid(linkedid);
+			getModel().getOrder().setOnlySub(true);
+		}
+
 		return getModel().getOrder();
 	}
 
