@@ -17,6 +17,7 @@ import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.model.Subscriber;
 
 public class VideoCase extends AbstractCase {
 	public static final String VIDEO_SERVICE_ID = "53335324532453245";
@@ -140,6 +141,14 @@ public class VideoCase extends AbstractCase {
 		if (oldHasLinkedId != newHasLinkedId) {
 			videoServicePlanAttributes.has_linked_id.setValue(String.valueOf(newHasLinkedId));
 			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+		}
+
+		Subscriber subscriber = getModel().getSubscriber();
+		String oldLinked = getValue(subscriber.getLinkid());
+		String newLinked = getValue(lineItem.getLinkedId());
+
+		if (!oldLinked.equals(newLinked) && StringUtils.isNotBlank(newLinked)) {
+			subscriber.setLinkid(newLinked);
 		}
 
 		STBCas stb = getModel().find().findFirstSTB();
