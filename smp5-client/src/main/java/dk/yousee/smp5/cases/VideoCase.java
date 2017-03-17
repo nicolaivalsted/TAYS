@@ -82,12 +82,6 @@ public class VideoCase extends AbstractCase {
 			this.cableUnit = cableUnit;
 		}
 
-		@Override
-		public String toString() {
-			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packages=" + packages + ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit
-					+ ", acct=" + acct + "]";
-		}
-
 		public Set<String> getPackages() {
 			return packages;
 		}
@@ -130,7 +124,7 @@ public class VideoCase extends AbstractCase {
 		}
 
 		String tmp = getValue(videoServicePlanAttributes.has_linked_id.getValue());
-		boolean oldHasLinkedId = false;
+		boolean oldHasLinkedId;
 		if (StringUtils.isBlank(tmp) || tmp.equals("false")) {
 			oldHasLinkedId = false;
 		} else {
@@ -149,6 +143,7 @@ public class VideoCase extends AbstractCase {
 
 		if (!oldLinked.equals(newLinked) && StringUtils.isNotBlank(newLinked)) {
 			subscriber.setLinkid(newLinked);
+			getModel().getOrder().setOnlySub(true);
 		}
 
 		STBCas stb = getModel().find().findFirstSTB();
@@ -239,11 +234,6 @@ public class VideoCase extends AbstractCase {
 		return dateFinal;
 	}
 
-	/**
-	 * @param signal
-	 * @param propertyValue
-	 * @throws BusinessException
-	 */
 	public void createOrUpdateNpvr(boolean signal, String size) throws BusinessException {
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 		String smpNpvr = planAttributes.npvr_enabled.getValue();
@@ -256,11 +246,13 @@ public class VideoCase extends AbstractCase {
 
 		if (npvr != signal) {
 			planAttributes.npvr_enabled.setValue(String.valueOf(signal));
+			planAttributes.modify_date.setValue(generateModifyDate());
 		}
 
 		String currentSize = planAttributes.npvr_storage_size.getValue();
 		if (signal && !currentSize.equals(size)) {
 			planAttributes.npvr_storage_size.setValue(size);
+			planAttributes.modify_date.setValue(generateModifyDate());
 		}
 	}
 
@@ -276,7 +268,6 @@ public class VideoCase extends AbstractCase {
 
 		if (oldWebtv != enable) {
 			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
-			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 		}
 	}
 
