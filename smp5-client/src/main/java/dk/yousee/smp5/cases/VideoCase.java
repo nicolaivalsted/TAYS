@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
 import dk.yousee.smp5.order.model.Acct;
@@ -268,6 +269,35 @@ public class VideoCase extends AbstractCase {
 
 		if (oldWebtv != enable) {
 			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
+		}
+	}
+
+	public void handleNoSubscriptionsRemaining() {
+		VideoServicePlanAttributes access = getModel().find().VideoServicePlanAttributes();
+		List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription();
+		boolean nothingLeft = true;
+		if (subscriptionList != null) {
+			for (VideoSubscription subscription : subscriptionList) {
+				if (!subscription.isDelete()) {
+					nothingLeft = false;
+					break;
+				}
+			}
+		}
+
+		List<AppSubscription> subscription2List = getModel().find().AppSubscription();
+		if (subscription2List != null) {
+			for (AppSubscription subscription : subscription2List) {
+				if (!subscription.isDelete()) {
+					nothingLeft = false;
+					break;
+				}
+			}
+		}
+
+		if (nothingLeft && access != null) {
+			access.sendAction(Action.DELETE);
+			getModel().getOrder();
 		}
 	}
 
