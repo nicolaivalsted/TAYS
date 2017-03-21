@@ -296,7 +296,7 @@ public class VideoCase extends AbstractCase {
 		}
 
 		if (nothingLeft && access != null) {
-			access.getParent().getParent().sendAction(Action.DELETE);
+			access.getParent().getParent().cascadeSendAction(Action.DELETE);
 			getModel().getOrder();
 		}
 	}
