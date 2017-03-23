@@ -30,10 +30,6 @@ public class SubscriberCase extends AbstractCase {
 		super(acct, service);
 	}
 
-	public SubscriberCase(OrderService service, SubscriberModel model) {
-		super(model, service);
-	}
-
 	/**
 	 * Does the customer exist in Sigma yet
 	 *

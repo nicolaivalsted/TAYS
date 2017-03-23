@@ -4,7 +4,6 @@ import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.stb.VideoCPEService;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -19,14 +18,6 @@ public class HumaxSTBCase extends AbstractCase {
 
 	public HumaxSTBCase(SubscriberModel model, OrderService service) {
 		super(model, service);
-	}
-
-	public HumaxSTBCase(Acct acct, OrderService service) {
-		super(acct, service);
-	}
-
-	public HumaxSTBCase(SubscriberCase customerCase, boolean keepModel) {
-		super(selectModel(customerCase.getModel(), keepModel), customerCase.getService());
 	}
 
 	public static class STBData {

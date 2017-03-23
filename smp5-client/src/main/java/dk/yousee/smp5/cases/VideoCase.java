@@ -13,7 +13,6 @@ import dk.yousee.smp5.casemodel.vo.stb.STBCas;
 import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -25,10 +24,6 @@ public class VideoCase extends AbstractCase {
 
 	public VideoCase(SubscriberModel model, OrderService service) {
 		super(model, service);
-	}
-
-	public VideoCase(Acct acct, OrderService service) {
-		super(acct, service);
 	}
 
 	public VideoCase(SubscriberCase customerCase, boolean keepModel) {

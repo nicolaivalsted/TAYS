@@ -6,7 +6,6 @@ import java.util.Random;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.smartcard.SmartCard;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -21,14 +20,6 @@ public class SmartCardCase extends AbstractCase {
 
 	public SmartCardCase(SubscriberModel model, OrderService service) {
 		super(model, service);
-	}
-
-	public SmartCardCase(Acct acct, OrderService service) {
-		super(acct, service);
-	}
-
-	public SmartCardCase(SubscriberCase customerCase, boolean keepModel) {
-		super(selectModel(customerCase.getModel(), keepModel), customerCase.getService());
 	}
 
 	public static class SmartCardData {

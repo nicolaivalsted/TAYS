@@ -7,7 +7,6 @@ import java.util.Random;
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -22,23 +21,11 @@ public class VideoAppCase extends AbstractCase {
 	public static final String VIDEO_SERVICE_ID = "53335324532453245";
 
 	/**
-	 * @param acct
-	 * @param service
-	 */
-	public VideoAppCase(Acct acct, OrderService service) {
-		super(acct, service);
-	}
-
-	/**
 	 * @param model
 	 * @param service
 	 */
 	public VideoAppCase(SubscriberModel model, OrderService service) {
 		super(model, service);
-	}
-
-	public VideoAppCase(SubscriberCase customerCase, boolean keepModel) {
-		super(selectModel(customerCase.getModel(), keepModel), customerCase.getService());
 	}
 
 	public static class VideoAppData {
