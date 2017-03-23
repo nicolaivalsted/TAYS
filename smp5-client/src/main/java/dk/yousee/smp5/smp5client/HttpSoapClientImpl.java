@@ -35,6 +35,7 @@ import dk.yousee.randy.base.AbstractClient;
  * Created with IntelliJ IDEA. User: aka Date: 09/04/12 Time: 14.31 Client that
  * uses HTTP client to access webservice
  */
+@SuppressWarnings("deprecation")
 class HttpSoapClientImpl extends AbstractClient<Smp5ConnectorImpl> implements Smp5Client {
 
 	private static Logger logger = Logger.getLogger(HttpSoapClientImpl.class);
