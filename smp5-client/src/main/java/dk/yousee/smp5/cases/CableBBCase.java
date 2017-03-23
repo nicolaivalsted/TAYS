@@ -33,6 +33,22 @@ public class CableBBCase extends AbstractCase {
 	}
 
 	/**
+	 * Construct this case based on existing Subscriber Case<br/>
+	 * This is a kind of chaining of use-cases. <br/>
+	 * <p>
+	 * First ask for the customer, eventually create him Then work with cable
+	 * broad band.
+	 * </p>
+	 * ?
+	 *
+	 * @param customerCase
+	 *            subscriber case's
+	 */
+	public CableBBCase(SubscriberCase customerCase) {
+		super(new SubscriberModel(customerCase.getModel().getResponse()), customerCase.getService());
+	}
+
+	/**
 	 * Use-case 8: Erling: Lav en ordre, som indeholder en opret-service
 	 * (lineItem.getVarenummer())<br/>
 	 * <p/>
