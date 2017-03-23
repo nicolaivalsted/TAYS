@@ -46,6 +46,12 @@ public class OrderServiceImpl implements OrderService {
 		this.connector = connector;
 	}
 
+	public void destroy() {
+		if (connector != null) {
+			connector.destroy();
+		}
+	}
+
 	@Override
 	public Response readSubscription(Acct acct) {
 		ReadSubscriptionCom com = new ReadSubscriptionCom();
