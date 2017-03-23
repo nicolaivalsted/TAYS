@@ -4,20 +4,15 @@ import java.util.List;
 
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMail;
 import dk.yousee.smp5.casemodel.vo.tdcmail.TdcMailService;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
-import dk.yousee.smp5.order.model.OrderService;
 
 /**
  *
  * @author m64746
  */
 public class TdcMailCase extends AbstractCase {
-	public TdcMailCase(OrderService orderService, Acct acct) {
-		super(acct, orderService);
-	}
 
 	public TdcMailCase(SubscriberCase customerCase, boolean keepModel) {
 		super(selectModel(customerCase.getModel(), keepModel), customerCase.getService());

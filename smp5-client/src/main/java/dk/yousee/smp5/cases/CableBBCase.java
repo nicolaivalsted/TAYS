@@ -15,7 +15,6 @@ import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -29,28 +28,8 @@ import dk.yousee.smp5.order.model.ProvisionStateEnum;
 public class CableBBCase extends AbstractCase {
 	private static final Logger logger = Logger.getLogger(CableBBCase.class);
 
-	public CableBBCase(Acct acct, OrderService service) {
-		super(acct, service);
-	}
-
 	public CableBBCase(SubscriberModel model, OrderService service) {
 		super(model, service);
-	}
-
-	/**
-	 * Construct this case based on existing Subscriber Case<br/>
-	 * This is a kind of chaining of use-cases. <br/>
-	 * <p>
-	 * First ask for the customer, eventually create him Then work with cable
-	 * broad band.
-	 * </p>
-	 * ?
-	 *
-	 * @param customerCase
-	 *            subscriber case's
-	 */
-	public CableBBCase(SubscriberCase customerCase) {
-		super(new SubscriberModel(customerCase.getModel().getResponse()), customerCase.getService());
 	}
 
 	/**

@@ -21,15 +21,7 @@ public class OTTCase extends AbstractCase {
 	public OTTCase(SubscriberModel model, OrderService service) {
 		super(model, service);
 	}
-
-	public OTTCase(Acct acct, OrderService service) {
-		super(acct, service);
-	}
-
-	public OTTCase(SubscriberCase customerCase, boolean keepModel) {
-		super(selectModel(customerCase.getModel(), keepModel), customerCase.getService());
-	}
-
+	
 	/**
 	 * Inner class that holds the contract between CRM and SMP
 	 */

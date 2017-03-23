@@ -5,19 +5,14 @@ import java.util.List;
 
 import dk.yousee.smp5.casemodel.vo.mail.ForeningsMailService;
 import dk.yousee.smp5.casemodel.vo.mail.Mail;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
-import dk.yousee.smp5.order.model.OrderService;
 
 /**
  * Case for forenings mail update in SMP
  */
 public class ForeningsMailCase extends AbstractCase {
-	public ForeningsMailCase(OrderService service, Acct acct) {
-		super(acct, service);
-	}
 
 	/**
 	 * Construct this case based on existing Subscriber Case<br/>
