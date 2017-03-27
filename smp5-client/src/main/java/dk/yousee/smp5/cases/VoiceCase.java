@@ -25,21 +25,6 @@ public class VoiceCase extends AbstractCase {
 	}
 
 	/**
-	 * Construct this case based on existing Subscriber Case<br/>
-	 * This is a kind of chaining of use-cases. <br/>
-	 * <p>
-	 * First ask for the customer, eventually create him Then work with mobile
-	 * broad band.
-	 * </p>
-	 *
-	 * @param customerCase
-	 *            subscriber case's
-	 */
-	public VoiceCase(SubscriberCase customerCase) {
-		this(new SubscriberModel(customerCase.getModel().getResponse()), customerCase.getService());
-	}
-
-	/**
 	 * Create case based on another cases's base
 	 * 
 	 * @param model

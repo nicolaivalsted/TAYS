@@ -364,6 +364,15 @@ public class Find {
 		return null;
 	}
 
+	public SikkerhedspakkeService findFirstSikkerhedspakkeService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(SikkerhedspakkeService.TYPE)) {
+				return (SikkerhedspakkeService) plan;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 *
 	 * @param position
@@ -638,6 +647,15 @@ public class Find {
 			}
 		}
 		return res;
+	}
+
+	public MTAService findFirstdMTAService() {
+		for (BasicUnit plan : serviceLevelUnit) {
+			if (plan.getType().equals(MTAService.TYPE)) {
+				return (MTAService) plan;
+			}
+		}
+		return null;
 	}
 
 	/**

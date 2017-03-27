@@ -234,6 +234,15 @@ public class Add {
 		}
 		return res;
 	}
+	
+	public DialToneAccess DialToneAccess1() {
+		VoiceService parent = model.alloc().VoiceService1();
+		DialToneAccess res = new DialToneAccess(model, key.generateUUID(), parent);
+		if (res.getEntity() == null) {
+			res.getDefaultOrderData();
+		}
+		return res;
+	}
 
 	/**
 	 * @param sik

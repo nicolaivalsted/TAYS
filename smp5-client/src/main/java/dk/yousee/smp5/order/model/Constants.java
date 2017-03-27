@@ -20,12 +20,4 @@ public class Constants {
 	public static final String COUNTRY = "country";
 	public static final String MUNICIPALITY = "ntd_return_segment_nm";
 
-	// OTT
-	public static final String SERVICE_NAME = "service_name";
-	public static final String SIK = "sik";
-	public static final String BUSINESS_POSITION = "business_position";
-	public static final String OTT_PRODUCT = "ott_product";
-	public static final String UUID = "uuid";
-	public static final String ENTITLEMENT_ID = "ott_entitlement_id";
-
 }

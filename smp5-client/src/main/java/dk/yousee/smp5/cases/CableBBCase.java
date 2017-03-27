@@ -15,7 +15,6 @@ import dk.yousee.smp5.casemodel.vo.emta.HsdAccess;
 import dk.yousee.smp5.casemodel.vo.emta.MTAService;
 import dk.yousee.smp5.casemodel.vo.emta.StdCpe;
 import dk.yousee.smp5.casemodel.vo.voiceline.VoiceService;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
@@ -28,10 +27,6 @@ import dk.yousee.smp5.order.model.ProvisionStateEnum;
  */
 public class CableBBCase extends AbstractCase {
 	private static final Logger logger = Logger.getLogger(CableBBCase.class);
-
-	public CableBBCase(Acct acct, OrderService service) {
-		super(acct, service);
-	}
 
 	public CableBBCase(SubscriberModel model, OrderService service) {
 		super(model, service);

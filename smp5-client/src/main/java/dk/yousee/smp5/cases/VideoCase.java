@@ -10,23 +10,20 @@ import org.apache.commons.lang3.StringUtils;
 
 import dk.yousee.smp5.casemodel.SubscriberModel;
 import dk.yousee.smp5.casemodel.vo.stb.STBCas;
+import dk.yousee.smp5.casemodel.vo.video.AppSubscription;
 import dk.yousee.smp5.casemodel.vo.video.VideoServicePlanAttributes;
 import dk.yousee.smp5.casemodel.vo.video.VideoSubscription;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
 import dk.yousee.smp5.order.model.OrderService;
+import dk.yousee.smp5.order.model.Subscriber;
 
 public class VideoCase extends AbstractCase {
 	public static final String VIDEO_SERVICE_ID = "53335324532453245";
 
 	public VideoCase(SubscriberModel model, OrderService service) {
 		super(model, service);
-	}
-
-	public VideoCase(Acct acct, OrderService service) {
-		super(acct, service);
 	}
 
 	public VideoCase(SubscriberCase customerCase, boolean keepModel) {
@@ -39,6 +36,15 @@ public class VideoCase extends AbstractCase {
 		private String modifyDate;
 		private String cableUnit;
 		private String acct;
+		private String linkedId;
+
+		public String getLinkedId() {
+			return linkedId;
+		}
+
+		public void setLinkedId(String linkedId) {
+			this.linkedId = linkedId;
+		}
 
 		public String getAcct() {
 			return acct;
@@ -72,12 +78,6 @@ public class VideoCase extends AbstractCase {
 			this.cableUnit = cableUnit;
 		}
 
-		@Override
-		public String toString() {
-			return "VideoData [videoEntitlementId=" + videoEntitlementId + ", packages=" + packages + ", modifyDate=" + modifyDate + ", cableUnit=" + cableUnit
-					+ ", acct=" + acct + "]";
-		}
-
 		public Set<String> getPackages() {
 			return packages;
 		}
@@ -106,7 +106,9 @@ public class VideoCase extends AbstractCase {
 				videoSubscription.packageId.setValue(parcos);
 			}
 		}
+
 		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+
 		if (changed) {
 			if (videoServicePlanAttributes == null) {
 				videoServicePlanAttributes = getModel().alloc().VideoServicePlanAttributes(getAcct().toString());
@@ -115,6 +117,29 @@ public class VideoCase extends AbstractCase {
 			} else {
 				videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
 			}
+		}
+
+		String tmp = getValue(videoServicePlanAttributes.has_linked_id.getValue());
+		boolean oldHasLinkedId;
+		if (StringUtils.isBlank(tmp) || tmp.equals("false")) {
+			oldHasLinkedId = false;
+		} else {
+			oldHasLinkedId = true;
+		}
+
+		boolean newHasLinkedId = StringUtils.isNotBlank(lineItem.getLinkedId());
+		if (oldHasLinkedId != newHasLinkedId) {
+			videoServicePlanAttributes.has_linked_id.setValue(String.valueOf(newHasLinkedId));
+			videoServicePlanAttributes.modify_date.setValue(generateModifyDate());
+		}
+
+		Subscriber subscriber = getModel().getSubscriber();
+		String oldLinked = getValue(subscriber.getLinkid());
+		String newLinked = getValue(lineItem.getLinkedId());
+
+		if (!oldLinked.equals(newLinked) && StringUtils.isNotBlank(newLinked)) {
+			subscriber.setLinkid(newLinked);
+			getModel().getOrder().setOnlySub(true);
 		}
 
 		STBCas stb = getModel().find().findFirstSTB();
@@ -205,11 +230,6 @@ public class VideoCase extends AbstractCase {
 		return dateFinal;
 	}
 
-	/**
-	 * @param signal
-	 * @param propertyValue
-	 * @throws BusinessException
-	 */
 	public void createOrUpdateNpvr(boolean signal, String size) throws BusinessException {
 		VideoServicePlanAttributes planAttributes = getModel().find().VideoServicePlanAttributes();
 		String smpNpvr = planAttributes.npvr_enabled.getValue();
@@ -222,11 +242,57 @@ public class VideoCase extends AbstractCase {
 
 		if (npvr != signal) {
 			planAttributes.npvr_enabled.setValue(String.valueOf(signal));
+			planAttributes.modify_date.setValue(generateModifyDate());
 		}
 
 		String currentSize = planAttributes.npvr_storage_size.getValue();
 		if (signal && !currentSize.equals(size)) {
 			planAttributes.npvr_storage_size.setValue(size);
+			planAttributes.modify_date.setValue(generateModifyDate());
+		}
+	}
+
+	public void updateWebTvEnabld(boolean enable) throws BusinessException {
+		VideoServicePlanAttributes videoServicePlanAttributes = getModel().find().VideoServicePlanAttributes();
+		String webtv_enabled = videoServicePlanAttributes.webtv_enabled.getValue();
+		boolean oldWebtv;
+		if (StringUtils.isBlank(webtv_enabled) || webtv_enabled.equals("false")) {
+			oldWebtv = false;
+		} else {
+			oldWebtv = true;
+		}
+
+		if (oldWebtv != enable) {
+			videoServicePlanAttributes.webtv_enabled.setValue(String.valueOf(enable));
+		}
+	}
+
+	public void handleNoSubscriptionsRemaining() {
+		VideoServicePlanAttributes access = getModel().find().VideoServicePlanAttributes();
+		List<VideoSubscription> subscriptionList = getModel().find().VideoSubscription();
+		boolean nothingLeft = true;
+		if (subscriptionList != null) {
+			for (VideoSubscription subscription : subscriptionList) {
+				if (!subscription.isDelete()) {
+					nothingLeft = false;
+					break;
+				}
+			}
+		}
+
+		List<AppSubscription> subscription2List = getModel().find().AppSubscription();
+		if (subscription2List != null) {
+			for (AppSubscription subscription : subscription2List) {
+				if (!subscription.isDelete()) {
+					nothingLeft = false;
+					break;
+				}
+			}
+		}
+
+		if (nothingLeft && access != null) {
+			access.getParent().getParent().cascadeSendAction(Action.DELETE);
+			getModel().getOrder();
 		}
 	}
 

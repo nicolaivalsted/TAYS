@@ -4,17 +4,12 @@ import org.apache.commons.lang3.StringUtils;
 
 import dk.yousee.smp5.casemodel.vo.cablebb.CableBBService;
 import dk.yousee.smp5.casemodel.vo.cablebb.InetAccess;
-import dk.yousee.smp5.order.model.Acct;
-import dk.yousee.smp5.order.model.OrderService;
 
 /**
  *
  * @author m64746
  */
 public class InternetSubServicesCase extends AbstractCase {
-	public InternetSubServicesCase(OrderService orderService, Acct acct) {
-		super(acct, orderService);
-	}
 
 	public InternetSubServicesCase(SubscriberCase customerCase, boolean keepModel) {
 		super(selectModel(customerCase.getModel(), keepModel), customerCase.getService());

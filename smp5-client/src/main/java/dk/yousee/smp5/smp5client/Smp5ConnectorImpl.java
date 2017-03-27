@@ -9,6 +9,7 @@ import org.apache.http.HttpHost;
 
 import dk.yousee.randy.base.AbstractConnector;
 
+@SuppressWarnings("deprecation")
 public class Smp5ConnectorImpl extends AbstractConnector {
 	public static final int DEFAULT_OPERATION_TIMEOUT = 100000;
 	private String url;

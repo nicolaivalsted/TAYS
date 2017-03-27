@@ -285,19 +285,38 @@ public class ProvisioningCom5 extends Smp5Com<Order, ExecuteOrderReply> {
 			entKey.setType("SubSpec:-");
 			entityKey.set(entKey);
 			sSubType.setState(SubSvcStateType.ACTIVE.toString());
-			EntityParamListType eParamList = sSubType.addNewParamList();
-			ParamType parameter = eParamList.addNewParam();
-			parameter.setName("lid");
-			parameter.setStringValue(subscriber.getLid());
-			ParamType parameter2 = eParamList.addNewParam();
-			parameter2.setName("acct");
-			parameter2.setStringValue(kundeId);
-			ParamType linkid = eParamList.addNewParam();
-			linkid.setName("linkid");
-			linkid.setStringValue(subscriber.getLinkid());
+			addSubscriberLevelParameters(subscriber, sSubType, kundeId);
 			servicePart.setEntityKey(entKey);
 			// Add service to request
 			servicePart.setEntityValue(sSubType);
+		}
+
+		private static void addSubscriberLevelParameters(Subscriber subscriber, SubType sSubType, String kundeId) {
+			EntityParamListType eParamList = sSubType.addNewParamList();
+
+			ParamType lid = eParamList.addNewParam();
+			lid.setName("lid");
+			lid.setStringValue(subscriber.getLid());
+
+			ParamType acct = eParamList.addNewParam();
+			acct.setName("acct");
+			acct.setStringValue(kundeId);
+
+			ParamType linkid = eParamList.addNewParam();
+			linkid.setName("linkid");
+			linkid.setStringValue(subscriber.getLinkid());
+
+			ParamType segment = eParamList.addNewParam();
+			segment.setName("segment");
+			segment.setStringValue(subscriber.getSegment());
+
+			ParamType customer_no = eParamList.addNewParam();
+			customer_no.setName("customer_no");
+			customer_no.setStringValue(subscriber.getCustomerNo());
+
+			ParamType cu_account = eParamList.addNewParam();
+			cu_account.setName("cu_account");
+			cu_account.setStringValue(subscriber.getCuAccount());
 		}
 
 		private static SubAddressKeyType createAddressKey() {

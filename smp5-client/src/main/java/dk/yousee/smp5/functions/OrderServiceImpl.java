@@ -28,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
 		return connector.getUrl();
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public Integer getOperationTimeout() {
 		return connector.getOperationTimeout();

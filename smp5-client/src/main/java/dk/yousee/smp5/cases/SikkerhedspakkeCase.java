@@ -5,11 +5,9 @@ import java.util.List;
 
 import dk.yousee.smp5.casemodel.vo.sikpakke.Sikkerhedspakke;
 import dk.yousee.smp5.casemodel.vo.sikpakke.SikkerhedspakkeService;
-import dk.yousee.smp5.order.model.Acct;
 import dk.yousee.smp5.order.model.Action;
 import dk.yousee.smp5.order.model.BusinessException;
 import dk.yousee.smp5.order.model.Order;
-import dk.yousee.smp5.order.model.OrderService;
 
 /**
  * @author m64746
@@ -17,9 +15,6 @@ import dk.yousee.smp5.order.model.OrderService;
  *         Date: 30/03/2016 Time: 12:33:05
  */
 public class SikkerhedspakkeCase extends AbstractCase {
-	public SikkerhedspakkeCase(OrderService service, Acct acct) {
-		super(acct, service);
-	}
 
 	/**
 	 * Construct this case based on existing Subscriber Case<br/>
